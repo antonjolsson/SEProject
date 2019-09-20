@@ -1,0 +1,16 @@
+Individual Reflection
+Alexander Neldefors
+2019-09-20
+
+This week I've contributed to breaking down our user stories due to them being too big and generic.
+I've also helped build the domain model and the "model" part of our design model. 
+What I want to learn is how your are supposed to make MVC work with the android framework. 
+The problem with android is that the controller and view are kind of intertwined. 
+So I got stuck with finding an efficient way of implementing MVC in android. 
+Doing it the standard way is working against the framework something you should never do. 
+So I've found the way Google recommends you to implement MVC in android, by using something called ViewModel. 
+So I want to learn more about ViewModel by reading their documentation and playing around with it a little.
+
+Another thing is that I was a little impatient while helping the team, especially during the construction of our design model.
+So I need to work on not being so hot-headed and also being more patient with ideas from the other people in the group,
+trying to see their point of view even if I from the get go disagree with that idea.
