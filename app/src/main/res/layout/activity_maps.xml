@@ -12,7 +12,7 @@
         android:background="@drawable/background">
 
         <EditText
-            android:id="@+id/fromText2"
+            android:id="@+id/toText"
             android:layout_width="295dp"
             android:layout_height="38dp"
             android:layout_marginTop="24dp"
@@ -45,7 +45,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/depButton"
             android:layout_width="295dp"
             android:layout_height="38dp"
             android:layout_marginTop="24dp"
@@ -56,10 +56,10 @@
             android:textAlignment="viewStart"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fromText2" />
+            app:layout_constraintTop_toBottomOf="@+id/toText" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/searchButton"
             android:layout_width="161dp"
             android:layout_height="60dp"
             android:layout_marginTop="232dp"
