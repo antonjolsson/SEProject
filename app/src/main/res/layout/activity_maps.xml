@@ -1,9 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapsActivity" />
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="311dp"
+        android:background="@drawable/background">
+
+        <EditText
+            android:id="@+id/fromText2"
+            android:layout_width="295dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="64dp"
+            android:background="@drawable/input_field"
+            android:ems="10"
+            android:fontFamily="@font/rajdhani_medium"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:text=" TO"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fromText" />
+
+        <EditText
+            android:id="@+id/fromText"
+            style="@android:style/Widget.Material.Light.EditText"
+            android:layout_width="295dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="64dp"
+            android:autofillHints=""
+            android:background="@drawable/input_field"
+            android:ems="10"
+            android:fontFamily="@font/rajdhani_medium"
+            android:inputType="datetime|textPersonName"
+            android:text=" FROM"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="295dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="64dp"
+            android:background="@drawable/input_field"
+            android:fontFamily="@font/rajdhani_medium"
+            android:text=" DEP. NOW"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fromText2" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="161dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="232dp"
+            android:layout_marginEnd="124dp"
+            android:fontFamily="@font/rajdhani_bold"
+            android:text="SEARCH TRIP"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <fragment
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity" />
+
+</LinearLayout>
+
+
