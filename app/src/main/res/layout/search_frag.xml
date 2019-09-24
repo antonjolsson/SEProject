@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="311dp"
+    android:background="@drawable/background"
+    tools:showIn="@layout/activity_maps">
+
+    <EditText
+        android:id="@+id/toText"
+        android:layout_width="295dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="64dp"
+        android:background="@drawable/input_field"
+        android:ems="10"
+        android:fontFamily="@font/rajdhani_medium"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:text=" TO"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fromText" />
+
+    <EditText
+        android:id="@+id/fromText"
+        style="@android:style/Widget.Material.Light.EditText"
+        android:layout_width="295dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="64dp"
+        android:autofillHints=""
+        android:background="@drawable/input_field"
+        android:ems="10"
+        android:fontFamily="@font/rajdhani_medium"
+        android:inputType="datetime|textPersonName"
+        android:text=" FROM"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/depButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="295dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="64dp"
+        android:background="@drawable/input_field"
+        android:fontFamily="@font/rajdhani_medium"
+        android:text=" DEP. NOW"
+        android:textAlignment="viewStart"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toText" />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="161dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="232dp"
+        android:layout_marginEnd="124dp"
+        android:fontFamily="@font/rajdhani_bold"
+        android:text="SEARCH TRIP"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
