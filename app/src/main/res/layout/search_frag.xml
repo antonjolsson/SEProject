@@ -90,13 +90,12 @@
         android:layout_marginTop="58dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="TODO"
-        android:src="@drawable/clock_24px_white"
         android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/depButton"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/dest_a_w"
+        android:src="@drawable/dest_a_w"
         tools:visibility="visible" />
 
     <ImageView
@@ -107,13 +106,12 @@
         android:layout_marginTop="120dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="TODO"
-        android:src="@drawable/clock_24px_white"
         android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/depButton"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/dest_b_w"
+        android:src="@drawable/dest_b_w"
         tools:visibility="visible" />
 
     <ImageView
@@ -125,7 +123,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/toText"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/swap_vert_w" />
+        android:src="@drawable/swap_vert_w" />
 
     <ImageView
         android:id="@+id/locationIconView"
@@ -136,7 +134,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/toText"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/location_w" />
+        android:src="@drawable/location_w" />
 
     <View
         android:id="@+id/divider"
