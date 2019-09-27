@@ -19,19 +19,13 @@ import java.util.List;
 
 public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.TripResultViewHolder> {
 
-    private List<String> mStartTimes;
-    private List<String> mEndTimes;
-    private List<String> mChanges;
-    private List<String> mTotalTimes;
-    private TripActivity context;
+    private List<Trip> trips;
+    private FragmentActivity context;
 
-    public TripResultAdapter(List<String> mStartTimes, List<String> mEndTimes, List<String> mChanges, List<String> mTotalTimes, Context context) {
-        this.mStartTimes = mStartTimes;
-        this.mEndTimes = mEndTimes;
-        this.mChanges = mChanges;
-        this.mTotalTimes = mTotalTimes;
-        if(context instanceof TripActivity)
-            this.context = (TripActivity) context;
+    public TripResultAdapter(List<Trip> trips, Context context) {
+        this.trips = trips;
+        if(context instanceof FragmentActivity)
+            this.context = (FragmentActivity) context;
         else throw new RuntimeException("Context is not an instance of TripActivity");
     }
 
@@ -44,30 +38,22 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
 
     @Override
     public void onBindViewHolder(@NonNull final TripResultViewHolder holder, final int position) {
-        holder.mStartTimeTextView.setText(mStartTimes.get(position));
-        holder.mEndTimeTextView.setText(mEndTimes.get(position));
-        holder.mTotalTimeTextView.setText(String.format("Total time: %s", mTotalTimes.get(position)));
-        holder.mChangesTextView.setText(String.format("Changes: %s", mChanges.get(position)));
+        holder.mStartTimeTextView.setText(trips.get(position).getStartTime());
+        holder.mEndTimeTextView.setText(trips.get(position).getEndTime());
+        holder.mTotalTimeTextView.setText(String.format("Total time: %s", trips.get(position).getDuration()));
+        holder.mChangesTextView.setText(String.format("Changes: %s", trips.get(position).getChanges()));
         holder.mParentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openDetailedView();
-                Trip trip = holder.tripResultViewModel
-                        .getTripLiveData()
-                        .getValue();
-                if(trip != null) {
-                    trip.setStartTime(mStartTimes.get(position));
-                    trip.setEndTime(mEndTimes.get(position));
-                    trip.setDuration(Long.parseLong(mTotalTimes.get(position)));
-                    trip.setChanges(Integer.parseInt(mChanges.get(position)));
-                }
+                holder.tripResultViewModel.onClick(trips.get(position));
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mTotalTimes.size();
+        return trips.size();
     }
 
     private void openDetailedView() {

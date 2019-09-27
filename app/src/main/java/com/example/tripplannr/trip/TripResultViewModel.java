@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TripResultViewModel extends ViewModel {
+public class TripResultViewModel extends ViewModel implements IClickHandler<Trip> {
 
     private MutableLiveData<List<Trip>> mTripsLiveData = new MutableLiveData<>();
 
@@ -22,7 +22,6 @@ public class TripResultViewModel extends ViewModel {
                 new Trip("13:00", "17:00", 5, 3)
                 , new Trip("14:00", "18:00", 2, 1)
         )));
-        mTripLiveData.setValue(new Trip("", "", 0, 0));
     }
 
     public LiveData<Trip> getTripLiveData() {
@@ -33,4 +32,8 @@ public class TripResultViewModel extends ViewModel {
         return mTripsLiveData;
     }
 
+    @Override
+    public void onClick(Trip trip) {
+        mTripLiveData.setValue(trip);
+    }
 }
