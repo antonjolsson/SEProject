@@ -1,0 +1,1234 @@
+{
+  "TripList": {
+    "noNamespaceSchemaLocation": "http://api.vasttrafik.se/v1/hafasRestTrip.xsd",
+    "servertime": "08:34",
+    "serverdate": "2019-09-24",
+    "Trip": [
+      {
+        "alternative": "true",
+        "Leg": [
+          {
+            "name": "Buss 16",
+            "sname": "16",
+            "journeyNumber": "60",
+            "type": "BUS",
+            "id": "9015014501600060",
+            "direction": "Eketrägatan",
+            "fgColor": "#00b6f1",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Chalmers, Göteborg",
+              "type": "ST",
+              "id": "9022014001960003",
+              "routeIdx": "5",
+              "time": "08:33",
+              "date": "2019-09-24",
+              "track": "C",
+              "rtTime": "08:36",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lindholmen, Göteborg",
+              "type": "ST",
+              "id": "9022014004490003",
+              "routeIdx": "15",
+              "time": "08:55",
+              "date": "2019-09-24",
+              "track": "C",
+              "rtTime": "08:56",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=328893%2F129755%2F266856%2F23805%2F80%3Fdate%3D2019-09-24%26station_evaId%3D1960003%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Lindholmen, Göteborg",
+              "type": "ST",
+              "id": "9022014004490003",
+              "time": "08:55",
+              "date": "2019-09-24",
+              "track": "C",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lindholmspiren, Göteborg",
+              "type": "ST",
+              "id": "9022014004493001",
+              "time": "09:02",
+              "date": "2019-09-24",
+              "track": "A",
+              "$": "\n"
+            }
+          }
+        ]
+      },
+      {
+        "alternative": "true",
+        "Leg": [
+          {
+            "name": "Spårvagn 7",
+            "sname": "7",
+            "journeyNumber": "59",
+            "type": "TRAM",
+            "id": "9015014500700059",
+            "direction": "Bergsjön",
+            "fgColor": "#7d4313",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "Origin": {
+              "name": "Chalmers, Göteborg",
+              "type": "ST",
+              "id": "9022014001960001",
+              "routeIdx": "14",
+              "time": "08:36",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "08:37",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Kungsportsplatsen, Göteborg",
+              "type": "ST",
+              "id": "9022014004090001",
+              "routeIdx": "18",
+              "time": "08:44",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "08:43",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=27486%2F14012%2F19872%2F777%2F80%3Fdate%3D2019-09-24%26station_evaId%3D1960001%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Kungsportsplatsen, Göteborg",
+              "type": "ST",
+              "id": "9022014004090001",
+              "time": "08:48",
+              "date": "2019-09-24",
+              "track": "A",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Kungsportsplatsen, Göteborg",
+              "type": "ST",
+              "id": "9022014004090003",
+              "time": "08:48",
+              "date": "2019-09-24",
+              "track": "C",
+              "$": "\n"
+            }
+          },
+          {
+            "name": "Buss 50",
+            "sname": "50",
+            "journeyNumber": "64",
+            "type": "BUS",
+            "id": "9015014505000064",
+            "direction": "Frölunda Torg",
+            "fgColor": "#00b6f1",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Kungsportsplatsen, Göteborg",
+              "type": "ST",
+              "id": "9022014004090003",
+              "routeIdx": "11",
+              "time": "08:52",
+              "date": "2019-09-24",
+              "track": "C",
+              "rtTime": "08:52",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242004",
+              "routeIdx": "13",
+              "time": "08:57",
+              "date": "2019-09-24",
+              "track": "D",
+              "rtTime": "08:57",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=907752%2F305587%2F315302%2F144934%2F80%3Fdate%3D2019-09-24%26station_evaId%3D4090003%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242004",
+              "time": "09:02",
+              "date": "2019-09-24",
+              "track": "D",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242005",
+              "time": "09:02",
+              "date": "2019-09-24",
+              "track": "E",
+              "$": "\n"
+            }
+          },
+          {
+            "name": "286 Älvsnabbare",
+            "sname": "286",
+            "journeyNumber": "22",
+            "type": "BOAT",
+            "id": "9015014528600022",
+            "direction": "Lindholmspiren, Fri resa",
+            "fgColor": "#00A5DC",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "Origin": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242005",
+              "routeIdx": "0",
+              "time": "09:04",
+              "date": "2019-09-24",
+              "track": "E",
+              "rtTime": "09:04",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lindholmspiren, Göteborg",
+              "type": "ST",
+              "id": "9022014004493001",
+              "routeIdx": "1",
+              "time": "09:10",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "09:10",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Notes": {
+              "Note": {
+                "key": "other",
+                "severity": "low",
+                "priority": "1",
+                "$": "Färjan är avgiftsfri."
+              }
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=812958%2F281964%2F42128%2F249942%2F80%3Fdate%3D2019-09-24%26station_evaId%3D6242005%26station_type%3Ddep%26format%3Djson%26"
+            }
+          }
+        ]
+      },
+      {
+        "alternative": "true",
+        "Leg": [
+          {
+            "name": "Spårvagn 10",
+            "sname": "10",
+            "journeyNumber": "37",
+            "type": "TRAM",
+            "id": "9015014501000037",
+            "direction": "Biskopsgården",
+            "fgColor": "#b4e16e",
+            "bgColor": "#0e629b",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Chalmers, Göteborg",
+              "type": "ST",
+              "id": "9022014001960001",
+              "routeIdx": "3",
+              "time": "08:36",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "08:37",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lilla Bommen, Göteborg",
+              "type": "ST",
+              "id": "9022014004380002",
+              "routeIdx": "9",
+              "time": "08:46",
+              "date": "2019-09-24",
+              "track": "B",
+              "rtTime": "08:47",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=256488%2F90917%2F770078%2F299546%2F80%3Fdate%3D2019-09-24%26station_evaId%3D1960001%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Lilla Bommen, Göteborg",
+              "type": "ST",
+              "id": "9022014004380002",
+              "time": "08:52",
+              "date": "2019-09-24",
+              "track": "B",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lilla Bommens Hamn, Göteborg",
+              "type": "ST",
+              "id": "9022014004381001",
+              "time": "08:57",
+              "date": "2019-09-24",
+              "track": "A",
+              "$": "\n"
+            }
+          },
+          {
+            "name": "285 Älvsnabben",
+            "sname": "285",
+            "journeyNumber": "16",
+            "type": "BOAT",
+            "id": "9015014528500016",
+            "direction": "Klippan via Lindholmspiren",
+            "fgColor": "#00A5DC",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Lilla Bommens Hamn, Göteborg",
+              "type": "ST",
+              "id": "9022014004381001",
+              "routeIdx": "0",
+              "time": "09:00",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "09:00",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lindholmspiren, Göteborg",
+              "type": "ST",
+              "id": "9022014004493001",
+              "routeIdx": "2",
+              "time": "09:12",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "09:12",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=95550%2F32705%2F825898%2F381099%2F80%3Fdate%3D2019-09-24%26station_evaId%3D4381001%26station_type%3Ddep%26format%3Djson%26"
+            }
+          }
+        ]
+      },
+      {
+        "valid": "false",
+        "Leg": [
+          {
+            "name": "Buss 16",
+            "sname": "16",
+            "journeyNumber": "62",
+            "type": "BUS",
+            "id": "9015014501600062",
+            "direction": "Eketrägatan",
+            "fgColor": "#00b6f1",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Chalmers, Göteborg",
+              "type": "ST",
+              "id": "9022014001960003",
+              "routeIdx": "6",
+              "time": "08:38",
+              "date": "2019-09-24",
+              "track": "C",
+              "rtTime": "08:42",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Brunnsparken, Göteborg",
+              "type": "ST",
+              "id": "9022014001760004",
+              "routeIdx": "11",
+              "time": "08:48",
+              "date": "2019-09-24",
+              "track": "D",
+              "rtTime": "08:52",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=653028%2F237796%2F528222%2F46438%2F80%3Fdate%3D2019-09-24%26station_evaId%3D1960003%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Brunnsparken, Göteborg",
+              "type": "ST",
+              "id": "9022014001760004",
+              "time": "08:53",
+              "date": "2019-09-24",
+              "track": "D",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Brunnsparken, Göteborg",
+              "type": "ST",
+              "id": "9022014001760003",
+              "time": "08:53",
+              "date": "2019-09-24",
+              "track": "C",
+              "$": "\n"
+            }
+          },
+          {
+            "name": "Buss 60",
+            "sname": "60",
+            "journeyNumber": "73",
+            "type": "BUS",
+            "id": "9015014506000073",
+            "reachable": "false",
+            "direction": "Masthugget",
+            "fgColor": "#00b6f1",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Brunnsparken, Göteborg",
+              "type": "ST",
+              "id": "9022014001760003",
+              "routeIdx": "12",
+              "time": "08:54",
+              "date": "2019-09-24",
+              "track": "C",
+              "rtTime": "08:53",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242002",
+              "routeIdx": "13",
+              "time": "08:57",
+              "date": "2019-09-24",
+              "track": "B",
+              "rtTime": "08:56",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=257649%2F88102%2F321508%2F74872%2F80%3Fdate%3D2019-09-24%26station_evaId%3D1760003%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242002",
+              "time": "09:02",
+              "date": "2019-09-24",
+              "track": "B",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242005",
+              "time": "09:02",
+              "date": "2019-09-24",
+              "track": "E",
+              "$": "\n"
+            }
+          },
+          {
+            "name": "286 Älvsnabbare",
+            "sname": "286",
+            "journeyNumber": "22",
+            "type": "BOAT",
+            "id": "9015014528600022",
+            "direction": "Lindholmspiren, Fri resa",
+            "fgColor": "#00A5DC",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "Origin": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242005",
+              "routeIdx": "0",
+              "time": "09:04",
+              "date": "2019-09-24",
+              "track": "E",
+              "rtTime": "09:04",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lindholmspiren, Göteborg",
+              "type": "ST",
+              "id": "9022014004493001",
+              "routeIdx": "1",
+              "time": "09:10",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "09:10",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Notes": {
+              "Note": {
+                "key": "other",
+                "severity": "low",
+                "priority": "1",
+                "$": "Färjan är avgiftsfri."
+              }
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=585897%2F206277%2F113638%2F138500%2F80%3Fdate%3D2019-09-24%26station_evaId%3D6242005%26station_type%3Ddep%26format%3Djson%26"
+            }
+          }
+        ]
+      },
+      {
+        "Leg": [
+          {
+            "name": "Buss 16",
+            "sname": "16",
+            "journeyNumber": "62",
+            "type": "BUS",
+            "id": "9015014501600062",
+            "direction": "Eketrägatan",
+            "fgColor": "#00b6f1",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Chalmers, Göteborg",
+              "type": "ST",
+              "id": "9022014001960003",
+              "routeIdx": "6",
+              "time": "08:38",
+              "date": "2019-09-24",
+              "track": "C",
+              "rtTime": "08:42",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lindholmen, Göteborg",
+              "type": "ST",
+              "id": "9022014004490003",
+              "routeIdx": "16",
+              "time": "09:00",
+              "date": "2019-09-24",
+              "track": "C",
+              "rtTime": "09:04",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=790926%2F283762%2F858050%2F165386%2F80%3Fdate%3D2019-09-24%26station_evaId%3D1960003%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Lindholmen, Göteborg",
+              "type": "ST",
+              "id": "9022014004490003",
+              "time": "09:00",
+              "date": "2019-09-24",
+              "track": "C",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lindholmspiren, Göteborg",
+              "type": "ST",
+              "id": "9022014004493001",
+              "time": "09:07",
+              "date": "2019-09-24",
+              "track": "A",
+              "$": "\n"
+            }
+          }
+        ]
+      },
+      {
+        "valid": "false",
+        "Leg": [
+          {
+            "name": "Spårvagn 6",
+            "sname": "6",
+            "journeyNumber": "68",
+            "type": "TRAM",
+            "id": "9015014500600068",
+            "direction": "Länsmansgården via Sahlgrenska",
+            "fgColor": "#fa8719",
+            "bgColor": "#00394d",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Chalmers, Göteborg",
+              "type": "ST",
+              "id": "9022014001960002",
+              "routeIdx": "18",
+              "time": "08:40",
+              "date": "2019-09-24",
+              "track": "B",
+              "rtTime": "08:44",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Linnéplatsen, Göteborg",
+              "type": "ST",
+              "id": "9022014004510001",
+              "routeIdx": "22",
+              "time": "08:47",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "08:51",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=473559%2F162562%2F48398%2F133654%2F80%3Fdate%3D2019-09-24%26station_evaId%3D1960002%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Spårvagn 1",
+            "sname": "1",
+            "journeyNumber": "53",
+            "type": "TRAM",
+            "id": "9015014500100053",
+            "direction": "Östra Sjukhuset",
+            "fgColor": "#ffffff",
+            "bgColor": "#00394d",
+            "stroke": "Solid",
+            "Origin": {
+              "name": "Linnéplatsen, Göteborg",
+              "type": "ST",
+              "id": "9022014004510001",
+              "routeIdx": "11",
+              "time": "08:53",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "08:57",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242001",
+              "routeIdx": "15",
+              "time": "09:00",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "09:04",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=749676%2F253362%2F905496%2F202857%2F80%3Fdate%3D2019-09-24%26station_evaId%3D4510001%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242001",
+              "time": "09:05",
+              "date": "2019-09-24",
+              "track": "A",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242005",
+              "time": "09:05",
+              "date": "2019-09-24",
+              "track": "E",
+              "$": "\n"
+            }
+          },
+          {
+            "name": "285 Älvsnabben",
+            "sname": "285",
+            "journeyNumber": "16",
+            "type": "BOAT",
+            "id": "9015014528500016",
+            "reachable": "false",
+            "direction": "Klippan via Lindholmspiren",
+            "fgColor": "#00A5DC",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242005",
+              "routeIdx": "1",
+              "time": "09:06",
+              "date": "2019-09-24",
+              "track": "E",
+              "rtTime": "09:06",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lindholmspiren, Göteborg",
+              "type": "ST",
+              "id": "9022014004493001",
+              "routeIdx": "2",
+              "time": "09:12",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "09:12",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=29433%2F10666%2F408382%2F194380%2F80%3Fdate%3D2019-09-24%26station_evaId%3D6242005%26station_type%3Ddep%26format%3Djson%26"
+            }
+          }
+        ]
+      },
+      {
+        "Leg": [
+          {
+            "name": "Buss 16",
+            "sname": "16",
+            "journeyNumber": "64",
+            "type": "BUS",
+            "id": "9015014501600064",
+            "direction": "Eketrägatan",
+            "fgColor": "#00b6f1",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Chalmers, Göteborg",
+              "type": "ST",
+              "id": "9022014001960003",
+              "routeIdx": "5",
+              "time": "08:43",
+              "date": "2019-09-24",
+              "track": "C",
+              "rtTime": "08:43",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lindholmen, Göteborg",
+              "type": "ST",
+              "id": "9022014004490003",
+              "routeIdx": "15",
+              "time": "09:05",
+              "date": "2019-09-24",
+              "track": "C",
+              "rtTime": "09:05",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=754545%2F271639%2F815890%2F156439%2F80%3Fdate%3D2019-09-24%26station_evaId%3D1960003%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Lindholmen, Göteborg",
+              "type": "ST",
+              "id": "9022014004490003",
+              "time": "09:05",
+              "date": "2019-09-24",
+              "track": "C",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lindholmspiren, Göteborg",
+              "type": "ST",
+              "id": "9022014004493001",
+              "time": "09:12",
+              "date": "2019-09-24",
+              "track": "A",
+              "$": "\n"
+            }
+          }
+        ]
+      },
+      {
+        "Leg": [
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Chalmers, Göteborg",
+              "type": "ST",
+              "id": "9022014001960003",
+              "time": "08:44",
+              "date": "2019-09-24",
+              "track": "C",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Chalmersplatsen, Göteborg",
+              "type": "ST",
+              "id": "9022014001961001",
+              "time": "08:46",
+              "date": "2019-09-24",
+              "track": "A",
+              "$": "\n"
+            }
+          },
+          {
+            "name": "Buss 55",
+            "sname": "55",
+            "journeyNumber": "28",
+            "type": "BUS",
+            "id": "9015014505500028",
+            "direction": "Lindholmen, Science Park",
+            "fgColor": "#EBF4D5",
+            "bgColor": "#2EB349",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Chalmersplatsen, Göteborg",
+              "type": "ST",
+              "id": "9022014001961001",
+              "routeIdx": "1",
+              "time": "08:46",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "08:46",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lindholmen, Göteborg",
+              "type": "ST",
+              "id": "9022014004490004",
+              "routeIdx": "11",
+              "time": "09:08",
+              "date": "2019-09-24",
+              "track": "D",
+              "rtTime": "09:09",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=238200%2F88339%2F278386%2F59793%2F80%3Fdate%3D2019-09-24%26station_evaId%3D1961001%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Lindholmen, Göteborg",
+              "type": "ST",
+              "id": "9022014004490004",
+              "time": "09:08",
+              "date": "2019-09-24",
+              "track": "D",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lindholmspiren, Göteborg",
+              "type": "ST",
+              "id": "9022014004493001",
+              "time": "09:15",
+              "date": "2019-09-24",
+              "track": "A",
+              "$": "\n"
+            }
+          }
+        ]
+      },
+      {
+        "alternative": "true",
+        "Leg": [
+          {
+            "name": "Spårvagn 7",
+            "sname": "7",
+            "journeyNumber": "61",
+            "type": "TRAM",
+            "id": "9015014500700061",
+            "direction": "Bergsjön",
+            "fgColor": "#7d4313",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Chalmers, Göteborg",
+              "type": "ST",
+              "id": "9022014001960001",
+              "routeIdx": "14",
+              "time": "08:44",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "08:45",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Brunnsparken, Göteborg",
+              "type": "ST",
+              "id": "9022014001760006",
+              "routeIdx": "19",
+              "time": "08:54",
+              "date": "2019-09-24",
+              "track": "F",
+              "rtTime": "08:54",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=188109%2F67553%2F350510%2F112556%2F80%3Fdate%3D2019-09-24%26station_evaId%3D1960001%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Brunnsparken, Göteborg",
+              "type": "ST",
+              "id": "9022014001760006",
+              "time": "08:59",
+              "date": "2019-09-24",
+              "track": "F",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Brunnsparken, Göteborg",
+              "type": "ST",
+              "id": "9022014001760003",
+              "time": "08:59",
+              "date": "2019-09-24",
+              "track": "C",
+              "$": "\n"
+            }
+          },
+          {
+            "name": "Buss 60",
+            "sname": "60",
+            "journeyNumber": "75",
+            "type": "BUS",
+            "id": "9015014506000075",
+            "direction": "Masthugget",
+            "fgColor": "#00b6f1",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Brunnsparken, Göteborg",
+              "type": "ST",
+              "id": "9022014001760003",
+              "routeIdx": "12",
+              "time": "09:00",
+              "date": "2019-09-24",
+              "track": "C",
+              "rtTime": "09:00",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242002",
+              "routeIdx": "13",
+              "time": "09:03",
+              "date": "2019-09-24",
+              "track": "B",
+              "rtTime": "09:03",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=449871%2F152178%2F286792%2F6561%2F80%3Fdate%3D2019-09-24%26station_evaId%3D1760003%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242002",
+              "time": "09:08",
+              "date": "2019-09-24",
+              "track": "B",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242005",
+              "time": "09:08",
+              "date": "2019-09-24",
+              "track": "E",
+              "$": "\n"
+            }
+          },
+          {
+            "name": "286 Älvsnabbare",
+            "sname": "286",
+            "journeyNumber": "24",
+            "type": "BOAT",
+            "id": "9015014528600024",
+            "direction": "Lindholmspiren, Fri resa",
+            "fgColor": "#00A5DC",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "Origin": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242005",
+              "routeIdx": "0",
+              "time": "09:10",
+              "date": "2019-09-24",
+              "track": "E",
+              "rtTime": "09:10",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lindholmspiren, Göteborg",
+              "type": "ST",
+              "id": "9022014004493001",
+              "routeIdx": "1",
+              "time": "09:16",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "09:16",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Notes": {
+              "Note": {
+                "key": "other",
+                "severity": "low",
+                "priority": "1",
+                "$": "Färjan är avgiftsfri."
+              }
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=437388%2F156774%2F100154%2F95740%2F80%3Fdate%3D2019-09-24%26station_evaId%3D6242005%26station_type%3Ddep%26format%3Djson%26"
+            }
+          }
+        ]
+      },
+      {
+        "valid": "false",
+        "Leg": [
+          {
+            "name": "Spårvagn 10",
+            "sname": "10",
+            "journeyNumber": "39",
+            "type": "TRAM",
+            "id": "9015014501000039",
+            "direction": "Biskopsgården",
+            "fgColor": "#b4e16e",
+            "bgColor": "#0e629b",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Chalmers, Göteborg",
+              "type": "ST",
+              "id": "9022014001960001",
+              "routeIdx": "3",
+              "time": "08:46",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "08:46",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Brunnsparken, Göteborg",
+              "type": "ST",
+              "id": "9022014001760002",
+              "routeIdx": "8",
+              "time": "08:56",
+              "date": "2019-09-24",
+              "track": "B",
+              "rtTime": "08:56",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=581886%2F199383%2F228470%2F79731%2F80%3Fdate%3D2019-09-24%26station_evaId%3D1960001%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Brunnsparken, Göteborg",
+              "type": "ST",
+              "id": "9022014001760002",
+              "time": "09:01",
+              "date": "2019-09-24",
+              "track": "B",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Brunnsparken, Göteborg",
+              "type": "ST",
+              "id": "9022014001760003",
+              "time": "09:01",
+              "date": "2019-09-24",
+              "track": "C",
+              "$": "\n"
+            }
+          },
+          {
+            "name": "Spårvagn 9",
+            "sname": "9",
+            "journeyNumber": "52",
+            "type": "TRAM",
+            "id": "9015014500900052",
+            "direction": "Kungssten",
+            "fgColor": "#b9e2f8",
+            "bgColor": "#00394d",
+            "stroke": "Solid",
+            "accessibility": "wheelChair",
+            "Origin": {
+              "name": "Brunnsparken, Göteborg",
+              "type": "ST",
+              "id": "9022014001760003",
+              "routeIdx": "6",
+              "time": "09:01",
+              "date": "2019-09-24",
+              "track": "C",
+              "rtTime": "09:07",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242002",
+              "routeIdx": "7",
+              "time": "09:04",
+              "date": "2019-09-24",
+              "track": "B",
+              "rtTime": "09:10",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=266325%2F94139%2F96030%2F40761%2F80%3Fdate%3D2019-09-24%26station_evaId%3D1760003%26station_type%3Ddep%26format%3Djson%26"
+            }
+          },
+          {
+            "name": "Gå",
+            "type": "WALK",
+            "Origin": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242002",
+              "time": "09:09",
+              "date": "2019-09-24",
+              "track": "B",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242005",
+              "time": "09:09",
+              "date": "2019-09-24",
+              "track": "E",
+              "$": "\n"
+            }
+          },
+          {
+            "name": "286 Älvsnabbare",
+            "sname": "286",
+            "journeyNumber": "24",
+            "type": "BOAT",
+            "id": "9015014528600024",
+            "reachable": "false",
+            "direction": "Lindholmspiren, Fri resa",
+            "fgColor": "#00A5DC",
+            "bgColor": "#ffffff",
+            "stroke": "Solid",
+            "Origin": {
+              "name": "Stenpiren, Göteborg",
+              "type": "ST",
+              "id": "9022014006242005",
+              "routeIdx": "0",
+              "time": "09:10",
+              "date": "2019-09-24",
+              "track": "E",
+              "rtTime": "09:10",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Destination": {
+              "name": "Lindholmspiren, Göteborg",
+              "type": "ST",
+              "id": "9022014004493001",
+              "routeIdx": "1",
+              "time": "09:16",
+              "date": "2019-09-24",
+              "track": "A",
+              "rtTime": "09:16",
+              "rtDate": "2019-09-24",
+              "$": "\n"
+            },
+            "Notes": {
+              "Note": {
+                "key": "other",
+                "severity": "low",
+                "priority": "1",
+                "$": "Färjan är avgiftsfri."
+              }
+            },
+            "JourneyDetailRef": {
+              "ref": "https://api.vasttrafik.se/bin/rest.exe/v2/journeyDetail?ref=403233%2F145389%2F1622%2F133621%2F80%3Fdate%3D2019-09-24%26station_evaId%3D6242005%26station_type%3Ddep%26format%3Djson%26"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
