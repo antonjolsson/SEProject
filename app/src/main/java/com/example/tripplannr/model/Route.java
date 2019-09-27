@@ -1,30 +1,17 @@
 package com.example.tripplannr.model;
 
-import java.util.Collections;
-import java.util.List;
+public class Route {
 
-public class Trip {
-
-    private String name;
-    private List<Route> routes;
     private Location origin;
     private Location destination;
     private TravelTimes times;
+    private ModeOfTransport mode;
 
-    public Trip(String name, List<Route> routes, Location origin, Location destination, TravelTimes times) {
-        this.name = name;
-        this.routes = routes;
+    public Route(Location origin, Location destination, TravelTimes times, ModeOfTransport mode) {
         this.origin = origin;
         this.destination = destination;
         this.times = times;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<Route> getRoutes() {
-        return Collections.unmodifiableList(routes);
+        this.mode = mode;
     }
 
     public Location getOrigin() {
@@ -35,9 +22,11 @@ public class Trip {
         return destination;
     }
 
-
     public TravelTimes getTimes() {
         return times;
     }
 
+    public ModeOfTransport getMode() {
+        return mode;
+    }
 }

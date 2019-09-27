@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.tripplannr.stdanica.R;
 import com.example.tripplannr.model.Trip;
@@ -30,6 +31,8 @@ public class TripResultFragment extends Fragment {
 
     private TripResultViewModel tripResultViewModel;
 
+    private TextView originTextView, destinationTextView;
+
     private List<Trip> tripsList = new ArrayList<>();
 
     @Nullable
@@ -37,8 +40,14 @@ public class TripResultFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trip_result, container, false);
         initRecyclerView(view);
+        initComponents(view);
         initViewModel();
         return view;
+    }
+
+    private void initComponents(View view) {
+        originTextView = view.findViewById(R.id.originTextView);
+        destinationTextView = view.findViewById(R.id.destinationTextView);
     }
 
     private void initViewModel() {
@@ -48,6 +57,9 @@ public class TripResultFragment extends Fragment {
             public void onChanged(List<Trip> trips) {
                 tripsList.clear();
                 tripsList.addAll(trips);
+                if(trips.size() > 0)
+                    originTextView.setText("from: " + trips.get(0).getOrigin().getName());
+                    destinationTextView.setText("to: " + trips.get(0).getDestination().getName());
             }
         });
         System.out.println(tripResultViewModel.getTripsLiveData().getValue());
@@ -55,7 +67,7 @@ public class TripResultFragment extends Fragment {
 
     private void initRecyclerView(View view) {
         resultRecyclerView = view.findViewById(R.id.tripResultRecyclerView);
-        resultRecyclerView.setAdapter(new TripResultAdapter(tripsList, getContext()));
+        resultRecyclerView.setAdapter(new TripResultAdapter(tripsList));
         resultRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 

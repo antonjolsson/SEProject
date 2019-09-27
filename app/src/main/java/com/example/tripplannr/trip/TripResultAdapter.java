@@ -10,23 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripplannr.model.Trip;
 import com.example.tripplannr.stdanica.R;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.TripResultViewHolder> {
 
     private List<Trip> trips;
-    private FragmentActivity context;
 
-    public TripResultAdapter(List<Trip> trips, Context context) {
+    public TripResultAdapter(List<Trip> trips) {
         this.trips = trips;
-        if(context instanceof FragmentActivity)
-            this.context = (FragmentActivity) context;
-        else throw new RuntimeException("Context is not an instance of TripActivity");
     }
 
     @NonNull
@@ -38,15 +37,15 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
 
     @Override
     public void onBindViewHolder(@NonNull final TripResultViewHolder holder, final int position) {
-        holder.mStartTimeTextView.setText(trips.get(position).getStartTime());
-        holder.mEndTimeTextView.setText(trips.get(position).getEndTime());
-        holder.mTotalTimeTextView.setText(String.format("Total time: %s", trips.get(position).getDuration()));
-        holder.mChangesTextView.setText(String.format("Changes: %s", trips.get(position).getChanges()));
+        holder.mStartTimeTextView.setText(trips.get(position).getTimes().getDepature().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")));
+        holder.mEndTimeTextView.setText(trips.get(position).getTimes().getArrival().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")));
+        holder.mTotalTimeTextView.setText(String.format("Total time: %s", trips.get(position).getTimes().getDuration()));
+        holder.mChangesTextView.setText(String.format("Changes: %s", trips.get(position).getRoutes().size()));
         holder.mParentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDetailedView();
                 holder.tripResultViewModel.onClick(trips.get(position));
+                Navigation.findNavController(v).navigate(R.id.action_navigation_trip_results_to_navigation_trip_fragment);
             }
         });
     }
@@ -56,13 +55,6 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
         return trips.size();
     }
 
-    private void openDetailedView() {
-        TripFragment tripFragment = new TripFragment();
-        context.getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, tripFragment)
-                .commit();
-    }
 
     public class TripResultViewHolder extends RecyclerView.ViewHolder {
 

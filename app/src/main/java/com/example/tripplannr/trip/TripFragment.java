@@ -1,5 +1,6 @@
 package com.example.tripplannr.trip;
 
+import android.graphics.Point;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,14 +9,25 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.tripplannr.model.Location;
+import com.example.tripplannr.model.Route;
+import com.example.tripplannr.model.TravelTimes;
 import com.example.tripplannr.stdanica.R;
 import com.example.tripplannr.model.Trip;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAmount;
+import java.time.temporal.TemporalUnit;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 
@@ -36,12 +48,13 @@ public class TripFragment extends Fragment {
     }
 
     private void goBack() {
-        tripResultViewModel.getTripsLiveData().getValue().add(new Trip("test", "test", 0, 0));
-        System.out.println(tripResultViewModel.getTripsLiveData().getValue());
-        mainActivity.getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, new TripResultFragment())
-                .commit();
+        tripResultViewModel.getTripsLiveData().getValue().add(
+                new Trip("Chalmers, Lindholmen"
+                        , new ArrayList<Route>()
+                        , new Location("Chakners", new Point(2, 2))
+                        , new Location("Lindholmen", new Point(3, 3))
+                        , new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusHours(2), 2)));
+        Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_navigation_trip_fragment_to_navigation_trip_results);
     }
 
     private void initComponents(View view) {
