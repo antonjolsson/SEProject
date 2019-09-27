@@ -1,21 +1,26 @@
 package com.example.tripplannr.model;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 
 public class TravelTimes {
 
-    private LocalDateTime depature;
+    private LocalDateTime departure;
     private LocalDateTime arrival;
     private long duration;
 
-    public TravelTimes(LocalDateTime depature, LocalDateTime arrival, long duration) {
-        this.depature = depature;
+    public TravelTimes(LocalDateTime departure, LocalDateTime arrival) {
+        this.departure = departure;
         this.arrival = arrival;
-        this.duration = duration;
+        duration = ChronoUnit.MINUTES.between(departure, arrival);
     }
 
-    public LocalDateTime getDepature() {
-        return depature;
+    public LocalDateTime getDeparture() {
+        return departure;
     }
 
     public LocalDateTime getArrival() {

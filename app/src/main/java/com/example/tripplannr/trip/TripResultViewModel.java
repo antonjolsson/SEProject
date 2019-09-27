@@ -9,6 +9,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.tripplannr.model.Location;
+import com.example.tripplannr.model.ModeOfTransport;
 import com.example.tripplannr.model.Route;
 import com.example.tripplannr.model.TravelTimes;
 import com.example.tripplannr.model.Trip;
@@ -30,18 +31,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     public TripResultViewModel() {
         super();
-        mTripsLiveData.setValue(new ArrayList<>(Arrays.asList(
-                new Trip("Chalmers, Lindholmen"
-                        , new ArrayList<Route>()
-                        , new Location("Chalmers", new Point(2, 2))
-                        , new Location("Lindholmen", new Point(3, 3))
-                        , new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusHours(2), 2))
-                , new Trip("Chalmers, Lindholmen"
-                , new ArrayList<Route>()
-                , new Location("Chalmers", new Point(2, 2))
-                , new Location("Lindholmen", new Point(3, 3))
-                , new TravelTimes(LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), 2))
-        )));
+        buildFakeTrip();
     }
 
     public LiveData<Trip> getTripLiveData() {
@@ -56,4 +46,38 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
     public void onClick(Trip trip) {
         mTripLiveData.setValue(trip);
     }
+
+    private void buildFakeTrip() {
+        Route route1 = new Route.Builder()
+                .origin(new Location("Chalmers", new Point()))
+                .destination(new Location("Hjalmar", new Point()))
+                .mode(ModeOfTransport.BUS)
+                .times(new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusMinutes(30)))
+                .build();
+
+        Route route2 = new Route.Builder()
+                .origin(new Location("Hjalmar", new Point()))
+                .destination(new Location("Lindholmen", new Point()))
+                .mode(ModeOfTransport.TRAM)
+                .times(new TravelTimes(LocalDateTime.now().plusMinutes(30), LocalDateTime.now().plusMinutes(60)))
+                .build();
+
+        Route route3 = new Route.Builder()
+                .origin(new Location("Lindholmen", new Point()))
+                .destination(new Location("Lindholmspiren", new Point()))
+                .mode(ModeOfTransport.WALK)
+                .times(new TravelTimes(LocalDateTime.now().plusMinutes(60), LocalDateTime.now().plusMinutes(65)))
+                .build();
+
+        mTripsLiveData.setValue(new ArrayList<>(Arrays.asList(
+                new Trip.Builder()
+                        .name("Chalmers, Lindholmspiren")
+                        .origin(new Location("Chalmers", new Point()))
+                        .destination(new Location("Lindholmspiren", new Point()))
+                        .routes(new ArrayList<Route>(Arrays.asList(route1, route2, route3)))
+                        .times(new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusMinutes(65)))
+                        .build())
+        ));
+    }
+
 }

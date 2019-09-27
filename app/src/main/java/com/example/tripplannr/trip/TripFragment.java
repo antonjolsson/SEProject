@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import java.time.temporal.TemporalAmount;
 import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -35,51 +38,35 @@ public class TripFragment extends Fragment {
 
     private TripResultViewModel tripResultViewModel;
 
-    private FragmentActivity mainActivity;
+    private RecyclerView routesRecyclerView;
+
+    private List<Route> routes;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        initViewModel();
-        mainActivity = getActivity();
         View view = inflater.inflate(R.layout.fragment_trip, container, false);
-        initComponents(view);
+        initViewModel();
+        routes = tripResultViewModel.getTripLiveData().getValue().getRoutes();
+        initRecyclerView(view);
         return view;
     }
-
-    private void goBack() {
-        tripResultViewModel.getTripsLiveData().getValue().add(
-                new Trip("Chalmers, Lindholmen"
-                        , new ArrayList<Route>()
-                        , new Location("Chakners", new Point(2, 2))
-                        , new Location("Lindholmen", new Point(3, 3))
-                        , new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusHours(2), 2)));
-        Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_navigation_trip_fragment_to_navigation_trip_results);
-    }
-
-    private void initComponents(View view) {
-        view.findViewById(R.id.testReturnButton)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        goBack();
-                    }
-                });
-    }
-
 
     private void initViewModel() {
         tripResultViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(TripResultViewModel.class);
         tripResultViewModel.getTripLiveData().observe(this, new Observer<Trip>() {
             @Override
             public void onChanged(Trip trip) {
-                onTripUpdated();
+
             }
         });
     }
 
-    private void onTripUpdated() {
 
+    private void initRecyclerView(View view) {
+        routesRecyclerView = view.findViewById(R.id.routesRecyclerView);
+        routesRecyclerView.setAdapter(new RoutesAdapter(routes));
+        routesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
 }

@@ -62,7 +62,6 @@ public class TripResultFragment extends Fragment {
                     destinationTextView.setText("to: " + trips.get(0).getDestination().getName());
             }
         });
-        System.out.println(tripResultViewModel.getTripsLiveData().getValue());
     }
 
     private void initRecyclerView(View view) {

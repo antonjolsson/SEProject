@@ -1,6 +1,5 @@
 package com.example.tripplannr.trip;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tripplannr.model.Trip;
 import com.example.tripplannr.stdanica.R;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -37,7 +35,7 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
 
     @Override
     public void onBindViewHolder(@NonNull final TripResultViewHolder holder, final int position) {
-        holder.mStartTimeTextView.setText(trips.get(position).getTimes().getDepature().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")));
+        holder.mStartTimeTextView.setText(trips.get(position).getTimes().getDeparture().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")));
         holder.mEndTimeTextView.setText(trips.get(position).getTimes().getArrival().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")));
         holder.mTotalTimeTextView.setText(String.format("Total time: %s", trips.get(position).getTimes().getDuration()));
         holder.mChangesTextView.setText(String.format("Changes: %s", trips.get(position).getRoutes().size()));

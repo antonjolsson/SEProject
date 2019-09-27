@@ -6,16 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.tripplannr.trip.TripFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <Button
-        android:id="@+id/testReturnButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="76dp"
-        android:text="Return"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/routesRecyclerView"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
