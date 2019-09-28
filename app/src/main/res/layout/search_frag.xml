@@ -33,8 +33,10 @@
         android:autofillHints=""
         android:background="@drawable/input_field"
         android:ems="10"
+        android:focusedByDefault="true"
         android:fontFamily="@font/rajdhani_medium"
-        android:inputType="datetime|textPersonName"
+        android:inputType="textPersonName"
+        android:singleLine="true"
         android:text=" FROM"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -120,10 +122,11 @@
         android:layout_height="30dp"
         android:layout_marginTop="116dp"
         android:layout_marginEnd="24dp"
+        android:clickable="true"
+        android:src="@drawable/swap_vert_w"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/toText"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/swap_vert_w" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/locationIconView"
@@ -131,10 +134,11 @@
         android:layout_height="23dp"
         android:layout_marginTop="56dp"
         android:layout_marginEnd="24dp"
+        android:clickable="true"
+        android:src="@drawable/location_w"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/toText"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/location_w" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/divider"

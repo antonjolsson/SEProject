@@ -11,6 +11,7 @@
         android:name="com.example.tripplannr.SearchFragment"
         android:layout_width="match_parent"
         android:layout_height="311dp"
+        android:elevation="100dp"
         tools:layout="@layout/search_frag" />
 
     <fragment
