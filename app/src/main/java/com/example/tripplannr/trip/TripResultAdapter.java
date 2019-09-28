@@ -35,9 +35,13 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
 
     @Override
     public void onBindViewHolder(@NonNull final TripResultViewHolder holder, final int position) {
-        holder.mStartTimeTextView.setText(trips.get(position).getTimes().getDeparture().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")));
-        holder.mEndTimeTextView.setText(trips.get(position).getTimes().getArrival().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")));
-        holder.mTotalTimeTextView.setText(String.format("Total time: %s", trips.get(position).getTimes().getDuration()));
+        holder.mTimeTextView.setText(
+                "When: "
+                + trips.get(position).getTimes().getDeparture().format(DateTimeFormatter.ofPattern("HH:mm"))
+                + " - "
+                + trips.get(position).getTimes().getArrival().format(DateTimeFormatter.ofPattern("HH:mm")));
+        holder.mStopTextView.setText(trips.get(position).getOrigin().getName());
+        holder.mTotalTimeTextView.setText(String.format("Total time: %s %s", trips.get(position).getTimes().getDuration(), "minutes"));
         holder.mChangesTextView.setText(String.format("Changes: %s", trips.get(position).getRoutes().size()));
         holder.mParentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,10 +60,7 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
 
     public class TripResultViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView mStartTimeTextView;
-        private TextView mEndTimeTextView;
-        private TextView mChangesTextView;
-        private TextView mTotalTimeTextView;
+        private TextView mTimeTextView, mChangesTextView, mTotalTimeTextView, mStopTextView;
         private ConstraintLayout mParentLayout;
         private View itemView;
         private TripResultViewModel tripResultViewModel;
@@ -76,11 +77,11 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
         }
 
         private void initComponents() {
-            mStartTimeTextView = itemView.findViewById(R.id.startTimeTextView);
-            mEndTimeTextView = itemView.findViewById(R.id.endTimeTextView);
+            mTimeTextView = itemView.findViewById(R.id.timeTextView);
             mChangesTextView = itemView.findViewById(R.id.changesTextView);
             mTotalTimeTextView = itemView.findViewById(R.id.totalTimeTextView);
             mParentLayout = itemView.findViewById(R.id.resultViewParentLayout);
+            mStopTextView = itemView.findViewById(R.id.stopTextView);
         }
     }
 

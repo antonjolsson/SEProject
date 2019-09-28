@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.example.tripplannr.stdanica.R;
 import com.example.tripplannr.model.Trip;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +33,7 @@ public class TripResultFragment extends Fragment {
 
     private TripResultViewModel tripResultViewModel;
 
-    private TextView originTextView, destinationTextView;
+    private TextView originTextView, destinationTextView, whenTextView;
 
     private List<Trip> tripsList = new ArrayList<>();
 
@@ -48,6 +50,7 @@ public class TripResultFragment extends Fragment {
     private void initComponents(View view) {
         originTextView = view.findViewById(R.id.originTextView);
         destinationTextView = view.findViewById(R.id.destinationTextView);
+        whenTextView = view.findViewById(R.id.whenTextView);
     }
 
     private void initViewModel() {
@@ -58,8 +61,9 @@ public class TripResultFragment extends Fragment {
                 tripsList.clear();
                 tripsList.addAll(trips);
                 if(trips.size() > 0)
-                    originTextView.setText("from: " + trips.get(0).getOrigin().getName());
-                    destinationTextView.setText("to: " + trips.get(0).getDestination().getName());
+                    originTextView.setText(Html.fromHtml("<b>From: </b>", Html.FROM_HTML_MODE_LEGACY) + trips.get(0).getOrigin().getName());
+                    destinationTextView.setText(Html.fromHtml("<b>To: </b>", Html.FROM_HTML_MODE_LEGACY) + trips.get(0).getDestination().getName());
+                    whenTextView.setText(Html.fromHtml("<b>When: </b>", Html.FROM_HTML_MODE_LEGACY) + trips.get(0).getTimes().getDeparture().format(DateTimeFormatter.ofPattern("dd-MM-yy")));
             }
         });
     }
