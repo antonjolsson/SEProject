@@ -10,15 +10,30 @@ import static com.example.tripplannr.model.TripViewModel.LocationField.*;
 
 public class TripViewModel extends ViewModel {
 
-    enum LocationField {ORIGIN, DESTINATION}
+    public enum LocationField {ORIGIN, DESTINATION}
     private MutableLiveData<TripLocation> origin = new MutableLiveData<>();
     private MutableLiveData<TripLocation> destination = new MutableLiveData<>();
+
+    boolean initOriginField = true;
+
+    public void setFocusedLocationField(LocationField focusedLocationField) {
+        this.focusedLocationField = focusedLocationField;
+    }
+
+    public LocationField getFocusedLocationField() {
+        return focusedLocationField;
+    }
+
     private LocationField focusedLocationField = DESTINATION;
 
     public TripViewModel() {}
 
     void setLocation(Location location, String name) {
-        if (focusedLocationField == ORIGIN)
+        if (initOriginField) {
+            origin.setValue(new TripLocation(name, location));
+            initOriginField = false;
+        }
+        else if (focusedLocationField == ORIGIN)
             origin.setValue(new TripLocation(name, location));
         else destination.setValue(new TripLocation(name, location));
     }
@@ -29,5 +44,9 @@ public class TripViewModel extends ViewModel {
 
     public LiveData<TripLocation> getDestination() {
         return destination;
+    }
+
+    public boolean isInitOriginField() {
+        return initOriginField;
     }
 }

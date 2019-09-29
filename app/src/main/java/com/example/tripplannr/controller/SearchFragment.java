@@ -1,7 +1,9 @@
 package com.example.tripplannr.controller;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -16,15 +18,19 @@ import com.example.tripplannr.model.TripViewModel;
 
 import java.util.Objects;
 
+import static com.example.tripplannr.model.TripViewModel.LocationField.DESTINATION;
+import static com.example.tripplannr.model.TripViewModel.LocationField.ORIGIN;
+
 public class SearchFragment extends Fragment {
 
     private EditText toTextField, fromTextField;
     private String name;
+    private TripViewModel model;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TripViewModel model =
-                ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(TripViewModel.class);
+        model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
+                get(TripViewModel.class);
         model.getOrigin().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {
@@ -54,7 +60,27 @@ public class SearchFragment extends Fragment {
 
         toTextField = Objects.requireNonNull(view).findViewById(R.id.toText);
         fromTextField = Objects.requireNonNull(view).findViewById(R.id.fromText);
+        setListeners();
         return view;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void setListeners() {
+        toTextField.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                model.setFocusedLocationField(DESTINATION);
+                return false;
+            }
+        });
+        fromTextField.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                model.setFocusedLocationField(ORIGIN);
+                return false;
+            }
+        });
+
     }
 
 }

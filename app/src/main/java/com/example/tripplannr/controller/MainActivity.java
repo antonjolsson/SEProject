@@ -23,6 +23,7 @@ import com.example.tripplannr.model.FetchAddressConstants;
 import com.example.tripplannr.model.FetchAddressIntentService;
 import com.example.tripplannr.R;
 import com.example.tripplannr.model.TripViewModel;
+import com.example.tripplannr.model.TripViewModel.LocationField;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -39,18 +40,21 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
+import static com.example.tripplannr.model.TripViewModel.LocationField.ORIGIN;
+
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleMap.OnMapClickListener {
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    // Chalmers Johanneberg location :)
-    public static final LatLng DEF_LAT_LNG = new LatLng(57.688, 11.9788);
+    // Chalmers Lindholmen location :)
+    public static final LatLng DEF_LAT_LNG = new LatLng(57.707202, 11.940108);
 
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
     Location mLastLocation;
     Location clickedLocation;
-    Marker mLocationMarker;
+    Marker originMarker;
+    Marker destinationMarker;
     LocationRequest mLocationRequest;
     TripViewModel model;
 
@@ -108,26 +112,34 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.i("MapsActivity", "Location: " + location.getLatitude() + " " +
                         location.getLongitude());
                 mLastLocation = location;
-                //Place current location marker
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                // updateMarker(latLng);
+                if (model.isInitOriginField()) {
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    clickedLocation = mLastLocation;
+                    onMapClick(latLng);
+                }
             }
         }
     };
 
     private void updateMarker(LatLng latLng) {
-        if (mLocationMarker != null) {
-            mLocationMarker.remove();
-        }
-
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
-        //markerOptions.title("Current Position");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-        mLocationMarker = mMap.addMarker(markerOptions);
-
-        //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+        if (model.isInitOriginField() || model.getFocusedLocationField() == ORIGIN) {
+            if (originMarker != null) {
+                originMarker.remove();
+            }
+            markerOptions.icon(BitmapDescriptorFactory.
+                    defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            originMarker = mMap.addMarker(markerOptions);
+        }
+        else {
+            if (destinationMarker != null) {
+                destinationMarker.remove();
+            }
+            markerOptions.icon(BitmapDescriptorFactory.
+                    defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+            destinationMarker = mMap.addMarker(markerOptions);
+        }
     }
 
     @Override
@@ -178,8 +190,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 new AlertDialog.Builder(this)
-                        .setTitle("TripLocation Permission Needed")
-                        .setMessage("This app needs the TripLocation permission, " +
+                        .setTitle("Location permission Needed")
+                        .setMessage("This app needs the location permission, " +
                                 "please accept to use location functionality")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -203,6 +215,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapClick(LatLng latLng) {
         updateMarker(latLng);
+
+        //move map camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
 
         clickedLocation = new Location("");
         clickedLocation.setLatitude(latLng.latitude);
