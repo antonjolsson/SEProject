@@ -1,4 +1,4 @@
-package com.example.tripplannr;
+package com.example.tripplannr.controller;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,10 @@ import android.widget.EditText;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.example.tripplannr.R;
+import com.example.tripplannr.model.TripLocation;
+import com.example.tripplannr.model.TripViewModel;
 
 import java.util.Objects;
 
@@ -24,14 +28,14 @@ public class SearchFragment extends Fragment {
         model.getOrigin().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {
-                name = formatLocationName(tripLocation.name);
+                name = formatLocationName(tripLocation.getName());
                 fromTextField.setText(name);
             }
         });
         model.getDestination().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {
-                name = formatLocationName(tripLocation.name);
+                name = formatLocationName(tripLocation.getName());
                 toTextField.setText(name);
             }
         });

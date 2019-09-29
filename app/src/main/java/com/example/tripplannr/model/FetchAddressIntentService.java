@@ -1,4 +1,4 @@
-package com.example.tripplannr;
+package com.example.tripplannr.model;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -16,36 +16,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import static android.content.ContentValues.TAG;
-import static com.example.tripplannr.FetchAddressIntentService.Constants.LOCATION_DATA_EXTRA;
-import static com.example.tripplannr.FetchAddressIntentService.Constants.RECEIVER;
+import static com.example.tripplannr.model.FetchAddressConstants.LOCATION_DATA_EXTRA;
+import static com.example.tripplannr.model.FetchAddressConstants.RECEIVER;
 
 public class FetchAddressIntentService extends IntentService {
 
     protected ResultReceiver receiver;
 
-    final class Constants {
-        static final int SUCCESS_RESULT = 0;
-        static final int FAILURE_RESULT = 1;
-        static final String PACKAGE_NAME =
-                "com.google.android.gms.location.sample.locationaddress";
-        static final String RECEIVER = PACKAGE_NAME + ".RECEIVER";
-        static final String RESULT_DATA_KEY = PACKAGE_NAME +
-                ".RESULT_DATA_KEY";
-        static final String LOCATION_DATA_EXTRA = PACKAGE_NAME +
-                ".LOCATION_DATA_EXTRA";
-    }
-
-
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      *
-     * @param name Used to name the worker thread, important only for debugging.
+     * //@param name Used to name the worker thread, important only for debugging.
      */
+    /* Not used, should probably be removed
     public FetchAddressIntentService(String name) {
         super(name);
-    }
+    }*/
 
     public FetchAddressIntentService() {
         super("FetchAddressIntentService");
@@ -69,6 +58,7 @@ public class FetchAddressIntentService extends IntentService {
         List<Address> addresses = null;
 
         try {
+            assert location != null;
             addresses = geocoder.getFromLocation(
                     location.getLatitude(),
                     location.getLongitude(),
@@ -93,7 +83,7 @@ public class FetchAddressIntentService extends IntentService {
                 errorMessage = "No name found";
                 Log.e(TAG, errorMessage);
             }
-            deliverResultToReceiver(Constants.FAILURE_RESULT, errorMessage);
+            deliverResultToReceiver(FetchAddressConstants.FAILURE_RESULT, errorMessage);
         } else {
             Address address = addresses.get(0);
             ArrayList<String> addressFragments = new ArrayList<>();
@@ -104,15 +94,15 @@ public class FetchAddressIntentService extends IntentService {
                 addressFragments.add(address.getAddressLine(i));
             }
             Log.i(TAG, "Address found");
-            deliverResultToReceiver(Constants.SUCCESS_RESULT,
-                    TextUtils.join(System.getProperty("line.separator"),
+            deliverResultToReceiver(FetchAddressConstants.SUCCESS_RESULT,
+                    TextUtils.join(Objects.requireNonNull(System.getProperty("line.separator")),
                             addressFragments));
         }
     }
 
     private void deliverResultToReceiver(int resultCode, String message) {
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.RESULT_DATA_KEY, message);
+        bundle.putString(FetchAddressConstants.RESULT_DATA_KEY, message);
         receiver.send(resultCode, bundle);
     }
 }

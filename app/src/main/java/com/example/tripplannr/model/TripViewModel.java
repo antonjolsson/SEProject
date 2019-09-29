@@ -1,4 +1,4 @@
-package com.example.tripplannr;
+package com.example.tripplannr.model;
 
 import android.location.Location;
 
@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import static com.example.tripplannr.TripViewModel.LocationField.*;
+import static com.example.tripplannr.model.TripViewModel.LocationField.*;
 
 public class TripViewModel extends ViewModel {
 
@@ -23,11 +23,11 @@ public class TripViewModel extends ViewModel {
         else destination.setValue(new TripLocation(name, location));
     }
 
-    LiveData<TripLocation> getOrigin() {
+    public LiveData<TripLocation> getOrigin() {
         return origin;
     }
 
-    LiveData<TripLocation> getDestination() {
+    public LiveData<TripLocation> getDestination() {
         return destination;
     }
 }

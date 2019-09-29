@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="com.example.tripplannr.SearchFragment"
+        android:name="com.example.tripplannr.controller.SearchFragment"
         android:layout_width="match_parent"
         android:layout_height="311dp"
         android:elevation="100dp"
@@ -19,7 +19,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity" />
+        tools:context=".controller.MainActivity" />
 
 </LinearLayout>
 
