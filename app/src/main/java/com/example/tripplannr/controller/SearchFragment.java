@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -24,6 +25,7 @@ import static com.example.tripplannr.model.TripViewModel.LocationField.ORIGIN;
 public class SearchFragment extends Fragment {
 
     private EditText toTextField, fromTextField;
+    private ImageView locIconView, swapIconView;
     private String name;
     private TripViewModel model;
 
@@ -60,6 +62,8 @@ public class SearchFragment extends Fragment {
 
         toTextField = Objects.requireNonNull(view).findViewById(R.id.toText);
         fromTextField = Objects.requireNonNull(view).findViewById(R.id.fromText);
+        locIconView = Objects.requireNonNull(view).findViewById(R.id.locationIconView);
+        swapIconView = Objects.requireNonNull(view).findViewById(R.id.swapIconView);
         setListeners();
         return view;
     }
@@ -80,7 +84,31 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
+        locIconView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
 
+                return false;
+            }
+        });
+        swapIconView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                swapLocations();
+            }
+        });
+
+    }
+
+    private void swapLocations() {
+        TripLocation origin = model.getOrigin().getValue();
+        TripLocation destination = model.getDestination().getValue();
+        model.setFocusedLocationField(DESTINATION);
+        assert origin != null;
+        model.setLocation(origin.getLocation(), origin.getName());
+        model.setFocusedLocationField(ORIGIN);
+        assert destination != null;
+        model.setLocation(destination.getLocation(), destination.getName());
     }
 
 }

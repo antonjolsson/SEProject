@@ -16,12 +16,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tripplannr.model.AddressResultReceiver;
 import com.example.tripplannr.model.FetchAddressConstants;
 import com.example.tripplannr.model.FetchAddressIntentService;
 import com.example.tripplannr.R;
+import com.example.tripplannr.model.TripLocation;
 import com.example.tripplannr.model.TripViewModel;
 import com.example.tripplannr.model.TripViewModel.LocationField;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -58,7 +60,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     LocationRequest mLocationRequest;
     TripViewModel model;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -73,6 +74,25 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         model = ViewModelProviders.of(this).get(TripViewModel.class);
+        model.getDestination().observe(this, new Observer<TripLocation>() {
+            @Override
+            public void onChanged(TripLocation tripLocation) {
+                LatLng latLng = tripLocationToLatLng(tripLocation.getLocation());
+                updateMarker(latLng);
+            }
+        });
+        model.getOrigin().observe(this, new Observer<TripLocation>() {
+            @Override
+            public void onChanged(TripLocation tripLocation) {
+                LatLng latLng = tripLocationToLatLng(tripLocation.getLocation());
+                updateMarker(latLng);
+            }
+        });
+    }
+
+    private LatLng tripLocationToLatLng(Location location) {
+        return new LatLng(location.getLatitude(),
+                location.getLongitude());
     }
 
     @Override
@@ -113,7 +133,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         location.getLongitude());
                 mLastLocation = location;
                 if (model.isInitOriginField()) {
-                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    LatLng latLng = tripLocationToLatLng(location);
                     clickedLocation = mLastLocation;
                     onMapClick(latLng);
                 }
@@ -140,6 +160,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
             destinationMarker = mMap.addMarker(markerOptions);
         }
+
     }
 
     @Override

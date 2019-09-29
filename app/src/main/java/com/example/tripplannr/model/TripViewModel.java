@@ -14,7 +14,7 @@ public class TripViewModel extends ViewModel {
     private MutableLiveData<TripLocation> origin = new MutableLiveData<>();
     private MutableLiveData<TripLocation> destination = new MutableLiveData<>();
 
-    boolean initOriginField = true;
+    private boolean initOriginField = true;
 
     public void setFocusedLocationField(LocationField focusedLocationField) {
         this.focusedLocationField = focusedLocationField;
@@ -28,7 +28,7 @@ public class TripViewModel extends ViewModel {
 
     public TripViewModel() {}
 
-    void setLocation(Location location, String name) {
+    public void setLocation(Location location, String name) {
         if (initOriginField) {
             origin.setValue(new TripLocation(name, location));
             initOriginField = false;
