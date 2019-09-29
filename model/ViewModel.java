@@ -2,18 +2,18 @@
 
 public class ViewModel {
 
-	private LiveData<Trip> mTrip;
-	private LiveData<List<Trip>> mTrips;
+    private LiveData<Trip> mTrip;
+    private LiveData<List<Trip>> mTrips;
 
-	public ViewModel( ) {
-	
-		//TODO
-	}
+    public ViewModel( ) {
+
+        //TODO
+    }
 
 
-	public List<Trip> getTrips( String query ) {
+    public List<Trip> getTrips( String query ) {
 
-		//TODO
-	}
+        //TODO
+    }
 
 }

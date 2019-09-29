@@ -2,18 +2,18 @@
 
 public class TripPlanner {
 
-	private List<TripApi> tripApis;
+    private List<TripApi> tripApis;
 
-	
-	public TripPlanner( ) {
 
-		//TODO
-	}
+    public TripPlanner( ) {
+
+        //TODO
+    }
 
 	
 	public List<Trip>( TripQuery tripQuery ) {
 
-		//TODO
-	}
+        //TODO
+    }
 
 }

@@ -2,14 +2,14 @@
 
 public class FerryInfo {
 
-	private String name;
-	private boolean food;
-	private boolean shop;
+    private String name;
+    private boolean food;
+    private boolean shop;
 
-	
-	public FerryInfo( ) {
 
-		//TODO
-	}
+    public FerryInfo( ) {
+
+        //TODO
+    }
 
 }

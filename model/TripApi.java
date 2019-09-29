@@ -1,8 +1,6 @@
-
+import java.text.ParseException;
+import java.util.List;
 
 public interface TripApi {
-
-	
-	Route getRoute( String data );
-
+    List<List<Route>> getRoute(String data) throws ParseException;
 }

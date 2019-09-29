@@ -2,19 +2,19 @@
 
 public class StenaLineApi implements TripApi {
 
-	private String apiAddress;
-
-	
-	public StenaLineApi( ) {
-
-		//TODO
-	}
+    private String apiAddress;
 
 
-	@override
-	public Route getRoute( String data ) {
+    public StenaLineApi( ) {
 
-		//TODO
-	}
+        //TODO
+    }
+
+
+    @override
+    public Route getRoute( String data ) {
+
+        //TODO
+    }
 
 }
