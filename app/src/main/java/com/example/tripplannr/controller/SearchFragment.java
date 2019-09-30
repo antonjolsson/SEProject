@@ -39,6 +39,11 @@ public class SearchFragment extends Fragment {
             public void onChanged(TripLocation tripLocation) {
                 name = formatLocationName(tripLocation.getName());
                 fromTextField.setText(name);
+                if (model.getAddressQuery().getValue() != null &&
+                        model.getAddressQuery().getValue()) {
+                    model.setAddressQuery(false);
+                    model.flattenFocLocStack();
+                }
             }
         });
         model.getDestination().observe(this, new Observer<TripLocation>() {
@@ -88,7 +93,7 @@ public class SearchFragment extends Fragment {
         locIconView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
+                model.getCurrTripLocation();
                 return false;
             }
         });

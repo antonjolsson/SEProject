@@ -88,6 +88,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 updateMarker(latLng);
             }
         });
+        model.getAddressQuery().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged (Boolean addressQuery) {
+                if (addressQuery) simulateMapClick(mLastLocation);
+            }
+        });
 
     }
 
@@ -133,14 +139,19 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.i("MapsActivity", "Location: " + location.getLatitude() + " " +
                         location.getLongitude());
                 mLastLocation = location;
+                //model.autoSetCurrLocation(mLastLocation);
                 if (model.isInitOriginField()) {
-                    LatLng latLng = tripLocationToLatLng(location);
-                    clickedLocation = mLastLocation;
-                    onMapClick(latLng);
+                    simulateMapClick(location);
                 }
             }
         }
     };
+
+    private void simulateMapClick(Location location) {
+        LatLng latLng = tripLocationToLatLng(location);
+        clickedLocation = mLastLocation;
+        onMapClick(latLng);
+    }
 
     private void updateMarker(LatLng latLng) {
         MarkerOptions markerOptions = new MarkerOptions();
