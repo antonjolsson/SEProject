@@ -39,8 +39,8 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
     public void onBindViewHolder(@NonNull RouteViewHolder holder, int position) {
         holder.startTimeTextView.setText(routes.get(position).getTimes().getDeparture().format(DateTimeFormatter.ofPattern("HH:mm")));
         holder.endTimeTextView.setText(routes.get(position).getTimes().getArrival().format(DateTimeFormatter.ofPattern("HH:mm")));
-        holder.originTextView.setText(routes.get(position).getOrigin().getName());
-        holder.destinationTextView.setText(routes.get(position).getDestination().getName());
+        holder.originTextView.setText(routes.get(position).getOrigin().getName() + " - Track " + routes.get(position).getOrigin().getTrack());
+        holder.destinationTextView.setText(routes.get(position).getDestination().getName() + " - Track " + routes.get(position).getDestination().getTrack());
         switch (routes.get(position).getMode()) {
             case BUS:
                 holder.iconImageView.setImageDrawable(holder.fragmentActivity.getDrawable(R.drawable.bus));
