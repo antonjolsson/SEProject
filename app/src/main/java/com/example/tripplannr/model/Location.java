@@ -1,4 +1,7 @@
-import java.awt.*;
+package com.example.tripplannr.model;
+
+import android.graphics.Point;
+
 
 public class Location {
 

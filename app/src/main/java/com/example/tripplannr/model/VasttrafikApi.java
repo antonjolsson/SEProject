@@ -1,7 +1,11 @@
+package com.example.tripplannr.model;
+
+import android.graphics.Point;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.awt.*;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,11 +25,11 @@ public class VasttrafikApi implements TripApi {
 
 
     // @override
-    public List<List<Route>> getRoute( String data ) throws ParseException {
+    public List<Trip> getRoute(String data ) throws ParseException, JSONException {
         // TODO, real API call
         String response = loadJSONFromAsset("vasttrafik_trip.json");
 
-        List<List<Route>> trips = new ArrayList<>();
+        List<Trip> trips = new ArrayList<>();
 
         JSONObject jsonObject = new JSONObject(response);
         JSONArray alternatives = jsonObject.getJSONObject("TripList").getJSONArray("Trip");

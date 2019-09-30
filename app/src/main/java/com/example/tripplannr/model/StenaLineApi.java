@@ -1,4 +1,4 @@
-
+package com.example.tripplannr.model;
 
 public class StenaLineApi implements TripApi {
 
@@ -11,8 +11,8 @@ public class StenaLineApi implements TripApi {
     }
 
 
-    @override
-    public Route getRoute( String data ) {
+    @Override
+    public  getRoute( String data ) {
 
         //TODO
     }

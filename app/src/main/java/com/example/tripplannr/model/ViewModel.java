@@ -1,4 +1,4 @@
-
+package com.example.tripplannr.model;
 
 public class ViewModel {
 
