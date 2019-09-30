@@ -42,6 +42,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
+import static com.example.tripplannr.model.TripViewModel.LocationField.DESTINATION;
 import static com.example.tripplannr.model.TripViewModel.LocationField.ORIGIN;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -76,15 +77,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         model.getDestination().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {
-                LatLng latLng = tripLocationToLatLng(tripLocation.getLocation());
-                updateMarker(latLng);
+                locationChanged(tripLocation, DESTINATION);
             }
         });
         model.getOrigin().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {
-                LatLng latLng = tripLocationToLatLng(tripLocation.getLocation());
-                updateMarker(latLng);
+                locationChanged(tripLocation, ORIGIN);
             }
         });
         model.getAddressQuery().observe(this, new Observer<Boolean>() {
@@ -93,6 +92,28 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 if (addressQuery) simulateMapClick(mLastLocation);
             }
         });
+    }
+
+    private void locationChanged(TripLocation tripLocation, LocationField destination) {
+        if (tripLocation != null) {
+            LatLng latLng = tripLocationToLatLng(tripLocation.getLocation());
+            updateMarker(latLng);
+        }
+        else removeMarker(destination);
+        if (model.getAddressQuery().getValue() != null &&
+                model.getAddressQuery().getValue()) {
+            model.setAddressQuery(false);
+            model.flattenFocLocStack();
+        }
+    }
+
+    private void removeMarker(LocationField field) {
+        if (field == DESTINATION && destinationMarker != null) {
+            destinationMarker.remove();
+        }
+        else if (field == ORIGIN && originMarker != null) {
+            originMarker.remove();
+        }
     }
 
     private LatLng tripLocationToLatLng(Location location) {
@@ -155,22 +176,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         if (model.isInitOriginField() || model.getFocusedLocationField() == ORIGIN) {
-            if (originMarker != null) {
-                originMarker.remove();
-            }
+            removeMarker(ORIGIN);
             markerOptions.icon(BitmapDescriptorFactory.
                     defaultMarker(BitmapDescriptorFactory.HUE_RED));
             originMarker = mMap.addMarker(markerOptions);
         }
         else {
-            if (destinationMarker != null) {
-                destinationMarker.remove();
-            }
+            removeMarker(DESTINATION);
             markerOptions.icon(BitmapDescriptorFactory.
                     defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
             destinationMarker = mMap.addMarker(markerOptions);
         }
-
     }
 
     @Override

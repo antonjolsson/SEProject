@@ -37,18 +37,15 @@ public class SearchFragment extends Fragment {
         model.getOrigin().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {
+                if (tripLocation == null) return;
                 name = formatLocationName(tripLocation.getName());
                 fromTextField.setText(name);
-                if (model.getAddressQuery().getValue() != null &&
-                        model.getAddressQuery().getValue()) {
-                    model.setAddressQuery(false);
-                    model.flattenFocLocStack();
-                }
             }
         });
         model.getDestination().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {
+                if (tripLocation == null) return;
                 name = formatLocationName(tripLocation.getName());
                 toTextField.setText(name);
             }
@@ -107,14 +104,21 @@ public class SearchFragment extends Fragment {
     private void swapLocations() {
         TripLocation origin = model.getOrigin().getValue();
         TripLocation destination = model.getDestination().getValue();
-        if (origin == null || destination == null) return;
+        //if (origin == null || destination == null) return;
         LocationField locationField = model.getFocusedLocationField();
         model.setFocusedLocationField(DESTINATION);
-        assert origin != null;
-        model.setLocation(origin.getLocation(), origin.getName());
+        if (origin != null) model.setLocation(origin.getLocation(), origin.getName());
+        else {
+            model.setLocation(null, null);
+            toTextField.setText("TO");
+        }
         model.setFocusedLocationField(ORIGIN);
-        assert destination != null;
-        model.setLocation(destination.getLocation(), destination.getName());
+        if (destination != null)
+            model.setLocation(destination.getLocation(), destination.getName());
+        else {
+            model.setLocation(null, null);
+            fromTextField.setText("FROM");
+        }
         model.setFocusedLocationField(locationField);
     }
 
