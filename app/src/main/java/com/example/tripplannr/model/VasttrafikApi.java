@@ -22,6 +22,7 @@ import java.util.Locale;
 public class VasttrafikApi implements TripApi {
 
     private String apiAddress;
+    // TODO, remove this context when ever we can...
     private Context context;
 
 
