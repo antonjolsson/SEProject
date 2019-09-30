@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.tripplannr.R;
 import com.example.tripplannr.model.TripLocation;
 import com.example.tripplannr.model.TripViewModel;
+import com.example.tripplannr.model.TripViewModel.LocationField;
 
 import java.util.Objects;
 
@@ -97,18 +98,19 @@ public class SearchFragment extends Fragment {
                 swapLocations();
             }
         });
-
     }
 
     private void swapLocations() {
         TripLocation origin = model.getOrigin().getValue();
         TripLocation destination = model.getDestination().getValue();
+        LocationField locationField = model.getFocusedLocationField();
         model.setFocusedLocationField(DESTINATION);
         assert origin != null;
         model.setLocation(origin.getLocation(), origin.getName());
         model.setFocusedLocationField(ORIGIN);
         assert destination != null;
         model.setLocation(destination.getLocation(), destination.getName());
+        model.setFocusedLocationField(locationField);
     }
 
 }

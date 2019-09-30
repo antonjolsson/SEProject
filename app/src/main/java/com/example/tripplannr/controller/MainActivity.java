@@ -88,6 +88,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 updateMarker(latLng);
             }
         });
+
     }
 
     private LatLng tripLocationToLatLng(Location location) {
