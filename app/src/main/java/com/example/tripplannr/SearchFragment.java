@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.tripplannr.stdanica.R;
+
 import java.util.Objects;
 
 public class SearchFragment extends Fragment {
