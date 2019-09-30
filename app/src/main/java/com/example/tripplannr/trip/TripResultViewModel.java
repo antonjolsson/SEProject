@@ -69,12 +69,26 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                 .times(new TravelTimes(LocalDateTime.now().plusMinutes(60), LocalDateTime.now().plusMinutes(65)))
                 .build();
 
+        Route route4 = new Route.Builder()
+                .origin(new Location("Göteborg", new Point()))
+                .destination(new Location("Fredrikshavn", new Point()))
+                .mode(ModeOfTransport.FERRY)
+                .times(new TravelTimes(LocalDateTime.now().plusMinutes(60), LocalDateTime.now().plusMinutes(65)))
+                .build();
+
         mTripsLiveData.setValue(new ArrayList<>(Arrays.asList(
                 new Trip.Builder()
                         .name("Chalmers, Lindholmspiren")
                         .origin(new Location("Chalmers", new Point()))
                         .destination(new Location("Lindholmspiren", new Point()))
                         .routes(new ArrayList<Route>(Arrays.asList(route1, route2, route3)))
+                        .times(new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusMinutes(65)))
+                        .build()
+        , new Trip.Builder()
+                        .name("Göteborg, Fredrikshavn")
+                        .origin(new Location("Göteborg", new Point()))
+                        .destination(new Location("Fredrikshavn", new Point()))
+                        .routes(new ArrayList<Route>(Arrays.asList(route4)))
                         .times(new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusMinutes(65)))
                         .build())
         ));
