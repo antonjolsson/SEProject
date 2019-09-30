@@ -62,7 +62,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -94,7 +93,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 if (addressQuery) simulateMapClick(mLastLocation);
             }
         });
-
     }
 
     private LatLng tripLocationToLatLng(Location location) {
@@ -256,7 +254,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         clickedLocation.setLatitude(latLng.latitude);
         clickedLocation.setLongitude(latLng.longitude);
         startIntentService();
-
     }
 
     protected void startIntentService() {

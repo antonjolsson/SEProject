@@ -90,11 +90,10 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
-        locIconView.setOnTouchListener(new View.OnTouchListener() {
+        locIconView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 model.getCurrTripLocation();
-                return false;
             }
         });
         swapIconView.setOnClickListener(new View.OnClickListener() {
