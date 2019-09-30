@@ -1,12 +1,15 @@
 package com.example.tripplannr.model;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 public class TripQuery {
 
     private Location origin;
     private Location destination;
-    private Date time;
+    private LocalDateTime time;
     private boolean arrivalTime;
-    private List<ModeOfTransportaion> makeTrip;
+    private List<ModeOfTransport> makeTrip;
 
 
     public TripQuery( ) {

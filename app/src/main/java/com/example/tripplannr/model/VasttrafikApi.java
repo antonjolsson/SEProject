@@ -1,11 +1,17 @@
 package com.example.tripplannr.model;
 
+import android.content.Context;
 import android.graphics.Point;
+
+import com.example.tripplannr.stdanica.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,45 +22,50 @@ import java.util.Locale;
 public class VasttrafikApi implements TripApi {
 
     private String apiAddress;
+    private Context context;
 
 
-    public  VasttrafikApi( ) {
-
+    public  VasttrafikApi(Context context) {
+        this.context = context;
         //TODO
     }
 
 
-    // @override
-    public List<Trip> getRoute(String data ) throws ParseException, JSONException {
+    @Override
+    public List<Trip> getRoute(String data ) throws JSONException {
         // TODO, real API call
-        String response = loadJSONFromAsset("vasttrafik_trip.json");
+        String response = loadJSONFromResources("json/vasttrafik_trip.json");
 
         List<Trip> trips = new ArrayList<>();
 
+        assert response != null;
         JSONObject jsonObject = new JSONObject(response);
         JSONArray alternatives = jsonObject.getJSONObject("TripList").getJSONArray("Trip");
 
         for (int i = 0; i < alternatives.length(); i++){
-            JSONArray routes = alternatives.getJSONObject(i).getJSONArray("Leg");
-            List<Route> tmp = new ArrayList<>();
-            for (int j = 0; j < routes.length(); j++) {
-                JSONObject route = routes.getJSONObject(j);
+            JSONArray legs = alternatives.getJSONObject(i).getJSONArray("Leg");
+            List<Route> routes = new ArrayList<>();
+            for (int j = 0; j < legs.length(); j++) {
+                JSONObject route = legs.getJSONObject(j);
 
                 // TODO, Västtrafik API call using JourneyDetailRef
                 List<Location> stops = new ArrayList<>();
                 if(route.has("JourneyDetailRef")) {
                     String journeyDetailURL = route.getJSONObject("JourneyDetailRef").getString("ref");
-                    String journey_response = loadJSONFromAsset("vasttrafik_trip.json");
+                    String journey_response = loadJSONFromResources("json/vasttrafik_journey_detail.json");
+                    assert journey_response != null;
                     stops = getStops(new JSONObject(journey_response));
                 }
 
                 String origin_name = route.getJSONObject("Origin").getString("name");
+                String origin_track = route.getJSONObject("Origin").getString("track");
                 Point origin_coords = getLatLon(origin_name, stops);
-                Location origin = new Location(origin_name, origin_coords);
+                Location origin = new Location(origin_name, origin_coords, origin_track);
 
                 String destination_name = route.getJSONObject("Destination").getString("name");
+                String destination_track = route.getJSONObject("Destination").getString("track");
                 Point destination_coords = getLatLon(destination_name, stops);
-                Location destination = new Location(destination_name, destination_coords);
+                Location destination = new Location(destination_name, destination_coords, destination_track);
 
                 String start_date = route.getJSONObject("Origin").getString("date");
                 String start_time = route.getJSONObject("Origin").getString("time");
@@ -67,21 +78,31 @@ public class VasttrafikApi implements TripApi {
                         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.ENGLISH));
 
                 String type = route.getString("type");
+                ModeOfTransport mode = ModeOfTransport.valueOf(type);
 
                 TravelTimes times = new TravelTimes(departure, arrival);
-                tmp.add(new Route(origin, destination, times, type));
+                routes.add(new Route(origin, destination, times, mode));
             }
-            trips.add(tmp);
+            // TODO, real trip data other than routes
+            Trip trip = new Trip.Builder()
+                    .name("Chalmers - Lindholmen")
+                    .routes(routes)
+                    .origin(new Location("Chalmers", new Point(0,0), "A"))
+                    .destination(new Location("Lindholmen", new Point(0, 0), "B"))
+                    .times(new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusHours(1)))
+                    .build();
+            trips.add(trip);
         }
         return trips;
     }
 
-    private List<Location> getStops(JSONObject journeyDetail) {
+    private List<Location> getStops(JSONObject journeyDetail) throws JSONException {
         JSONArray stopLocations = journeyDetail.getJSONObject("JourneyDetail").getJSONArray("Stop");
         List<Location> stops = new ArrayList<>();
         for (int i = 0; i < stopLocations.length(); i++) {
             JSONObject stop = stopLocations.getJSONObject(i);
-            stops.add(new Location(stop.getString("name"), new Point(stop.getInt("lat"), stop.getInt("lon"))));
+            stops.add(new Location(stop.getString("name"), new Point(stop.getInt("lat"),
+                    stop.getInt("lon")), stop.getString("track")));
         }
         return stops;
     }
@@ -89,13 +110,14 @@ public class VasttrafikApi implements TripApi {
     private Point getLatLon (String name, List<Location> stops) {
         for (Location stop: stops){
             if(name.equals(stop.getName()))
-                return stop.getCoords();
+                return new Point(0,0);
+                //return stop.getCoords();
         }
         return null;
     }
 
     // TODO, remove when we have real data
-    private String loadJSONFromAsset(Context context, String name) {
+    private String loadJSONFromResources(String name) {
         String json;
         try {
             InputStream is = context.getAssets().open(name);

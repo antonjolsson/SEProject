@@ -6,10 +6,21 @@ public class FerryInfo {
     private boolean food;
     private boolean shop;
 
-
-    public FerryInfo( ) {
-
-        //TODO
+    public FerryInfo(String name, boolean food, boolean shop) {
+        this.name = name;
+        this.food = food;
+        this.shop = shop;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public boolean isFood() {
+        return food;
+    }
+
+    public boolean isShop() {
+        return shop;
+    }
 }

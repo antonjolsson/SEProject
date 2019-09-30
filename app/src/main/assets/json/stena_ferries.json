@@ -1,0 +1,22 @@
+{
+	"ShipList":[{
+		"Name" :"Stena Danica",
+			"BorderShop" : "true",
+			"Food" : "true",
+			"Louge" : "true",
+			"Conference" : "true"
+			},{
+	"Name" :	"Stena Vinga",
+			"LargeBorderShop" : "false",
+			"Food" : "true",
+			"Louge" : "false",
+			"Conference" : "false"
+			},{
+	"Name" :	"Stena Jutlandica",
+			"BorderShop" : "true",
+			"Food" : "true",
+			"Louge" : "true",
+			"Conference" : "false"
+			}
+			]
+		}

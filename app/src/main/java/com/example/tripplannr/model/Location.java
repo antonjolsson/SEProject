@@ -2,25 +2,23 @@ package com.example.tripplannr.model;
 
 import android.graphics.Point;
 
-
 public class Location {
 
     private String name;
-    private Point coords;
+    private Point coordinates;
+    private String track;
 
-
-    public Location(String name, Point coords) {
+    public Location(String name, Point coordinates, String track) {
         this.name = name;
-        this.coords = coords;
-
-        //TODO
+        this.coordinates = coordinates;
+        this.track = track;
     }
 
     public String getName() {
         return name;
     }
 
-    public Point getCoords() {
-        return coords;
+    public Point getCoordinates() {
+        return coordinates;
     }
 }
