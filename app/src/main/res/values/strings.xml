@@ -8,5 +8,6 @@
     <string name="title_notifications">Notifications</string>
     <string name="trip">Trip</string>
     <string name="trip_result">Trip Results</string>
+    <string name="get_notifcations">Get Notifications</string>
 
 </resources>

@@ -41,20 +41,7 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
         holder.endTimeTextView.setText(routes.get(position).getTimes().getArrival().format(DateTimeFormatter.ofPattern("HH:mm")));
         holder.originTextView.setText(routes.get(position).getOrigin().getName() + " - Track " + routes.get(position).getOrigin().getTrack());
         holder.destinationTextView.setText(routes.get(position).getDestination().getName() + " - Track " + routes.get(position).getDestination().getTrack());
-        switch (routes.get(position).getMode()) {
-            case BUS:
-                holder.iconImageView.setImageDrawable(holder.fragmentActivity.getDrawable(R.drawable.bus));
-                break;
-            case TRAM:
-                holder.iconImageView.setImageDrawable(holder.fragmentActivity.getDrawable(R.drawable.tram));
-                break;
-            case WALK:
-                holder.iconImageView.setImageDrawable(holder.fragmentActivity.getDrawable(R.drawable.walk));
-                break;
-            case FERRY:
-                holder.iconImageView.setImageDrawable(holder.fragmentActivity.getDrawable(R.drawable.boat));
-                break;
-        }
+        holder.iconImageView.setImageDrawable(holder.fragmentActivity.getDrawable(ModeOfTransportIconDictionary.getTransportIcon(routes.get(position).getMode())));
     }
 
     @Override
