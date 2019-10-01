@@ -9,10 +9,10 @@
 
     <EditText
         android:id="@+id/toText"
-        android:layout_width="292dp"
+        android:layout_width="302dp"
         android:layout_height="39dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="68dp"
+        android:layout_marginEnd="55dp"
         android:background="@drawable/input_field"
         android:ems="10"
         android:fontFamily="@font/rajdhani_medium"
@@ -28,10 +28,10 @@
     <EditText
         android:id="@+id/fromText"
         style="@android:style/Widget.Material.Light.EditText"
-        android:layout_width="292dp"
+        android:layout_width="302dp"
         android:layout_height="38dp"
         android:layout_marginTop="48dp"
-        android:layout_marginEnd="68dp"
+        android:layout_marginEnd="55dp"
         android:autofillHints=""
         android:background="@drawable/input_field"
         android:ems="10"
@@ -49,10 +49,10 @@
     <Button
         android:id="@+id/depButton"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="292dp"
+        android:layout_width="302dp"
         android:layout_height="38dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="68dp"
+        android:layout_marginEnd="55dp"
         android:background="@drawable/input_field"
         android:fontFamily="@font/rajdhani_medium"
         android:paddingLeft="8dp"
@@ -79,7 +79,7 @@
         android:id="@+id/timeIconView"
         android:layout_width="23dp"
         android:layout_height="23dp"
-        android:layout_marginStart="14dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="180dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="TODO"
@@ -126,10 +126,11 @@
         android:id="@+id/swapIconView"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="116dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="14dp"
         android:clickable="true"
-        android:src="@drawable/swap_vert_w"
+        android:src="@drawable/swap_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/toText"
         app:layout_constraintTop_toTopOf="parent" />
@@ -138,10 +139,11 @@
         android:id="@+id/locationIconView"
         android:layout_width="23dp"
         android:layout_height="23dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="56dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="14dp"
         android:clickable="true"
-        android:src="@drawable/location_w"
+        android:src="@drawable/location_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/toText"
         app:layout_constraintTop_toTopOf="parent" />
@@ -155,15 +157,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.295" /><![CDATA[
+        app:layout_constraintVertical_bias="0.295" />
 
-
-
-
-
-    />
-
-
-
-]]>
 </androidx.constraintlayout.widget.ConstraintLayout>

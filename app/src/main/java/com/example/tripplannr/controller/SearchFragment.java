@@ -104,7 +104,6 @@ public class SearchFragment extends Fragment {
     private void swapLocations() {
         TripLocation origin = model.getOrigin().getValue();
         TripLocation destination = model.getDestination().getValue();
-        //if (origin == null || destination == null) return;
         LocationField locationField = model.getFocusedLocationField();
         model.setFocusedLocationField(DESTINATION);
         if (origin != null) model.setLocation(origin.getLocation(), origin.getName());

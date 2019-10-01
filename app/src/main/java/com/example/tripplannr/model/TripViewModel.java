@@ -17,7 +17,6 @@ public class TripViewModel extends ViewModel {
     private MutableLiveData<TripLocation> origin = new MutableLiveData<>();
     private MutableLiveData<TripLocation> destination = new MutableLiveData<>();
     private MutableLiveData<Boolean> addressQuery = new MutableLiveData<>();
-    private Location currLocation;
 
     private boolean initOriginField = true;
 
@@ -42,10 +41,6 @@ public class TripViewModel extends ViewModel {
     public void getCurrTripLocation() {
         focusedLocationFields.push(ORIGIN);
         addressQuery.setValue(true);
-    }
-
-    public void autoSetCurrLocation(Location location) {
-        currLocation = location;
     }
 
     public void setFocusedLocationField(LocationField focusedLocationField) {
