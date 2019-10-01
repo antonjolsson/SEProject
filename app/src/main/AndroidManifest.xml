@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tripplannr.stdanica">
 
+    <!--
+         To use Volley, you must add the android.permission.INTERNET permission to your app's
+         manifest. Without this, your app won't be able to connect to the network.
+    -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

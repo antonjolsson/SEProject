@@ -1,14 +1,14 @@
 package com.example.tripplannr.model;
 
-import android.graphics.Point;
+import com.google.android.gms.maps.model.LatLng;
 
-public class Location {
+public class TripLocation {
 
     private String name;
-    private Point coordinates;
+    private LatLng coordinates;
     private String track;
 
-    public Location(String name, Point coordinates, String track) {
+    public TripLocation(String name, LatLng coordinates, String track) {
         this.name = name;
         this.coordinates = coordinates;
         this.track = track;
@@ -18,7 +18,7 @@ public class Location {
         return name;
     }
 
-    public Point getCoordinates() {
+    public LatLng getCoordinates() {
         return coordinates;
     }
 }

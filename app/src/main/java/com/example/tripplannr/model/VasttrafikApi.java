@@ -1,9 +1,8 @@
 package com.example.tripplannr.model;
 
 import android.content.Context;
-import android.graphics.Point;
 
-import com.example.tripplannr.stdanica.R;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,7 +11,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -50,7 +48,7 @@ public class VasttrafikApi implements TripApi {
                 JSONObject route = legs.getJSONObject(j);
 
                 // TODO, Västtrafik API call using JourneyDetailRef
-                List<Location> stops = new ArrayList<>();
+                List<TripLocation> stops = new ArrayList<>();
                 if(route.has("JourneyDetailRef")) {
                     String journeyDetailURL = route.getJSONObject("JourneyDetailRef").getString("ref");
                     String journey_response = loadJSONFromResources("json/vasttrafik_journey_detail.json");
@@ -60,13 +58,13 @@ public class VasttrafikApi implements TripApi {
 
                 String origin_name = route.getJSONObject("Origin").getString("name");
                 String origin_track = route.getJSONObject("Origin").getString("track");
-                Point origin_coords = getLatLon(origin_name, stops);
-                Location origin = new Location(origin_name, origin_coords, origin_track);
+                LatLng origin_coordinates = getCoordinates(origin_name, stops);
+                TripLocation origin = new TripLocation(origin_name, origin_coordinates, origin_track);
 
                 String destination_name = route.getJSONObject("Destination").getString("name");
                 String destination_track = route.getJSONObject("Destination").getString("track");
-                Point destination_coords = getLatLon(destination_name, stops);
-                Location destination = new Location(destination_name, destination_coords, destination_track);
+                LatLng destination_coordinates = getCoordinates(destination_name, stops);
+                TripLocation destination = new TripLocation(destination_name, destination_coordinates, destination_track);
 
                 String start_date = route.getJSONObject("Origin").getString("date");
                 String start_time = route.getJSONObject("Origin").getString("time");
@@ -84,35 +82,37 @@ public class VasttrafikApi implements TripApi {
                 TravelTimes times = new TravelTimes(departure, arrival);
                 routes.add(new Route(origin, destination, times, mode));
             }
-            // TODO, real trip data other than routes
+            Route start_route = routes.get(0);
+            Route end_route = routes.get(routes.size() - 1);
             Trip trip = new Trip.Builder()
-                    .name("Chalmers - Lindholmen")
+                    .name(start_route.getOrigin().getName() + " - " +
+                            end_route.getDestination().getName())
                     .routes(routes)
-                    .origin(new Location("Chalmers", new Point(0,0), "A"))
-                    .destination(new Location("Lindholmen", new Point(0, 0), "B"))
-                    .times(new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusHours(1)))
+                    .origin(start_route.getOrigin())
+                    .destination(end_route.getDestination())
+                    .times(new TravelTimes(start_route.getTimes().getDeparture(),
+                            end_route.getTimes().getArrival()))
                     .build();
             trips.add(trip);
         }
         return trips;
     }
 
-    private List<Location> getStops(JSONObject journeyDetail) throws JSONException {
+    private List<TripLocation> getStops(JSONObject journeyDetail) throws JSONException {
         JSONArray stopLocations = journeyDetail.getJSONObject("JourneyDetail").getJSONArray("Stop");
-        List<Location> stops = new ArrayList<>();
+        List<TripLocation> stops = new ArrayList<>();
         for (int i = 0; i < stopLocations.length(); i++) {
             JSONObject stop = stopLocations.getJSONObject(i);
-            stops.add(new Location(stop.getString("name"), new Point(stop.getInt("lat"),
-                    stop.getInt("lon")), stop.getString("track")));
+            stops.add(new TripLocation(stop.getString("name"), new LatLng(stop.getDouble("lat"),
+                    stop.getDouble("lon")), stop.getString("track")));
         }
         return stops;
     }
 
-    private Point getLatLon (String name, List<Location> stops) {
-        for (Location stop: stops){
+    private LatLng getCoordinates(String name, List<TripLocation> stops) {
+        for (TripLocation stop: stops){
             if(name.equals(stop.getName()))
-                return new Point(0,0);
-                //return stop.getCoords();
+                return stop.getCoordinates();
         }
         return null;
     }

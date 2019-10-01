@@ -12,7 +12,6 @@ import com.example.tripplannr.model.VasttrafikApi;
 
 import org.json.JSONException;
 
-import java.text.ParseException;
 import java.util.List;
 
 public class TripResultViewModel extends ViewModel implements IClickHandler<Trip> {

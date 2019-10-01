@@ -5,8 +5,8 @@ import java.util.List;
 
 public class TripQuery {
 
-    private Location origin;
-    private Location destination;
+    private TripLocation origin;
+    private TripLocation destination;
     private LocalDateTime time;
     private boolean arrivalTime;
     private List<ModeOfTransport> makeTrip;
