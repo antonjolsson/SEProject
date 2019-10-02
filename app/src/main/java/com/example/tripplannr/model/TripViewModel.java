@@ -54,7 +54,7 @@ public class TripViewModel extends ViewModel {
 
     public void setLocation(Location location, String name) {
         TripLocation tripLocation = null;
-        if (location != null) tripLocation = new TripLocation(name, location);
+        if (location != null) tripLocation = new TripLocation(name, location, null);
         if (initOriginField) {
             origin.setValue(tripLocation);
             initOriginField = false;

@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripplannr.model.Route;
-import com.example.tripplannr.stdanica.R;
+import com.example.tripplannr.R;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;

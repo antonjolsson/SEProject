@@ -1,6 +1,7 @@
 package com.example.tripplannr.model;
 
 import android.content.Context;
+import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -58,12 +59,12 @@ public class VasttrafikApi implements TripApi {
 
                 String origin_name = route.getJSONObject("Origin").getString("name");
                 String origin_track = route.getJSONObject("Origin").getString("track");
-                LatLng origin_coordinates = getCoordinates(origin_name, stops);
+                Location origin_coordinates = getCoordinates(origin_name, stops);
                 TripLocation origin = new TripLocation(origin_name, origin_coordinates, origin_track);
 
                 String destination_name = route.getJSONObject("Destination").getString("name");
                 String destination_track = route.getJSONObject("Destination").getString("track");
-                LatLng destination_coordinates = getCoordinates(destination_name, stops);
+                Location destination_coordinates = getCoordinates(destination_name, stops);
                 TripLocation destination = new TripLocation(destination_name, destination_coordinates, destination_track);
 
                 String start_date = route.getJSONObject("Origin").getString("date");
@@ -103,16 +104,18 @@ public class VasttrafikApi implements TripApi {
         List<TripLocation> stops = new ArrayList<>();
         for (int i = 0; i < stopLocations.length(); i++) {
             JSONObject stop = stopLocations.getJSONObject(i);
-            stops.add(new TripLocation(stop.getString("name"), new LatLng(stop.getDouble("lat"),
-                    stop.getDouble("lon")), stop.getString("track")));
+            Location location = new Location("");
+            location.setLongitude(stop.getDouble("lon"));
+            location.setLatitude(stop.getDouble("lat"));
+            stops.add(new TripLocation(stop.getString("name"), location, stop.getString("track")));
         }
         return stops;
     }
 
-    private LatLng getCoordinates(String name, List<TripLocation> stops) {
+    private Location getCoordinates(String name, List<TripLocation> stops) {
         for (TripLocation stop: stops){
             if(name.equals(stop.getName()))
-                return stop.getCoordinates();
+                return stop.getLocation();
         }
         return null;
     }

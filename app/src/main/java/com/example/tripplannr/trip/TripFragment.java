@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tripplannr.model.Route;
-import com.example.tripplannr.stdanica.R;
+import com.example.tripplannr.R;
 import com.example.tripplannr.model.Trip;
 
 import java.util.List;

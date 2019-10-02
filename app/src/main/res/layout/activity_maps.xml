@@ -19,7 +19,14 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".controller.MainActivity" />
+        tools:context=".controller.MainActivity"/>
+
+    <!--<fragment
+        android:id="@+id/datetime_picker"
+        android:name="com.example.tripplannr.controller.DateTimeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/datetime_picker_frag"/>-->
 
 </LinearLayout>
 

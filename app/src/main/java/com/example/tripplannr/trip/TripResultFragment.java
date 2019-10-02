@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.tripplannr.stdanica.R;
+import com.example.tripplannr.R;
 import com.example.tripplannr.model.Trip;
 
 import java.time.format.DateTimeFormatter;
