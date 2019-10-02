@@ -21,8 +21,4 @@ public class Location {
     public Point getCoordinates() {
         return coordinates;
     }
-
-    public String getTrack() {
-        return track;
-    }
 }

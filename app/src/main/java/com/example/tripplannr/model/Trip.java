@@ -7,11 +7,13 @@ public class Trip {
 
     private String name;
     private List<Route> routes;
-    private Location origin;
-    private Location destination;
+    private TripLocation origin;
+    private TripLocation destination;
+    // private List<> notifications;
     private TravelTimes times;
+    // private FerryInfo ferryinfo;
 
-    public Trip(String name, List<Route> routes, Location origin, Location destination, TravelTimes times) {
+    public Trip(String name, List<Route> routes, TripLocation origin, TripLocation destination, TravelTimes times) {
         this.name = name;
         this.routes = routes;
         this.origin = origin;
@@ -35,11 +37,11 @@ public class Trip {
         return Collections.unmodifiableList(routes);
     }
 
-    public Location getOrigin() {
+    public TripLocation getOrigin() {
         return origin;
     }
 
-    public Location getDestination() {
+    public TripLocation getDestination() {
         return destination;
     }
 
@@ -51,8 +53,8 @@ public class Trip {
     public static final class Builder {
         private String name;
         private List<Route> routes;
-        private Location origin;
-        private Location destination;
+        private TripLocation origin;
+        private TripLocation destination;
         private TravelTimes times;
 
         public Builder() {
@@ -68,12 +70,12 @@ public class Trip {
             return this;
         }
 
-        public Builder origin(Location val) {
+        public Builder origin(TripLocation val) {
             origin = val;
             return this;
         }
 
-        public Builder destination(Location val) {
+        public Builder destination(TripLocation val) {
             destination = val;
             return this;
         }

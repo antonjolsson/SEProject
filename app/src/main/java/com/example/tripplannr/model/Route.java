@@ -2,12 +2,12 @@ package com.example.tripplannr.model;
 
 public class Route {
 
-    private Location origin;
-    private Location destination;
+    private TripLocation origin;
+    private TripLocation destination;
     private TravelTimes times;
     private ModeOfTransport mode;
 
-    public Route(Location origin, Location destination, TravelTimes times, ModeOfTransport mode) {
+    public Route(TripLocation origin, TripLocation destination, TravelTimes times, ModeOfTransport mode) {
         this.origin = origin;
         this.destination = destination;
         this.times = times;
@@ -21,11 +21,11 @@ public class Route {
         mode = builder.mode;
     }
 
-    public Location getOrigin() {
+    public TripLocation getOrigin() {
         return origin;
     }
 
-    public Location getDestination() {
+    public TripLocation getDestination() {
         return destination;
     }
 
@@ -38,20 +38,20 @@ public class Route {
     }
 
     public static final class Builder {
-        private Location origin;
-        private Location destination;
+        private TripLocation origin;
+        private TripLocation destination;
         private TravelTimes times;
         private ModeOfTransport mode;
 
         public Builder() {
         }
 
-        public Builder origin(Location val) {
+        public Builder origin(TripLocation val) {
             origin = val;
             return this;
         }
 
-        public Builder destination(Location val) {
+        public Builder destination(TripLocation val) {
             destination = val;
             return this;
         }
