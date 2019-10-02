@@ -1,153 +1,154 @@
 {
-    "JourneyDetail": { "GOTFRE1":{
-        "Stop": [{
-            "name": "StenaTerminalen, Göteborg",
-            "lon": "11.946647",
-            "lat": "57.701843",
-            "arrTime": "10:41",
-            "arrDate": "2019-09-23"
-        }, {
-            "name": "StenaTerminalen, Fredrikshamn",
-            "lon": "10.542844",
-            "lat": "57.434892",
-            "arrTime": "10:41",
-            "arrDate": "2019-09-23"
-        }],
-		"GeometryRef": {
-            "ref": "GOTFREGeoRef"
+    "JourneyDetail": {
+        "GOTFRE1": {
+            "Origin": {
+                "name": "StenaTerminalen, Göteborg",
+                "lon": "11.946647",
+                "lat": "57.701843",
+                "arrTime": "10:41",
+                "arrDate": "2019-09-23"
+            },
+            "Destination": {
+                "name": "StenaTerminalen, Fredrikshamn",
+                "lon": "10.542844",
+                "lat": "57.434892",
+                "arrTime": "10:41",
+                "arrDate": "2019-09-23"
+            },
+            "GeometryRef": {
+                "ref": "GOTFREGeoRef"
+            },
+            "Ship": {
+                "ref": "Stena Jutlandica"
+            },
+            "JourneyType": {
+                "type": "BOAT"
+            }
         },
-		
-		"Ship": {
-            "ref": "Stena Jutlandica"
+        "GOTFRE2": {
+            "Origin": {
+                "name": "StenaTerminalen, Göteborg",
+                "lon": "11.946647",
+                "lat": "57.701843",
+                "arrTime": "10:41",
+                "arrDate": "2019-09-23"
+            },
+            "Destination": {
+                "name": "StenaTerminalen, Fredrikshamn",
+                "lon": "10.542844",
+                "lat": "57.434892",
+                "arrTime": "10:41",
+                "arrDate": "2019-09-23"
+            },
+            "GeometryRef": {
+                "ref": "GOTFREGeoRef"
+            },
+            "Ship": {
+                "ref": "Stena Danica"
+            },
+            "JourneyType": {
+                "type": "BOAT"
+            }
         },
-        "JourneyType": {
-            "type": "BOAT"
-        }}
-    ,
-	 "GOTFRE2":{
-        "Stop": [{
-            "name": "StenaTerminalen, Göteborg",
-            "lon": "11.946647",
-            "lat": "57.701843",
-            "arrTime": "10:41",
-            "arrDate": "2019-09-23"
-        }, {
-            "name": "StenaTerminalen, Fredrikshamn",
-            "lon": "10.542844",
-            "lat": "57.434892",
-            "arrTime": "10:41",
-            "arrDate": "2019-09-23"
-        }],
-		"GeometryRef": {
-            "ref": "GOTFREGeoRef"
+        "GOTFRE3": {
+            "Origin": {
+                "name": "StenaTerminalen, Göteborg",
+                "lon": "11.946647",
+                "lat": "57.701843",
+                "arrTime": "10:41",
+                "arrDate": "2019-09-23"
+            },
+            "Destination": {
+                "name": "StenaTerminalen, Fredrikshamn",
+                "lon": "10.542844",
+                "lat": "57.434892",
+                "arrTime": "10:41",
+                "arrDate": "2019-09-23"
+            },
+            "GeometryRef": {
+                "ref": "GOTFREGeoRef"
+            },
+            "Ship": {
+                "ref": "Stena Vinga"
+            },
+            "JourneyType": {
+                "type": "BOAT"
+            }
         },
-		
-		"Ship": {
-            "ref": "Stena Danica"
+        "FREGOT1": {
+            "Origin": {
+                "name": "StenaTerminalen, Fredrikshamn",
+                "lon": "10.542844",
+                "lat": "57.434892",
+                "arrTime": "10:41",
+                "arrDate": "2019-09-23"
+            },
+            "Destination": {
+                "name": "StenaTerminalen, Göteborg",
+                "lon": "11.946647",
+                "lat": "57.701843",
+                "arrTime": "10:41",
+                "arrDate": "2019-09-23"
+            },
+            "GeometryRef": {
+                "ref": "FREGOTGeoRef"
+            },
+            "Ship": {
+                "ref": "Stena Vinga"
+            },
+            "JourneyType": {
+                "type": "BOAT"
+            }
         },
-        "JourneyType": {
-            "type": "BOAT"
-        }}
-    ,
-	 "GOTFRE3":{
-        "Stop": [{
-            "name": "StenaTerminalen, Göteborg",
-            "lon": "11.946647",
-            "lat": "57.701843",
-            "arrTime": "10:41",
-            "arrDate": "2019-09-23"
-        }, {
-            "name": "StenaTerminalen, Fredrikshamn",
-            "lon": "10.542844",
-            "lat": "57.434892",
-            "arrTime": "10:41",
-            "arrDate": "2019-09-23"
-        }],
-		"GeometryRef": {
-            "ref": "GOTFREGeoRef"
+        "FREGOT2": {
+            "Origin": {
+                "name": "StenaTerminalen, Fredrikshamn",
+                "lon": "10.542844",
+                "lat": "57.434892",
+                "arrTime": "10:41",
+                "arrDate": "2019-09-23"
+            },
+            "Destination": {
+                "name": "StenaTerminalen, Göteborg",
+                "lon": "11.946647",
+                "lat": "57.701843",
+                "arrTime": "10:41",
+                "arrDate": "2019-09-23"
+            },
+            "GeometryRef": {
+                "ref": "FREGOTGeoRef"
+            },
+            "Ship": {
+                "ref": "Stena Jutlandica"
+            },
+            "JourneyType": {
+                "type": "BOAT"
+            }
         },
-		"Ship": {
-            "ref": "Stena Vinga"
-        },
-        "JourneyType": {
-            "type": "BOAT"
-        }}
-    ,
-	 "FREGOT1":{
-        "Stop": [{
-            "name": "StenaTerminalen, Fredrikshamn",
-            "lon": "10.542844",
-            "lat": "57.434892",
-            "arrTime": "10:41",
-            "arrDate": "2019-09-23"
-        }, 
-		{
-            "name": "StenaTerminalen, Göteborg",
-            "lon": "11.946647",
-            "lat": "57.701843",
-            "arrTime": "10:41",
-            "arrDate": "2019-09-23"
-        }],
-		"GeometryRef": {
-            "ref": "FREGOTGeoRef"
-        },
-		"Ship": {
-            "ref": "Stena Vinga"
-        },
-        "JourneyType": {
-            "type": "BOAT"
-        }}
-		,
-		"FREGOT2":{
-        "Stop": [{
-            "name": "StenaTerminalen, Fredrikshamn",
-            "lon": "10.542844",
-            "lat": "57.434892",
-            "arrTime": "10:41",
-            "arrDate": "2019-09-23"
-        }, 
-		{
-            "name": "StenaTerminalen, Göteborg",
-            "lon": "11.946647",
-            "lat": "57.701843",
-            "arrTime": "10:41",
-            "arrDate": "2019-09-23"
-        }],
-		"GeometryRef": {
-            "ref": "FREGOTGeoRef"
-        },
-			"Ship": {
-            "ref": "Stena Jutlandica"
-        },		
-        "JourneyType": {
-            "type": "BOAT"
-        }}
-		,
-		 "FREGOT3":{
-        "Stop": [{
-            "name": "StenaTerminalen, Fredrikshamn",
-            "lon": "10.542844",
-            "lat": "57.434892",
-            "arrTime": "10:41",
-            "arrDate": "2019-09-23"
-        }, 
-		{
-            "name": "StenaTerminalen, Göteborg",
-            "lon": "11.946647",
-            "lat": "57.701843",
-            "arrTime": "10:41",
-            "arrDate": "2019-09-23"
-        }],
-		"GeometryRef": {
-            "ref": "FREGOTGeoRef"
-        },
-		"Ship": {
-            "ref": "Stena Danica"
-        },
-        "JourneyType": {
-            "type": "BOAT"
-        }}
-		
+        "FREGOT3": {
+            "Origin": {
+                "name": "StenaTerminalen, Fredrikshamn",
+                "lon": "10.542844",
+                "lat": "57.434892",
+                "arrTime": "10:41",
+                "arrDate": "2019-09-23"
+            },
+            "Destination": {
+                "name": "StenaTerminalen, Göteborg",
+                "lon": "11.946647",
+                "lat": "57.701843",
+                "arrTime": "10:41",
+                "arrDate": "2019-09-23"
+            },
+            "GeometryRef": {
+                "ref": "FREGOTGeoRef"
+            },
+            "Ship": {
+                "ref": "Stena Danica"
+            },
+            "JourneyType": {
+                "type": "BOAT"
+            }
+        }
     }
-	
 }
