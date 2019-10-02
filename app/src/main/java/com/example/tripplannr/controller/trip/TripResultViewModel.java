@@ -1,26 +1,16 @@
 package com.example.tripplannr.controller.trip;
 
-import android.graphics.Point;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.tripplannr.model.Location;
-import com.example.tripplannr.model.ModeOfTransport;
-import com.example.tripplannr.model.Route;
-import com.example.tripplannr.model.TravelTimes;
 import com.example.tripplannr.model.Trip;
-import com.example.tripplannr.model.TripLocation;
 import com.example.tripplannr.model.VasttrafikApi;
 import com.example.tripplannr.model.VasttrafikRepository;
 
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -38,6 +28,11 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     public TripResultViewModel() {
         super();
+        try {
+            sendRequest("No token", 9021014001960000L,  9022014004490030L);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public LiveData<Trip> getTripLiveData() {
@@ -53,16 +48,17 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         mTripLiveData.setValue(trip);
     }
 
-    public void sendRequest() throws IOException {
+    public void sendRequest(final String token, final long originId, final long destinationId) throws IOException {
         vasttrafikRepository
                 .getVasttrafikService().
-                getJourneyDetail("Bearer c6e31c27-70b3-32a2-a6cf-544f4184b995")
+                getJourneyDetail("Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                         try {
-                                            System.out.println(response.code());
-                                            sendSecondRequest(response.body().string());
+                                            if(response.code() >= 200 && response.code() <= 299) {
+                                                sendSecondRequest(response.body().string(), token, originId, destinationId);
+                                            }
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }
@@ -70,28 +66,26 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
                                     @Override
                                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-
                                     }
         });
     }
 
-    private void sendSecondRequest(final String journeyDetail) {
-
+    private void sendSecondRequest(final String journeyDetail, String token, long originId, long destinationId) {
         vasttrafikRepository
                 .getVasttrafikService()
-                .getTrips(9021014001960000L, 9022014004490030L, "json","Bearer c6e31c27-70b3-32a2-a6cf-544f4184b995")
+                .getTrips(originId, destinationId, "json","Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         try {
-                            String body = response.body().string();
-                            mTripsLiveData.postValue(new VasttrafikApi().getRoute(body, journeyDetail));
-
+                            if(response.code() >= 200 && response.code() <= 299) {
+                                String body = response.body().string();
+                                mTripsLiveData.postValue(new VasttrafikApi().getRoute(body, journeyDetail));
+                            }
                         } catch (IOException | JSONException e) {
                             e.printStackTrace();
                         }
                     }
-
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         System.out.println("fail");

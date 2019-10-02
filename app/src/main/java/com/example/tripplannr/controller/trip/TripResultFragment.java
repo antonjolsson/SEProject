@@ -58,10 +58,12 @@ public class TripResultFragment extends Fragment {
             public void onChanged(List<Trip> trips) {
                 tripsList.clear();
                 tripsList.addAll(trips);
-                if(trips.size() > 0)
+                if(trips.size() > 0) {
                     originTextView.setText(Html.fromHtml("<b>From: </b>", Html.FROM_HTML_MODE_LEGACY) + trips.get(0).getOrigin().getName());
                     destinationTextView.setText(Html.fromHtml("<b>To: </b>", Html.FROM_HTML_MODE_LEGACY) + trips.get(0).getDestination().getName());
                     whenTextView.setText(Html.fromHtml("<b>When: </b>", Html.FROM_HTML_MODE_LEGACY) + trips.get(0).getTimes().getDeparture().format(DateTimeFormatter.ofPattern("dd-MM-yy")));
+                    resultRecyclerView.setAdapter(new TripResultAdapter(trips));
+                }
             }
         });
     }
