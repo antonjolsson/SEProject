@@ -13,7 +13,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripplannr.model.Trip;
-import com.example.tripplannr.stdanica.R;
+import com.example.tripplannr.R;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;

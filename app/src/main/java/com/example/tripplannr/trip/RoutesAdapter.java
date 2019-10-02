@@ -1,6 +1,5 @@
 package com.example.tripplannr.trip;
 
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +8,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripplannr.model.Route;
-import com.example.tripplannr.stdanica.R;
+import com.example.tripplannr.R;
 
-import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewHolder> {
@@ -51,7 +47,7 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
             case WALK:
                 holder.iconImageView.setImageDrawable(holder.fragmentActivity.getDrawable(R.drawable.walk));
                 break;
-            case FERRY:
+            case BOAT:
                 holder.iconImageView.setImageDrawable(holder.fragmentActivity.getDrawable(R.drawable.boat));
                 break;
         }

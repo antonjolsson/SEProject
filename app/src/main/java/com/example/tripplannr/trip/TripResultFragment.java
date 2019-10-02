@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.tripplannr.stdanica.R;
+import com.example.tripplannr.R;
 import com.example.tripplannr.model.Trip;
 
 import java.time.format.DateTimeFormatter;
@@ -55,6 +55,7 @@ public class TripResultFragment extends Fragment {
 
     private void initViewModel() {
         tripResultViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(TripResultViewModel.class);
+        tripResultViewModel.setContext(getContext());
         tripResultViewModel.getTripsLiveData().observe(this, new Observer<List<Trip>>() {
             @Override
             public void onChanged(List<Trip> trips) {

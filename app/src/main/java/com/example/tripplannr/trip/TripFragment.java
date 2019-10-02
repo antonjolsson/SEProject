@@ -1,15 +1,12 @@
 package com.example.tripplannr.trip;
 
-import android.graphics.Point;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,19 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.tripplannr.model.Location;
 import com.example.tripplannr.model.Route;
-import com.example.tripplannr.model.TravelTimes;
-import com.example.tripplannr.stdanica.R;
+import com.example.tripplannr.R;
 import com.example.tripplannr.model.Trip;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalUnit;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 

@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.tripplannr.stdanica.R;
+import com.example.tripplannr.R;
 
 public class HomeFragment extends Fragment {
 

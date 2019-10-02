@@ -1,0 +1,287 @@
+{
+ 
+    "Trip": [
+      {
+      
+            "name": "Göteborg -> Fredrikshamn",
+            "type": "BOAT",
+            "direction": "Fredrikshamn",
+            "Origin": {
+              "name": "StenaTerminalen, Göteborg",
+              "time": "00:30",
+              "date": "2019-09-24",
+              "rtTime": "08:36",
+              "rtDate": "2019-09-24"
+            },
+            "Destination": {
+              "name": "StenaTerminalen, Fredrikshamn",
+              "time": "04:10",
+              "date": "2019-09-24",
+			  "rtTime": "08:56",
+              "rtDate": "2019-09-24"
+            },
+            "JourneyDetailRef": {
+              "ref": "GOTFRE1"
+            }
+          },
+        
+          {
+            "name": "Göteborg -> Fredrikshamn",
+            "type": "BOAT",
+            "direction": "Fredrikshamn",
+            "Origin": {
+              "name": "StenaTerminalen, Göteborg",
+              "time": "09:10",
+              "date": "2019-09-24",
+              "rtTime": "08:36",
+              "rtDate": "2019-09-24"
+            },
+            "Destination": {
+              "name": "StenaTerminalen, Fredrikshamn",
+              "time": "12:30",
+              "date": "2019-09-24",
+			  "rtTime": "08:56",
+              "rtDate": "2019-09-24"
+            },
+            "JourneyDetailRef": {
+              "ref": "GOTFRE2"
+            }
+          }
+        ,
+          {
+            "name": "Göteborg -> Fredrikshamn",
+            "type": "BOAT",
+            "direction": "Fredrikshamn",
+            "Origin": {
+              "name": "StenaTerminalen, Göteborg",
+              "time": "11:00",
+              "date": "2019-09-24",
+              "rtTime": "08:36",
+              "rtDate": "2019-09-24"
+            },
+            "Destination": {
+              "name": "StenaTerminalen, Fredrikshamn",
+              "time": "14:45",
+              "date": "2019-09-24",
+			  "rtTime": "08:56",
+              "rtDate": "2019-09-24"
+            },
+            "JourneyDetailRef": {
+              "ref": "GOTFRE3"
+            }
+          }
+       ,
+          {
+            "name": "Göteborg -> Fredrikshamn",
+            "type": "BOAT",
+            "direction": "Fredrikshamn",
+            "Origin": {
+              "name": "StenaTerminalen, Göteborg",
+              "time": "16:00",
+              "date": "2019-09-24",
+              "rtTime": "08:36",
+              "rtDate": "2019-09-24"
+            },
+            "Destination": {
+              "name": "StenaTerminalen, Fredrikshamn",
+              "time": "19:25",
+              "date": "2019-09-24",
+			  "rtTime": "08:56",
+              "rtDate": "2019-09-24"             
+            },
+            "JourneyDetailRef": {
+              "ref": "GOTFRE1"
+            }
+          }
+        ,
+          {
+            "name": "Göteborg -> Fredrikshamn",
+            "type": "BOAT",
+            "direction": "Fredrikshamn",
+            "Origin": {
+              "name": "StenaTerminalen, Göteborg",
+              "time": "18:20",
+              "date": "2019-09-24",
+              "rtTime": "08:36",
+              "rtDate": "2019-09-24"
+            },
+            "Destination": {
+              "name": "StenaTerminalen, Fredrikshamn",
+              "time": "21:50",
+              "date": "2019-09-24",
+			  "rtTime": "08:56",
+              "rtDate": "2019-09-24"             
+            },
+            "JourneyDetailRef": {
+              "ref": "GOTFRE2"
+            }
+          }
+        ,
+          {
+            "name": "Göteborg -> Fredrikshamn",
+            "type": "BOAT",
+            "direction": "Fredrikshamn",
+            "Origin": {
+              "name": "StenaTerminalen, Göteborg",
+              "time": "22:10",
+              "date": "2019-09-24",
+              "rtTime": "08:36",
+              "rtDate": "2019-09-24"
+            },
+            "Destination": {
+              "name": "StenaTerminalen, Fredrikshamn",
+              "time": "01:30",
+              "date": "2019-09-24",
+			  "rtTime": "08:56",
+              "rtDate": "2019-09-24"             
+            },
+            "JourneyDetailRef": {
+              "ref": "GOTFRE3"
+            }
+          }
+		  ,
+		  {
+            "name": "Fredrikshamn -> Göteborg",
+            "type": "BOAT",
+            "direction": "Göteborg",
+            "Origin": {
+             "name": "StenaTerminalen, Fredrikshamn",
+              "time": "03:30",
+              "date": "2019-09-24",
+			  "rtTime": "08:56",
+              "rtDate": "2019-09-24"
+            },
+            "Destination": {              
+				"name": "StenaTerminalen, Göteborg",
+				"time": "07:10",
+				"date": "2019-09-24",
+				"rtTime": "08:36",
+				"rtDate": "2019-09-24"			  
+            },
+            "JourneyDetailRef": {
+              "ref": "FREGOT1"
+            }
+          },
+		  {
+		  
+            "name": "Fredrikshamn -> Göteborg",
+            "type": "BOAT",
+            "direction": "Göteborg",
+            "Origin": {
+             "name": "StenaTerminalen, Fredrikshamn",
+              "time": "08:30",
+              "date": "2019-09-24",
+			  "rtTime": "08:56",
+              "rtDate": "2019-09-24"
+            },
+            "Destination": {              
+				"name": "StenaTerminalen, Göteborg",
+				"time": "12:00",
+				"date": "2019-09-24",
+				"rtTime": "08:36",
+				"rtDate": "2019-09-24"			  
+            },
+            "JourneyDetailRef": {
+              "ref": "FREGOT2"
+            }
+          },
+		  {
+		  
+            "name": "Fredrikshamn -> Göteborg",
+            "type": "BOAT",
+            "direction": "Göteborg",
+            "Origin": {
+             "name": "StenaTerminalen, Fredrikshamn",
+              "time": "14:00",
+              "date": "2019-09-24",
+			  "rtTime": "08:56",
+              "rtDate": "2019-09-24"
+            },
+            "Destination": {              
+				"name": "StenaTerminalen, Göteborg",
+				"time": "17:30",
+				"date": "2019-09-24",
+				"rtTime": "08:36",
+				"rtDate": "2019-09-24"			  
+            },
+            "JourneyDetailRef": {
+              "ref": "FREGOT3"
+            }
+          },
+		  {
+		  
+            "name": "Fredrikshamn -> Göteborg",
+            "type": "BOAT",
+            "direction": "Göteborg",
+            "Origin": {
+             "name": "StenaTerminalen, Fredrikshamn",
+              "time": "16:45",
+              "date": "2019-09-24",
+			  "rtTime": "08:56",
+              "rtDate": "2019-09-24"
+            },
+            "Destination": {              
+				"name": "StenaTerminalen, Göteborg",
+				"time": "20:10",
+				"date": "2019-09-24",
+				"rtTime": "08:36",
+				"rtDate": "2019-09-24"			  
+            },
+            "JourneyDetailRef": {
+              "ref": "FREGOT1"
+            }
+          },
+		  {
+		  
+            "name": "Fredrikshamn -> Göteborg",
+            "type": "BOAT",
+            "direction": "Göteborg",
+            "Origin": {
+             "name": "StenaTerminalen, Fredrikshamn",
+              "time": "20:15",
+              "date": "2019-09-24",
+			  "rtTime": "08:56",
+              "rtDate": "2019-09-24"
+            },
+            "Destination": {              
+				"name": "StenaTerminalen, Göteborg",
+				"time": "23:50",
+				"date": "2019-09-24",
+				"rtTime": "08:36",
+				"rtDate": "2019-09-24"			  
+            },
+            "JourneyDetailRef": {
+              "ref": "FREGOT2"
+            }
+          },
+		  {
+		  
+            "name": "Fredrikshamn -> Göteborg",
+            "type": "BOAT",
+            "direction": "Göteborg",
+            "Origin": {
+             "name": "StenaTerminalen, Fredrikshamn",
+              "time": "22:30",
+              "date": "2019-09-24",
+			  "rtTime": "08:56",
+              "rtDate": "2019-09-24"
+            },
+            "Destination": {              
+				"name": "StenaTerminalen, Göteborg",
+				"time": "02:10",
+				"date": "2019-09-24",
+				"rtTime": "08:36",
+				"rtDate": "2019-09-24"			  
+            },
+            "JourneyDetailRef": {
+              "ref": "FREGOT3"
+            }
+          }
+        ]
+      
+    
+
+}
+	
+  
+
