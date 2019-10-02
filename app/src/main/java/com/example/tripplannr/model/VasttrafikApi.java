@@ -30,20 +30,16 @@ public class VasttrafikApi {
         //TODO
     }
 
-    public VasttrafikApi() {
-
-    }
+    public VasttrafikApi() {}
 
 
-
-    public List<Trip> getRoute(String data, String journetDetail ) throws JSONException {
+    public List<Trip> getRoute(String data, String journeyDetails ) throws JSONException {
         // TODO, real API call
-        String response = loadJSONFromResources("json/vasttrafik_trip.json");
 
         List<Trip> trips = new ArrayList<>();
 
-        assert response != null;
-        JSONObject jsonObject = new JSONObject(response);
+        assert data != null;
+        JSONObject jsonObject = new JSONObject(data);
         JSONArray alternatives = jsonObject.getJSONObject("TripList").getJSONArray("Trip");
 
         for (int i = 0; i < alternatives.length(); i++){
@@ -56,20 +52,25 @@ public class VasttrafikApi {
                 List<TripLocation> stops = new ArrayList<>();
                 if(route.has("JourneyDetailRef")) {
                     String journeyDetailURL = route.getJSONObject("JourneyDetailRef").getString("ref");
-                    String journey_response = loadJSONFromResources("json/vasttrafik_journey_detail.json");
-                    assert journey_response != null;
-                    stops = getStops(new JSONObject(journey_response));
+                    assert journeyDetails != null;
+                    stops = getStops(new JSONObject(journeyDetails));
                 }
 
                 String origin_name = route.getJSONObject("Origin").getString("name");
                 String origin_track = route.getJSONObject("Origin").getString("track");
-                Location origin_coordinates = getCoordinates(origin_name, stops);
-                TripLocation origin = new TripLocation(origin_name, origin_coordinates, origin_track);
+                LatLng origin_coordinates = getCoordinates(origin_name, stops);
+                Location originLocation = new Location("");
+                originLocation.setLatitude(origin_coordinates.latitude);
+                originLocation.setLongitude(origin_coordinates.longitude);
+                TripLocation origin = new TripLocation(origin_name, originLocation, origin_track);
 
                 String destination_name = route.getJSONObject("Destination").getString("name");
                 String destination_track = route.getJSONObject("Destination").getString("track");
-                Location destination_coordinates = getCoordinates(destination_name, stops);
-                TripLocation destination = new TripLocation(destination_name, destination_coordinates, destination_track);
+                LatLng destination_coordinates = getCoordinates(destination_name, stops);
+                Location destinationLocation = new Location("");
+                destinationLocation.setLongitude(destination_coordinates.longitude);
+                destinationLocation.setAltitude(destination_coordinates.latitude);
+                TripLocation destination = new TripLocation(destination_name, destinationLocation, destination_track);
 
                 String start_date = route.getJSONObject("Origin").getString("date");
                 String start_time = route.getJSONObject("Origin").getString("time");
@@ -109,17 +110,17 @@ public class VasttrafikApi {
         for (int i = 0; i < stopLocations.length(); i++) {
             JSONObject stop = stopLocations.getJSONObject(i);
             Location location = new Location("");
+            location.setAltitude(stop.getDouble("lat"));
             location.setLongitude(stop.getDouble("lon"));
-            location.setLatitude(stop.getDouble("lat"));
             stops.add(new TripLocation(stop.getString("name"), location, stop.getString("track")));
         }
         return stops;
     }
 
-    private Location getCoordinates(String name, List<TripLocation> stops) {
+    private LatLng getCoordinates(String name, List<TripLocation> stops) {
         for (TripLocation stop: stops){
             if(name.equals(stop.getName()))
-                return stop.getLocation();
+                return new LatLng(stop.getLocation().getLatitude(), stop.getLocation().getLongitude());
         }
         return null;
     }
