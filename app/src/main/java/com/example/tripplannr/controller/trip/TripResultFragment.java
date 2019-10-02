@@ -14,6 +14,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.tripplannr.R;
@@ -31,7 +32,9 @@ public class TripResultFragment extends Fragment {
 
     private TripResultViewModel tripResultViewModel;
 
-    private TextView originTextView, destinationTextView, whenTextView;
+    private TextView originTextView, destinationTextView, whenTextView, errorTextView;
+
+    private ProgressBar isLoadingProgressBar;
 
     private List<Trip> tripsList = new ArrayList<>();
 
@@ -49,6 +52,8 @@ public class TripResultFragment extends Fragment {
         originTextView = view.findViewById(R.id.originTextView);
         destinationTextView = view.findViewById(R.id.destinationTextView);
         whenTextView = view.findViewById(R.id.whenTextView);
+        isLoadingProgressBar = view.findViewById(R.id.isLoadingProgressBar);
+        errorTextView = view.findViewById(R.id.errorTextView);
     }
 
     private void initViewModel() {
@@ -58,12 +63,24 @@ public class TripResultFragment extends Fragment {
             public void onChanged(List<Trip> trips) {
                 tripsList.clear();
                 tripsList.addAll(trips);
+                errorTextView.setText("");
                 if(trips.size() > 0) {
                     originTextView.setText(Html.fromHtml("<b>From: </b>", Html.FROM_HTML_MODE_LEGACY) + trips.get(0).getOrigin().getName());
                     destinationTextView.setText(Html.fromHtml("<b>To: </b>", Html.FROM_HTML_MODE_LEGACY) + trips.get(0).getDestination().getName());
                     whenTextView.setText(Html.fromHtml("<b>When: </b>", Html.FROM_HTML_MODE_LEGACY) + trips.get(0).getTimes().getDeparture().format(DateTimeFormatter.ofPattern("dd-MM-yy")));
                     resultRecyclerView.setAdapter(new TripResultAdapter(trips));
                 }
+                else {
+                    resultRecyclerView.setAdapter(new TripResultAdapter(trips));
+                    errorTextView.setText("Error fetching data \n from the Server");
+                }
+            }
+        });
+        tripResultViewModel.isLoading().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean) isLoadingProgressBar.setVisibility(View.VISIBLE);
+                else isLoadingProgressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
