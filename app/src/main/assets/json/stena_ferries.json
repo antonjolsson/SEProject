@@ -1,7 +1,7 @@
 {
 	"ShipList": {
 		"Stena Danica": {
-			"BorderShop": "true",
+			"LargeBorderShop": "true",
 			"Food": "true",
 			"Lounge": "true",
 			"Conference": "true"
@@ -13,7 +13,7 @@
 			"Conference": "false"
 		},
 		"Stena Jutlandica": {
-			"BorderShop": "true",
+			"LargeBorderShop": "true",
 			"Food": "true",
 			"Lounge": "true",
 			"Conference": "false"

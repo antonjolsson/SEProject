@@ -4,12 +4,16 @@ public class FerryInfo {
 
     private String name;
     private boolean food;
-    private boolean shop;
+    private boolean largShop;
+    private boolean lounge;
+    private boolean conference;
 
-    public FerryInfo(String name, boolean food, boolean shop) {
+    public FerryInfo(String name, boolean food, boolean shop,boolean lounge, boolean conference) {
         this.name = name;
         this.food = food;
-        this.shop = shop;
+        this.largShop = shop;
+        this.lounge = lounge;
+        this.conference = conference;
     }
 
     public String getName() {
@@ -21,6 +25,10 @@ public class FerryInfo {
     }
 
     public boolean isShop() {
-        return shop;
+        return largShop;
     }
+
+    public boolean isLounge() {return lounge;    }
+
+    public boolean isConference() {return conference;    }
 }

@@ -4,10 +4,8 @@ import java.text.ParseException;
 
 
 import android.content.Context;
-import android.graphics.Point;
 import android.location.Location;
 
-import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,19 +56,19 @@ public class StenaLineApi implements TripApi {
             for (int i = 0; i < arr.length(); i++) {
                 List<Route> routes = new ArrayList<>();
                 //Get the origin and destination
-                JSONObject objOri = (JSONObject) arr.getJSONObject(i).get("Origin");
-                JSONObject objDes = (JSONObject) arr.getJSONObject(i).get("Destination");
+                JSONObject objOri = arr.getJSONObject(i).getJSONObject("Origin");
+                JSONObject objDes = arr.getJSONObject(i).getJSONObject("Destination");
 
                 //Compare the origin and destination from json file to the one in tripQuery object
-                if (0 == objOri.get("name").toString().compareTo(tQ.getOrigin().getName()) && 0 == objDes.get("name").toString().compareTo(tQ.getDestination().getName())) {
+                if (0 == objOri.getString("name").compareTo(tQ.getOrigin().getName()) && 0 == objDes.getString("name").compareTo(tQ.getDestination().getName())) {
 
                     //Checks time in tripQuery and compare time to the one in json file, if time is later adds 1 day to json date
-                    String start_time = objOri.get("time").toString();
+                    String start_time = objOri.getString("time");
                     String start_date = tQ.getTime().toLocalDate().toString();
                     LocalDateTime departure = LocalDateTime.parse(start_date + " " + start_time,
                             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.ENGLISH));
 
-                    String end_time = objDes.get("time").toString();
+                    String end_time = objDes.getString("time");
                     String end_date = tQ.getTime().toLocalDate().toString();
                     LocalDateTime arrival = LocalDateTime.parse(end_date + " " + end_time,
                             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.ENGLISH));
@@ -79,13 +77,11 @@ public class StenaLineApi implements TripApi {
                         departure = departure.plusDays(1);
                         arrival = arrival.plusDays(1);
                     }
-                    //ändra i json så date är +1 om det går över istället
-                    if (arrival.getHour() == 01) {
-                        arrival = arrival.plusDays(1);
-                    }
+                                       arrival = arrival.plusDays(objDes.getLong("date"));
+
                     TravelTimes times = new TravelTimes(departure, arrival);
 
-                    routes.add(getRoute(((JSONObject) arr.getJSONObject(i).get("JourneyDetailRef")).get("ref").toString(), departure, arrival));
+                    routes.add(getRoute( arr.getJSONObject(i).getString("JourneyDetailRef"), departure, arrival));
 
                     //har ju bara 1 stop så enklast(?) att hämta location där ifrån, inte  super snyggt dock
                     Trip trip = new Trip.Builder()
@@ -113,13 +109,18 @@ public class StenaLineApi implements TripApi {
 
             String origin_name = objRoute.getJSONObject("Origin").getString("name");
             String origin_track = "";
-            LatLng origin_coords =new LatLng(objRoute.getJSONObject("Origin").getDouble("lat"),objRoute.getJSONObject("Origin").getDouble("lon"));
-            TripLocation origin = new TripLocation(origin_name, origin_coords, origin_track);
+            Location origin_location = new Location("");
+            origin_location.setLatitude(objRoute.getJSONObject("Origin").getDouble("lat"));
+            origin_location.setLongitude(objRoute.getJSONObject("Origin").getDouble("lon"));
+            //LatLng origin_coords =new LatLng(objRoute.getJSONObject("Origin").getDouble("lat"),objRoute.getJSONObject("Origin").getDouble("lon"));
+            TripLocation origin = new TripLocation(origin_name, origin_location, origin_track);
 
             String destination_name = objRoute.getJSONObject("Destination").getString("name");
             String destination_track = "";
-            LatLng destination_coords =new LatLng(objRoute.getJSONObject("Destination").getDouble("lat"),objRoute.getJSONObject("Origin").getDouble("lon"));
-            TripLocation destination = new TripLocation(destination_name, destination_coords, destination_track);
+            Location destination_location = new Location("");
+            origin_location.setLatitude(objRoute.getJSONObject("Destination").getDouble("lat"));
+            origin_location.setLongitude(objRoute.getJSONObject("Destination").getDouble("lon"));
+            TripLocation destination = new TripLocation(destination_name, destination_location, destination_track);
 
             TravelTimes times = new TravelTimes(depart, arrInp);
 
