@@ -1,17 +1,27 @@
 package com.example.tripplannr.controller.trip;
 
+import android.graphics.Point;
+import android.location.Location;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.tripplannr.model.ModeOfTransport;
+import com.example.tripplannr.model.Route;
+import com.example.tripplannr.model.TravelTimes;
 import com.example.tripplannr.model.Trip;
+import com.example.tripplannr.model.TripLocation;
 import com.example.tripplannr.model.VasttrafikApi;
 import com.example.tripplannr.model.VasttrafikRepository;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -76,6 +86,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                                             }
                                         } catch (IOException | InterruptedException ignored) {}
                                         onFetchFail();
+                                        mTripsLiveData.postValue(buildFakeTrips());
                                     }
 
                                     @Override
@@ -106,6 +117,52 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                         onFetchFail();
                     }
                 });
+    }
+
+    private List<Trip> buildFakeTrips() {
+        Route route1 = new Route.Builder()
+                .origin(new TripLocation("Lillhagens Station", new Location(""), "A"))
+                .destination(new TripLocation("Brunnsparken", new Location(""), "A"))
+                .mode(ModeOfTransport.BUS)
+                .times(new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusMinutes(18)))
+                .build();
+
+        Route route2 = new Route.Builder()
+                .mode(ModeOfTransport.TRAM)
+                .times(new TravelTimes(LocalDateTime.now().plusMinutes(18), LocalDateTime.now().plusMinutes(18)))
+                .origin(new TripLocation("Brunnsparken", new Location(""), "A"))
+                .destination(new TripLocation("Brunnsparken", new Location(""), "C"))
+                .mode(ModeOfTransport.WALK)
+                .build();
+
+        Route route3 = new Route.Builder()
+                .mode(ModeOfTransport.WALK)
+                .origin(new TripLocation("Brunnsparken", new Location(""), "C"))
+                .destination(new TripLocation("Masthuggstorget", new Location(""), "B"))
+                .mode(ModeOfTransport.TRAM)
+                .times(new TravelTimes(LocalDateTime.now().plusMinutes(21), LocalDateTime.now().plusMinutes(30)))
+                .build();
+
+        Route route4 = new Route.Builder()
+                .origin(new TripLocation("Masthuggstorget", new Location(""), "B"))
+                .destination(new TripLocation("Danmarksterminalen", new Location(""), "Gate A"))
+                .mode(ModeOfTransport.WALK)
+                .times(new TravelTimes(LocalDateTime.now().plusMinutes(30), LocalDateTime.now().plusMinutes(32)))
+                .build();
+        Route route5 = new Route.Builder()
+                .origin(new TripLocation("Danmarksterminalen", new Location(""), "Gate A"))
+                .destination(new TripLocation("Fredrikshavn", new Location(""), "Gate B"))
+                .mode(ModeOfTransport.FERRY)
+                .times(new TravelTimes(LocalDateTime.now().plusMinutes(58), LocalDateTime.now().plusDays(1)))
+                .build();
+        Trip trip = new Trip.Builder()
+                .name("Göteborg, Fredrikshavn")
+                .origin(new TripLocation("Lillhagens Station", new Location(""), "A"))
+                .destination(new TripLocation("Fredrikshavn", new Location(""), "Gate B"))
+                .times(new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusDays(1).plusMinutes(58)))
+                .routes(Arrays.asList(route1, route2, route3, route4, route5))
+                .build();
+        return Collections.singletonList(trip);
     }
 
 }
