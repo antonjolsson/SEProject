@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,6 +47,13 @@ public class StenaLineApi implements TripApi {
         return json;
     }
 
+    public List<Trip> getRoute(String data){
+        TripLocation locOrgin = new TripLocation("StenaTerminalen, Göteborg", new Location(""), "");
+        TripLocation locDestination = new TripLocation("StenaTerminalen, Fredrikshamn", new Location(""), "");
+         LocalDateTime localDateTime = LocalDateTime.now();
+         TripQuery tripQ = new TripQuery(locOrgin, locDestination, localDateTime);
+        return getTrip(tripQ);
+    }
     public List<Trip> getTrip(TripQuery tQ) {
         List<Trip> trips = new ArrayList<>();
         try {

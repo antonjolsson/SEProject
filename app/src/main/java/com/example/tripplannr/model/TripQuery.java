@@ -12,9 +12,23 @@ public class TripQuery {
     private List<ModeOfTransport> makeTrip;
 
 
-    public TripQuery( ) {
+    public TripQuery(TripLocation origin, TripLocation des, LocalDateTime time ) {
+        this.origin = origin;
+        this.destination = des;
+        this.time = time;
 
         //TODO
     }
 
+    public TripLocation getOrigin() {
+        return origin;
+    }
+
+    public TripLocation getDestination() {
+        return destination;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
 }
