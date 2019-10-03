@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.model.TripLocation;
@@ -28,6 +30,7 @@ public class SearchFragment extends Fragment {
     private EditText toTextField, fromTextField;
     private ImageView locIconView, swapIconView;
     private String name;
+    private Button searchButton;
     private TripViewModel model;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -61,12 +64,19 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.search_frag, container, false);
+        final View view = inflater.inflate(R.layout.search_frag, container, false);
 
         toTextField = Objects.requireNonNull(view).findViewById(R.id.toText);
         fromTextField = Objects.requireNonNull(view).findViewById(R.id.fromText);
         locIconView = Objects.requireNonNull(view).findViewById(R.id.locationIconView);
         swapIconView = Objects.requireNonNull(view).findViewById(R.id.swapIconView);
+        searchButton = view.findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_navigation_search_to_navigation_trip_results);
+            }
+        });
         setListeners();
         return view;
     }
