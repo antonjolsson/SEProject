@@ -51,7 +51,7 @@ captures/
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
-google_maps_api.xml
+google_maps_api_key.xml
 
 # Freeline
 freeline.py
@@ -64,3 +64,5 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+
+strings.xml

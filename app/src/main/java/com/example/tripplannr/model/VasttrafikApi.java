@@ -1,6 +1,7 @@
 package com.example.tripplannr.model;
 
 import android.content.Context;
+import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class VasttrafikApi implements TripApi {
+public class VasttrafikApi {
 
     private String apiAddress;
     // TODO, remove this context when ever we can...
@@ -29,16 +30,16 @@ public class VasttrafikApi implements TripApi {
         //TODO
     }
 
+    public VasttrafikApi() {}
 
-    @Override
-    public List<Trip> getRoute(String data ) throws JSONException {
+
+    public List<Trip> getRoute(String data, String journeyDetails ) throws JSONException {
         // TODO, real API call
-        String response = loadJSONFromResources("json/vasttrafik_trip.json");
 
         List<Trip> trips = new ArrayList<>();
 
-        assert response != null;
-        JSONObject jsonObject = new JSONObject(response);
+        assert data != null;
+        JSONObject jsonObject = new JSONObject(data);
         JSONArray alternatives = jsonObject.getJSONObject("TripList").getJSONArray("Trip");
 
         for (int i = 0; i < alternatives.length(); i++){
@@ -51,20 +52,25 @@ public class VasttrafikApi implements TripApi {
                 List<TripLocation> stops = new ArrayList<>();
                 if(route.has("JourneyDetailRef")) {
                     String journeyDetailURL = route.getJSONObject("JourneyDetailRef").getString("ref");
-                    String journey_response = loadJSONFromResources("json/vasttrafik_journey_detail.json");
-                    assert journey_response != null;
-                    stops = getStops(new JSONObject(journey_response));
+                    assert journeyDetails != null;
+                    stops = getStops(new JSONObject(journeyDetails));
                 }
 
                 String origin_name = route.getJSONObject("Origin").getString("name");
                 String origin_track = route.getJSONObject("Origin").getString("track");
                 LatLng origin_coordinates = getCoordinates(origin_name, stops);
-                TripLocation origin = new TripLocation(origin_name, origin_coordinates, origin_track);
+                Location originLocation = new Location("");
+                originLocation.setLatitude(origin_coordinates.latitude);
+                originLocation.setLongitude(origin_coordinates.longitude);
+                TripLocation origin = new TripLocation(origin_name, originLocation, origin_track);
 
                 String destination_name = route.getJSONObject("Destination").getString("name");
                 String destination_track = route.getJSONObject("Destination").getString("track");
                 LatLng destination_coordinates = getCoordinates(destination_name, stops);
-                TripLocation destination = new TripLocation(destination_name, destination_coordinates, destination_track);
+                Location destinationLocation = new Location("");
+                destinationLocation.setLongitude(destination_coordinates.longitude);
+                destinationLocation.setAltitude(destination_coordinates.latitude);
+                TripLocation destination = new TripLocation(destination_name, destinationLocation, destination_track);
 
                 String start_date = route.getJSONObject("Origin").getString("date");
                 String start_time = route.getJSONObject("Origin").getString("time");
@@ -103,8 +109,10 @@ public class VasttrafikApi implements TripApi {
         List<TripLocation> stops = new ArrayList<>();
         for (int i = 0; i < stopLocations.length(); i++) {
             JSONObject stop = stopLocations.getJSONObject(i);
-            stops.add(new TripLocation(stop.getString("name"), new LatLng(stop.getDouble("lat"),
-                    stop.getDouble("lon")), stop.getString("track")));
+            Location location = new Location("");
+            location.setAltitude(stop.getDouble("lat"));
+            location.setLongitude(stop.getDouble("lon"));
+            stops.add(new TripLocation(stop.getString("name"), location, stop.getString("track")));
         }
         return stops;
     }
@@ -112,7 +120,7 @@ public class VasttrafikApi implements TripApi {
     private LatLng getCoordinates(String name, List<TripLocation> stops) {
         for (TripLocation stop: stops){
             if(name.equals(stop.getName()))
-                return stop.getCoordinates();
+                return new LatLng(stop.getLocation().getLatitude(), stop.getLocation().getLongitude());
         }
         return null;
     }

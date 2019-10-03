@@ -9,16 +9,18 @@
 
     <EditText
         android:id="@+id/toText"
-        android:layout_width="295dp"
-        android:layout_height="38dp"
+        android:layout_width="302dp"
+        android:layout_height="39dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="55dp"
         android:background="@drawable/input_field"
         android:ems="10"
         android:fontFamily="@font/rajdhani_medium"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
-        android:text=" TO"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="TO"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fromText" />
@@ -26,16 +28,20 @@
     <EditText
         android:id="@+id/fromText"
         style="@android:style/Widget.Material.Light.EditText"
-        android:layout_width="295dp"
+        android:layout_width="302dp"
         android:layout_height="38dp"
         android:layout_marginTop="48dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="55dp"
         android:autofillHints=""
         android:background="@drawable/input_field"
         android:ems="10"
+        android:focusedByDefault="true"
         android:fontFamily="@font/rajdhani_medium"
-        android:inputType="datetime|textPersonName"
-        android:text=" FROM"
+        android:inputType="textPersonName"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:singleLine="true"
+        android:text="FROM"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,13 +49,15 @@
     <Button
         android:id="@+id/depButton"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="295dp"
+        android:layout_width="302dp"
         android:layout_height="38dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="55dp"
         android:background="@drawable/input_field"
         android:fontFamily="@font/rajdhani_medium"
-        android:text=" DEP. NOW"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="DEP. NOW"
         android:textAlignment="viewStart"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,21 +76,86 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/timeIconView"
         android:layout_width="23dp"
         android:layout_height="23dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="180dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="TODO"
         android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/depButton"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" /><![CDATA[
+        tools:visibility="visible" />
 
+    <ImageView
+        android:id="@+id/destAIconView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="58dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="TODO"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/depButton"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/dest_a_w"
+        tools:visibility="visible" />
 
+    <ImageView
+        android:id="@+id/destBIconView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="TODO"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/depButton"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/dest_b_w"
+        tools:visibility="visible" />
 
-    />
+    <ImageView
+        android:id="@+id/swapIconView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="14dp"
+        android:clickable="true"
+        android:src="@drawable/swap_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/toText"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/locationIconView"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="14dp"
+        android:clickable="true"
+        android:src="@drawable/location_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/toText"
+        app:layout_constraintTop_toTopOf="parent" />
 
-]]>
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="27dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.295" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

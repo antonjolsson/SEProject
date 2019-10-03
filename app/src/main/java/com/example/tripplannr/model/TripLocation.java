@@ -1,16 +1,18 @@
 package com.example.tripplannr.model;
 
+import android.location.Location;
+
 import com.google.android.gms.maps.model.LatLng;
 
 public class TripLocation {
 
     private String name;
-    private LatLng coordinates;
+    private Location location;
     private String track;
 
-    public TripLocation(String name, LatLng coordinates, String track) {
+    public TripLocation(String name, Location location, String track) {
         this.name = name;
-        this.coordinates = coordinates;
+        this.location = location;
         this.track = track;
     }
 
@@ -18,7 +20,11 @@ public class TripLocation {
         return name;
     }
 
-    public LatLng getCoordinates() {
-        return coordinates;
+    public Location getLocation() {
+        return location;
+    }
+
+    public String getTrack() {
+        return track;
     }
 }
