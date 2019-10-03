@@ -58,6 +58,8 @@ public class TripResultFragment extends Fragment {
 
     private void initViewModel() {
         tripResultViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(TripResultViewModel.class);
+        tripResultViewModel.setContext(getContext());
+        tripResultViewModel.buildFakeStenaTrip();
         tripResultViewModel.getTripsLiveData().observe(this, new Observer<List<Trip>>() {
             @Override
             public void onChanged(List<Trip> trips) {
@@ -83,6 +85,7 @@ public class TripResultFragment extends Fragment {
                 else isLoadingProgressBar.setVisibility(View.INVISIBLE);
             }
         });
+
     }
 
     private void initRecyclerView(View view) {

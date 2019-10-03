@@ -1,9 +1,12 @@
 package com.example.tripplannr.controller.trip;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.tripplannr.model.StenaLineApi;
 import com.example.tripplannr.model.Trip;
 import com.example.tripplannr.model.VasttrafikApi;
 import com.example.tripplannr.model.VasttrafikRepository;
@@ -28,6 +31,8 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     private MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
+
+    private Context context;
 
     public TripResultViewModel() {
         super();
@@ -59,6 +64,15 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
     private void onFetchFail() {
         mTripsLiveData.postValue(new ArrayList<Trip>());
         isLoading.postValue(false);
+    }
+
+    public void buildFakeStenaTrip() {
+        StenaLineApi stenaLineApi = new StenaLineApi(context);
+        mTripsLiveData.setValue(stenaLineApi.getRoute(""));
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public void sendRequest(final String token, final long originId, final long destinationId) throws IOException {
