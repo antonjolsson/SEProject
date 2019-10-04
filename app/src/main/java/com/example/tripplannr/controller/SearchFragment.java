@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -27,6 +28,7 @@ public class SearchFragment extends Fragment {
 
     private EditText toTextField, fromTextField;
     private ImageView locIconView, swapIconView;
+    private Button timeButton;
     private String name;
     private TripViewModel model;
 
@@ -34,6 +36,10 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
         model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
                 get(TripViewModel.class);
+        setModelObservers();
+    }
+
+    private void setModelObservers() {
         model.getOrigin().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {
@@ -63,16 +69,21 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.search_frag, container, false);
 
+        initControls(view);
+        setControlListeners();
+        return view;
+    }
+
+    private void initControls(View view) {
         toTextField = Objects.requireNonNull(view).findViewById(R.id.toText);
         fromTextField = Objects.requireNonNull(view).findViewById(R.id.fromText);
         locIconView = Objects.requireNonNull(view).findViewById(R.id.locationIconView);
         swapIconView = Objects.requireNonNull(view).findViewById(R.id.swapIconView);
-        setListeners();
-        return view;
+        timeButton = Objects.requireNonNull(view).findViewById(R.id.timeButton);
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void setListeners() {
+    private void setControlListeners() {
         toTextField.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -97,6 +108,12 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 swapLocations();
+            }
+        });
+        timeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                model.setTime();
             }
         });
     }

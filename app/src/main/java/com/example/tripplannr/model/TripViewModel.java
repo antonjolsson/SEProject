@@ -26,6 +26,10 @@ public class TripViewModel extends ViewModel {
         focusedLocationFields.push(DESTINATION);
     }
 
+    public void setTime() {
+
+    }
+
     public void flattenFocLocStack() {
         if (focusedLocationFields.size() > 1) focusedLocationFields.remove();
     }

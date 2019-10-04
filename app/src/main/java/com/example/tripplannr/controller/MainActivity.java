@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -42,6 +43,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
+import static com.example.tripplannr.R.id.main_fragment_container;
 import static com.example.tripplannr.model.TripViewModel.LocationField.DESTINATION;
 import static com.example.tripplannr.model.TripViewModel.LocationField.ORIGIN;
 
@@ -64,16 +66,40 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.main_activity);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this);*/
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         model = ViewModelProviders.of(this).get(TripViewModel.class);
+        setListeners();
+
+        if (findViewById(main_fragment_container) != null) {
+            if (savedInstanceState != null) {
+                return;
+            }
+            setLowerFragment();
+        }
+    }
+
+    private void setLowerFragment() {
+            DateTimeFragment dateTimeFragment = new DateTimeFragment();
+
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            dateTimeFragment.setArguments(getIntent().getExtras());
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.main_fragment_container, dateTimeFragment).commit();
+    }
+
+    private void setListeners() {
         model.getDestination().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="311dp"
     android:background="@drawable/background"
-    tools:showIn="@layout/activity_maps">
+    tools:showIn="@layout/main_activity">
 
     <EditText
         android:id="@+id/toText"
@@ -47,7 +47,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/depButton"
+        android:id="@+id/timeButton"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="302dp"
         android:layout_height="38dp"
@@ -84,7 +84,7 @@
         android:layout_marginEnd="8dp"
         android:contentDescription="TODO"
         android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/depButton"
+        app:layout_constraintEnd_toStartOf="@+id/timeButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
@@ -98,7 +98,7 @@
         android:layout_marginEnd="8dp"
         android:contentDescription="TODO"
         android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/depButton"
+        app:layout_constraintEnd_toStartOf="@+id/timeButton"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -114,7 +114,7 @@
         android:layout_marginEnd="8dp"
         android:contentDescription="TODO"
         android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/depButton"
+        app:layout_constraintEnd_toStartOf="@+id/timeButton"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
