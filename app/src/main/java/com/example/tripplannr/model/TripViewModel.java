@@ -18,6 +18,8 @@ public class TripViewModel extends ViewModel {
     private MutableLiveData<TripLocation> origin = new MutableLiveData<>();
     private MutableLiveData<TripLocation> destination = new MutableLiveData<>();
     private MutableLiveData<Boolean> addressQuery = new MutableLiveData<>();
+    private MutableLiveData<Calendar> desiredTime = new MutableLiveData<>();
+    private MutableLiveData<Boolean> timeIsDeparture = new MutableLiveData<>();
 
     private boolean initOriginField = true;
 
@@ -25,10 +27,12 @@ public class TripViewModel extends ViewModel {
 
     public TripViewModel() {
         focusedLocationFields.push(DESTINATION);
+        timeIsDeparture.setValue(true);
     }
 
     public void setTime(Calendar desiredTime, boolean timeIsDeparture) {
-
+        this.desiredTime.setValue(desiredTime);
+        this.timeIsDeparture.setValue(timeIsDeparture);
     }
 
     public void showTimeControls() {
@@ -42,10 +46,6 @@ public class TripViewModel extends ViewModel {
 
     public void flattenFocLocationStack() {
         if (focusedLocationFields.size() > 1) focusedLocationFields.remove();
-    }
-
-    public MutableLiveData<Boolean> getAddressQuery() {
-        return addressQuery;
     }
 
     public void setAddressQuery(boolean addressQuery) {
@@ -78,12 +78,24 @@ public class TripViewModel extends ViewModel {
         else destination.setValue(tripLocation);
     }
 
+    public MutableLiveData<Boolean> getAddressQuery() {
+        return addressQuery;
+    }
+
     public LiveData<TripLocation> getOrigin() {
         return origin;
     }
 
     public LiveData<TripLocation> getDestination() {
         return destination;
+    }
+
+    public MutableLiveData<Calendar> getDesiredTime() {
+        return desiredTime;
+    }
+
+    public MutableLiveData<Boolean> getTimeIsDeparture() {
+        return timeIsDeparture;
     }
 
     public boolean isInitOriginField() {

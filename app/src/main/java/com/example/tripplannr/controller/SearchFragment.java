@@ -19,12 +19,17 @@ import com.example.tripplannr.model.TripLocation;
 import com.example.tripplannr.model.TripViewModel;
 import com.example.tripplannr.model.TripViewModel.LocationField;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 
 import static com.example.tripplannr.model.TripViewModel.LocationField.DESTINATION;
 import static com.example.tripplannr.model.TripViewModel.LocationField.ORIGIN;
 
 public class SearchFragment extends Fragment {
+
+    private final static int DAY_IN_MS = 86400000;
 
     private EditText toTextField, fromTextField;
     private ImageView locIconView, swapIconView;
@@ -56,6 +61,37 @@ public class SearchFragment extends Fragment {
                 toTextField.setText(name);
             }
         });
+        model.getDesiredTime().observe(this, new Observer<Calendar>() {
+            @Override
+            public void onChanged(Calendar calendar) {
+                setTimeButtonText(calendar);
+            }
+        });
+    }
+
+    private void setTimeButtonText(Calendar calendar) {
+        String dateString;
+        Calendar today = Calendar.getInstance();
+        Calendar tomorrow = Calendar.getInstance();
+        tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+        if (today.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) && today.get(Calendar.MONTH) ==
+            calendar.get(Calendar.MONTH) && today.get(Calendar.DAY_OF_MONTH) ==
+                calendar.get(Calendar.DAY_OF_MONTH))
+            dateString = "today";
+        else if (tomorrow.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
+                tomorrow.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
+                tomorrow.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH))
+            dateString = "tomorrow";
+        else {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",
+                    Locale.getDefault());
+            dateString = dateFormat.format(calendar.getTime());
+        }
+        String timeText = Objects.requireNonNull(model.getTimeIsDeparture().getValue()) ? "DEP. " :
+                "ARR. ";
+        timeText += dateString + ", " + calendar.get(Calendar.HOUR_OF_DAY) + ":" +
+                calendar.get(Calendar.MINUTE);
+        timeButton.setText(timeText);
     }
 
     private String formatLocationName(String name) {
