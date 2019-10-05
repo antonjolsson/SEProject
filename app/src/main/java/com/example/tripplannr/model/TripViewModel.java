@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayDeque;
+import java.util.Calendar;
 import java.util.Deque;
 
 import static com.example.tripplannr.model.TripViewModel.LocationField.*;
@@ -26,11 +27,20 @@ public class TripViewModel extends ViewModel {
         focusedLocationFields.push(DESTINATION);
     }
 
-    public void setTime() {
+    public void setTime(Calendar desiredTime, boolean timeIsDeparture) {
 
     }
 
-    public void flattenFocLocStack() {
+    public void showTimeControls() {
+
+    }
+
+    public void showMap() {
+
+    }
+
+
+    public void flattenFocLocationStack() {
         if (focusedLocationFields.size() > 1) focusedLocationFields.remove();
     }
 

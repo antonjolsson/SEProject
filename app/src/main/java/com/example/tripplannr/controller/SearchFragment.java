@@ -113,7 +113,7 @@ public class SearchFragment extends Fragment {
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.setTime();
+                model.showTimeControls();
             }
         });
     }

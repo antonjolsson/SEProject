@@ -87,6 +87,7 @@
         app:layout_constraintEnd_toStartOf="@+id/timeButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/clock_24px_white"
         tools:visibility="visible" />
 
     <ImageView
