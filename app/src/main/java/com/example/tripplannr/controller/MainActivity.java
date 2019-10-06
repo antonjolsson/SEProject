@@ -12,7 +12,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.model.Trip;
 import com.example.tripplannr.model.TripViewModel;
+
+import java.util.List;
 
 import static com.example.tripplannr.R.id.main_lower_container;
 import static com.example.tripplannr.model.TripViewModel.ShownFragment.*;
@@ -100,6 +103,12 @@ public class MainActivity extends FragmentActivity {
             public void onChanged(TripViewModel.ShownFragment shownFragment) {
                 if (shownFragment == MAP) showMapFragment();
                 else showDateTimeFragment();
+            }
+        });
+        model.getTrips().observe(this, new Observer<List<Trip>>() {
+            @Override
+            public void onChanged(List<Trip> trips) {
+                //TODO Create a ResultListActivity and init it with List<Trip>
             }
         });
     }

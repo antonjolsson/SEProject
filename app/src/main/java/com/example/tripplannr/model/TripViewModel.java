@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayDeque;
 import java.util.Calendar;
 import java.util.Deque;
+import java.util.List;
+import java.util.Objects;
 
 import static com.example.tripplannr.model.TripViewModel.LocationField.*;
 import static com.example.tripplannr.model.TripViewModel.ShownFragment.*;
@@ -22,17 +24,25 @@ public class TripViewModel extends ViewModel {
     private MutableLiveData<Boolean> addressQuery = new MutableLiveData<>();
     private MutableLiveData<Calendar> desiredTime = new MutableLiveData<>();
     private MutableLiveData<Boolean> timeIsDeparture = new MutableLiveData<>();
-
     private MutableLiveData<ShownFragment> fragments = new MutableLiveData<>();
 
-    private boolean initOriginField = true;
+    private MutableLiveData<List<Trip>> trips = new MutableLiveData<>();
 
+    private boolean initOriginField = true;
     private Deque<LocationField> focusedLocationFields = new ArrayDeque<>();
+    private TripPlanner tripPlanner;
 
     public TripViewModel() {
         focusedLocationFields.push(DESTINATION);
         timeIsDeparture.setValue(true);
-        //fragments.setValue(MAP);
+        tripPlanner = new TripPlanner();
+    }
+
+    public void obtainTrips() {
+        TripQuery tripQuery = new TripQuery(origin.getValue(), destination.getValue(),
+                desiredTime.getValue(),
+                Objects.requireNonNull(timeIsDeparture.getValue()), null);
+        trips.setValue(tripPlanner.makeTrip(tripQuery));
     }
 
     public MutableLiveData<ShownFragment> getFragments() {
@@ -104,6 +114,10 @@ public class TripViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> getTimeIsDeparture() {
         return timeIsDeparture;
+    }
+
+    public MutableLiveData<List<Trip>> getTrips() {
+        return trips;
     }
 
     public boolean isInitOriginField() {

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -33,7 +32,7 @@ public class SearchFragment extends Fragment {
 
     private EditText toTextField, fromTextField;
     private ImageView locIconView, swapIconView;
-    private Button timeButton;
+    private Button timeButton, searchButton;
     private String name;
     private TripViewModel model;
 
@@ -42,6 +41,15 @@ public class SearchFragment extends Fragment {
         model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
                 get(TripViewModel.class);
         setModelObservers();
+    }
+
+    private void initControls(View view) {
+        toTextField = Objects.requireNonNull(view).findViewById(R.id.toText);
+        fromTextField = Objects.requireNonNull(view).findViewById(R.id.fromText);
+        locIconView = Objects.requireNonNull(view).findViewById(R.id.locationIconView);
+        swapIconView = Objects.requireNonNull(view).findViewById(R.id.swapIconView);
+        timeButton = Objects.requireNonNull(view).findViewById(R.id.timeButton);
+        searchButton = Objects.requireNonNull(view).findViewById(R.id.searchButton);
     }
 
     private void setModelObservers() {
@@ -101,14 +109,6 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    private void initControls(View view) {
-        toTextField = Objects.requireNonNull(view).findViewById(R.id.toText);
-        fromTextField = Objects.requireNonNull(view).findViewById(R.id.fromText);
-        locIconView = Objects.requireNonNull(view).findViewById(R.id.locationIconView);
-        swapIconView = Objects.requireNonNull(view).findViewById(R.id.swapIconView);
-        timeButton = Objects.requireNonNull(view).findViewById(R.id.timeButton);
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     private void setControlListeners() {
         toTextField.setOnTouchListener(new View.OnTouchListener() {
@@ -141,6 +141,12 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 model.showTimeControls();
+            }
+        });
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                model.obtainTrips();
             }
         });
     }
