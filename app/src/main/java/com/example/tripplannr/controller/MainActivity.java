@@ -1,8 +1,11 @@
 package com.example.tripplannr.controller;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,7 +22,7 @@ public class MainActivity extends FragmentActivity {
 
     MapFragment mapFragment;
     DateTimeFragment dateTimeFragment;
-    View searchFragment;
+    ConstraintLayout searchFragment;
     TripViewModel model;
 
     @Override
@@ -52,6 +55,7 @@ public class MainActivity extends FragmentActivity {
         transaction.addToBackStack(null);
 
         searchFragment.setAlpha(1f);
+        enableDisableViewGroup(searchFragment, true);
 
     }
 
@@ -69,6 +73,7 @@ public class MainActivity extends FragmentActivity {
             transaction.addToBackStack(null);
 
             searchFragment.setAlpha(0.5f);
+            enableDisableViewGroup(searchFragment, false);
     }
 
     private void setListeners() {
@@ -79,6 +84,17 @@ public class MainActivity extends FragmentActivity {
                 else showDateTimeFragment();
             }
         });
+    }
+
+    private void enableDisableViewGroup(ViewGroup viewGroup, boolean enabled) {
+        int childCount = viewGroup.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View view = viewGroup.getChildAt(i);
+            view.setEnabled(enabled);
+            if (view instanceof ViewGroup) {
+                enableDisableViewGroup((ViewGroup) view, enabled);
+            }
+        }
     }
 
 }
