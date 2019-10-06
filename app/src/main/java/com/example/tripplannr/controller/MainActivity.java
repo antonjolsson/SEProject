@@ -1,7 +1,9 @@
 package com.example.tripplannr.controller;
 
 import android.os.Bundle;
+import android.view.View;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -17,6 +19,7 @@ public class MainActivity extends FragmentActivity {
 
     MapFragment mapFragment;
     DateTimeFragment dateTimeFragment;
+    View searchFragment;
     TripViewModel model;
 
     @Override
@@ -26,6 +29,8 @@ public class MainActivity extends FragmentActivity {
 
         model = ViewModelProviders.of(this).get(TripViewModel.class);
         setListeners();
+
+        searchFragment = findViewById(R.id.search_fragment);
 
         if (findViewById(main_fragment_container) != null) {
             if (savedInstanceState != null) {
@@ -46,6 +51,8 @@ public class MainActivity extends FragmentActivity {
         transaction.replace(main_fragment_container, mapFragment).commit();
         transaction.addToBackStack(null);
 
+        searchFragment.setAlpha(1f);
+
     }
 
     private void showDateTimeFragment() {
@@ -60,6 +67,8 @@ public class MainActivity extends FragmentActivity {
                 // Add the fragment to the 'fragment_container' FrameLayout
             transaction.replace(main_fragment_container, dateTimeFragment).commit();
             transaction.addToBackStack(null);
+
+            searchFragment.setAlpha(0.5f);
     }
 
     private void setListeners() {

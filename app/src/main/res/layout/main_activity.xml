@@ -6,12 +6,24 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <fragment
-        android:id="@+id/fragment"
-        android:name="com.example.tripplannr.controller.SearchFragment"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="311dp"
-        tools:layout="@layout/search_frag" />
+        android:layout_height="311dp">
+
+        <View
+            android:id="@+id/darkOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black" />
+
+        <fragment
+            android:id="@+id/search_fragment"
+            android:name="com.example.tripplannr.controller.SearchFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/search_frag" />
+
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/main_fragment_container"
