@@ -1,12 +1,11 @@
 package com.example.tripplannr.controller;
 
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -15,15 +14,23 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.tripplannr.R;
 import com.example.tripplannr.model.TripViewModel;
 
-import static com.example.tripplannr.R.id.main_fragment_container;
+import static com.example.tripplannr.R.id.main_lower_container;
 import static com.example.tripplannr.model.TripViewModel.ShownFragment.*;
 
 public class MainActivity extends FragmentActivity {
 
+    private final static float SEMI_TRANSPARENT_ALPHA = 0.5f;
+    private final static float OPAQUE_ALPHA = 1f;
+
     MapFragment mapFragment;
     DateTimeFragment dateTimeFragment;
-    ConstraintLayout searchFragment;
+    ConstraintLayout searchFragView;
     TripViewModel model;
+    FrameLayout mainLowerContainer;
+    FrameLayout mainUpperContainer;
+
+    private float modFragElevation;
+    private float noElevation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +40,15 @@ public class MainActivity extends FragmentActivity {
         model = ViewModelProviders.of(this).get(TripViewModel.class);
         setListeners();
 
-        searchFragment = findViewById(R.id.search_fragment);
+        searchFragView = findViewById(R.id.search_fragment);
 
-        if (findViewById(main_fragment_container) != null) {
+        mainLowerContainer = findViewById(R.id.main_lower_container);
+        mainUpperContainer = findViewById(R.id.main_upper_container);
+
+        modFragElevation = getResources().getDimension(R.dimen.modal_fragment_elevation);
+        noElevation = getResources().getDimension(R.dimen.no_elevation);
+
+        if (findViewById(main_lower_container) != null) {
             if (savedInstanceState != null) {
                 return;
             }
@@ -51,29 +64,34 @@ public class MainActivity extends FragmentActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         // Add the fragment to the 'fragment_container' FrameLayout
-        transaction.replace(main_fragment_container, mapFragment).commit();
+        transaction.replace(main_lower_container, mapFragment).commit();
         transaction.addToBackStack(null);
 
-        searchFragment.setAlpha(1f);
-        enableDisableViewGroup(searchFragment, true);
+        searchFragView.setAlpha(OPAQUE_ALPHA);
+        mainLowerContainer.setElevation(noElevation);
+        mainUpperContainer.setElevation(modFragElevation);
+        enableDisableViewGroup(searchFragView, true);
 
     }
 
     private void showDateTimeFragment() {
-            if (dateTimeFragment == null) dateTimeFragment = new DateTimeFragment();
+        if (dateTimeFragment == null) dateTimeFragment = new DateTimeFragment();
 
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
-            dateTimeFragment.setArguments(getIntent().getExtras());
+        // In case this activity was started with special instructions from an
+        // Intent, pass the Intent's extras to the fragment as arguments
+        dateTimeFragment.setArguments(getIntent().getExtras());
 
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-                // Add the fragment to the 'fragment_container' FrameLayout
-            transaction.replace(main_fragment_container, dateTimeFragment).commit();
-            transaction.addToBackStack(null);
+        // Add the fragment to the 'fragment_container' FrameLayout
+        transaction.replace(main_lower_container, dateTimeFragment).commit();
+        transaction.addToBackStack(null);
 
-            searchFragment.setAlpha(0.5f);
-            enableDisableViewGroup(searchFragment, false);
+        searchFragView.setAlpha(SEMI_TRANSPARENT_ALPHA);
+        mainUpperContainer.setElevation(noElevation);
+        mainLowerContainer.setElevation(modFragElevation);
+        enableDisableViewGroup(searchFragView, false);
+
     }
 
     private void setListeners() {

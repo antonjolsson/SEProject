@@ -60,6 +60,7 @@
         android:spinnersShown="true"
         android:translationX="-8dp"
         android:soundEffectsEnabled="true"
+        android:outlineProvider="bounds"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/depButton" />
 
