@@ -19,6 +19,7 @@ import com.example.tripplannr.R;
 import com.example.tripplannr.model.TripLocation;
 import com.example.tripplannr.model.TripViewModel;
 import com.example.tripplannr.model.TripViewModel.LocationField;
+import com.example.tripplannr.model.Utilities;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -70,17 +71,8 @@ public class SearchFragment extends Fragment {
 
     private void setTimeButtonText(Calendar calendar) {
         String dateString;
-        Calendar today = Calendar.getInstance();
-        Calendar tomorrow = Calendar.getInstance();
-        tomorrow.add(Calendar.DAY_OF_MONTH, 1);
-        if (today.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) && today.get(Calendar.MONTH) ==
-            calendar.get(Calendar.MONTH) && today.get(Calendar.DAY_OF_MONTH) ==
-                calendar.get(Calendar.DAY_OF_MONTH))
-            dateString = "today";
-        else if (tomorrow.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
-                tomorrow.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
-                tomorrow.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH))
-            dateString = "tomorrow";
+        if (Utilities.isToday(calendar)) dateString = "today";
+        else if (Utilities.isTomorrow(calendar)) dateString = "tomorrow";
         else {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",
                     Locale.getDefault());
