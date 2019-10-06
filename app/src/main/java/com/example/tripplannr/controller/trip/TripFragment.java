@@ -37,8 +37,6 @@ public class TripFragment extends Fragment {
 
     private FragmentTripBinding tripBinding;
 
-    private List<Route> routes;
-
     private Trip tripData;
 
     @Nullable
@@ -48,7 +46,6 @@ public class TripFragment extends Fragment {
         tripBinding.setFragment(this);
         View view = tripBinding.getRoot();
         initViewModel();
-        routes = Objects.requireNonNull(tripResultViewModel.getTripLiveData().getValue()).getRoutes();
         initRecyclerView(view);
         return view;
     }
@@ -59,13 +56,19 @@ public class TripFragment extends Fragment {
             @Override
             public void onChanged(Trip trip) {
                 tripData = trip;
+                if(trip.getRoutes().size() > 0) {
+                    routesRecyclerView.setAdapter(new RoutesAdapter(trip.getRoutes()));
+                }
             }
         });
     }
 
     public void activateNotifications() {
-        NotificationManagerCompat.from(Objects.requireNonNull(getActivity())).notify(0, getNotification());
-        tripBinding.setSaved(true);
+        if(tripResultViewModel.saveTrip(tripData)) {
+            NotificationManagerCompat.from(Objects.requireNonNull(getActivity())).notify(0, getNotification());
+            tripBinding.setSaved(true);
+        }
+        //ToDo: add some error text I guess
     }
 
     private Notification getNotification() {
@@ -83,7 +86,7 @@ public class TripFragment extends Fragment {
 
     private void initRecyclerView(View view) {
         routesRecyclerView = view.findViewById(R.id.routesRecyclerView);
-        routesRecyclerView.setAdapter(new RoutesAdapter(routes));
+        routesRecyclerView.setAdapter(new RoutesAdapter(Objects.requireNonNull(tripResultViewModel.getTripLiveData().getValue()).getRoutes()));
         routesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
