@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.databinding.FragmentTripBinding;
 import com.example.tripplannr.model.Route;
 import com.example.tripplannr.model.Trip;
 
@@ -33,7 +35,7 @@ public class TripFragment extends Fragment {
 
     private RecyclerView routesRecyclerView;
 
-    private Button getNotificationButton;
+    private FragmentTripBinding tripBinding;
 
     private List<Route> routes;
 
@@ -42,11 +44,12 @@ public class TripFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_trip, container, false);
+        tripBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_trip, container, false);
+        tripBinding.setFragment(this);
+        View view = tripBinding.getRoot();
         initViewModel();
         routes = Objects.requireNonNull(tripResultViewModel.getTripLiveData().getValue()).getRoutes();
         initRecyclerView(view);
-        initComponents(view);
         return view;
     }
 
@@ -60,9 +63,8 @@ public class TripFragment extends Fragment {
         });
     }
 
-    private void activateNotifications() {
+    public void activateNotifications() {
         NotificationManagerCompat.from(Objects.requireNonNull(getActivity())).notify(0, getNotification());
-        getNotificationButton.setEnabled(false);
     }
 
     private Notification getNotification() {
@@ -84,14 +86,5 @@ public class TripFragment extends Fragment {
         routesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private void initComponents(View view) {
-        getNotificationButton = view.findViewById(R.id.getNotificationButton);
-        getNotificationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activateNotifications();
-            }
-        });
-    }
 
 }

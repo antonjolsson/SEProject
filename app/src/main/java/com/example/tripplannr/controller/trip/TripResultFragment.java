@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -18,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.databinding.FragmentTripResultBinding;
 import com.example.tripplannr.model.Trip;
 
 import java.time.format.DateTimeFormatter;
@@ -32,28 +34,17 @@ public class TripResultFragment extends Fragment {
 
     private TripResultViewModel tripResultViewModel;
 
-    private TextView originTextView, destinationTextView, whenTextView, errorTextView;
+    private FragmentTripResultBinding tripResultBinding;
 
-    private ProgressBar isLoadingProgressBar;
-
-    private List<Trip> tripsList = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_trip_result, container, false);
-        initRecyclerView(view);
-        initComponents(view);
+        tripResultBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_trip_result, container, false);
         initViewModel();
+        View view = tripResultBinding.getRoot();
+        initRecyclerView(view);
         return view;
-    }
-
-    private void initComponents(View view) {
-        originTextView = view.findViewById(R.id.originTextView);
-        destinationTextView = view.findViewById(R.id.destinationTextView);
-        whenTextView = view.findViewById(R.id.whenTextView);
-        isLoadingProgressBar = view.findViewById(R.id.isLoadingProgressBar);
-        errorTextView = view.findViewById(R.id.errorTextView);
     }
 
     private void initViewModel() {
@@ -61,33 +52,29 @@ public class TripResultFragment extends Fragment {
         tripResultViewModel.getTripsLiveData().observe(this, new Observer<List<Trip>>() {
             @Override
             public void onChanged(List<Trip> trips) {
-                tripsList.clear();
-                tripsList.addAll(trips);
-                errorTextView.setText("");
+                tripResultBinding.setErrorText("");
                 if(trips.size() > 0) {
-                    originTextView.setText(Html.fromHtml("<b>From: </b>", Html.FROM_HTML_MODE_LEGACY) + trips.get(0).getOrigin().getName());
-                    destinationTextView.setText(Html.fromHtml("<b>To: </b>", Html.FROM_HTML_MODE_LEGACY) + trips.get(0).getDestination().getName());
-                    whenTextView.setText(Html.fromHtml("<b>When: </b>", Html.FROM_HTML_MODE_LEGACY) + trips.get(0).getTimes().getDeparture().format(DateTimeFormatter.ofPattern("dd-MM-yy")));
+                    tripResultBinding.setTrip(trips.get(0));
                     resultRecyclerView.setAdapter(new TripResultAdapter(trips));
                 }
                 else {
                     resultRecyclerView.setAdapter(new TripResultAdapter(trips));
-                    errorTextView.setText("Error fetching data \n from the Server");
+                    tripResultBinding.setErrorText("Error fetching data \n from the Server");
                 }
             }
         });
         tripResultViewModel.isLoading().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                if(aBoolean) isLoadingProgressBar.setVisibility(View.VISIBLE);
-                else isLoadingProgressBar.setVisibility(View.INVISIBLE);
+                tripResultBinding.setIsLoading(aBoolean);
             }
         });
     }
 
     private void initRecyclerView(View view) {
         resultRecyclerView = view.findViewById(R.id.tripResultRecyclerView);
-        resultRecyclerView.setAdapter(new TripResultAdapter(tripsList));
+        resultRecyclerView.setAdapter(new TripResultAdapter(
+                tripResultViewModel.getTripsLiveData().getValue() != null ? tripResultViewModel.getTripsLiveData().getValue() : new ArrayList<Trip>()));
         resultRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
