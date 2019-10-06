@@ -11,15 +11,19 @@ import java.util.Calendar;
 import java.util.Deque;
 
 import static com.example.tripplannr.model.TripViewModel.LocationField.*;
+import static com.example.tripplannr.model.TripViewModel.ShownFragment.*;
 
 public class TripViewModel extends ViewModel {
 
+    public enum ShownFragment {MAP, TIME_CONTROLS}
     public enum LocationField {ORIGIN, DESTINATION}
     private MutableLiveData<TripLocation> origin = new MutableLiveData<>();
     private MutableLiveData<TripLocation> destination = new MutableLiveData<>();
     private MutableLiveData<Boolean> addressQuery = new MutableLiveData<>();
     private MutableLiveData<Calendar> desiredTime = new MutableLiveData<>();
     private MutableLiveData<Boolean> timeIsDeparture = new MutableLiveData<>();
+
+    private MutableLiveData<ShownFragment> fragments = new MutableLiveData<>();
 
     private boolean initOriginField = true;
 
@@ -28,6 +32,11 @@ public class TripViewModel extends ViewModel {
     public TripViewModel() {
         focusedLocationFields.push(DESTINATION);
         timeIsDeparture.setValue(true);
+        //fragments.setValue(MAP);
+    }
+
+    public MutableLiveData<ShownFragment> getFragments() {
+        return fragments;
     }
 
     public void setTime(Calendar desiredTime, boolean timeIsDeparture) {
@@ -36,13 +45,12 @@ public class TripViewModel extends ViewModel {
     }
 
     public void showTimeControls() {
-
+        fragments.setValue(TIME_CONTROLS);
     }
 
     public void showMap() {
-
+        fragments.setValue(MAP);
     }
-
 
     public void flattenFocLocationStack() {
         if (focusedLocationFields.size() > 1) focusedLocationFields.remove();

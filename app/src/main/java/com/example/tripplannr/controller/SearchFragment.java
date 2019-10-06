@@ -29,8 +29,6 @@ import static com.example.tripplannr.model.TripViewModel.LocationField.ORIGIN;
 
 public class SearchFragment extends Fragment {
 
-    private final static int DAY_IN_MS = 86400000;
-
     private EditText toTextField, fromTextField;
     private ImageView locIconView, swapIconView;
     private Button timeButton;
