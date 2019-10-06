@@ -19,6 +19,7 @@ import com.example.tripplannr.R;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.TripResultViewHolder> {
 
@@ -54,7 +55,7 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
         public TripResultViewHolder(@NonNull View itemView) {
             super(itemView);
             tripResultViewHolderBinding = DataBindingUtil.bind(itemView);
-            tripResultViewHolderBinding.setViewHolder(this);
+            Objects.requireNonNull(tripResultViewHolderBinding).setViewHolder(this);
             initViewModel();
         }
 

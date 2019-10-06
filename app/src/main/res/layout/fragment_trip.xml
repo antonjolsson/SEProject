@@ -5,6 +5,9 @@
         <variable
             name="fragment"
             type="com.example.tripplannr.controller.trip.TripFragment" />
+        <variable
+            name="saved"
+            type="Boolean" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:tools="http://schemas.android.com/tools"
@@ -39,7 +42,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:onClick="@{() -> fragment.activateNotifications()}"/>
+                android:onClick="@{() -> fragment.activateNotifications()}"
+                android:enabled="@{saved ? false : true}"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

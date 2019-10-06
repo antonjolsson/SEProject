@@ -7,14 +7,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.databinding.RouteViewHolderBinding;
 import com.example.tripplannr.model.Route;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewHolder> {
 
@@ -33,11 +36,8 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
 
     @Override
     public void onBindViewHolder(@NonNull RouteViewHolder holder, int position) {
-        holder.startTimeTextView.setText(routes.get(position).getTimes().getDeparture().format(DateTimeFormatter.ofPattern("HH:mm")));
-        holder.endTimeTextView.setText(routes.get(position).getTimes().getArrival().format(DateTimeFormatter.ofPattern("HH:mm")));
-        holder.originTextView.setText(routes.get(position).getOrigin().getName() + " - Track " + routes.get(position).getOrigin().getTrack());
-        holder.destinationTextView.setText(routes.get(position).getDestination().getName() + " - Track " + routes.get(position).getDestination().getTrack());
-        holder.iconImageView.setImageDrawable(holder.fragmentActivity.getDrawable(ModeOfTransportIconDictionary.getTransportIcon(routes.get(position).getMode())));
+        holder.routeViewHolderBinding.setRoute(routes.get(position));
+        holder.routeViewHolderBinding.setIconType(routes.get(position).getMode());
     }
 
     @Override
@@ -47,22 +47,13 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
 
     public class RouteViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView startTimeTextView, endTimeTextView,  originTextView, destinationTextView;
-        private ImageView iconImageView;
-        private FragmentActivity fragmentActivity;
+        private RouteViewHolderBinding routeViewHolderBinding;
 
         public RouteViewHolder(@NonNull View itemView) {
             super(itemView);
-            initComponents(itemView);
-            fragmentActivity = (FragmentActivity) itemView.getContext();
+            routeViewHolderBinding = DataBindingUtil.bind(itemView);
+            Objects.requireNonNull(routeViewHolderBinding).setFragmentActivity((FragmentActivity) itemView.getContext());
         }
 
-        private void initComponents(View view) {
-            startTimeTextView = view.findViewById(R.id.startTimeTextView);
-            endTimeTextView = view.findViewById(R.id.timeTextView);
-            originTextView = view.findViewById(R.id.originTextView);
-            destinationTextView = view.findViewById(R.id.destinationTextView);
-            iconImageView = view.findViewById(R.id.iconImageView);
-        }
     }
 }

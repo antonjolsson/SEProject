@@ -65,6 +65,7 @@ public class TripFragment extends Fragment {
 
     public void activateNotifications() {
         NotificationManagerCompat.from(Objects.requireNonNull(getActivity())).notify(0, getNotification());
+        tripBinding.setSaved(true);
     }
 
     private Notification getNotification() {
