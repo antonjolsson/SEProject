@@ -44,7 +44,7 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.example.tripplannr.controller.SearchFragment"
+        android:name="com.example.tripplannr.controller.search.MainSearchFragment"
         android:label="@string/search"
         tools:layout="@layout/search_frag" >
         <action

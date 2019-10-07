@@ -1,70 +1,74 @@
-package com.example.tripplannr.controller;
+package com.example.tripplannr.controller.search;
 
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.model.Trip;
 import com.example.tripplannr.model.TripViewModel;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.tripplannr.R.id.main_lower_container;
-import static com.example.tripplannr.model.TripViewModel.ShownFragment.*;
+import static com.example.tripplannr.model.TripViewModel.ShownFragment.MAP;
 
-public class MainActivity extends FragmentActivity {
+
+public class MainSearchFragment extends Fragment {
 
     private final static float SEMI_TRANSPARENT_ALPHA = 0.5f;
     private final static float OPAQUE_ALPHA = 1f;
 
-    MapFragment mapFragment;
-    DateTimeFragment dateTimeFragment;
-    ConstraintLayout searchFragView;
-    TripViewModel model;
-    FrameLayout mainLowerContainer;
-    FrameLayout mainUpperContainer;
+    private MapFragment mapFragment;
+    private DateTimeFragment dateTimeFragment;
+    private ConstraintLayout searchFragView;
+    private TripViewModel model;
+    private FrameLayout mainLowerContainer;
+    private FrameLayout mainUpperContainer;
 
     private float modFragElevation;
     private float noElevation;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
-
-        model = ViewModelProviders.of(this).get(TripViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(TripViewModel.class);
+        View view = inflater.inflate(R.layout.main_activity, container, false);
         setListeners();
 
-        searchFragView = findViewById(R.id.search_fragment);
+        searchFragView = view.findViewById(R.id.search_fragment);
 
-        mainLowerContainer = findViewById(R.id.main_lower_container);
-        mainUpperContainer = findViewById(R.id.main_upper_container);
+        mainLowerContainer = view.findViewById(R.id.main_lower_container);
+        mainUpperContainer = view.findViewById(R.id.main_upper_container);
 
         modFragElevation = getResources().getDimension(R.dimen.modal_fragment_elevation);
         noElevation = getResources().getDimension(R.dimen.no_elevation);
-
-        if (findViewById(main_lower_container) != null) {
-            if (savedInstanceState != null) {
-                return;
+        if (view.findViewById(main_lower_container) != null) {
+            if (savedInstanceState == null) {
+                showMapFragment();
             }
-            showMapFragment();
         }
+        return view;
     }
 
     private void showMapFragment() {
         if (mapFragment == null) mapFragment = new MapFragment();
 
-        mapFragment.setArguments(getIntent().getExtras());
+        mapFragment.setArguments(getActivity().getIntent().getExtras());
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
         // Add the fragment to the 'fragment_container' FrameLayout
         transaction.replace(main_lower_container, mapFragment).commit();
@@ -82,9 +86,9 @@ public class MainActivity extends FragmentActivity {
 
         // In case this activity was started with special instructions from an
         // Intent, pass the Intent's extras to the fragment as arguments
-        dateTimeFragment.setArguments(getIntent().getExtras());
+        dateTimeFragment.setArguments(getActivity().getIntent().getExtras());
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
         // Add the fragment to the 'fragment_container' FrameLayout
         transaction.replace(main_lower_container, dateTimeFragment).commit();

@@ -1,4 +1,4 @@
-package com.example.tripplannr.controller;
+package com.example.tripplannr.controller.search;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -109,24 +109,23 @@ public class SearchFragment extends Fragment {
         fromTextField = Objects.requireNonNull(view).findViewById(R.id.fromText);
         locIconView = Objects.requireNonNull(view).findViewById(R.id.locationIconView);
         swapIconView = Objects.requireNonNull(view).findViewById(R.id.swapIconView);
+        initControls(view);
         setListeners();
         return view;
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void setListeners() {
-        toTextField.setOnTouchListener(new View.OnTouchListener() {
+        toTextField.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 model.setFocusedLocationField(DESTINATION);
-                return false;
             }
         });
-        fromTextField.setOnTouchListener(new View.OnTouchListener() {
+        fromTextField.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 model.setFocusedLocationField(ORIGIN);
-                return false;
             }
         });
         locIconView.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +150,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 model.obtainTrips();
+                Navigation.findNavController(v).navigate(R.id.action_navigation_search_to_navigation_trip_results);
             }
         });
     }

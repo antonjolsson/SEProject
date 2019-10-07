@@ -1,4 +1,4 @@
-package com.example.tripplannr.controller;
+package com.example.tripplannr.controller.search;
 
 import android.Manifest;
 import android.content.DialogInterface;

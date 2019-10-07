@@ -1,4 +1,4 @@
-package com.example.tripplannr.controller;
+package com.example.tripplannr.controller.search;
 
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
