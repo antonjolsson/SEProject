@@ -12,7 +12,6 @@ public class ViewModel {
         //TODO
     }
 
-
     public List<Trip> getTrips(String query ) {
         return null;
         //TODO

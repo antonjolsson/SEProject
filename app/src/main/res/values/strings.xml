@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">STDanica</string>
+    <string name="app_name">TripPlannr</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Trips (Testing)</string>
     <string name="title_activity_maps">Map</string>

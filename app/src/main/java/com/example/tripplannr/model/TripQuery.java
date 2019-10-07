@@ -1,20 +1,44 @@
 package com.example.tripplannr.model;
 
-import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.List;
 
-public class TripQuery {
+class TripQuery {
 
     private TripLocation origin;
     private TripLocation destination;
-    private LocalDateTime time;
-    private boolean arrivalTime;
-    private List<ModeOfTransport> makeTrip;
+    private Calendar time;
+    private boolean timeIsDeparture;
+    private List<ModeOfTransport> travelModes;
 
 
-    public TripQuery( ) {
+    TripQuery(TripLocation origin, TripLocation destination, Calendar time, boolean timeIsDeparture,
+        List<ModeOfTransport> travelModes) {
+        this.origin = origin;
+        this.destination = destination;
+        this.time = time;
+        this.timeIsDeparture = timeIsDeparture;
+        this.travelModes = travelModes;
+    }
 
-        //TODO
+    public TripLocation getOrigin() {
+        return origin;
+    }
+
+    public TripLocation getDestination() {
+        return destination;
+    }
+
+    public Calendar getTime() {
+        return time;
+    }
+
+    public boolean isTimeDeparture() {
+        return timeIsDeparture;
+    }
+
+    public List<ModeOfTransport> getTravelModes() {
+        return travelModes;
     }
 
 }

@@ -7,7 +7,8 @@ public class Route {
     private TravelTimes times;
     private ModeOfTransport mode;
 
-    public Route(TripLocation origin, TripLocation destination, TravelTimes times, ModeOfTransport mode) {
+    public Route(TripLocation origin, TripLocation destination, TravelTimes times,
+                 ModeOfTransport mode) {
         this.origin = origin;
         this.destination = destination;
         this.times = times;

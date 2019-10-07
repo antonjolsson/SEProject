@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/main_upper_container"
+        android:layout_width="match_parent"
+        android:layout_height="311dp"
+        android:elevation="@dimen/modal_fragment_elevation"
+        android:outlineProvider="bounds">
+
+        <View
+            android:id="@+id/darkOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black" />
+
+        <fragment
+            android:id="@+id/search_fragment"
+            android:name="com.example.tripplannr.controller.SearchFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/search_frag" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/main_lower_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:elevation="0dp"/>
+
+</LinearLayout>
+
+

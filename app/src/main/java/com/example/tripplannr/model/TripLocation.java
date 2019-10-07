@@ -10,7 +10,7 @@ public class TripLocation {
     private Location location;
     private String track;
 
-    public TripLocation(String name, Location location, String track) {
+    TripLocation(String name, Location location, String track) {
         this.name = name;
         this.location = location;
         this.track = track;
