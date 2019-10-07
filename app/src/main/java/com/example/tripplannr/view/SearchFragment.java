@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.model.tripdata.TripLocation;
@@ -104,13 +105,16 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.search_frag, container, false);
 
-        initControls(view);
-        setControlListeners();
+        toTextField = Objects.requireNonNull(view).findViewById(R.id.toText);
+        fromTextField = Objects.requireNonNull(view).findViewById(R.id.fromText);
+        locIconView = Objects.requireNonNull(view).findViewById(R.id.locationIconView);
+        swapIconView = Objects.requireNonNull(view).findViewById(R.id.swapIconView);
+        setListeners();
         return view;
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void setControlListeners() {
+    private void setListeners() {
         toTextField.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

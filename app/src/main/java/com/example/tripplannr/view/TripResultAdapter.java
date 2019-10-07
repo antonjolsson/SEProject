@@ -7,17 +7,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tripplannr.databinding.TripResultViewHolderBinding;
 import com.example.tripplannr.model.Trip;
 import com.example.tripplannr.R;
 import com.example.tripplannr.viewmodel.TripResultViewModel;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.TripResultViewHolder> {
 
@@ -36,21 +39,7 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
 
     @Override
     public void onBindViewHolder(@NonNull final TripResultViewHolder holder, final int position) {
-        holder.mTimeTextView.setText(
-                "When: "
-                + trips.get(position).getTimes().getDeparture().format(DateTimeFormatter.ofPattern("HH:mm"))
-                + " - "
-                + trips.get(position).getTimes().getArrival().format(DateTimeFormatter.ofPattern("HH:mm")));
-        holder.mStopTextView.setText(trips.get(position).getOrigin().getName());
-        holder.mTotalTimeTextView.setText(String.format("Total time: %s %s", trips.get(position).getTimes().getDuration(), "minutes"));
-        holder.mChangesTextView.setText(String.format("Changes: %s", trips.get(position).getRoutes().size()));
-        holder.mParentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.tripResultViewModel.onClick(trips.get(position));
-                Navigation.findNavController(v).navigate(R.id.action_navigation_trip_results_to_navigation_trip_fragment);
-            }
-        });
+        holder.tripResultViewHolderBinding.setTrip(trips.get(position));
     }
 
     @Override
@@ -61,29 +50,25 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
 
     public class TripResultViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView mTimeTextView, mChangesTextView, mTotalTimeTextView, mStopTextView;
-        private ConstraintLayout mParentLayout;
-        private View itemView;
+        private TripResultViewHolderBinding tripResultViewHolderBinding;
         private TripResultViewModel tripResultViewModel;
 
         public TripResultViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.itemView = itemView;
-            initComponents();
+            tripResultViewHolderBinding = DataBindingUtil.bind(itemView);
+            Objects.requireNonNull(tripResultViewHolderBinding).setViewHolder(this);
             initViewModel();
+        }
+
+        public void navigateToDetailedView(Trip trip) {
+            tripResultViewModel.onClick(trip);
+            Navigation.findNavController(itemView).navigate(R.id.action_navigation_trip_results_to_navigation_trip_fragment);
         }
 
         private void initViewModel() {
             tripResultViewModel = ViewModelProviders.of((FragmentActivity) itemView.getContext()).get(TripResultViewModel.class);
         }
 
-        private void initComponents() {
-            mTimeTextView = itemView.findViewById(R.id.timeTextView);
-            mChangesTextView = itemView.findViewById(R.id.changesTextView);
-            mTotalTimeTextView = itemView.findViewById(R.id.totalTimeTextView);
-            mParentLayout = itemView.findViewById(R.id.resultViewParentLayout);
-            mStopTextView = itemView.findViewById(R.id.stopTextView);
-        }
     }
 
 }

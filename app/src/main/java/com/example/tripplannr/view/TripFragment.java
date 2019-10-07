@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -34,20 +35,18 @@ public class TripFragment extends Fragment {
 
     private RecyclerView routesRecyclerView;
 
-    private Button getNotificationButton;
-
-    private List<Route> routes;
+    private FragmentTripBinding tripBinding;
 
     private Trip tripData;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_trip, container, false);
+        tripBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_trip, container, false);
+        tripBinding.setFragment(this);
+        View view = tripBinding.getRoot();
         initViewModel();
-        routes = Objects.requireNonNull(tripResultViewModel.getTripLiveData().getValue()).getRoutes();
         initRecyclerView(view);
-        initComponents(view);
         return view;
     }
 
@@ -57,13 +56,19 @@ public class TripFragment extends Fragment {
             @Override
             public void onChanged(Trip trip) {
                 tripData = trip;
+                if(trip.getRoutes().size() > 0) {
+                    routesRecyclerView.setAdapter(new RoutesAdapter(trip.getRoutes()));
+                }
             }
         });
     }
 
-    private void activateNotifications() {
-        NotificationManagerCompat.from(Objects.requireNonNull(getActivity())).notify(0, getNotification());
-        getNotificationButton.setEnabled(false);
+    public void activateNotifications() {
+        if(tripResultViewModel.saveTrip(tripData)) {
+            NotificationManagerCompat.from(Objects.requireNonNull(getActivity())).notify(0, getNotification());
+            tripBinding.setSaved(true);
+        }
+        //ToDo: add some error text I guess
     }
 
     private Notification getNotification() {
@@ -81,18 +86,9 @@ public class TripFragment extends Fragment {
 
     private void initRecyclerView(View view) {
         routesRecyclerView = view.findViewById(R.id.routesRecyclerView);
-        routesRecyclerView.setAdapter(new RoutesAdapter(routes));
+        routesRecyclerView.setAdapter(new RoutesAdapter(Objects.requireNonNull(tripResultViewModel.getTripLiveData().getValue()).getRoutes()));
         routesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private void initComponents(View view) {
-        getNotificationButton = view.findViewById(R.id.getNotificationButton);
-        getNotificationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activateNotifications();
-            }
-        });
-    }
 
 }

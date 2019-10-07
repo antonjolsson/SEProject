@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_search">
 
     <fragment
         android:id="@+id/navigation_trip_fragment"
@@ -24,13 +24,13 @@
             app:destination="@id/navigation_trip_fragment" />
     </fragment>
 
-    <fragment
+    <!--<fragment
         android:id="@+id/navigation_home"
         android:name="com.example.tripplannr.view.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
-    <!--<fragment
+        <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.tripplannr.controller.trip.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
@@ -41,4 +41,22 @@
         android:name="com.example.tripplannr.view.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.example.tripplannr.controller.SearchFragment"
+        android:label="@string/search"
+        tools:layout="@layout/search_frag" >
+        <action
+            android:id="@+id/action_navigation_search_to_navigation_trip_results"
+            app:destination="@id/navigation_trip_results" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_saved_trips"
+        android:name="com.example.tripplannr.controller.profile.SavedTripFragment"
+        android:label="@string/title_saved_trips"
+        tools:layout="@layout/fragment_saved_trip" />
+
+
 </navigation>
