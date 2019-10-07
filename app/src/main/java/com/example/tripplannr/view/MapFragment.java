@@ -74,7 +74,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         model = ViewModelProviders.of(getActivity()).get(TripViewModel.class);
         zoomLevel = DEF_ZOOM_LEVEL;
         latLng = DEF_LAT_LNG;
-        setListeners();
     }
 
     @Override
@@ -107,6 +106,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             }
         });
         initLocationRequest();
+        setListeners();
     }
 
     private void initLocationRequest() {
