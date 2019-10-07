@@ -63,9 +63,9 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     public void sendRequest(final String token, final long originId, final long destinationId) throws IOException {
         isLoading.setValue(true);
-        vasttrafikRepository
-                .getVasttrafikService().
-                getJourneyDetail("Bearer " + token)
+       /* vasttrafikRepository
+                .getVasttrafikService()
+                .getJourneyDetail("Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -82,7 +82,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                                         onFetchFail();
                                     }
-        });
+        });*/
     }
 
     private void sendSecondRequest(final String journeyDetail, String token, long originId, long destinationId) {

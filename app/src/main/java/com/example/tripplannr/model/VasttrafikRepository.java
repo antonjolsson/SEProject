@@ -9,7 +9,7 @@ public class VasttrafikRepository {
 
     public VasttrafikRepository() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.vasttrafik.se/bin/rest.exe/v2/")
+                .baseUrl("https://api.vasttrafik.se/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         vasttrafikService = retrofit

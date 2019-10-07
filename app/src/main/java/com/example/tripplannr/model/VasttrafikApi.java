@@ -1,6 +1,5 @@
 package com.example.tripplannr.model;
 
-import android.content.Context;
 import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -9,9 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -21,12 +17,10 @@ import java.util.Locale;
 public class VasttrafikApi {
 
     private String apiAddress;
-    // TODO, remove this context when ever we can...
-    private Context context;
 
 
-    public  VasttrafikApi(Context context) {
-        this.context = context;
+    public  VasttrafikApi(String apiAddress) {
+        this.apiAddress = apiAddress;
         //TODO
     }
 
@@ -60,6 +54,7 @@ public class VasttrafikApi {
                 String origin_track = route.getJSONObject("Origin").getString("track");
                 LatLng origin_coordinates = getCoordinates(origin_name, stops);
                 Location originLocation = new Location("");
+                assert origin_coordinates != null;
                 originLocation.setLatitude(origin_coordinates.latitude);
                 originLocation.setLongitude(origin_coordinates.longitude);
                 TripLocation origin = new TripLocation(origin_name, originLocation, origin_track);
@@ -68,6 +63,7 @@ public class VasttrafikApi {
                 String destination_track = route.getJSONObject("Destination").getString("track");
                 LatLng destination_coordinates = getCoordinates(destination_name, stops);
                 Location destinationLocation = new Location("");
+                assert destination_coordinates != null;
                 destinationLocation.setLongitude(destination_coordinates.longitude);
                 destinationLocation.setAltitude(destination_coordinates.latitude);
                 TripLocation destination = new TripLocation(destination_name, destinationLocation, destination_track);
@@ -123,22 +119,5 @@ public class VasttrafikApi {
                 return new LatLng(stop.getLocation().getLatitude(), stop.getLocation().getLongitude());
         }
         return null;
-    }
-
-    // TODO, remove when we have real data
-    private String loadJSONFromResources(String name) {
-        String json;
-        try {
-            InputStream is = context.getAssets().open(name);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, StandardCharsets.UTF_8);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
     }
 }
