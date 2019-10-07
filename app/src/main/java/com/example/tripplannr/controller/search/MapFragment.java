@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -67,47 +68,42 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private float zoomLevel;
     private LatLng latLng;
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        fusedLocationClient =
-                LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getActivity()));
-        model = ViewModelProviders.of(getActivity()).get(TripViewModel.class);
-        zoomLevel = DEF_ZOOM_LEVEL;
-        latLng = DEF_LAT_LNG;
-        setListeners();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.map_frag, container, false);
-
+        fusedLocationClient =
+                LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getActivity()));
+        zoomLevel = DEF_ZOOM_LEVEL;
+        latLng = DEF_LAT_LNG;
+        View view = inflater.inflate(R.layout.map, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-
         return view;
     }
 
+
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.setOnMapClickListener(this);
-        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
-            @Override
-            public void onCameraMove() {
-                CameraPosition cameraPosition = mMap.getCameraPosition();
-                latLng = cameraPosition.target;
-                zoomLevel = cameraPosition.zoom;
-            }
-        });
-        initLocationRequest();
+        if(googleMap != null) {
+            mMap = googleMap;
+            model = ViewModelProviders.of(getActivity()).get(TripViewModel.class);
+            setListeners();
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.setOnMapClickListener(this);
+            mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+                @Override
+                public void onCameraMove() {
+                    CameraPosition cameraPosition = mMap.getCameraPosition();
+                    latLng = cameraPosition.target;
+                    zoomLevel = cameraPosition.zoom;
+                }
+            });
+            initLocationRequest();
+        }
     }
 
     private void initLocationRequest() {
@@ -284,4 +280,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             }
         });
     }
+
 }
