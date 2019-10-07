@@ -18,7 +18,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".controller.trip.TripResultFragment">
+    tools:context=".view.TripResultFragment">
 
         <TextView
             android:id="@+id/errorTextView"

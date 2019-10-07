@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_trip_fragment"
-        android:name="com.example.tripplannr.controller.trip.TripFragment"
+        android:name="com.example.tripplannr.view.TripFragment"
         android:label="@string/trip">
         <action
             android:id="@+id/action_navigation_trip_fragment_to_navigation_trip_results"
@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/navigation_trip_results"
-        android:name="com.example.tripplannr.controller.trip.TripResultFragment"
+        android:name="com.example.tripplannr.view.TripResultFragment"
         android:label="@string/trip_result"
         tools:layout="@layout/fragment_dashboard">
         <action
@@ -26,7 +26,7 @@
 
     <!--<fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.tripplannr.controller.trip.ui.home.HomeFragment"
+        android:name="com.example.tripplannr.view.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
@@ -38,13 +38,13 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.tripplannr.controller.trip.ui.notifications.NotificationsFragment"
+        android:name="com.example.tripplannr.view.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.example.tripplannr.controller.SearchFragment"
+        android:name="com.example.tripplannr.view.SearchFragment"
         android:label="@string/search"
         tools:layout="@layout/search_frag" >
         <action
@@ -54,7 +54,7 @@
 
     <fragment
         android:id="@+id/navigation_saved_trips"
-        android:name="com.example.tripplannr.controller.profile.SavedTripFragment"
+        android:name="com.example.tripplannr.viewmodel.SavedTripFragment"
         android:label="@string/title_saved_trips"
         tools:layout="@layout/fragment_saved_trip" />
 
