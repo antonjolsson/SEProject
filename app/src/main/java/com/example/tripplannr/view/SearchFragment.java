@@ -79,18 +79,21 @@ public class SearchFragment extends Fragment {
     }
 
     private void setTimeButtonText(Calendar calendar) {
-        String dateString;
-        if (Utilities.isToday(calendar)) dateString = "today";
-        else if (Utilities.isTomorrow(calendar)) dateString = "tomorrow";
-        else {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",
-                    Locale.getDefault());
-            dateString = dateFormat.format(calendar.getTime());
-        }
         String timeText = Objects.requireNonNull(model.getTimeIsDeparture().getValue()) ? "Dep. " :
                 "Arr. ";
-        timeText += dateString + ", " + calendar.get(Calendar.HOUR_OF_DAY) + ":" +
-                calendar.get(Calendar.MINUTE);
+        if (Utilities.isNow(calendar)) timeText += "now";
+        else {
+            String dateString;
+            if (Utilities.isToday(calendar)) dateString = "today";
+            else if (Utilities.isTomorrow(calendar)) dateString = "tomorrow";
+            else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",
+                        Locale.getDefault());
+                dateString = dateFormat.format(calendar.getTime());
+            }
+            timeText += dateString + ", " + calendar.get(Calendar.HOUR_OF_DAY) + ":" +
+                    calendar.get(Calendar.MINUTE);
+        }
         timeButton.setText(timeText);
     }
 
