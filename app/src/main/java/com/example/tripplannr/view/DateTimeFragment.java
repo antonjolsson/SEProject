@@ -157,13 +157,13 @@ public class DateTimeFragment extends Fragment {
                 model.showMap();
             }
         });
-        /*setTextView.setOnTouchListener(new View.OnTouchListener() {
+        setTextView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 setAlphaLevels(v, event);
                 return false;
             }
-        });*/
+        });
     }
 
     private void setAlphaLevels(View v, MotionEvent event) {

@@ -87,8 +87,8 @@ public class SearchFragment extends Fragment {
                     Locale.getDefault());
             dateString = dateFormat.format(calendar.getTime());
         }
-        String timeText = Objects.requireNonNull(model.getTimeIsDeparture().getValue()) ? "DEP. " :
-                "ARR. ";
+        String timeText = Objects.requireNonNull(model.getTimeIsDeparture().getValue()) ? "Dep. " :
+                "Arr. ";
         timeText += dateString + ", " + calendar.get(Calendar.HOUR_OF_DAY) + ":" +
                 calendar.get(Calendar.MINUTE);
         timeButton.setText(timeText);
@@ -160,14 +160,14 @@ public class SearchFragment extends Fragment {
         if (origin != null) model.setLocation(origin.getLocation(), origin.getName());
         else {
             model.setLocation(null, null);
-            toTextField.setText("TO");
+            toTextField.setText("To");
         }
         model.setFocusedLocationField(ORIGIN);
         if (destination != null)
             model.setLocation(destination.getLocation(), destination.getName());
         else {
             model.setLocation(null, null);
-            fromTextField.setText("FROM");
+            fromTextField.setText("From");
         }
         model.setFocusedLocationField(locationField);
     }

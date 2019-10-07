@@ -30,7 +30,6 @@ public class TripViewModel extends ViewModel {
     private MutableLiveData<Calendar> desiredTime = new MutableLiveData<>();
     private MutableLiveData<Boolean> timeIsDeparture = new MutableLiveData<>();
     private MutableLiveData<ShownFragment> fragments = new MutableLiveData<>();
-
     private MutableLiveData<List<Trip>> trips = new MutableLiveData<>();
 
     private boolean initOriginField = true;
