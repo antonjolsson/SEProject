@@ -3,8 +3,6 @@ package com.example.tripplannr.view;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -13,10 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.databinding.RouteViewHolderBinding;
-import com.example.tripplannr.model.Route;
 import com.example.tripplannr.model.tripdata.Route;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 

@@ -1,18 +1,18 @@
 package com.example.tripplannr.viewmodel;
 
-import android.graphics.Point;
 import android.location.Location;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.tripplannr.model.ModeOfTransport;
-import com.example.tripplannr.model.Route;
-import com.example.tripplannr.model.TravelTimes;
+import com.example.tripplannr.model.TripRepository;
+import com.example.tripplannr.model.tripdata.Route;
+import com.example.tripplannr.model.tripdata.TravelTimes;
 import com.example.tripplannr.model.Trip;
 import com.example.tripplannr.model.api.VasttrafikApi;
 import com.example.tripplannr.model.api.VasttrafikRepository;
+import com.example.tripplannr.model.tripdata.TripLocation;
 
 import org.json.JSONException;
 
@@ -27,6 +27,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.example.tripplannr.model.tripdata.ModeOfTransport.*;
 
 public class TripResultViewModel extends ViewModel implements IClickHandler<Trip> {
 
@@ -132,36 +134,36 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         Route route1 = new Route.Builder()
                 .origin(new TripLocation("Lillhagens Station", new Location(""), "A"))
                 .destination(new TripLocation("Brunnsparken", new Location(""), "A"))
-                .mode(ModeOfTransport.BUS)
+                .mode(BUS)
                 .times(new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusMinutes(18)))
                 .build();
 
         Route route2 = new Route.Builder()
-                .mode(ModeOfTransport.TRAM)
+                .mode(TRAM)
                 .times(new TravelTimes(LocalDateTime.now().plusMinutes(18), LocalDateTime.now().plusMinutes(18)))
                 .origin(new TripLocation("Brunnsparken", new Location(""), "A"))
                 .destination(new TripLocation("Brunnsparken", new Location(""), "C"))
-                .mode(ModeOfTransport.WALK)
+                .mode(WALK)
                 .build();
 
         Route route3 = new Route.Builder()
-                .mode(ModeOfTransport.WALK)
+                .mode(WALK)
                 .origin(new TripLocation("Brunnsparken", new Location(""), "C"))
                 .destination(new TripLocation("Masthuggstorget", new Location(""), "B"))
-                .mode(ModeOfTransport.TRAM)
+                .mode(TRAM)
                 .times(new TravelTimes(LocalDateTime.now().plusMinutes(21), LocalDateTime.now().plusMinutes(30)))
                 .build();
 
         Route route4 = new Route.Builder()
                 .origin(new TripLocation("Masthuggstorget", new Location(""), "B"))
                 .destination(new TripLocation("Danmarksterminalen", new Location(""), "Gate A"))
-                .mode(ModeOfTransport.WALK)
+                .mode(WALK)
                 .times(new TravelTimes(LocalDateTime.now().plusMinutes(30), LocalDateTime.now().plusMinutes(32)))
                 .build();
         Route route5 = new Route.Builder()
                 .origin(new TripLocation("Danmarksterminalen", new Location(""), "Gate A"))
                 .destination(new TripLocation("Fredrikshavn", new Location(""), "Gate B"))
-                .mode(ModeOfTransport.FERRY)
+                .mode(FERRY)
                 .times(new TravelTimes(LocalDateTime.now().plusMinutes(58), LocalDateTime.now().plusDays(1)))
                 .build();
         Trip trip = new Trip.Builder()

@@ -105,10 +105,7 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.search_frag, container, false);
 
-        toTextField = Objects.requireNonNull(view).findViewById(R.id.toText);
-        fromTextField = Objects.requireNonNull(view).findViewById(R.id.fromText);
-        locIconView = Objects.requireNonNull(view).findViewById(R.id.locationIconView);
-        swapIconView = Objects.requireNonNull(view).findViewById(R.id.swapIconView);
+        initControls(view);
         setListeners();
         return view;
     }

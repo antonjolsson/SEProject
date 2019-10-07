@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.databinding.FragmentTripBinding;
 import com.example.tripplannr.viewmodel.TripResultViewModel;
 import com.example.tripplannr.model.tripdata.Route;
 import com.example.tripplannr.model.Trip;

@@ -1,4 +1,4 @@
-package com.example.tripplannr.controller.profile;
+package com.example.tripplannr.viewmodel;
 
 import android.content.Context;
 import android.net.Uri;
@@ -16,8 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tripplannr.R;
-import com.example.tripplannr.controller.trip.TripResultAdapter;
-import com.example.tripplannr.controller.trip.TripResultViewModel;
+import com.example.tripplannr.view.TripResultAdapter;
+import com.example.tripplannr.viewmodel.TripResultViewModel;
+import com.example.tripplannr.view.TripResultAdapter;
 
 
 public class SavedTripFragment extends Fragment {

@@ -5,10 +5,10 @@ public class Route {
     private TripLocation origin;
     private TripLocation destination;
     private TravelTimes times;
-    private FerryInfo.ModeOfTransport mode;
+    private ModeOfTransport mode;
 
     public Route(TripLocation origin, TripLocation destination, TravelTimes times,
-                 FerryInfo.ModeOfTransport mode) {
+                 ModeOfTransport mode) {
         this.origin = origin;
         this.destination = destination;
         this.times = times;
@@ -34,7 +34,7 @@ public class Route {
         return times;
     }
 
-    public FerryInfo.ModeOfTransport getMode() {
+    public ModeOfTransport getMode() {
         return mode;
     }
 
@@ -42,7 +42,7 @@ public class Route {
         private TripLocation origin;
         private TripLocation destination;
         private TravelTimes times;
-        private FerryInfo.ModeOfTransport mode;
+        private ModeOfTransport mode;
 
         public Builder() {
         }
@@ -62,7 +62,7 @@ public class Route {
             return this;
         }
 
-        public Builder mode(FerryInfo.ModeOfTransport val) {
+        public Builder mode(ModeOfTransport val) {
             mode = val;
             return this;
         }

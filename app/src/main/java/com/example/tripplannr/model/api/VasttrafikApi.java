@@ -3,6 +3,7 @@ package com.example.tripplannr.model.api;
 import android.content.Context;
 import android.location.Location;
 
+import com.example.tripplannr.model.tripdata.ModeOfTransport;
 import com.example.tripplannr.model.tripdata.Route;
 import com.example.tripplannr.model.tripdata.TravelTimes;
 import com.example.tripplannr.model.Trip;
@@ -88,7 +89,7 @@ public class VasttrafikApi {
                         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.ENGLISH));
 
                 String type = route.getString("type");
-                FerryInfo.ModeOfTransport mode = FerryInfo.ModeOfTransport.valueOf(type);
+                ModeOfTransport mode = ModeOfTransport.valueOf(type);
 
                 TravelTimes times = new TravelTimes(departure, arrival);
                 routes.add(new Route(origin, destination, times, mode));

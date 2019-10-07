@@ -44,7 +44,7 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.example.tripplannr.controller.SearchFragment"
+        android:name="com.example.tripplannr.view.SearchFragment"
         android:label="@string/search"
         tools:layout="@layout/search_frag" >
         <action
@@ -54,7 +54,7 @@
 
     <fragment
         android:id="@+id/navigation_saved_trips"
-        android:name="com.example.tripplannr.controller.profile.SavedTripFragment"
+        android:name="com.example.tripplannr.viewmodel.SavedTripFragment"
         android:label="@string/title_saved_trips"
         tools:layout="@layout/fragment_saved_trip" />
 
