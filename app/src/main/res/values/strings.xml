@@ -9,5 +9,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="trip">Trip</string>
     <string name="trip_result">Trip Results</string>
-    <string name="google_maps_key">AIzaSyDyDlgpaXHE1mqwvy1HXAXKC7KMWSK60aU</string>
+    <string name="get_notifcations">Get Notifications</string>
+
+    <string name="google_maps_key">AIzaSyCp-gPLaNTNRcu_FBCzaaShs01RMN8JqLM</string>
 </resources>

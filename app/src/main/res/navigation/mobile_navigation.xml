@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_trip_fragment"
-        android:name="com.example.tripplannr.trip.TripFragment"
+        android:name="com.example.tripplannr.controller.trip.TripFragment"
         android:label="@string/trip">
         <action
             android:id="@+id/action_navigation_trip_fragment_to_navigation_trip_results"
@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/navigation_trip_results"
-        android:name="com.example.tripplannr.trip.TripResultFragment"
+        android:name="com.example.tripplannr.controller.trip.TripResultFragment"
         android:label="@string/trip_result"
         tools:layout="@layout/fragment_dashboard">
         <action
@@ -26,19 +26,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.tripplannr.trip.ui.home.HomeFragment"
+        android:name="com.example.tripplannr.controller.trip.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <!--<fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.tripplannr.trip.ui.dashboard.DashboardFragment"
+        android:name="com.example.tripplannr.controller.trip.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />-->
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.tripplannr.trip.ui.notifications.NotificationsFragment"
+        android:name="com.example.tripplannr.controller.trip.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

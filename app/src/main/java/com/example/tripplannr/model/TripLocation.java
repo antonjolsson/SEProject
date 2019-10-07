@@ -23,4 +23,8 @@ public class TripLocation {
     public Location getLocation() {
         return location;
     }
+
+    public String getTrack() {
+        return track;
+    }
 }
