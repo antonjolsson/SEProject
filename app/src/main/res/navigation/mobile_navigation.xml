@@ -52,5 +52,11 @@
             app:destination="@id/navigation_trip_results" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_saved_trips"
+        android:name="com.example.tripplannr.controller.profile.SavedTripFragment"
+        android:label="@string/title_saved_trips"
+        tools:layout="@layout/fragment_saved_trip" />
+
 
 </navigation>

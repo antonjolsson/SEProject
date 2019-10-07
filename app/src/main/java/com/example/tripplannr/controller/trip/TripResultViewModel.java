@@ -12,6 +12,7 @@ import com.example.tripplannr.model.Route;
 import com.example.tripplannr.model.TravelTimes;
 import com.example.tripplannr.model.Trip;
 import com.example.tripplannr.model.TripLocation;
+import com.example.tripplannr.model.TripRepository;
 import com.example.tripplannr.model.VasttrafikApi;
 import com.example.tripplannr.model.VasttrafikRepository;
 
@@ -38,6 +39,8 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     private MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
+
+    private TripRepository tripRepository = TripRepository.getInstance();
 
     public TripResultViewModel() {
         super();
@@ -94,6 +97,14 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                                         onFetchFail();
                                     }
         });
+    }
+
+    public boolean saveTrip(Trip trip) {
+        return tripRepository.save(trip).isPresent();
+    }
+
+    public List<Trip> getSavedTrips() {
+        return tripRepository.getSavedTrips();
     }
 
     private void sendSecondRequest(final String journeyDetail, String token, long originId, long destinationId) {
