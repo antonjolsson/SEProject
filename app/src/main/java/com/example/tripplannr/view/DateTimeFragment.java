@@ -94,18 +94,21 @@ public class DateTimeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setTimeInPickers(0);
+                setTextView.performClick();
             }
         });
         minutesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setTimeInPickers(15);
+                setTextView.performClick();
             }
         });
         hourButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setTimeInPickers(60);
+                setTextView.performClick();
             }
         });
         departureButton.setOnClickListener(new View.OnClickListener() {
