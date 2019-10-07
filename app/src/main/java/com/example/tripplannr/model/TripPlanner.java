@@ -1,13 +1,16 @@
 package com.example.tripplannr.model;
 
+import com.example.tripplannr.model.api.StenaLineApi;
+import com.example.tripplannr.model.api.TripApi;
+
 import java.util.ArrayList;
 import java.util.List;
 
-class TripPlanner {
+public class TripPlanner {
 
     private List<TripApi> tripApis;
 
-    TripPlanner() {
+    public TripPlanner() {
         tripApis = new ArrayList<>();
         TripApi stenaLineApi = new StenaLineApi();
 
@@ -18,7 +21,7 @@ class TripPlanner {
         tripApis.add(stenaLineApi);
     }
 
-    List<Trip> makeTrip(TripQuery tripQuery) {
+    public List<Trip> makeTrip(TripQuery tripQuery) {
         // TODO Create trips with routes returned from api:s
         List<Trip> trips = new ArrayList<>();
         return trips;

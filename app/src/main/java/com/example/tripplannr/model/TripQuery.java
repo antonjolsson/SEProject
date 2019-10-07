@@ -1,19 +1,22 @@
 package com.example.tripplannr.model;
 
+import com.example.tripplannr.model.tripdata.FerryInfo;
+import com.example.tripplannr.model.tripdata.TripLocation;
+
 import java.util.Calendar;
 import java.util.List;
 
-class TripQuery {
+public class TripQuery {
 
     private TripLocation origin;
     private TripLocation destination;
     private Calendar time;
     private boolean timeIsDeparture;
-    private List<ModeOfTransport> travelModes;
+    private List<FerryInfo.ModeOfTransport> travelModes;
 
 
-    TripQuery(TripLocation origin, TripLocation destination, Calendar time, boolean timeIsDeparture,
-        List<ModeOfTransport> travelModes) {
+    public TripQuery(TripLocation origin, TripLocation destination, Calendar time, boolean timeIsDeparture,
+                     List<FerryInfo.ModeOfTransport> travelModes) {
         this.origin = origin;
         this.destination = destination;
         this.time = time;
@@ -37,7 +40,7 @@ class TripQuery {
         return timeIsDeparture;
     }
 
-    public List<ModeOfTransport> getTravelModes() {
+    public List<FerryInfo.ModeOfTransport> getTravelModes() {
         return travelModes;
     }
 
