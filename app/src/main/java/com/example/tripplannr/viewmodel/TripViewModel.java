@@ -71,7 +71,7 @@ public class TripViewModel extends ViewModel {
     }
 
     public void flattenFocLocationStack() {
-        if (focusedLocationFields.size() > 1)
+        while (focusedLocationFields.size() > 1)
             focusedLocationFields.remove();
     }
 
@@ -131,5 +131,9 @@ public class TripViewModel extends ViewModel {
 
     public boolean isInitOriginField() {
         return initOriginField;
+    }
+
+    public void setTempLocationField(LocationField locationField) {
+        focusedLocationFields.push(locationField);
     }
 }

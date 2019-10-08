@@ -105,6 +105,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                 zoomLevel = cameraPosition.zoom;
             }
         });
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+                if (marker.equals(originMarker)) model.setTempLocationField(ORIGIN);
+                else model.setFocusedLocationField(DESTINATION);
+            }
+            @Override
+            public void onMarkerDrag(Marker marker) {
+                setNewLocation(marker.getPosition());
+            }
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                model.flattenFocLocationStack();
+            }
+        });
         initLocationRequest();
         setListeners();
     }
@@ -154,9 +169,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onMapClick(LatLng latLng) {
         updateMarker(latLng);
-
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+        setNewLocation(latLng);
+    }
+
+    private void setNewLocation(LatLng latLng) {
+
 
         clickedLocation = new Location("");
         clickedLocation.setLatitude(latLng.latitude);
@@ -166,7 +185,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     private void updateMarker(LatLng latLng) {
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
+        markerOptions.position(latLng).draggable(true);
         if (model.isInitOriginField() || model.getFocusedLocationField() == ORIGIN) {
             removeMarker(ORIGIN);
             markerOptions.icon(BitmapDescriptorFactory.
