@@ -101,10 +101,16 @@ public class SearchFragment extends Fragment {
                         Locale.getDefault());
                 dateString = dateFormat.format(calendar.getTime());
             }
-            timeText += dateString + ", " + calendar.get(Calendar.HOUR_OF_DAY) + ":" +
-                    calendar.get(Calendar.MINUTE);
+            timeText += dateString + ", " + setNumOfZeroes(calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
+                    setNumOfZeroes(calendar.get(Calendar.MINUTE));
         }
         timeButton.setText(timeText);
+    }
+
+    // Makes sure time always has format hh:mm
+    private String setNumOfZeroes(int time) {
+        String timeAsString = String.valueOf(time);
+        return timeAsString.length() < 2 ? '0' + timeAsString : timeAsString;
     }
 
     private String formatLocationName(String name) {
