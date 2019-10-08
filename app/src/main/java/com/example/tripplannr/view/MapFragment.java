@@ -54,10 +54,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     // Chalmers Lindholmen location :)
     private static final LatLng DEF_LAT_LNG = new LatLng(57.707202, 11.940108);
-    private static final float DEF_ZOOM_LEVEL = 13;
+    private static final float DEF_ZOOM_LEVEL = 14;
 
     private GoogleMap mMap;
-    private FusedLocationProviderClient fusedLocationClient;
+    private FusedLocationProviderClient fusedLocationClient; // Object for attaining current location
     private Location mLastLocation;
     private Location clickedLocation;
     private TripViewModel model;
@@ -156,9 +156,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         updateMarker(latLng);
 
         //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
-        //this.latLng = latLng;
-        //zoomLevel = 14;
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
 
         clickedLocation = new Location("");
         clickedLocation.setLatitude(latLng.latitude);
@@ -182,7 +180,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             destinationMarker = mMap.addMarker(markerOptions);
         }
     }
-
+    // Try to lookup address from Location
     private void startIntentService() {
         AddressResultReceiver resultReceiver = new AddressResultReceiver(model, new Handler(),
                 clickedLocation);
@@ -192,6 +190,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         Objects.requireNonNull(getActivity()).startService(intent);
     }
 
+    // Location received
     private LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {

@@ -26,13 +26,16 @@ public class TripViewModel extends ViewModel {
     public enum LocationField {ORIGIN, DESTINATION}
     private MutableLiveData<TripLocation> origin = new MutableLiveData<>();
     private MutableLiveData<TripLocation> destination = new MutableLiveData<>();
+    // Address is requested by a fragment
     private MutableLiveData<Boolean> addressQuery = new MutableLiveData<>();
     private MutableLiveData<Calendar> desiredTime = new MutableLiveData<>();
     private MutableLiveData<Boolean> timeIsDeparture = new MutableLiveData<>();
     private MutableLiveData<ShownFragment> fragments = new MutableLiveData<>();
     private MutableLiveData<List<Trip>> trips = new MutableLiveData<>();
 
+    // If the app is starting up, set current location as origin
     private boolean initOriginField = true;
+    // Keep track of which location field is focused
     private Deque<LocationField> focusedLocationFields = new ArrayDeque<>();
     private TripPlanner tripPlanner;
 
@@ -68,7 +71,8 @@ public class TripViewModel extends ViewModel {
     }
 
     public void flattenFocLocationStack() {
-        if (focusedLocationFields.size() > 1) focusedLocationFields.remove();
+        if (focusedLocationFields.size() > 1)
+            focusedLocationFields.remove();
     }
 
     public void setAddressQuery(boolean addressQuery) {

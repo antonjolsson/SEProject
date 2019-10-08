@@ -2,6 +2,8 @@ package com.example.tripplannr.model;
 
 import java.util.Calendar;
 
+/* Class for general (logic) utility methods */
+
 public class Utilities {
 
     public static boolean isTomorrow(Calendar calendar) {

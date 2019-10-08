@@ -170,8 +170,16 @@ public class SearchFragment extends Fragment {
                         Objects.requireNonNull(model.getTimeIsDeparture().getValue()));
             }
         });
+        nowTextView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ViewUtilities.setAlphaLevels(v, event);
+                return false;
+            }
+        });
     }
 
+    // Swap origin and destination
     private void swapLocations() {
         TripLocation origin = model.getOrigin().getValue();
         TripLocation destination = model.getDestination().getValue();

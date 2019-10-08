@@ -20,10 +20,9 @@ import java.util.List;
 import static com.example.tripplannr.R.id.main_lower_container;
 import static com.example.tripplannr.viewmodel.TripViewModel.ShownFragment.*;
 
-public class MainActivity extends FragmentActivity {
+/* Class for displaying various fragments related to the search screen */
 
-    private final static float SEMI_TRANSPARENT_ALPHA = 0.5f;
-    private final static float OPAQUE_ALPHA = 1f;
+public class MainActivity extends FragmentActivity {
 
     MapFragment mapFragment;
     DateTimeFragment dateTimeFragment;
@@ -32,7 +31,7 @@ public class MainActivity extends FragmentActivity {
     FrameLayout mainLowerContainer;
     FrameLayout mainUpperContainer;
 
-    private float modFragElevation;
+    private float modFragElevation; // Default elevation for modal/most important fragments
     private float noElevation;
 
     @Override
@@ -66,11 +65,11 @@ public class MainActivity extends FragmentActivity {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        // Add the fragment to the 'fragment_container' FrameLayout
+        // Add the fragment to the 'main_lower_container' FrameLayout
         transaction.replace(main_lower_container, mapFragment).commit();
         transaction.addToBackStack(null);
 
-        searchFragView.setAlpha(OPAQUE_ALPHA);
+        searchFragView.setAlpha(ViewUtilities.OPAQUE_ALPHA);
         mainLowerContainer.setElevation(noElevation);
         mainUpperContainer.setElevation(modFragElevation);
         enableDisableViewGroup(searchFragView, true);
@@ -90,11 +89,10 @@ public class MainActivity extends FragmentActivity {
         transaction.replace(main_lower_container, dateTimeFragment).commit();
         transaction.addToBackStack(null);
 
-        searchFragView.setAlpha(SEMI_TRANSPARENT_ALPHA);
+        searchFragView.setAlpha(ViewUtilities.SEMI_TRANSPARENT_ALPHA);
         mainUpperContainer.setElevation(noElevation);
         mainLowerContainer.setElevation(modFragElevation);
         enableDisableViewGroup(searchFragView, false);
-
     }
 
     private void setListeners() {
@@ -113,6 +111,7 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
+    // Enable or disable ViewGroup and all its children
     private void enableDisableViewGroup(ViewGroup viewGroup, boolean enabled) {
         int childCount = viewGroup.getChildCount();
         for (int i = 0; i < childCount; i++) {
