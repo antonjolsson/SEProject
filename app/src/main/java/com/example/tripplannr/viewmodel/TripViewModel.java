@@ -40,6 +40,7 @@ public class TripViewModel extends ViewModel {
         focusedLocationFields.push(DESTINATION);
         timeIsDeparture.setValue(true);
         tripPlanner = new TripPlanner();
+        desiredTime.setValue(Calendar.getInstance());
     }
 
     public void obtainTrips() {

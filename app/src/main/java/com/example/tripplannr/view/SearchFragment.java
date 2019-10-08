@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.model.tripdata.TripLocation;
@@ -32,6 +32,7 @@ import static com.example.tripplannr.viewmodel.TripViewModel.LocationField.ORIGI
 public class SearchFragment extends Fragment {
 
     private EditText toTextField, fromTextField;
+    private TextView nowTextView;
     private ImageView locIconView, swapIconView;
     private Button timeButton, searchButton;
     private String name;
@@ -51,6 +52,7 @@ public class SearchFragment extends Fragment {
         swapIconView = Objects.requireNonNull(view).findViewById(R.id.swapIconView);
         timeButton = Objects.requireNonNull(view).findViewById(R.id.timeButton);
         searchButton = Objects.requireNonNull(view).findViewById(R.id.searchButton);
+        nowTextView = Objects.requireNonNull(view).findViewById(R.id.nowTextView);
     }
 
     private void setModelObservers() {
@@ -74,6 +76,14 @@ public class SearchFragment extends Fragment {
             @Override
             public void onChanged(Calendar calendar) {
                 setTimeButtonText(calendar);
+                if (Utilities.isNow(calendar)) {
+                    nowTextView.setVisibility(View.INVISIBLE);
+                    nowTextView.setEnabled(false);
+                }
+                else {
+                    nowTextView.setVisibility(View.VISIBLE);
+                    nowTextView.setEnabled(true);
+                }
             }
         });
     }
@@ -151,6 +161,13 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 model.obtainTrips();
+            }
+        });
+        nowTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                model.setTime(Calendar.getInstance(),
+                        Objects.requireNonNull(model.getTimeIsDeparture().getValue()));
             }
         });
     }

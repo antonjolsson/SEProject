@@ -54,7 +54,6 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="55dp"
         android:background="@drawable/input_field"
-        android:capitalize="none"
         android:fontFamily="sans-serif"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
@@ -160,5 +159,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.295" />
+
+    <TextView
+        android:id="@+id/nowTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="35dp"
+        android:enabled="false"
+        android:fontFamily="@font/rajdhani_medium"
+        android:text="NOW"
+        android:textColor="@drawable/clickable_text"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/timeButton"
+        app:layout_constraintTop_toBottomOf="@+id/swapIconView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

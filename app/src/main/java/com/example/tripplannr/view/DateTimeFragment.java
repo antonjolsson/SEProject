@@ -36,7 +36,6 @@ public class DateTimeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
                 get(TripViewModel.class);
-        desiredTime = Calendar.getInstance();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,6 +44,7 @@ public class DateTimeFragment extends Fragment {
 
         initControls(view);
         setControlListeners();
+        desiredTime = Calendar.getInstance();
         return view;
     }
 
@@ -138,7 +138,7 @@ public class DateTimeFragment extends Fragment {
         cancelTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                desiredTime = Calendar.getInstance();
+                desiredTime = model.getDesiredTime().getValue();
                 model.showMap();
             }
         });
@@ -198,6 +198,9 @@ public class DateTimeFragment extends Fragment {
 
         datePicker.updateDate(rightNow.get(Calendar.YEAR),
                 rightNow.get(Calendar.MONTH), rightNow.get(Calendar.DATE));
+        desiredTime.set(rightNow.get(Calendar.YEAR), rightNow.get(Calendar.MONTH),
+                rightNow.get(Calendar.DATE), rightNow.get(Calendar.HOUR_OF_DAY),
+                rightNow.get(Calendar.MINUTE));
     }
 
     private Calendar getFutureTimeInstance(int field, int number) {
