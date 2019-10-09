@@ -1,8 +1,9 @@
-package com.example.tripplannr.model;
+package com.example.tripplannr.model.api;
+
+import com.example.tripplannr.model.Trip;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Optional;
 

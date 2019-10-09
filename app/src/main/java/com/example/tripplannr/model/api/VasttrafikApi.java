@@ -25,23 +25,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class VasttrafikApi {
 
-    private String apiAddress;
-
-
-    public  VasttrafikApi(String apiAddress) {
-        this.apiAddress = apiAddress;
-        //TODO
-    }
 
     public VasttrafikApi() {}
 
-
-    public List<Trip> getRoute(String data, VasttrafikRepository vasttrafikRepository) throws JSONException {
+    public List<Trip> getRoute(String data) throws JSONException {
         // TODO, real API call
 
         List<Trip> trips = new ArrayList<>();
 
-        assert data != null;
         JSONObject jsonObject = new JSONObject(data);
         JSONArray alternatives = jsonObject.getJSONObject("TripList").getJSONArray("Trip");
 
@@ -53,21 +44,15 @@ public class VasttrafikApi {
 
                 // TODO, Västtrafik API call using JourneyDetailRef
                 List<TripLocation> stops = new ArrayList<>();
-                if(route.has("JourneyDetailRef")) {
-                    String journeyDetailURL = route.getJSONObject("JourneyDetailRef").getString("ref");
-                    Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl(journeyDetailURL)
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
-                    retrofit.
-                    stops = getStops(new JSONObject(journeyDetails));
-                }
+//                if(route.has("JourneyDetailRef")) {
+//                    String journeyDetailURL = route.getJSONObject("JourneyDetailRef").getString("ref");
+//                    stops = getStops(new JSONObject(journeyDetails));
+//                }
 
                 String origin_name = route.getJSONObject("Origin").getString("name");
                 String origin_track = route.getJSONObject("Origin").getString("track");
                 LatLng origin_coordinates = getCoordinates(origin_name, stops);
                 Location originLocation = new Location("");
-                assert origin_coordinates != null;
                 originLocation.setLatitude(origin_coordinates.latitude);
                 originLocation.setLongitude(origin_coordinates.longitude);
                 TripLocation origin = new TripLocation(origin_name, originLocation, origin_track);
@@ -76,7 +61,6 @@ public class VasttrafikApi {
                 String destination_track = route.getJSONObject("Destination").getString("track");
                 LatLng destination_coordinates = getCoordinates(destination_name, stops);
                 Location destinationLocation = new Location("");
-                assert destination_coordinates != null;
                 destinationLocation.setLongitude(destination_coordinates.longitude);
                 destinationLocation.setAltitude(destination_coordinates.latitude);
                 TripLocation destination = new TripLocation(destination_name, destinationLocation, destination_track);
@@ -131,6 +115,7 @@ public class VasttrafikApi {
             if(name.equals(stop.getName()))
                 return new LatLng(stop.getLocation().getLatitude(), stop.getLocation().getLongitude());
         }
-        return null;
+        // No Match
+        return new LatLng(0, 0);
     }
 }

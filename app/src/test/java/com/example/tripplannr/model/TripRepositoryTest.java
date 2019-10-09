@@ -1,9 +1,10 @@
 package com.example.tripplannr.model;
 
+import com.example.tripplannr.model.api.TripRepository;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TripRepositoryTest {

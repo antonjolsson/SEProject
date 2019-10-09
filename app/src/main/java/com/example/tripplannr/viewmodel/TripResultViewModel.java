@@ -6,13 +6,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.tripplannr.model.TripRepository;
+import com.example.tripplannr.model.api.TripRepository;
 import com.example.tripplannr.model.tripdata.Route;
 import com.example.tripplannr.model.tripdata.TravelTimes;
 import com.example.tripplannr.model.Trip;
 import com.example.tripplannr.model.api.VasttrafikApi;
 import com.example.tripplannr.model.api.VasttrafikRepository;
 import com.example.tripplannr.model.tripdata.TripLocation;
+import com.google.api.client.auth.oauth2.TokenResponse;
 
 import org.json.JSONException;
 
@@ -42,14 +43,10 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     private TripRepository tripRepository = TripRepository.getInstance();
 
-    public TripResultViewModel() {
+    public TripResultViewModel(long originId, long destinationId) {
         super();
         isLoading.setValue(false);
-        try {
-            sendRequest("No token", 9021014001960000L,  9022014004490030L, "");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        sendTokenRequest(originId, destinationId);
     }
 
     public LiveData<Trip> getTripLiveData() {
@@ -74,28 +71,57 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         isLoading.postValue(false);
     }
 
-    public void sendRequest(final String token, final long originId, final long destinationId, String ref) throws IOException {
+    public void sendTokenRequest(final long originId, final long destinationId) {
+        vasttrafikRepository
+                .getVasttrafikService()
+                .getToken("j521RSopUUqHVTy_Ej8iuMdlYpga", "s5_gqFYGJvojrv8Qoc_44UpjVboa",
+                        "Client Credentials")
+                .enqueue(new Callback<TokenResponse>() {
+                    @Override
+                    public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+                        try {
+                            Thread.sleep(2000);
+                            if(response.code() >= 200 && response.code() <= 299) {
+                                sendTripRequest(response.body().getAccessToken(), originId,  destinationId);
+                            }
+                        } catch (InterruptedException ignored) {}
+                        onFetchFail();
+                        mTripsLiveData.postValue(buildFakeTrips());
+                    }
+
+                    @Override
+                    public void onFailure(Call<TokenResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    public void sendTripRequest(final String token, final long originId, final long destinationId) {
         isLoading.setValue(true);
        vasttrafikRepository
                 .getVasttrafikService()
-                .getJourneyDetail(ref, "Bearer " + token)
+                .getTrips(originId, destinationId, "json","Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        try {
-                                            Thread.sleep(2000);
-                                            if(response.code() >= 200 && response.code() <= 299) {
-                                                sendSecondRequest(response.body().string(), token, originId, destinationId);
-                                            }
-                                        } catch (IOException | InterruptedException ignored) {}
-                                        onFetchFail();
-                                        mTripsLiveData.postValue(buildFakeTrips());
-                                    }
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            Thread.sleep(2000);
+                            if(response.code() >= 200 && response.code() <= 299) {
+                                String body = response.body().string();
+                                mTripsLiveData.postValue(new VasttrafikApi().getRoute(body));
+                                isLoading.postValue(false);
+                            }
+                        } catch (IOException | InterruptedException ignored) {} catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        onFetchFail();
+                        mTripsLiveData.postValue(buildFakeTrips());
+                    }
 
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        onFetchFail();
-                                    }
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        onFetchFail();
+                    }
         });
     }
 
@@ -107,10 +133,10 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         return tripRepository.getSavedTrips();
     }
 
-    private void sendSecondRequest(final String journeyDetail, String token, long originId, long destinationId) {
+    private void sendSecondRequest(final String journeyDetail, String token, long originId, long destinationId, String ref) {
         vasttrafikRepository
                 .getVasttrafikService()
-                .getTrips(originId, destinationId, "json","Bearer " + token)
+                .getJourneyDetail(ref, "Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
