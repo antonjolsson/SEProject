@@ -7,6 +7,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -190,16 +192,25 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
-        fromTextField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        fromTextField.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    Location location = getLocation(fromTextField.getText().toString());
-                    model.setLocation(location, fromTextField.getText().toString(), ORIGIN);
-                    hideKeyboardFrom(getContext(), getView());
-                }
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                return setLocationOnEnter(keyCode, event, fromTextField);
             }
         });
+    }
+
+    private boolean setLocationOnEnter(int keyCode, KeyEvent event, EditText textField) {
+        if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+            Location location = getLocation(textField.getText().toString());
+            model.setLocation(location, textField.getText().toString());
+            hideKeyboardFrom(Objects.requireNonNull(getContext()),
+                    Objects.requireNonNull(getView()));
+            return true;
+        }
+        return false;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -211,14 +222,11 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
-        toTextField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        toTextField.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    Location location = getLocation(toTextField.getText().toString());
-                    model.setLocation(location, toTextField.getText().toString(), DESTINATION);
-                    hideKeyboardFrom(getContext(), getView());
-                }
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                return setLocationOnEnter(keyCode, event, toTextField);
             }
         });
     }
@@ -250,14 +258,14 @@ public class SearchFragment extends Fragment {
         model.setFocusedLocationField(DESTINATION);
         if (origin != null) model.setLocation(origin.getLocation(), origin.getName());
         else {
-            model.setLocation(null, null, DESTINATION);
+            model.setLocation(null, null);
             toTextField.setText("To");
         }
         model.setFocusedLocationField(ORIGIN);
         if (destination != null)
             model.setLocation(destination.getLocation(), destination.getName());
         else {
-            model.setLocation(null, null, ORIGIN);
+            model.setLocation(null, null);
             fromTextField.setText("From");
         }
         model.setFocusedLocationField(tempField);
@@ -267,7 +275,7 @@ public class SearchFragment extends Fragment {
     private void hideKeyboardFrom(Context context, View view) {
         InputMethodManager imm = (InputMethodManager)
                 context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }

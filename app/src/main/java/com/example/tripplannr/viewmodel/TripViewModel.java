@@ -1,6 +1,7 @@
 package com.example.tripplannr.viewmodel;
 
 import android.location.Location;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -95,20 +96,16 @@ public class TripViewModel extends ViewModel {
         return focusedLocationFields.peek();
     }
 
-    public void setLocation(Location location, String name, LocationField locationField) {
+    public void setLocation(Location location, String name) {
         TripLocation tripLocation = null;
         if (location != null) tripLocation = new TripLocation(name, location, null);
         if (initOriginField) {
             origin.setValue(tripLocation);
             initOriginField = false;
         }
-        else if (locationField == ORIGIN)
+        else if (focusedLocationFields.peek() == ORIGIN)
             origin.setValue(tripLocation);
         else this.destination.setValue(tripLocation);
-    }
-
-    public void setLocation(Location location, String name) {
-        setLocation(location, name, getFocusedLocationField());
     }
 
     public MutableLiveData<Boolean> getAddressQuery() {
