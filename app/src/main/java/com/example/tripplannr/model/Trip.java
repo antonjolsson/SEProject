@@ -1,5 +1,9 @@
 package com.example.tripplannr.model;
 
+import com.example.tripplannr.model.tripdata.Route;
+import com.example.tripplannr.model.tripdata.TravelTimes;
+import com.example.tripplannr.model.tripdata.TripLocation;
+
 import java.util.Collections;
 import java.util.List;
 

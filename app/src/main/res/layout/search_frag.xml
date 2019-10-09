@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="311dp"
     android:background="@drawable/background"
-    tools:showIn="@layout/activity_maps">
+    tools:showIn="@layout/main_activity">
 
     <EditText
         android:id="@+id/toText"
@@ -15,12 +15,12 @@
         android:layout_marginEnd="55dp"
         android:background="@drawable/input_field"
         android:ems="10"
-        android:fontFamily="@font/rajdhani_medium"
+        android:fontFamily="sans-serif"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:text="TO"
+        android:text="To"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fromText" />
@@ -36,29 +36,30 @@
         android:background="@drawable/input_field"
         android:ems="10"
         android:focusedByDefault="true"
-        android:fontFamily="@font/rajdhani_medium"
+        android:fontFamily="sans-serif"
         android:inputType="textPersonName"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:singleLine="true"
-        android:text="FROM"
+        android:text="From"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/depButton"
+        android:id="@+id/timeButton"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="302dp"
         android:layout_height="38dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="55dp"
         android:background="@drawable/input_field"
-        android:fontFamily="@font/rajdhani_medium"
+        android:fontFamily="sans-serif"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:text="DEP. NOW"
+        android:text="Dep. now"
         android:textAlignment="viewStart"
+        android:textAllCaps="false"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toText" />
@@ -84,9 +85,10 @@
         android:layout_marginEnd="8dp"
         android:contentDescription="TODO"
         android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/depButton"
+        app:layout_constraintEnd_toStartOf="@+id/timeButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/clock_24px_white"
         tools:visibility="visible" />
 
     <ImageView
@@ -98,7 +100,7 @@
         android:layout_marginEnd="8dp"
         android:contentDescription="TODO"
         android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/depButton"
+        app:layout_constraintEnd_toStartOf="@+id/timeButton"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -114,7 +116,7 @@
         android:layout_marginEnd="8dp"
         android:contentDescription="TODO"
         android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/depButton"
+        app:layout_constraintEnd_toStartOf="@+id/timeButton"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -157,5 +159,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.295" />
+
+    <TextView
+        android:id="@+id/nowTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="35dp"
+        android:enabled="false"
+        android:fontFamily="@font/rajdhani_medium"
+        android:text="NOW"
+        android:textColor="@drawable/clickable_text"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/timeButton"
+        app:layout_constraintTop_toBottomOf="@+id/swapIconView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
