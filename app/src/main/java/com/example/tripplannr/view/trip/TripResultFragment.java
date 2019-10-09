@@ -1,4 +1,4 @@
-package com.example.tripplannr.view;
+package com.example.tripplannr.view.trip;
 
 import android.os.Bundle;
 
@@ -11,19 +11,15 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.databinding.FragmentTripResultBinding;
 import com.example.tripplannr.viewmodel.TripResultViewModel;
 import com.example.tripplannr.model.Trip;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +33,7 @@ public class TripResultFragment extends Fragment {
 
     private FragmentTripResultBinding tripResultBinding;
 
+    private TripResultAdapter tripResultAdapter;
 
     @Nullable
     @Override
@@ -56,10 +53,10 @@ public class TripResultFragment extends Fragment {
                 tripResultBinding.setErrorText("");
                 if(trips.size() > 0) {
                     tripResultBinding.setTrip(trips.get(0));
-                    resultRecyclerView.setAdapter(new TripResultAdapter(trips));
+                    tripResultAdapter.setTrips(trips);
                 }
                 else {
-                    resultRecyclerView.setAdapter(new TripResultAdapter(trips));
+                    tripResultAdapter.setTrips(trips);
                     tripResultBinding.setErrorText("Error fetching data \n from the Server");
                 }
             }
@@ -73,9 +70,9 @@ public class TripResultFragment extends Fragment {
     }
 
     private void initRecyclerView(View view) {
+        tripResultAdapter = new TripResultAdapter(tripResultViewModel.getTripsLiveData().getValue(), R.id.action_navigation_trip_results_to_navigation_trip_fragment);
         resultRecyclerView = view.findViewById(R.id.tripResultRecyclerView);
-        resultRecyclerView.setAdapter(new TripResultAdapter(
-                tripResultViewModel.getTripsLiveData().getValue() != null ? tripResultViewModel.getTripsLiveData().getValue() : new ArrayList<Trip>()));
+        resultRecyclerView.setAdapter(tripResultAdapter);
         resultRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 

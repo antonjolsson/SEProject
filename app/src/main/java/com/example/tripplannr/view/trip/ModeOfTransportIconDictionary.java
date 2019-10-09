@@ -1,4 +1,4 @@
-package com.example.tripplannr.view;
+package com.example.tripplannr.view.trip;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.model.tripdata.FerryInfo;

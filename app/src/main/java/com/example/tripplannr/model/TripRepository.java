@@ -29,4 +29,8 @@ public class TripRepository {
         return database.add(trip) ? Optional.of(trip) : Optional.<Trip>empty();
     }
 
+    public void deleteById(int id) {
+        database.remove(id);
+    }
+
 }

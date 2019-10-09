@@ -1,4 +1,4 @@
-package com.example.tripplannr.view;
+package com.example.tripplannr.view.trip;
 
 import android.app.Notification;
 import android.graphics.BitmapFactory;
@@ -18,15 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.databinding.FragmentTripBinding;
 import com.example.tripplannr.viewmodel.TripResultViewModel;
-import com.example.tripplannr.model.tripdata.Route;
 import com.example.tripplannr.model.Trip;
 
-import java.util.List;
 import java.util.Objects;
 
 

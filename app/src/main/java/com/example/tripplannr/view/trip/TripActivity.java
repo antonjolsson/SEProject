@@ -1,4 +1,4 @@
-package com.example.tripplannr.view;
+package com.example.tripplannr.view.trip;
 
 import android.app.Notification;
 import android.app.NotificationChannel;

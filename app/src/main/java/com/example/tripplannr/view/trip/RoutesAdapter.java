@@ -1,4 +1,4 @@
-package com.example.tripplannr.view;
+package com.example.tripplannr.view.trip;
 
 import android.view.LayoutInflater;
 import android.view.View;

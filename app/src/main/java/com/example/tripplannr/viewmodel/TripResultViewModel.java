@@ -45,6 +45,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
     public TripResultViewModel() {
         super();
         isLoading.setValue(false);
+        mTripsLiveData.setValue(new ArrayList<Trip>());
         try {
             sendRequest("No token", 9021014001960000L,  9022014004490030L);
         } catch (IOException e) {
@@ -105,6 +106,10 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     public List<Trip> getSavedTrips() {
         return tripRepository.getSavedTrips();
+    }
+
+    public boolean removeTrip(Trip trip) {
+        return tripRepository.delete(trip);
     }
 
     private void sendSecondRequest(final String journeyDetail, String token, long originId, long destinationId) {
@@ -173,7 +178,14 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                 .times(new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusDays(1).plusMinutes(58)))
                 .routes(Arrays.asList(route1, route2, route3, route4, route5))
                 .build();
-        return Collections.singletonList(trip);
+        Trip trip2 = new Trip.Builder()
+                .name("Lillhagens Station, Brunnsparken")
+                .origin(new TripLocation("Lillhagens Station", new Location(""), "A"))
+                .destination(new TripLocation("Brunnsparken", new Location(""), "A"))
+                .times(new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusMinutes(18)))
+                .routes(Arrays.asList(route1))
+                .build();
+        return new ArrayList<>(Arrays.asList(trip, trip2));
     }
 
 }
