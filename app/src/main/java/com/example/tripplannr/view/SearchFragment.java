@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.model.tripdata.TripLocation;
@@ -161,6 +162,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 model.obtainTrips();
+                Navigation.findNavController(v).navigate(R.id.action_navigation_search_to_navigation_trip_results);
             }
         });
         nowTextView.setOnClickListener(new View.OnClickListener() {

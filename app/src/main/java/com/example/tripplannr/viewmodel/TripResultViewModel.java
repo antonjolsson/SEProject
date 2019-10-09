@@ -13,9 +13,11 @@ import com.example.tripplannr.model.Trip;
 import com.example.tripplannr.model.api.VasttrafikApi;
 import com.example.tripplannr.model.api.VasttrafikRepository;
 import com.example.tripplannr.model.tripdata.TripLocation;
+import com.google.android.gms.common.util.Base64Utils;
 import com.google.api.client.auth.oauth2.TokenResponse;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -43,10 +45,10 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     private TripRepository tripRepository = TripRepository.getInstance();
 
-    public TripResultViewModel(long originId, long destinationId) {
+    public TripResultViewModel() {
         super();
         isLoading.setValue(false);
-        sendTokenRequest(originId, destinationId);
+        getTripData(9021014001960000L,  9022014004490030L);
     }
 
     public LiveData<Trip> getTripLiveData() {
@@ -71,33 +73,34 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         isLoading.postValue(false);
     }
 
-    public void sendTokenRequest(final long originId, final long destinationId) {
+    private void getTripData(final long originId, final long destinationId) {
+        isLoading.setValue(true);
         vasttrafikRepository
                 .getVasttrafikService()
-                .getToken("j521RSopUUqHVTy_Ej8iuMdlYpga", "s5_gqFYGJvojrv8Qoc_44UpjVboa",
-                        "Client Credentials")
-                .enqueue(new Callback<TokenResponse>() {
+                .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
+                        "application/x-www-form-urlencoded", "client_credentials")
+                .enqueue(new Callback<ResponseBody>() {
                     @Override
-                    public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        System.out.println(response.code());
+                        System.out.println(response.body());
                         try {
-                            Thread.sleep(2000);
-                            if(response.code() >= 200 && response.code() <= 299) {
-                                sendTripRequest(response.body().getAccessToken(), originId,  destinationId);
-                            }
-                        } catch (InterruptedException ignored) {}
-                        onFetchFail();
-                        mTripsLiveData.postValue(buildFakeTrips());
+                            sendRequest(new JSONObject(response.body().string()).getString("access_token"), originId, destinationId);
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
-                    public void onFailure(Call<TokenResponse> call, Throwable t) {
-
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        System.out.println(":(");
+                        System.out.println(t.getMessage());
+                        System.out.println(Base64Utils.encode(("j521RSopUUqHVTy_Ej8iuMdlYpga"+":"+"s5_gqFYGJvojrv8Qoc_44UpjVboa").getBytes()));
                     }
                 });
     }
 
-    public void sendTripRequest(final String token, final long originId, final long destinationId) {
-        isLoading.setValue(true);
+    private void sendRequest(final String token, final long originId, final long destinationId) {
        vasttrafikRepository
                 .getVasttrafikService()
                 .getTrips(originId, destinationId, "json","Bearer " + token)
@@ -114,8 +117,8 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                         } catch (IOException | InterruptedException ignored) {} catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        onFetchFail();
-                        mTripsLiveData.postValue(buildFakeTrips());
+                        /*onFetchFail();
+                        mTripsLiveData.postValue(buildFakeTrips());*/
                     }
 
                     @Override

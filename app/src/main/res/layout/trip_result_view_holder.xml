@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:text='@{"When: " + trip.times.arrival.format(DateTimeFormatter.ofPattern("HH:mm")) + " - " + trip.times.departure.format(DateTimeFormatter.ofPattern("HH:mm"))}'
+            android:text='@{"When: " + trip.times.departure.format(DateTimeFormatter.ofPattern("HH:mm")) + " - " + trip.times.arrival.format(DateTimeFormatter.ofPattern("HH:mm"))}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
