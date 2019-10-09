@@ -136,7 +136,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         return tripRepository.getSavedTrips();
     }
 
-    private void sendSecondRequest(final String journeyDetail, String token, long originId, long destinationId, String ref) {
+    private void sendSecondRequest(final String ref, String token) {
         vasttrafikRepository
                 .getVasttrafikService()
                 .getJourneyDetail(ref, "Bearer " + token)
