@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class VasttrafikApi {
 
     private String apiAddress;
@@ -27,7 +30,7 @@ public class VasttrafikApi {
     public VasttrafikApi() {}
 
 
-    public List<Trip> getRoute(String data, String journeyDetails ) throws JSONException {
+    public List<Trip> getRoute(String data, VasttrafikRepository vasttrafikRepository) throws JSONException {
         // TODO, real API call
 
         List<Trip> trips = new ArrayList<>();
@@ -46,7 +49,11 @@ public class VasttrafikApi {
                 List<TripLocation> stops = new ArrayList<>();
                 if(route.has("JourneyDetailRef")) {
                     String journeyDetailURL = route.getJSONObject("JourneyDetailRef").getString("ref");
-                    assert journeyDetails != null;
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(journeyDetailURL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    retrofit.
                     stops = getStops(new JSONObject(journeyDetails));
                 }
 

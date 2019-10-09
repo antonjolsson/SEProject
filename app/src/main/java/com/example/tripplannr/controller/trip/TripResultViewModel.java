@@ -33,7 +33,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         super();
         isLoading.setValue(false);
         try {
-            sendRequest("No token", 9021014001960000L,  9022014004490030L);
+            sendRequest("No token", 9021014001960000L,  9022014004490030L, "");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,11 +61,11 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         isLoading.postValue(false);
     }
 
-    public void sendRequest(final String token, final long originId, final long destinationId) throws IOException {
+    public void sendRequest(final String token, final long originId, final long destinationId, String ref) throws IOException {
         isLoading.setValue(true);
-       /* vasttrafikRepository
+       vasttrafikRepository
                 .getVasttrafikService()
-                .getJourneyDetail("Bearer " + token)
+                .getJourneyDetail(ref, "Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -82,7 +82,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                                         onFetchFail();
                                     }
-        });*/
+        });
     }
 
     private void sendSecondRequest(final String journeyDetail, String token, long originId, long destinationId) {
@@ -95,7 +95,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                         try {
                             if(response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
-                                mTripsLiveData.postValue(new VasttrafikApi().getRoute(body, journeyDetail));
+                                mTripsLiveData.postValue(new VasttrafikApi().getRoute(body));
                                 isLoading.postValue(false);
                             }
                         } catch (IOException | JSONException ignored) {}
