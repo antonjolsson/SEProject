@@ -19,18 +19,29 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.model.Utilities;
 import com.example.tripplannr.model.tripdata.TripLocation;
 import com.example.tripplannr.viewmodel.TripViewModel;
 import com.example.tripplannr.viewmodel.TripViewModel.LocationField;
-import com.example.tripplannr.model.Utilities;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AutocompletePrediction;
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
+import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -195,22 +206,73 @@ public class SearchFragment extends Fragment {
         fromTextField.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
-                return setLocationOnEnter(keyCode, event, fromTextField);
+                if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(fromTextField);
+                else {
+                    makeAutoCompleteRequest(fromTextField.getText().toString());
+                    return true;
+                }
             }
         });
     }
 
-    private boolean setLocationOnEnter(int keyCode, KeyEvent event, EditText textField) {
-        if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
-            Location location = getLocation(textField.getText().toString());
-            model.setLocation(location, textField.getText().toString());
-            hideKeyboardFrom(Objects.requireNonNull(getContext()),
-                    Objects.requireNonNull(getView()));
-            return true;
+    private List<String> makeAutoCompleteRequest(String query) {
+        final List<String> resultList = new ArrayList<>();
+        AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
+
+        Places.initialize(Objects.requireNonNull(getContext()),
+                String.valueOf(R.string.google_maps_key));
+        PlacesClient placesClient = Places.createClient(getContext());
+        FindAutocompletePredictionsRequest request =
+                FindAutocompletePredictionsRequest.builder().setQuery(query).
+                        setSessionToken(token).build();
+        /*Task<FindAutocompletePredictionsResponse> autocompletePredictions =
+                placesClient.findAutocompletePredictions(request);
+
+        // This method should have been called off the main UI thread. Block and wait for at most
+        // 60s for a result from the API.
+        try {
+            Tasks.await(autocompletePredictions, 60, TimeUnit.SECONDS);
+        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+            e.printStackTrace();
         }
-        return false;
+
+        if (autocompletePredictions.isSuccessful()) {
+            FindAutocompletePredictionsResponse findAutocompletePredictionsResponse = autocompletePredictions.getResult();
+            if (findAutocompletePredictionsResponse != null)
+                for (AutocompletePrediction prediction : findAutocompletePredictionsResponse.
+                        getAutocompletePredictions()) {
+                    resultList.add(prediction.getPrimaryText(new StyleSpan(Typeface.NORMAL)).toString());
+                }
+        }*/
+
+        placesClient.findAutocompletePredictions(request).
+                addOnSuccessListener(new OnSuccessListener<FindAutocompletePredictionsResponse>() {
+            @Override
+            public void onSuccess(FindAutocompletePredictionsResponse response) {
+                for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
+                    String s = prediction.getPrimaryText(null).toString();
+                    Log.i("AutoComplete", prediction.getPlaceId());
+                    Log.i("AutoComplete", s);
+                    resultList.add(s);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ApiException) {
+                    ApiException apiException = (ApiException) e;
+                    Log.e("AutoComplete", "Place not found: " + apiException.getStatusCode());
+            }
+        }});
+        return resultList;
+    }
+
+    private boolean setLocationOnEnter(EditText textField) {
+        Location location = getLocation(textField.getText().toString());
+        model.setLocation(location, textField.getText().toString());
+        hideKeyboardFrom(Objects.requireNonNull(getContext()),
+                Objects.requireNonNull(getView()));
+        return true;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -225,8 +287,11 @@ public class SearchFragment extends Fragment {
         toTextField.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
-                return setLocationOnEnter(keyCode, event, toTextField);
+                if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(toTextField);
+                else {
+                    makeAutoCompleteRequest(toTextField.getText().toString());
+                    return false;
+                }
             }
         });
     }
