@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">STDanica</string>
+    <string name="app_name">TripPlannr</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Trips (Testing)</string>
     <string name="title_activity_maps">Map</string>
@@ -12,4 +12,6 @@
     <string name="get_notifcations">Get Notifications</string>
 
     <string name="google_maps_key">AIzaSyCp-gPLaNTNRcu_FBCzaaShs01RMN8JqLM</string>
+    <string name="search">Search Fragment</string>
+    <string name="title_saved_trips">Saved Trips</string>
 </resources>
