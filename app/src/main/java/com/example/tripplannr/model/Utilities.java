@@ -18,4 +18,11 @@ public class Utilities {
                 today.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
                 today.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH);
     }
+
+    public static boolean isNow(Calendar calendar) {
+        Calendar rightNow = Calendar.getInstance();
+        return isToday(calendar) &&
+                rightNow.get(Calendar.HOUR_OF_DAY) == calendar.get(Calendar.HOUR_OF_DAY) &&
+                rightNow.get(Calendar.MINUTE) == calendar.get(Calendar.MINUTE);
+    }
 }

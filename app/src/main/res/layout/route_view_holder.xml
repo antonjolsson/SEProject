@@ -2,13 +2,13 @@
 <layout>
     <data>
         <import type="java.time.format.DateTimeFormatter" />
-        <import type="com.example.tripplannr.controller.trip.ModeOfTransportIconDictionary" />
+        <import type="com.example.tripplannr.view.ModeOfTransportIconDictionary" />
         <variable
             name="route"
-            type="com.example.tripplannr.model.Route" />
+            type="com.example.tripplannr.model.tripdata.Route" />
         <variable
             name="iconType"
-            type="com.example.tripplannr.model.ModeOfTransport" />
+            type="com.example.tripplannr.model.tripdata.ModeOfTransport" />
         <variable
             name="fragmentActivity"
             type="androidx.fragment.app.FragmentActivity" />
