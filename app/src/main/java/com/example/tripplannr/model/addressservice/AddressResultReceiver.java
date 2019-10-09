@@ -30,6 +30,6 @@ public class AddressResultReceiver extends ResultReceiver {
         if (addressOutput == null) {
             addressOutput = "";
         }
-        model.setLocation(clickedLocation, addressOutput);
+        model.setLocation(clickedLocation, addressOutput, model.getFocusedLocationField());
     }
 }

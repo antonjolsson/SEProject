@@ -175,8 +175,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     }
 
     private void setNewLocation(LatLng latLng) {
-
-
         clickedLocation = new Location("");
         clickedLocation.setLatitude(latLng.latitude);
         clickedLocation.setLongitude(latLng.longitude);

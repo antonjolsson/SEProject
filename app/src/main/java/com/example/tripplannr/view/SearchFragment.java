@@ -1,6 +1,9 @@
 package com.example.tripplannr.view;
 
 import android.annotation.SuppressLint;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,8 +24,10 @@ import com.example.tripplannr.viewmodel.TripViewModel;
 import com.example.tripplannr.viewmodel.TripViewModel.LocationField;
 import com.example.tripplannr.model.Utilities;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -138,11 +143,29 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
+        toTextField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    Location location = getLocation(toTextField.getText().toString());
+                    model.setLocation(location, toTextField.getText().toString(), DESTINATION);
+                }
+            }
+        });
         fromTextField.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 model.setFocusedLocationField(ORIGIN);
                 return false;
+            }
+        });
+        fromTextField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    Location location = getLocation(fromTextField.getText().toString());
+                    model.setLocation(location, fromTextField.getText().toString(), ORIGIN);
+                }
             }
         });
         locIconView.setOnClickListener(new View.OnClickListener() {
@@ -185,25 +208,43 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    // TODO: Move this to appropriate class
+    private Location getLocation(String address) {
+        Geocoder geocoder = new Geocoder(getContext());
+        List<Address> addresses;
+        Location location = null;
+        try {
+            addresses = geocoder.getFromLocationName(address, 1);
+            if (addresses.size() > 0) {
+                location = new Location("");
+                location.setLatitude(addresses.get(0).getLatitude());
+                location.setLongitude(addresses.get(0).getLongitude());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return location;
+    }
+
     // Swap origin and destination
     private void swapLocations() {
         TripLocation origin = model.getOrigin().getValue();
         TripLocation destination = model.getDestination().getValue();
-        LocationField locationField = model.getFocusedLocationField();
+        LocationField tempField = model.getFocusedLocationField();
         model.setFocusedLocationField(DESTINATION);
         if (origin != null) model.setLocation(origin.getLocation(), origin.getName());
         else {
-            model.setLocation(null, null);
+            model.setLocation(null, null, DESTINATION);
             toTextField.setText("To");
         }
         model.setFocusedLocationField(ORIGIN);
         if (destination != null)
             model.setLocation(destination.getLocation(), destination.getName());
         else {
-            model.setLocation(null, null);
+            model.setLocation(null, null, ORIGIN);
             fromTextField.setText("From");
         }
-        model.setFocusedLocationField(locationField);
+        model.setFocusedLocationField(tempField);
     }
 
 }

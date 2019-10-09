@@ -93,16 +93,20 @@ public class TripViewModel extends ViewModel {
         return focusedLocationFields.peek();
     }
 
-    public void setLocation(Location location, String name) {
+    public void setLocation(Location location, String name, LocationField locationField) {
         TripLocation tripLocation = null;
         if (location != null) tripLocation = new TripLocation(name, location, null);
         if (initOriginField) {
             origin.setValue(tripLocation);
             initOriginField = false;
         }
-        else if (focusedLocationFields.peek() == ORIGIN)
+        else if (locationField == ORIGIN)
             origin.setValue(tripLocation);
-        else destination.setValue(tripLocation);
+        else this.destination.setValue(tripLocation);
+    }
+
+    public void setLocation(Location location, String name) {
+        setLocation(location, name, getFocusedLocationField());
     }
 
     public MutableLiveData<Boolean> getAddressQuery() {
