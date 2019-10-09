@@ -146,7 +146,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private void locationChanged(TripLocation tripLocation, LocationField destination) {
         if (tripLocation != null) {
             LatLng latLng = tripLocationToLatLng(tripLocation.getLocation());
-            updateMarker(latLng);
+            updateMap(latLng);
         }
         else removeMarker(destination);
         if (model.getAddressQuery().getValue() != null &&
@@ -168,10 +168,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onMapClick(LatLng latLng) {
-        updateMarker(latLng);
-        //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+        updateMap(latLng);
         setNewLocation(latLng);
+    }
+
+    private void updateMap(LatLng latLng) {
+        updateMarker(latLng);
+        //Move map camera, unless location change was due to swap
+        if (!model.isSwappingLocations())
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
     }
 
     private void setNewLocation(LatLng latLng) {

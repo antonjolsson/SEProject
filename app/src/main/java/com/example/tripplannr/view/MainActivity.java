@@ -1,8 +1,10 @@
 package com.example.tripplannr.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -16,6 +18,7 @@ import com.example.tripplannr.model.Trip;
 import com.example.tripplannr.viewmodel.TripViewModel;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.tripplannr.R.id.main_lower_container;
 import static com.example.tripplannr.viewmodel.TripViewModel.ShownFragment.*;
@@ -120,6 +123,16 @@ public class MainActivity extends FragmentActivity {
             if (view instanceof ViewGroup) {
                 enableDisableViewGroup((ViewGroup) view, enabled);
             }
+        }
+    }
+
+    public void closeKeyboard() {
+        View view = Objects.requireNonNull(this.getCurrentFocus());
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            assert imm != null;
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 

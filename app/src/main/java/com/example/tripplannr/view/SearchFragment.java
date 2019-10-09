@@ -1,6 +1,8 @@
 package com.example.tripplannr.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -136,38 +139,8 @@ public class SearchFragment extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     private void setListeners() {
-        toTextField.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                model.setFocusedLocationField(DESTINATION);
-                return false;
-            }
-        });
-        toTextField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    Location location = getLocation(toTextField.getText().toString());
-                    model.setLocation(location, toTextField.getText().toString(), DESTINATION);
-                }
-            }
-        });
-        fromTextField.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                model.setFocusedLocationField(ORIGIN);
-                return false;
-            }
-        });
-        fromTextField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    Location location = getLocation(fromTextField.getText().toString());
-                    model.setLocation(location, fromTextField.getText().toString(), ORIGIN);
-                }
-            }
-        });
+        setToFieldListeners();
+        setFromFieldListeners();
         locIconView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,6 +181,48 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private void setFromFieldListeners() {
+        fromTextField.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                model.setFocusedLocationField(ORIGIN);
+                return false;
+            }
+        });
+        fromTextField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    Location location = getLocation(fromTextField.getText().toString());
+                    model.setLocation(location, fromTextField.getText().toString(), ORIGIN);
+                    hideKeyboardFrom(getContext(), getView());
+                }
+            }
+        });
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void setToFieldListeners() {
+        toTextField.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                model.setFocusedLocationField(DESTINATION);
+                return false;
+            }
+        });
+        toTextField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    Location location = getLocation(toTextField.getText().toString());
+                    model.setLocation(location, toTextField.getText().toString(), DESTINATION);
+                    hideKeyboardFrom(getContext(), getView());
+                }
+            }
+        });
+    }
+
     // TODO: Move this to appropriate class
     private Location getLocation(String address) {
         Geocoder geocoder = new Geocoder(getContext());
@@ -228,6 +243,7 @@ public class SearchFragment extends Fragment {
 
     // Swap origin and destination
     private void swapLocations() {
+        model.setSwappingLocations(true);
         TripLocation origin = model.getOrigin().getValue();
         TripLocation destination = model.getDestination().getValue();
         LocationField tempField = model.getFocusedLocationField();
@@ -245,6 +261,13 @@ public class SearchFragment extends Fragment {
             fromTextField.setText("From");
         }
         model.setFocusedLocationField(tempField);
+        model.setSwappingLocations(false);
+    }
+
+    private void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager)
+                context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }

@@ -39,6 +39,8 @@ public class TripViewModel extends ViewModel {
     private Deque<LocationField> focusedLocationFields = new ArrayDeque<>();
     private TripPlanner tripPlanner;
 
+    private boolean swappingLocations;
+
     public TripViewModel() {
         focusedLocationFields.push(DESTINATION);
         timeIsDeparture.setValue(true);
@@ -139,5 +141,13 @@ public class TripViewModel extends ViewModel {
 
     public void setTempLocationField(LocationField locationField) {
         focusedLocationFields.push(locationField);
+    }
+
+    public void setSwappingLocations(boolean b) {
+        swappingLocations = b;
+    }
+
+    public boolean isSwappingLocations() {
+        return swappingLocations;
     }
 }
