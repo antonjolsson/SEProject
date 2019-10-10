@@ -13,6 +13,7 @@
         <action
             android:id="@+id/action_navigation_trip_fragment_to_navigation_trip_results"
             app:destination="@id/navigation_trip_results" />
+        <argument android:name="model" />
     </fragment>
 
     <fragment

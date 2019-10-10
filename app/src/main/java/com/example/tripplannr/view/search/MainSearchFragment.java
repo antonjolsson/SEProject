@@ -18,7 +18,7 @@ import android.widget.FrameLayout;
 import com.example.tripplannr.R;
 import com.example.tripplannr.model.Trip;
 import com.example.tripplannr.view.DateTimeFragment;
-import com.example.tripplannr.view.MapFragment;
+import com.example.tripplannr.view.map.SearchMapFragment;
 import com.example.tripplannr.viewmodel.TripViewModel;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class MainSearchFragment extends Fragment {
     private final static float SEMI_TRANSPARENT_ALPHA = 0.5f;
     private final static float OPAQUE_ALPHA = 1f;
 
-    private MapFragment mapFragment;
+    private SearchMapFragment searchMapFragment;
     private DateTimeFragment dateTimeFragment;
     private ConstraintLayout searchFragView;
     private TripViewModel model;
@@ -66,15 +66,15 @@ public class MainSearchFragment extends Fragment {
     }
 
     private void showMapFragment() {
-        if (mapFragment == null) mapFragment = new MapFragment();
+        if (searchMapFragment == null) searchMapFragment = new SearchMapFragment();
 
-        mapFragment.setArguments(getActivity().getIntent().getExtras());
+        searchMapFragment.setArguments(getActivity().getIntent().getExtras());
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().
                 beginTransaction();
 
         // Add the fragment to the 'fragment_container' FrameLayout
-        transaction.replace(main_lower_container, mapFragment).commit();
+        transaction.replace(main_lower_container, searchMapFragment).commit();
         transaction.addToBackStack(null);
 
         searchFragView.setAlpha(OPAQUE_ALPHA);

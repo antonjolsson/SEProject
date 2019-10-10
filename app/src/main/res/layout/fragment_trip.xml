@@ -36,7 +36,7 @@
 
             <fragment
                 android:id="@+id/trip_map_fragment"
-                android:name="com.example.tripplannr.view.MapFragment"
+                android:name="com.example.tripplannr.view.map.ResultMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="8dp" />
