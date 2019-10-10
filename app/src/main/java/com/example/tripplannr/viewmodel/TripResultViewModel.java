@@ -6,15 +6,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.tripplannr.model.api.TripRepository;
-import com.example.tripplannr.model.tripdata.Route;
-import com.example.tripplannr.model.tripdata.TravelTimes;
 import com.example.tripplannr.model.Trip;
+import com.example.tripplannr.model.api.TripRepository;
 import com.example.tripplannr.model.api.VasttrafikApi;
 import com.example.tripplannr.model.api.VasttrafikRepository;
+import com.example.tripplannr.model.tripdata.Route;
+import com.example.tripplannr.model.tripdata.TravelTimes;
 import com.example.tripplannr.model.tripdata.TripLocation;
 import com.google.android.gms.common.util.Base64Utils;
-import com.google.api.client.auth.oauth2.TokenResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +30,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.tripplannr.model.tripdata.ModeOfTransport.*;
+import static com.example.tripplannr.model.tripdata.ModeOfTransport.BUS;
+import static com.example.tripplannr.model.tripdata.ModeOfTransport.FERRY;
+import static com.example.tripplannr.model.tripdata.ModeOfTransport.TRAM;
+import static com.example.tripplannr.model.tripdata.ModeOfTransport.WALK;
 
 public class TripResultViewModel extends ViewModel implements IClickHandler<Trip> {
 

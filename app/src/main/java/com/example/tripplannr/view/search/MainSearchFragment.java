@@ -70,7 +70,8 @@ public class MainSearchFragment extends Fragment {
 
         mapFragment.setArguments(getActivity().getIntent().getExtras());
 
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().
+                beginTransaction();
 
         // Add the fragment to the 'fragment_container' FrameLayout
         transaction.replace(main_lower_container, mapFragment).commit();
@@ -80,7 +81,6 @@ public class MainSearchFragment extends Fragment {
         mainLowerContainer.setElevation(noElevation);
         mainUpperContainer.setElevation(modFragElevation);
         enableDisableViewGroup(searchFragView, true);
-
     }
 
     private void showDateTimeFragment() {
@@ -100,7 +100,6 @@ public class MainSearchFragment extends Fragment {
         mainUpperContainer.setElevation(noElevation);
         mainLowerContainer.setElevation(modFragElevation);
         enableDisableViewGroup(searchFragView, false);
-
     }
 
     private void setListeners() {

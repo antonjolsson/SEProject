@@ -18,35 +18,40 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/routesRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="441dp"
+            android:layout_height="277dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/routesRecyclerView">
 
+            <fragment
+                android:id="@+id/trip_map_fragment"
+                android:name="com.example.tripplannr.view.MapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp" />
+
             <Button
                 android:id="@+id/getNotificationButton"
                 android:layout_width="249dp"
                 android:layout_height="42dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="380dp"
+                android:layout_marginBottom="8dp"
                 android:enabled="@{saved ? false : true}"
                 android:fontFamily="@font/rajdhani_medium"
                 android:onClick="@{() -> fragment.activateNotifications()}"
                 android:text="@string/get_notifcations"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:textSize="16sp" />
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
