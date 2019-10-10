@@ -8,7 +8,8 @@
     <fragment
         android:id="@+id/navigation_trip_fragment"
         android:name="com.example.tripplannr.view.TripFragment"
-        android:label="@string/trip">
+        android:label="@string/trip"
+        tools:layout="@layout/fragment_trip">
         <action
             android:id="@+id/action_navigation_trip_fragment_to_navigation_trip_results"
             app:destination="@id/navigation_trip_results" />
