@@ -29,7 +29,6 @@ public class VasttrafikApi {
     public VasttrafikApi() {}
 
     public List<Trip> getRoute(String data) throws JSONException {
-        // TODO, real API call
 
         List<Trip> trips = new ArrayList<>();
 
