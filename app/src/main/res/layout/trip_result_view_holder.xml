@@ -4,10 +4,10 @@
         <import type="java.time.format.DateTimeFormatter"/>
         <variable
             name="trip"
-            type="com.example.tripplannr.model.Trip" />
+            type="com.example.tripplannr.domain_layer.Trip" />
         <variable
             name="viewHolder"
-            type="com.example.tripplannr.view.TripResultAdapter.TripResultViewHolder" />
+            type="com.example.tripplannr.application_layer.trip.TripResultAdapter.TripResultViewHolder" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -26,7 +26,8 @@
             android:layout_marginEnd="10dp"
             android:text='@{"When: " + trip.times.departure.format(DateTimeFormatter.ofPattern("HH:mm")) + " - " + trip.times.arrival.format(DateTimeFormatter.ofPattern("HH:mm"))}'
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/changesTextView"
@@ -38,7 +39,8 @@
             android:text='@{"Changes :" + trip.routes.size()}'
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/totalTimeTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/totalTimeTextView"
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/totalTimeTextView"
@@ -48,7 +50,8 @@
             android:layout_marginEnd="10dp"
             android:text='@{"Travel Time: " + trip.times.duration}'
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/timeTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/timeTextView"
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/stopTextView"
@@ -59,6 +62,7 @@
             android:text="@{trip.origin.name}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:textColor="@color/white"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
