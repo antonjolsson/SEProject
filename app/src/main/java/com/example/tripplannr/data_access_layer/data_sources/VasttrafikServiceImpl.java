@@ -1,16 +1,13 @@
-package com.example.tripplannr.data_access_layer.repositories;
+package com.example.tripplannr.data_access_layer.data_sources;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.tripplannr.application_layer.util.VasttrafikParser;
-import com.example.tripplannr.data_access_layer.dao.VasttrafikServiceDAO;
+import com.example.tripplannr.data_access_layer.data_sources.VasttrafikService;
 import com.example.tripplannr.domain_layer.Trip;
-import com.google.android.gms.common.util.Base64Utils;
-import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,15 +24,18 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class VasttrafikRepository {
+/**
+ * Not sure if this should be a repo or implementation as retrofit might create an implementation under the hood
+ */
+public class VasttrafikServiceImpl {
 
-    private VasttrafikServiceDAO vasttrafikServiceDAO;
+    private VasttrafikService vasttrafikService;
 
     private MutableLiveData<List<Trip>> data = new MutableLiveData<>();
 
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
-    public VasttrafikRepository() {
+    public VasttrafikServiceImpl() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(10, TimeUnit.SECONDS)
                 .build();
@@ -46,7 +46,7 @@ public class VasttrafikRepository {
                 .client(okHttpClient)
                 .build();
 
-        vasttrafikServiceDAO = retrofit.create(VasttrafikServiceDAO.class);
+        vasttrafikService = retrofit.create(VasttrafikService.class);
     }
 
     public LiveData<List<Trip>> getData() {
@@ -63,7 +63,7 @@ public class VasttrafikRepository {
     }
 
     public void loadTrips(final String origin, final String destination) {
-        vasttrafikServiceDAO
+        vasttrafikService
                 .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
                         "application/x-www-form-urlencoded", "client_credentials")
                 .enqueue(new Callback<ResponseBody>() {
@@ -90,7 +90,7 @@ public class VasttrafikRepository {
 
     private void searchAndLoadTrips(String origin, final String destination, final String token) {
         isLoading.setValue(true);
-        vasttrafikServiceDAO
+        vasttrafikService
                 .getNearbyStops(origin, "json", token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -120,7 +120,7 @@ public class VasttrafikRepository {
     }
 
     private void searchAndLoadTripsHelper(String destination, final long originId, final String token) {
-        vasttrafikServiceDAO
+        vasttrafikService
                 .getNearbyStops(destination, "json", token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -150,7 +150,7 @@ public class VasttrafikRepository {
     }
 
     private void loadTripsHelper(final String token, final long originId, final long destinationId) {
-        vasttrafikServiceDAO
+        vasttrafikService
                 .getTrips(originId, destinationId, "json","Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override

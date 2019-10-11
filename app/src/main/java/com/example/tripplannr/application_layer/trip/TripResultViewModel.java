@@ -6,11 +6,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.tripplannr.data_access_layer.dao.TripDAO;
+import com.example.tripplannr.data_access_layer.data_sources.TripDAOImpl;
+import com.example.tripplannr.data_access_layer.repositories.VasttafikRepository;
 import com.example.tripplannr.domain_layer.Route;
 import com.example.tripplannr.domain_layer.TravelTimes;
 import com.example.tripplannr.domain_layer.Trip;
-import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
+import com.example.tripplannr.data_access_layer.data_sources.VasttrafikServiceImpl;
 import com.example.tripplannr.domain_layer.TripLocation;
 
 import java.time.LocalDateTime;
@@ -22,7 +23,7 @@ import static com.example.tripplannr.domain_layer.ModeOfTransport.*;
 
 public class TripResultViewModel extends ViewModel implements IClickHandler<Trip> {
 
-    private VasttrafikRepository vasttrafikRepository = new VasttrafikRepository();
+    private VasttafikRepository vasttafikRepository = new VasttafikRepository();
 
     private LiveData<List<Trip>> mTripsLiveData;
 
@@ -30,13 +31,13 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     private MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
 
-    private TripDAO tripRepository = TripDAO.getInstance();
+    private TripDAOImpl tripRepository = TripDAOImpl.getInstance();
 
     public TripResultViewModel() {
         super();
-        isLoading = vasttrafikRepository.isLoading();
-        mTripsLiveData = vasttrafikRepository.getData();
-        vasttrafikRepository.loadTrips("Chalmers", "Lindholmen");
+        isLoading = vasttafikRepository.isLoading();
+        mTripsLiveData = vasttafikRepository.getData();
+        vasttafikRepository.loadTrips("Chalmers", "Lindholmen");
     }
 
     public LiveData<Trip> getTripLiveData() {

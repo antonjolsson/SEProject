@@ -1,6 +1,6 @@
 package com.example.tripplannr.domain_layer;
 
-import com.example.tripplannr.data_access_layer.dao.TripDAO;
+import com.example.tripplannr.data_access_layer.data_sources.TripDAOImpl;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class TripRepositoryTest {
 
-    private TripDAO tripRepository = TripDAO.getInstance();
+    private TripDAOImpl tripRepository = TripDAOImpl.getInstance();
 
     private Trip testTrip = new Trip.Builder().build();
 

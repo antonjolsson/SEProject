@@ -1,4 +1,4 @@
-package com.example.tripplannr.data_access_layer;
+package com.example.tripplannr.data_access_layer.repositories;
 
 import com.example.tripplannr.application_layer.util.StenaLineParser;
 import com.example.tripplannr.application_layer.util.TripParser;
@@ -8,11 +8,11 @@ import com.example.tripplannr.domain_layer.TripQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TripPlanner {
+public class GenericTripRepository {
 
     private List<TripParser> tripParsers;
 
-    public TripPlanner() {
+    public GenericTripRepository() {
         tripParsers = new ArrayList<>();
         TripParser stenaLineApi = new StenaLineParser();
 

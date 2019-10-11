@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.domain_layer.TripLocation;
-import com.example.tripplannr.data_access_layer.TripPlanner;
+import com.example.tripplannr.data_access_layer.repositories.GenericTripRepository;
 import com.example.tripplannr.domain_layer.TripQuery;
 
 import java.util.ArrayDeque;
@@ -34,12 +34,12 @@ public class SearchViewModel extends ViewModel {
 
     private boolean initOriginField = true;
     private Deque<LocationField> focusedLocationFields = new ArrayDeque<>();
-    private TripPlanner tripPlanner;
+    private GenericTripRepository genericTripRepository;
 
     public SearchViewModel() {
         focusedLocationFields.push(DESTINATION);
         timeIsDeparture.setValue(true);
-        tripPlanner = new TripPlanner();
+        genericTripRepository = new GenericTripRepository();
         desiredTime.setValue(Calendar.getInstance());
     }
 
@@ -47,7 +47,7 @@ public class SearchViewModel extends ViewModel {
         TripQuery tripQuery = new TripQuery(origin.getValue(), destination.getValue(),
                 desiredTime.getValue(),
                 Objects.requireNonNull(timeIsDeparture.getValue()), null);
-        trips.setValue(tripPlanner.makeTrip(tripQuery));
+        trips.setValue(genericTripRepository.makeTrip(tripQuery));
     }
 
     public MutableLiveData<ShownFragment> getFragments() {

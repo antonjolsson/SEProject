@@ -1,5 +1,5 @@
 
-package com.example.tripplannr.data_access_layer.dao;
+package com.example.tripplannr.data_access_layer.data_sources;
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
-public interface VasttrafikServiceDAO  {
+public interface VasttrafikService {
 
     // Get Västtrafik API access token
     @POST("token")
