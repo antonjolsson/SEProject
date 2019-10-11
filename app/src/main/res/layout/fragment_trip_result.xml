@@ -98,7 +98,7 @@
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/destinationTextView"
-                    android:text='@{"When: " + trip.times.arrival.format(DateTimeFormatter.ofPattern("dd-MM-yy"))}' />
+                    android:text='@{"When: " + trip.times.departure.format(DateTimeFormatter.ofPattern("dd-MM-yy")) + " - " + trip.times.arrival.format(DateTimeFormatter.ofPattern("dd-MM-yy"))}' />
 
                 <TextView
                     android:id="@+id/destinationTextView"
