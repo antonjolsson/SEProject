@@ -4,10 +4,10 @@
         <import type="java.time.format.DateTimeFormatter"/>
         <variable
             name="trip"
-            type="com.example.tripplannr.model.Trip" />
+            type="com.example.tripplannr.domain_layer.Trip" />
         <variable
             name="viewHolder"
-            type="com.example.tripplannr.view.trip.TripResultAdapter.TripResultViewHolder" />
+            type="com.example.tripplannr.application_layer.trip.TripResultAdapter.TripResultViewHolder" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

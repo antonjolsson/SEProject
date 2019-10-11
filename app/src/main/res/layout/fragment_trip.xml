@@ -4,7 +4,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.example.tripplannr.view.trip.TripFragment" />
+            type="com.example.tripplannr.application_layer.trip.TripFragment" />
         <variable
             name="saved"
             type="Boolean" />
@@ -42,7 +42,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:onClick="@{() -> fragment.activateNotifications()}"
+                android:onClick="@{(v) -> fragment.activateNotifications(v)}"
                 android:enabled="@{saved ? false : true}"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

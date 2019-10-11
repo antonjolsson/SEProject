@@ -5,7 +5,7 @@
         <import type="java.time.format.DateTimeFormatter" />
         <variable
             name="trip"
-            type="com.example.tripplannr.model.Trip" />
+            type="com.example.tripplannr.domain_layer.Trip" />
         <variable
             name="isLoading"
             type="Boolean" />
@@ -18,7 +18,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.trip.TripResultFragment">
+    tools:context=".application_layer.trip.TripResultFragment">
 
         <TextView
             android:id="@+id/errorTextView"
