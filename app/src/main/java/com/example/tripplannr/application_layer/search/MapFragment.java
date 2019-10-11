@@ -25,7 +25,7 @@ import com.example.tripplannr.application_layer.addressservice.AddressResultRece
 import com.example.tripplannr.application_layer.addressservice.FetchAddressConstants;
 import com.example.tripplannr.application_layer.addressservice.FetchAddressIntentService;
 import com.example.tripplannr.domain_layer.TripLocation;
-import com.example.tripplannr.application_layer.search.TripViewModel.LocationField;
+import com.example.tripplannr.application_layer.search.SearchViewModel.LocationField;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -44,8 +44,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
 import java.util.Objects;
 
-import static com.example.tripplannr.application_layer.search.TripViewModel.LocationField.DESTINATION;
-import static com.example.tripplannr.application_layer.search.TripViewModel.LocationField.ORIGIN;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.DESTINATION;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.ORIGIN;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMapClickListener{
@@ -59,7 +59,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private FusedLocationProviderClient fusedLocationClient;
     private Location mLastLocation;
     private Location clickedLocation;
-    private TripViewModel model;
+    private SearchViewModel model;
     private Marker originMarker;
     private Marker destinationMarker;
     private float zoomLevel;
@@ -70,7 +70,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         fusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getActivity()));
-        model = ViewModelProviders.of(getActivity()).get(TripViewModel.class);
+        model = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
         zoomLevel = DEF_ZOOM_LEVEL;
         latLng = DEF_LAT_LNG;
     }

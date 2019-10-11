@@ -27,14 +27,14 @@ public class DateTimeFragment extends Fragment {
     private TextView setTextView, cancelTextView;
     private TimePicker timePicker;
     private DatePicker datePicker;
-    private TripViewModel model;
+    private SearchViewModel model;
     private Calendar desiredTime;
     private boolean timeIsDeparture = true;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
-                get(TripViewModel.class);
+                get(SearchViewModel.class);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

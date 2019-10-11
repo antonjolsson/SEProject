@@ -47,7 +47,8 @@ public interface VasttrafikServiceDAO  {
     // Get a pattern matching for stops using given string
     @GET(api_path + "location.name")
     Call<ResponseBody> getNearbyStops(
-
+            @Query("input") String locationName,
+            @Query("format") String format,
             @Header("Authorization") String bearer);
 
     // Get all stops nearby a given address

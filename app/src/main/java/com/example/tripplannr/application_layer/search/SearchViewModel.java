@@ -17,10 +17,10 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 
-import static com.example.tripplannr.application_layer.search.TripViewModel.LocationField.*;
-import static com.example.tripplannr.application_layer.search.TripViewModel.ShownFragment.*;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.*;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.ShownFragment.*;
 
-public class TripViewModel extends ViewModel {
+public class SearchViewModel extends ViewModel {
 
     public enum ShownFragment {MAP, TIME_CONTROLS}
     public enum LocationField {ORIGIN, DESTINATION}
@@ -36,7 +36,7 @@ public class TripViewModel extends ViewModel {
     private Deque<LocationField> focusedLocationFields = new ArrayDeque<>();
     private TripPlanner tripPlanner;
 
-    public TripViewModel() {
+    public SearchViewModel() {
         focusedLocationFields.push(DESTINATION);
         timeIsDeparture.setValue(true);
         tripPlanner = new TripPlanner();

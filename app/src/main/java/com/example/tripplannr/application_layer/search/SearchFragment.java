@@ -18,7 +18,7 @@ import androidx.navigation.Navigation;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.domain_layer.TripLocation;
-import com.example.tripplannr.application_layer.search.TripViewModel.LocationField;
+import com.example.tripplannr.application_layer.search.SearchViewModel.LocationField;
 import com.example.tripplannr.application_layer.util.Utilities;
 
 import java.text.SimpleDateFormat;
@@ -26,8 +26,8 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
 
-import static com.example.tripplannr.application_layer.search.TripViewModel.LocationField.DESTINATION;
-import static com.example.tripplannr.application_layer.search.TripViewModel.LocationField.ORIGIN;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.DESTINATION;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.ORIGIN;
 
 public class SearchFragment extends Fragment {
 
@@ -36,12 +36,12 @@ public class SearchFragment extends Fragment {
     private ImageView locIconView, swapIconView;
     private Button timeButton, searchButton;
     private String name;
-    private TripViewModel model;
+    private SearchViewModel model;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
-                get(TripViewModel.class);
+                get(SearchViewModel.class);
         setModelObservers();
     }
 

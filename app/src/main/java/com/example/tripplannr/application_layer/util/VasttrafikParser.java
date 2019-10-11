@@ -37,7 +37,14 @@ public class VasttrafikParser {
         // Build trips for each alternative
         for (int i = 0; i < alternatives.length(); i++){
             // Leg is a collection of sub routes
-            JSONArray legs = alternatives.getJSONObject(i).getJSONArray("Leg");
+            JSONArray legs = new JSONArray();
+            try {
+                legs = new JSONArray()
+                        .put(alternatives.getJSONObject(i).getJSONObject("Leg"));
+            }
+            catch (JSONException e) {
+                legs = alternatives.getJSONObject(i).getJSONArray("Leg");
+            }
             List<Route> routes = new ArrayList<>();
             for (int j = 0; j < legs.length(); j++) {
                 // Build route from JSON data

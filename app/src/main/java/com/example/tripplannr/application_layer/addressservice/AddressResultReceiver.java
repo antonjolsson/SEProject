@@ -5,14 +5,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 
-import com.example.tripplannr.application_layer.search.TripViewModel;
+import com.example.tripplannr.application_layer.search.SearchViewModel;
 
 public class AddressResultReceiver extends ResultReceiver {
 
-    private TripViewModel model;
+    private SearchViewModel model;
     private Location clickedLocation;
 
-    public AddressResultReceiver(TripViewModel model, Handler handler, Location clickedLocation) {
+    public AddressResultReceiver(SearchViewModel model, Handler handler, Location clickedLocation) {
         super(handler);
         this.model = model;
         this.clickedLocation = clickedLocation;

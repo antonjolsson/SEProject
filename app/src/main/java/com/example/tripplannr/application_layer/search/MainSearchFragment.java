@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.example.tripplannr.R.id.main_lower_container;
-import static com.example.tripplannr.application_layer.search.TripViewModel.ShownFragment.MAP;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.ShownFragment.MAP;
 
 
 public class MainSearchFragment extends Fragment {
@@ -33,7 +33,7 @@ public class MainSearchFragment extends Fragment {
     private MapFragment mapFragment;
     private DateTimeFragment dateTimeFragment;
     private ConstraintLayout searchFragView;
-    private TripViewModel model;
+    private SearchViewModel model;
     private FrameLayout mainLowerContainer;
     private FrameLayout mainUpperContainer;
 
@@ -43,7 +43,7 @@ public class MainSearchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(TripViewModel.class);
+        model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(SearchViewModel.class);
         View view = inflater.inflate(R.layout.main_activity, container, false);
         setListeners();
 
@@ -101,9 +101,9 @@ public class MainSearchFragment extends Fragment {
     }
 
     private void setListeners() {
-        model.getFragments().observe(this, new Observer<TripViewModel.ShownFragment>() {
+        model.getFragments().observe(this, new Observer<SearchViewModel.ShownFragment>() {
             @Override
-            public void onChanged(TripViewModel.ShownFragment shownFragment) {
+            public void onChanged(SearchViewModel.ShownFragment shownFragment) {
                 if (shownFragment == MAP) showMapFragment();
                 else showDateTimeFragment();
             }
