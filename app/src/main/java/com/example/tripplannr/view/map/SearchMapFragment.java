@@ -27,19 +27,6 @@ import static com.example.tripplannr.viewmodel.TripViewModel.LocationField.ORIGI
 
 public class SearchMapFragment extends MapFragment {
 
-    private void locationChanged(TripLocation tripLocation, LocationField destination) {
-        if (tripLocation != null) {
-            LatLng latLng = tripLocationToLatLng(tripLocation.getLocation());
-            updateMarker(latLng);
-        }
-        else removeMarker(destination);
-        if (model.getAddressQuery().getValue() != null &&
-                model.getAddressQuery().getValue()) {
-            model.setAddressQuery(false);
-            model.flattenFocLocationStack();
-        }
-    }
-
     @Override
     public void onMapClick(LatLng latLng) {
         super.onMapClick(latLng);
@@ -63,18 +50,7 @@ public class SearchMapFragment extends MapFragment {
 
      @Override
      void setListeners() {
-        model.getDestination().observe(this, new Observer<TripLocation>() {
-            @Override
-            public void onChanged(TripLocation tripLocation) {
-                locationChanged(tripLocation, DESTINATION);
-            }
-        });
-        model.getOrigin().observe(this, new Observer<TripLocation>() {
-            @Override
-            public void onChanged(TripLocation tripLocation) {
-                locationChanged(tripLocation, ORIGIN);
-            }
-        });
+        super.setListeners();
         model.getAddressQuery().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged (Boolean addressQuery) {

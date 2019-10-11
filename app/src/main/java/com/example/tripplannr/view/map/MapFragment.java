@@ -15,9 +15,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.model.tripdata.TripLocation;
 import com.example.tripplannr.viewmodel.TripViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -187,7 +189,7 @@ public abstract class MapFragment extends Fragment implements OnMapReadyCallback
         onMapClick(latLng);
     }
 
-    LatLng tripLocationToLatLng(Location location) {
+    private LatLng tripLocationToLatLng(Location location) {
         return new LatLng(location.getLatitude(),
                 location.getLongitude());
     }
@@ -226,6 +228,32 @@ public abstract class MapFragment extends Fragment implements OnMapReadyCallback
         }
     }
 
-    abstract void setListeners();
+    void setListeners() {
+        model.getDestination().observe(this, new Observer<TripLocation>() {
+            @Override
+            public void onChanged(TripLocation tripLocation) {
+                locationChanged(tripLocation, DESTINATION);
+            }
+        });
+        model.getOrigin().observe(this, new Observer<TripLocation>() {
+            @Override
+            public void onChanged(TripLocation tripLocation) {
+                locationChanged(tripLocation, ORIGIN);
+            }
+        });
+    }
+
+    private void locationChanged(TripLocation tripLocation, TripViewModel.LocationField destination) {
+        if (tripLocation != null) {
+            LatLng latLng = tripLocationToLatLng(tripLocation.getLocation());
+            updateMarker(latLng);
+        }
+        else removeMarker(destination);
+        if (model.getAddressQuery().getValue() != null &&
+                model.getAddressQuery().getValue()) {
+            model.setAddressQuery(false);
+            model.flattenFocLocationStack();
+        }
+    }
 
 }
