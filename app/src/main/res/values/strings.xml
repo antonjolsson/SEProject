@@ -11,7 +11,7 @@
     <string name="trip_result">Trip Results</string>
     <string name="get_notifcations">Get Notifications</string>
 
-    <string name="google_maps_key">AIzaSyCp-gPLaNTNRcu_FBCzaaShs01RMN8JqLM</string>
+    <string name="google_maps_key">AIzaSyDyDlgpaXHE1mqwvy1HXAXKC7KMWSK60aU</string>
     <string name="search">Search Fragment</string>
     <string name="title_saved_trips">Saved Trips</string>
 </resources>

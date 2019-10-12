@@ -1,0 +1,86 @@
+package com.example.tripplannr.application_layer.profile;
+
+import android.app.Notification;
+import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.example.tripplannr.R;
+import com.example.tripplannr.application_layer.trip.RoutesAdapter;
+import com.example.tripplannr.application_layer.trip.TripResultViewModel;
+import com.example.tripplannr.application_layer.util.ModeOfTransportIconDictionary;
+import com.example.tripplannr.domain_layer.Trip;
+
+
+import java.util.Objects;
+
+
+public class SavedTripDetailsFragment extends Fragment {
+
+    private TripResultViewModel viewModel;
+    private RecyclerView recyclerView;
+    private Trip tripData;
+
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_saved_trip_details, container, false);
+        initViewModel();
+        initRecyclerView(view);
+        return view;
+    }
+
+    private void initViewModel(){
+        viewModel = ViewModelProviders.of(this).get(TripResultViewModel.class);
+        viewModel.getTripLiveData().observe(this, new Observer<Trip>() {
+            @Override
+            public void onChanged(Trip trip) {
+                tripData = trip;
+                if(trip.getRoutes().size() > 0) {
+                    recyclerView.setAdapter(new RoutesAdapter(trip.getRoutes()));
+                }
+            }
+        });
+    }
+
+
+
+    private void initRecyclerView(View view){
+        recyclerView = view.findViewById(R.id.routesRecyclerView);
+        recyclerView.setAdapter(new RoutesAdapter(viewModel.getTripLiveData().getValue().getRoutes()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void deleteSavedTrip(){
+        NotificationManagerCompat.from(Objects.requireNonNull(getActivity())).notify(0, getNotification());
+        viewModel.removeTrip(tripData);
+    }
+
+    private Notification getNotification() {
+        return new NotificationCompat.Builder(Objects.requireNonNull(getActivity()), "TRIP_CHANNEL")
+                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), ModeOfTransportIconDictionary.getTransportIcon(tripData.getRoutes().get(0).getMode())))
+                .setContentTitle("Notification about your Trip")
+                .setContentText("Your trip \"" + tripData.getName() + "\" has been deleted from save trips," +
+                        " you will no longer be receiving notifications related to this trip")
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setStyle(new NotificationCompat.BigTextStyle())
+                .build();
+    }
+
+
+}
