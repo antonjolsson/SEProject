@@ -42,6 +42,7 @@ public class ResultMapFragment extends MapFragment {
 
     @Override
     void setListeners() {
+        super.setListeners();
         tripResultViewModel.getTripLiveData().observe(this, new Observer<Trip>() {
             @Override
             public void onChanged(Trip trip) {
