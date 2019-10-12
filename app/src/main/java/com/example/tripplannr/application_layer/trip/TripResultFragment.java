@@ -71,6 +71,7 @@ public class TripResultFragment extends Fragment {
         tripResultAdapter = new TripResultAdapter(tripResultViewModel.getTripsLiveData().getValue(), R.id.action_navigation_trip_results_to_navigation_trip_fragment);
         resultRecyclerView = view.findViewById(R.id.tripResultRecyclerView);
         resultRecyclerView.setAdapter(tripResultAdapter);
+        resultRecyclerView.setNestedScrollingEnabled(false);
         resultRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 

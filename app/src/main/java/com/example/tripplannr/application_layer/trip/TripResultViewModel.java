@@ -37,7 +37,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         super();
         isLoading = vasttafikRepository.isLoading();
         mTripsLiveData = vasttafikRepository.getData();
-        vasttafikRepository.loadTrips("Chalmers", "Lindholmen");
+        vasttafikRepository.loadTrips("Skogome", "Frölunda");
     }
 
     public LiveData<Trip> getTripLiveData() {
