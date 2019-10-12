@@ -1,6 +1,5 @@
 package com.example.tripplannr.view.map;
 
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -10,13 +9,15 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.model.Trip;
+import com.example.tripplannr.model.Utilities;
 import com.example.tripplannr.model.tripdata.Route;
-import com.example.tripplannr.model.tripdata.TravelTimes;
 import com.example.tripplannr.model.tripdata.TripLocation;
 import com.example.tripplannr.viewmodel.TripResultViewModel;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -32,6 +33,8 @@ import static com.example.tripplannr.viewmodel.TripViewModel.LocationField.ORIGI
 
 public class ResultMapFragment extends MapFragment {
 
+    // Padding between map edge and itinerary locations in initial view
+    private static final int MAP_LOC_PADDING = 120;
     private TripResultViewModel tripResultViewModel;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,39 @@ public class ResultMapFragment extends MapFragment {
         trip = getFakeTrip(trip);
         drawMarkers(trip);
         drawPolyLines(trip);
+        centerItinerary(trip);
+    }
+
+    private void centerItinerary(Trip trip) {
+        List<LatLng> points = new ArrayList<>();
+        points.add(locationToLatlng(trip.getOrigin().getLocation()));
+        points.add(locationToLatlng(trip.getDestination().getLocation()));
+        for (Route route : trip.getRoutes()) {
+            points.add(locationToLatlng(route.getOrigin().getLocation()));
+            points.add(locationToLatlng(route.getDestination().getLocation()));
+        }
+        LatLng[] mostRemotePoints = getLongestDistance(points);
+        LatLngBounds bounds = LatLngBounds.builder().include(mostRemotePoints[0]).
+                include(mostRemotePoints[1]).build();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, MAP_LOC_PADDING));
+    }
+
+    private LatLng[] getLongestDistance(List<LatLng> points) {
+        float[] results = new float[3];
+        LatLng[] mostRemotePoints = new LatLng[2];
+        double longestDist = 0;
+        for (int i = 0; i < points.size(); i++) {
+            for (int j = i + 1; j < points.size(); j++) {
+                Location.distanceBetween(points.get(i).latitude, points.get(i).longitude,
+                        points.get(j).latitude, points.get(j).longitude, results);
+                if (results[0] > longestDist) {
+                    longestDist = results[0];
+                    mostRemotePoints[0] = points.get(i);
+                    mostRemotePoints[1] = points.get(j);
+                }
+            }
+        }
+        return mostRemotePoints;
     }
 
     private void drawPolyLines(Trip trip) {
@@ -120,6 +156,12 @@ public class ResultMapFragment extends MapFragment {
         originLoc.setLatitude(lat);
         originLoc.setLongitude(lng);
         return originLoc;
+    }
+
+    private static LatLng locationToLatlng(Location location) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        return new LatLng(latitude, longitude);
     }
 
 }
