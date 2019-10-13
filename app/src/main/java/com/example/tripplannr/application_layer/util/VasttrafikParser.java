@@ -56,8 +56,6 @@ public class VasttrafikParser {
                     .name(start_route.getOrigin().getName() + " - " +
                             end_route.getDestination().getName())
                     .routes(routes)
-                    .origin(start_route.getOrigin())
-                    .destination(end_route.getDestination())
                     .build();
             trips.add(trip);
         }

@@ -3,13 +3,14 @@ package com.example.tripplannr.data_access_layer.repositories;
 import android.os.AsyncTask;
 
 import com.example.tripplannr.data_access_layer.data_sources.TripDAO;
+import com.example.tripplannr.domain_layer.Route;
 import com.example.tripplannr.domain_layer.Trip;
 import com.google.common.base.Function;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -26,7 +27,7 @@ public class TripRepository {
             @Nullable
             @Override
             public Void apply(@Nullable Trip input) {
-                tripDAO.delete(trip);
+                tripDAO.delete(input);
                 return null;
             }
         }).execute();
@@ -51,7 +52,7 @@ public class TripRepository {
             @Nullable
             @Override
             public Void apply(@Nullable Trip input) {
-                tripDAO.save(trip);
+                tripDAO.save(input);
                 return null;
             }
         }).execute();

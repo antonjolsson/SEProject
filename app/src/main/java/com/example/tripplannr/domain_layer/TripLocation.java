@@ -36,11 +36,4 @@ public class TripLocation {
         return track;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setTrack(String track) {
-        this.track = track;
-    }
 }

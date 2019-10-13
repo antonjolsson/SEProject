@@ -27,14 +27,6 @@ public class TravelTimes {
         return duration;
     }
 
-    public void setDeparture(LocalDateTime departure) {
-        this.departure = departure;
-    }
-
-    public void setArrival(LocalDateTime arrival) {
-        this.arrival = arrival;
-    }
-
     public void setDuration(long duration) {
         this.duration = duration;
     }
