@@ -16,7 +16,6 @@ public class Trip {
     @PrimaryKey
     private Long id;
     private String name;
-    @Embedded
     private ArrayList<Route> routes;
     @Embedded(prefix = "origin_")
     private TripLocation origin;
