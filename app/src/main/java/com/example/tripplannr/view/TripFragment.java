@@ -58,7 +58,7 @@ public class TripFragment extends Fragment {
             public void onChanged(Trip trip) {
                 tripData = trip;
                 if(trip.getRoutes().size() > 0) {
-                    routesRecyclerView.setAdapter(new RoutesAdapter(trip.getRoutes()));
+                    routesRecyclerView.setAdapter(new RoutesAdapter(tripResultViewModel));
                 }
             }
         });
@@ -75,7 +75,8 @@ public class TripFragment extends Fragment {
     private Notification getNotification() {
         return new NotificationCompat.Builder(Objects.requireNonNull(getActivity()), "TRIP_CHANNEL")
                 .setSmallIcon(R.drawable.ic_notifications_black_24dp)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), ModeOfTransportIconDictionary.getTransportIcon(tripData.getRoutes().get(0).getMode())))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),
+                        ModeOfTransportIconDictionary.getTransportIcon(tripData.getRoutes().get(0).getMode())))
                 .setContentTitle("Notification about your Trip")
                 .setContentText("Your trip \"" + tripData.getName() + "\" has been saved to your profile," +
                         " you will now be receiving notifications related to this trip")
@@ -87,7 +88,7 @@ public class TripFragment extends Fragment {
 
     private void initRecyclerView(View view) {
         routesRecyclerView = view.findViewById(R.id.routesRecyclerView);
-        routesRecyclerView.setAdapter(new RoutesAdapter(Objects.requireNonNull(tripResultViewModel.getTripLiveData().getValue()).getRoutes()));
+        routesRecyclerView.setAdapter(new RoutesAdapter(Objects.requireNonNull(tripResultViewModel)));
         routesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 

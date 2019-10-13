@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.HttpCookie;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,14 +38,12 @@ import static com.example.tripplannr.model.tripdata.ModeOfTransport.WALK;
 
 public class TripResultViewModel extends ViewModel implements IClickHandler<Trip> {
 
-    private VasttrafikRepository vasttrafikRepository = new VasttrafikRepository();
-
     private MutableLiveData<List<Trip>> mTripsLiveData = new MutableLiveData<>();
-
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
-
     private MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
+    private MutableLiveData<Route> mRouteLiveData = new MutableLiveData<>();
 
+    private VasttrafikRepository vasttrafikRepository = new VasttrafikRepository();
     private TripRepository tripRepository = TripRepository.getInstance();
 
     public TripResultViewModel() {
@@ -59,6 +58,10 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     public LiveData<List<Trip>> getTripsLiveData() {
         return mTripsLiveData;
+    }
+
+    public LiveData<Route> getRouteLiveData() {
+        return mRouteLiveData;
     }
 
     public LiveData<Boolean> isLoading() {
@@ -207,4 +210,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         return Collections.singletonList(trip);
     }
 
+    public void setSelectedRoute(Route route) {
+        mRouteLiveData.setValue(route);
+    }
 }

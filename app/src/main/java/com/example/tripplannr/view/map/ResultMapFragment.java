@@ -1,6 +1,5 @@
 package com.example.tripplannr.view.map;
 
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -10,7 +9,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.model.Trip;
-import com.example.tripplannr.model.Utilities;
 import com.example.tripplannr.model.tripdata.Route;
 import com.example.tripplannr.model.tripdata.TripLocation;
 import com.example.tripplannr.viewmodel.TripResultViewModel;
@@ -38,12 +36,21 @@ public class ResultMapFragment extends MapFragment {
     // Padding between map edge and itinerary locations in initial view
     private static final int MAP_LOC_PADDING = 120;
     private static final int POLYLINE_WIDTH = 15;
+    private final List<Polyline> polylines = new ArrayList<>();
+    private int commonPolylineColor;
+    private int focusedPolylineColor;
+
     private TripResultViewModel tripResultViewModel;
+    private List<Route> routes;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tripResultViewModel = ViewModelProviders.
                 of(Objects.requireNonNull(getActivity())).get(TripResultViewModel.class);
+        commonPolylineColor = ContextCompat.getColor(Objects.requireNonNull(getContext()),
+                R.color.colorPrimary);
+        focusedPolylineColor = ContextCompat.getColor(Objects.requireNonNull(getContext()),
+                R.color.magenta);
     }
 
     @Override
@@ -52,7 +59,23 @@ public class ResultMapFragment extends MapFragment {
         tripResultViewModel.getTripLiveData().observe(this, new Observer<Trip>() {
             @Override
             public void onChanged(Trip trip) {
+                routes = getRoutes(trip.getRoutes()); // Todo: remove when routes contain locations
                 drawTrip(trip);
+            }
+        });
+        tripResultViewModel.getRouteLiveData().observe(this, new Observer<Route>() {
+            @Override
+            public void onChanged(Route route) {
+                List<Route> rs = Objects.requireNonNull(tripResultViewModel.getTripLiveData().getValue()).
+                        getRoutes();
+                int routeIndex = 0;
+                for (int i = 0; i < rs.size(); i++) {
+                    if (route.equals(rs.get(i))) {
+                        routeIndex = i;
+                        break;
+                    }
+                }
+                focusPolyline(polylines.get(routeIndex));
             }
         });
     }
@@ -109,14 +132,9 @@ public class ResultMapFragment extends MapFragment {
     }
 
     private void drawPolyLines(Trip trip) {
-        final int primaryColor = ContextCompat.getColor(Objects.requireNonNull(getContext()),
-                R.color.colorPrimary);
-        final int magenta = ContextCompat.getColor(Objects.requireNonNull(getContext()),
-                R.color.magenta);
         List<Route> routes = trip.getRoutes();
         PolylineOptions polylineOptions;
         List<PatternItem> dotLine = Arrays.asList(new Dot(), new Gap(14));
-        final List<Polyline> polylines = new ArrayList<>();
 
         for (Route route : routes) {
             polylineOptions = new PolylineOptions();
@@ -124,29 +142,37 @@ public class ResultMapFragment extends MapFragment {
                             route.getOrigin().getLocation().getLongitude()),
                     new LatLng(route.getDestination().getLocation().getLatitude(),
                             route.getDestination().getLocation().getLongitude()));
-            polylineOptions.color(primaryColor);
+            polylineOptions.color(commonPolylineColor);
             if (route.getMode().equals(WALK)) polylineOptions.pattern(dotLine);
             polylineOptions.width(POLYLINE_WIDTH).clickable(true);
             Polyline polyline = mMap.addPolyline(polylineOptions);
             polylines.add(polyline);
         }
-        setPolylineListener(primaryColor, magenta, polylines);
+        setPolylineListener(polylines);
     }
 
-    private void setPolylineListener(final int primaryColor, final int magenta,
-                                     final List<Polyline> polylines) {
+    private void setPolylineListener(final List<Polyline> polylines) {
         mMap.setOnPolylineClickListener(new GoogleMap.OnPolylineClickListener() {
             @Override
             public void onPolylineClick(Polyline pLine) {
                 for (Polyline polyline : polylines) {
                     if (polyline.getId().equals(pLine.getId())) {
-                        polyline.setColor(magenta);
-                        centerPoints(polyline.getPoints());
+                        focusPolyline(polyline);
+                        break;
                     }
-                    else polyline.setColor(primaryColor);
                 }
             }
         });
+    }
+
+    private void focusPolyline(Polyline polyline) {
+        for (Polyline pLine : polylines) {
+            if (pLine.equals(polyline)) {
+                polyline.setColor(focusedPolylineColor);
+                centerPoints(polyline.getPoints());
+            }
+            else pLine.setColor(commonPolylineColor);
+        }
     }
 
     private void drawMarkers(Trip trip) {
@@ -157,6 +183,7 @@ public class ResultMapFragment extends MapFragment {
     }
 
     // TODO: remove this when trips contain Location data
+    // *******************************************************************************************
     private Trip getFakeTrip(Trip trip) {
         Location originLoc = makeLocation(57.706998, 11.938496);
         TripLocation originTripLocation = new TripLocation(trip.getOrigin().getName(), originLoc,
@@ -164,7 +191,7 @@ public class ResultMapFragment extends MapFragment {
         Location destLoc = makeLocation(57.687775, 11.979341);
         TripLocation destTripLocation = new TripLocation(trip.getDestination().getName(), destLoc,
                 trip.getDestination().getTrack());
-        List<Route> routes = getRoutes(trip.getRoutes());
+        //List<Route> routes = getRoutes(trip.getRoutes());
         return new Trip(trip.getName(), routes, originTripLocation,
                 destTripLocation, trip.getTimes());
     }
@@ -187,6 +214,8 @@ public class ResultMapFragment extends MapFragment {
 
         return routes2;
     }
+
+    // *******************************************************************************************
 
     private Location makeLocation(double lat, double lng) {
         Location originLoc = new Location("");
