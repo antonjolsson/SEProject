@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.example.tripplannr.application_layer.util.ModeOfTransportIconDictionary;
 import com.example.tripplannr.databinding.FragmentTripBinding;
 import com.example.tripplannr.domain_layer.Trip;
@@ -27,6 +28,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
+import java.util.Observable;
 
 
 public class TripFragment extends Fragment {
@@ -51,16 +53,8 @@ public class TripFragment extends Fragment {
     }
 
     private void initViewModel() {
-        tripResultViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(TripResultViewModel.class);
-        tripResultViewModel.getTripLiveData().observe(this, new Observer<Trip>() {
-            @Override
-            public void onChanged(Trip trip) {
-                tripData = trip;
-                if(trip.getRoutes().size() > 0) {
-                    routesRecyclerView.setAdapter(new RoutesAdapter(trip.getRoutes()));
-                }
-            }
-        });
+        tripResultViewModel = InjectorUtils.getTripResultViewModel(getContext(), getActivity());
+        tripData = tripResultViewModel.getTripLiveData().getValue();
     }
 
     public void activateNotifications(View view) {
@@ -100,7 +94,7 @@ public class TripFragment extends Fragment {
 
     private void initRecyclerView(View view) {
         routesRecyclerView = view.findViewById(R.id.routesRecyclerView);
-        routesRecyclerView.setAdapter(new RoutesAdapter(Objects.requireNonNull(tripResultViewModel.getTripLiveData().getValue()).getRoutes()));
+        routesRecyclerView.setAdapter(new RoutesAdapter(tripData.getRoutes()));
         routesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 

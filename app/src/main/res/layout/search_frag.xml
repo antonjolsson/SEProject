@@ -11,6 +11,7 @@
         android:id="@+id/toText"
         android:layout_width="302dp"
         android:layout_height="39dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="55dp"
         android:background="@drawable/input_field"
@@ -23,6 +24,7 @@
         android:text="To"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/destBIconView"
         app:layout_constraintTop_toBottomOf="@+id/fromText" />
 
     <EditText
@@ -30,6 +32,7 @@
         style="@android:style/Widget.Material.Light.EditText"
         android:layout_width="302dp"
         android:layout_height="38dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="55dp"
         android:autofillHints=""
@@ -44,6 +47,7 @@
         android:text="From"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/destAIconView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -51,6 +55,7 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="302dp"
         android:layout_height="38dp"
+        android:layout_marginStart="14dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="55dp"
         android:background="@drawable/input_field"
@@ -62,18 +67,21 @@
         android:textAllCaps="false"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/timeIconView"
         app:layout_constraintTop_toBottomOf="@+id/toText" />
 
     <Button
         android:id="@+id/searchButton"
         android:layout_width="161dp"
         android:layout_height="60dp"
+        android:layout_marginStart="126dp"
         android:layout_marginTop="232dp"
         android:layout_marginEnd="124dp"
         android:fontFamily="@font/rajdhani_bold"
         android:text="SEARCH TRIP"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView

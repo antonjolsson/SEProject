@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.application_layer.trip.TripResultAdapter;
 import com.example.tripplannr.application_layer.trip.TripResultViewModel;
@@ -23,6 +24,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class SavedTripFragment extends Fragment {
@@ -41,7 +43,7 @@ public class SavedTripFragment extends Fragment {
     }
 
     private void initRecyclerView(final View view) {
-        tripResultAdapter = new TripResultAdapter(viewModel.getSavedTrips(), 0);
+        tripResultAdapter = new TripResultAdapter(viewModel.getSavedTrips(), 0, viewModel);
         recyclerView = view.findViewById(R.id.savedTripRecyclerView);
         recyclerView.setAdapter(tripResultAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -81,6 +83,6 @@ public class SavedTripFragment extends Fragment {
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this).get(TripResultViewModel.class);
+        viewModel = InjectorUtils.getTripResultViewModel(getContext(), getActivity());
     }
 }

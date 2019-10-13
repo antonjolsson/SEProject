@@ -1,0 +1,488 @@
+@startuml
+
+title __APP's Class Diagram__\n
+
+  namespace androidx.databinding {
+    class androidx.databinding.DataBinderMapperImpl {
+    }
+  }
+  
+
+  namespace androidx.databinding {
+    interface androidx.databinding.DataBindingComponent {
+    }
+  }
+  
+
+  namespace androidx.databinding {
+    namespace library.baseAdapters {
+      class androidx.databinding.library.baseAdapters.BR {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    class com.example.tripplannr.BR {
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    class com.example.tripplannr.BuildConfig {
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    class com.example.tripplannr.DataBinderMapperImpl {
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.addressservice {
+      class com.example.tripplannr.application_layer.addressservice.AddressResultReceiver {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.addressservice {
+      class com.example.tripplannr.application_layer.addressservice.FetchAddressConstants {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.addressservice {
+      class com.example.tripplannr.application_layer.addressservice.FetchAddressIntentService {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.dashboard {
+      class com.example.tripplannr.application_layer.dashboard.DashboardFragment {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.dashboard {
+      class com.example.tripplannr.application_layer.dashboard.DashboardViewModel {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.home {
+      class com.example.tripplannr.application_layer.home.HomeFragment {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.home {
+      class com.example.tripplannr.application_layer.home.HomeViewModel {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.notifications {
+      class com.example.tripplannr.application_layer.notifications.NotificationsFragment {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.notifications {
+      class com.example.tripplannr.application_layer.notifications.NotificationsViewModel {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.profile {
+      class com.example.tripplannr.application_layer.profile.SavedTripFragment {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.search {
+      class com.example.tripplannr.application_layer.search.DateTimeFragment {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.search {
+      class com.example.tripplannr.application_layer.search.MainSearchFragment {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.search {
+      class com.example.tripplannr.application_layer.search.MapFragment {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.search {
+      class com.example.tripplannr.application_layer.search.SearchFragment {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.search {
+      class com.example.tripplannr.application_layer.search.SearchViewModel {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.trip {
+      interface com.example.tripplannr.application_layer.trip.IClickHandler {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.trip {
+      class com.example.tripplannr.application_layer.trip.RoutesAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.trip {
+      class com.example.tripplannr.application_layer.trip.TripActivity {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.trip {
+      class com.example.tripplannr.application_layer.trip.TripFragment {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.trip {
+      class com.example.tripplannr.application_layer.trip.TripResultAdapter {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.trip {
+      class com.example.tripplannr.application_layer.trip.TripResultFragment {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.trip {
+      class com.example.tripplannr.application_layer.trip.TripResultViewModel {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.util {
+      class com.example.tripplannr.application_layer.util.ModeOfTransportIconDictionary {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.util {
+      class com.example.tripplannr.application_layer.util.StenaLineParser {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.util {
+      interface com.example.tripplannr.application_layer.util.TripParser {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.util {
+      class com.example.tripplannr.application_layer.util.Utilities {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace application_layer.util {
+      class com.example.tripplannr.application_layer.util.VasttrafikParser {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace data_access_layer.data_sources {
+      interface com.example.tripplannr.data_access_layer.data_sources.TripDAO {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace data_access_layer.data_sources {
+      class com.example.tripplannr.data_access_layer.data_sources.TripDAOImpl {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace data_access_layer.data_sources {
+      interface com.example.tripplannr.data_access_layer.data_sources.VasttrafikService {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace data_access_layer.data_sources {
+      class com.example.tripplannr.data_access_layer.data_sources.VasttrafikServiceImpl {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace data_access_layer.repositories {
+      class com.example.tripplannr.data_access_layer.repositories.GenericTripRepository {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace data_access_layer.repositories {
+      class com.example.tripplannr.data_access_layer.repositories.TripRepository {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace data_access_layer.repositories {
+      class com.example.tripplannr.data_access_layer.repositories.VasttafikRepository {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace databinding {
+      class com.example.tripplannr.databinding.FragmentTripBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace databinding {
+      class com.example.tripplannr.databinding.FragmentTripResultBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace databinding {
+      class com.example.tripplannr.databinding.RouteViewHolderBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace databinding {
+      class com.example.tripplannr.databinding.TripResultViewHolderBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace domain_layer {
+      class com.example.tripplannr.domain_layer.FerryInfo {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace domain_layer {
+      enum ModeOfTransport {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace domain_layer {
+      class com.example.tripplannr.domain_layer.Route {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace domain_layer {
+      class com.example.tripplannr.domain_layer.TravelTimes {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace domain_layer {
+      class com.example.tripplannr.domain_layer.Trip {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace domain_layer {
+      class com.example.tripplannr.domain_layer.TripLocation {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace domain_layer {
+      class com.example.tripplannr.domain_layer.TripQuery {
+      }
+    }
+  }
+  
+
+  namespace com.example.tripplannr {
+    namespace generated.callback {
+      class com.example.tripplannr.generated.callback.OnClickListener {
+      }
+    }
+  }
+  
+
+  androidx.databinding.DataBinderMapperImpl -up-|> androidx.databinding.MergedDataBinderMapper
+  com.example.tripplannr.DataBinderMapperImpl -up-|> androidx.databinding.DataBinderMapper
+  com.example.tripplannr.application_layer.addressservice.AddressResultReceiver -up-|> android.os.ResultReceiver
+  com.example.tripplannr.application_layer.addressservice.AddressResultReceiver o-- com.example.tripplannr.application_layer.search.SearchViewModel : model
+  com.example.tripplannr.application_layer.addressservice.FetchAddressIntentService -up-|> android.app.IntentService
+  com.example.tripplannr.application_layer.dashboard.DashboardFragment -up-|> androidx.fragment.app.Fragment
+  com.example.tripplannr.application_layer.dashboard.DashboardFragment o-- com.example.tripplannr.application_layer.dashboard.DashboardViewModel : dashboardViewModel
+  com.example.tripplannr.application_layer.dashboard.DashboardViewModel -up-|> androidx.lifecycle.ViewModel
+  com.example.tripplannr.application_layer.home.HomeFragment -up-|> androidx.fragment.app.Fragment
+  com.example.tripplannr.application_layer.home.HomeFragment o-- com.example.tripplannr.application_layer.home.HomeViewModel : homeViewModel
+  com.example.tripplannr.application_layer.home.HomeViewModel -up-|> androidx.lifecycle.ViewModel
+  com.example.tripplannr.application_layer.notifications.NotificationsFragment -up-|> androidx.fragment.app.Fragment
+  com.example.tripplannr.application_layer.notifications.NotificationsFragment o-- com.example.tripplannr.application_layer.notifications.NotificationsViewModel : notificationsViewModel
+  com.example.tripplannr.application_layer.notifications.NotificationsViewModel -up-|> androidx.lifecycle.ViewModel
+  com.example.tripplannr.application_layer.profile.SavedTripFragment -up-|> androidx.fragment.app.Fragment
+  com.example.tripplannr.application_layer.profile.SavedTripFragment o-- com.example.tripplannr.application_layer.trip.TripResultAdapter : tripResultAdapter
+  com.example.tripplannr.application_layer.profile.SavedTripFragment o-- com.example.tripplannr.application_layer.trip.TripResultViewModel : viewModel
+  com.example.tripplannr.application_layer.search.DateTimeFragment -up-|> androidx.fragment.app.Fragment
+  com.example.tripplannr.application_layer.search.DateTimeFragment o-- com.example.tripplannr.application_layer.search.SearchViewModel : model
+  com.example.tripplannr.application_layer.search.MainSearchFragment -up-|> androidx.fragment.app.Fragment
+  com.example.tripplannr.application_layer.search.MainSearchFragment o-- com.example.tripplannr.application_layer.search.DateTimeFragment : dateTimeFragment
+  com.example.tripplannr.application_layer.search.MainSearchFragment o-- com.example.tripplannr.application_layer.search.MapFragment : mapFragment
+  com.example.tripplannr.application_layer.search.MainSearchFragment o-- com.example.tripplannr.application_layer.search.SearchViewModel : model
+  com.example.tripplannr.application_layer.search.MapFragment .up.|> com.google.android.gms.maps.GoogleMap.OnMapClickListener
+  com.example.tripplannr.application_layer.search.MapFragment .up.|> com.google.android.gms.maps.OnMapReadyCallback
+  com.example.tripplannr.application_layer.search.MapFragment -up-|> androidx.fragment.app.Fragment
+  com.example.tripplannr.application_layer.search.MapFragment o-- com.example.tripplannr.application_layer.search.SearchViewModel : model
+  com.example.tripplannr.application_layer.search.SearchFragment -up-|> androidx.fragment.app.Fragment
+  com.example.tripplannr.application_layer.search.SearchFragment o-- com.example.tripplannr.application_layer.search.SearchViewModel : model
+  com.example.tripplannr.application_layer.search.SearchViewModel -up-|> androidx.lifecycle.ViewModel
+  com.example.tripplannr.application_layer.search.SearchViewModel o-- com.example.tripplannr.data_access_layer.repositories.GenericTripRepository : genericTripRepository
+  com.example.tripplannr.application_layer.trip.RoutesAdapter -up-|> androidx.recyclerview.widget.RecyclerView.Adapter
+  com.example.tripplannr.application_layer.trip.TripActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.tripplannr.application_layer.trip.TripFragment -up-|> androidx.fragment.app.Fragment
+  com.example.tripplannr.application_layer.trip.TripFragment o-- com.example.tripplannr.databinding.FragmentTripBinding : tripBinding
+  com.example.tripplannr.application_layer.trip.TripFragment o-- com.example.tripplannr.domain_layer.Trip : tripData
+  com.example.tripplannr.application_layer.trip.TripFragment o-- com.example.tripplannr.application_layer.trip.TripResultViewModel : tripResultViewModel
+  com.example.tripplannr.application_layer.trip.TripResultAdapter -up-|> androidx.recyclerview.widget.RecyclerView.Adapter
+  com.example.tripplannr.application_layer.trip.TripResultFragment -up-|> androidx.fragment.app.Fragment
+  com.example.tripplannr.application_layer.trip.TripResultFragment o-- com.example.tripplannr.application_layer.trip.TripResultAdapter : tripResultAdapter
+  com.example.tripplannr.application_layer.trip.TripResultFragment o-- com.example.tripplannr.databinding.FragmentTripResultBinding : tripResultBinding
+  com.example.tripplannr.application_layer.trip.TripResultFragment o-- com.example.tripplannr.application_layer.trip.TripResultViewModel : tripResultViewModel
+  com.example.tripplannr.application_layer.trip.TripResultViewModel .up.|> com.example.tripplannr.application_layer.trip.IClickHandler
+  com.example.tripplannr.application_layer.trip.TripResultViewModel -up-|> androidx.lifecycle.ViewModel
+  com.example.tripplannr.application_layer.trip.TripResultViewModel o-- com.example.tripplannr.data_access_layer.data_sources.TripDAOImpl : tripRepository
+  com.example.tripplannr.application_layer.trip.TripResultViewModel o-- com.example.tripplannr.data_access_layer.repositories.VasttafikRepository : vasttafikRepository
+  com.example.tripplannr.application_layer.util.StenaLineParser .up.|> com.example.tripplannr.application_layer.util.TripParser
+  com.example.tripplannr.data_access_layer.data_sources.TripDAOImpl .up.|> com.example.tripplannr.data_access_layer.data_sources.TripDAO
+  com.example.tripplannr.data_access_layer.data_sources.VasttrafikServiceImpl o-- com.example.tripplannr.data_access_layer.data_sources.VasttrafikService : vasttrafikService
+  com.example.tripplannr.data_access_layer.repositories.TripRepository o-- com.example.tripplannr.data_access_layer.data_sources.TripDAOImpl : tripDAOImpl
+  com.example.tripplannr.data_access_layer.repositories.VasttafikRepository o-- com.example.tripplannr.data_access_layer.data_sources.VasttrafikServiceImpl : vasttrafikService
+  com.example.tripplannr.databinding.FragmentTripBindingImpl .up.|> com.example.tripplannr.generated.callback.OnClickListener.Listener
+  com.example.tripplannr.databinding.FragmentTripBindingImpl -up-|> com.example.tripplannr.databinding.FragmentTripBinding
+  com.example.tripplannr.databinding.FragmentTripResultBindingImpl -up-|> com.example.tripplannr.databinding.FragmentTripResultBinding
+  com.example.tripplannr.databinding.RouteViewHolderBindingImpl -up-|> com.example.tripplannr.databinding.RouteViewHolderBinding
+  com.example.tripplannr.databinding.TripResultViewHolderBindingImpl .up.|> com.example.tripplannr.generated.callback.OnClickListener.Listener
+  com.example.tripplannr.databinding.TripResultViewHolderBindingImpl -up-|> com.example.tripplannr.databinding.TripResultViewHolderBinding
+  com.example.tripplannr.domain_layer.Route o-- com.example.tripplannr.domain_layer.TripLocation : destination
+  com.example.tripplannr.domain_layer.Route o-- com.example.tripplannr.domain_layer.ModeOfTransport : mode
+  com.example.tripplannr.domain_layer.Route o-- com.example.tripplannr.domain_layer.TripLocation : origin
+  com.example.tripplannr.domain_layer.Route o-- com.example.tripplannr.domain_layer.TravelTimes : times
+  com.example.tripplannr.domain_layer.Trip o-- com.example.tripplannr.domain_layer.TripLocation : destination
+  com.example.tripplannr.domain_layer.Trip o-- com.example.tripplannr.domain_layer.TripLocation : origin
+  com.example.tripplannr.domain_layer.Trip o-- com.example.tripplannr.domain_layer.TravelTimes : times
+  com.example.tripplannr.domain_layer.TripQuery o-- com.example.tripplannr.domain_layer.TripLocation : destination
+  com.example.tripplannr.domain_layer.TripQuery o-- com.example.tripplannr.domain_layer.TripLocation : origin
+  com.example.tripplannr.generated.callback.OnClickListener .up.|> android.view.View.OnClickListener
+  com.example.tripplannr.generated.callback.OnClickListener o-- com.example.tripplannr.generated.callback.OnClickListener.Listener : mListener
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

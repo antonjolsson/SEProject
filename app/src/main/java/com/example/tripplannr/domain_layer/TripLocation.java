@@ -2,15 +2,25 @@ package com.example.tripplannr.domain_layer;
 
 import android.location.Location;
 
+import androidx.room.Embedded;
+import androidx.room.Ignore;
+
 public class TripLocation {
 
     private String name;
+    @Ignore
     private Location location;
     private String track;
 
+    @Ignore
     public TripLocation(String name, Location location, String track) {
         this.name = name;
         this.location = location;
+        this.track = track;
+    }
+
+    public TripLocation(String name, String track) {
+        this.name = name;
         this.track = track;
     }
 
@@ -24,5 +34,13 @@ public class TripLocation {
 
     public String getTrack() {
         return track;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTrack(String track) {
+        this.track = track;
     }
 }

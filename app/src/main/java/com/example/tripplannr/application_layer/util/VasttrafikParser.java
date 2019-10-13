@@ -45,7 +45,7 @@ public class VasttrafikParser {
             catch (JSONException e) {
                 legs = alternatives.getJSONObject(i).getJSONArray("Leg");
             }
-            List<Route> routes = new ArrayList<>();
+            ArrayList<Route> routes = new ArrayList<>();
             for (int j = 0; j < legs.length(); j++) {
                 // Build route from JSON data
                 routes.add(getRoute(legs.getJSONObject(j)));

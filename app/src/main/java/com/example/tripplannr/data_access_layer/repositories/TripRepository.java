@@ -1,6 +1,6 @@
 package com.example.tripplannr.data_access_layer.repositories;
 
-import com.example.tripplannr.data_access_layer.data_sources.TripDAOImpl;
+import com.example.tripplannr.data_access_layer.data_sources.TripDAO;
 import com.example.tripplannr.domain_layer.Trip;
 
 import java.util.List;
@@ -8,22 +8,26 @@ import java.util.Optional;
 
 public class TripRepository {
 
-    private TripDAOImpl tripDAOImpl = TripDAOImpl.getInstance();
+    private TripDAO tripDAO;
 
-    public boolean delete(Trip trip) {
-        return tripDAOImpl.delete(trip);
+    public TripRepository(TripDAO tripDAO) {
+        this.tripDAO = tripDAO;
     }
 
-    public List<Trip> getSavedTrips() {
-        return tripDAOImpl.findAll();
+    public void delete(Trip trip) {
+        tripDAO.delete(trip);
     }
 
-    public Optional<Trip> save(Trip trip) {
-        return tripDAOImpl.save(trip);
+    public List<Trip> findAll() {
+        return tripDAO.findAll();
+    }
+
+    public void save(Trip trip) {
+        tripDAO.save(trip);
     }
 
     public void deleteById(int id) {
-        tripDAOImpl.deleteById(id);
+        tripDAO.deleteById(id);
     }
 
 }

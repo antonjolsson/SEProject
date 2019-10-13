@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,11 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.example.tripplannr.databinding.FragmentTripResultBinding;
 import com.example.tripplannr.domain_layer.Trip;
 
 import java.util.List;
-import java.util.Objects;
 
 
 public class TripResultFragment extends Fragment {
@@ -44,17 +43,17 @@ public class TripResultFragment extends Fragment {
     }
 
     private void initViewModel() {
-        tripResultViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(TripResultViewModel.class);
+        tripResultViewModel = InjectorUtils.getTripResultViewModel(getContext(), getActivity());
         tripResultViewModel.getTripsLiveData().observe(this, new Observer<List<Trip>>() {
             @Override
             public void onChanged(List<Trip> trips) {
                 tripResultBinding.setErrorText("");
                 if(trips.size() > 0) {
                     tripResultBinding.setTrip(trips.get(0));
-                    tripResultAdapter.setTrips(trips);
+                    tripResultAdapter.updateTrips(trips);
                 }
                 else {
-                    tripResultAdapter.setTrips(trips);
+                    tripResultAdapter.updateTrips(trips);
                     tripResultBinding.setErrorText("Error fetching data \n from the Server");
                 }
             }
@@ -68,7 +67,10 @@ public class TripResultFragment extends Fragment {
     }
 
     private void initRecyclerView(View view) {
-        tripResultAdapter = new TripResultAdapter(tripResultViewModel.getTripsLiveData().getValue(), R.id.action_navigation_trip_results_to_navigation_trip_fragment);
+        tripResultAdapter =
+                new TripResultAdapter(tripResultViewModel.getTripsLiveData().getValue()
+                        , R.id.action_navigation_trip_results_to_navigation_trip_fragment
+                        , tripResultViewModel);
         resultRecyclerView = view.findViewById(R.id.tripResultRecyclerView);
         resultRecyclerView.setAdapter(tripResultAdapter);
         resultRecyclerView.setNestedScrollingEnabled(false);
