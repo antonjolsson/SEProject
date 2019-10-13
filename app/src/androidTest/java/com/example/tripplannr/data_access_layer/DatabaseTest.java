@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RunWith(AndroidJUnit4ClassRunner.class)
@@ -38,8 +39,9 @@ public class DatabaseTest {
     @Test
     public void selectTest() {
         List<Trip> tripList = tripDAO.findAll();
-        System.out.println(tripList);
-        Assert.assertNotEquals(null, tripList.get(0).getRoutes());
+        System.out.println(tripList.get(0).getRoutes().get(0).getTimes().getDuration());
+        Assert.assertNotEquals(null,
+                tripList.get(0).getRoutes().get(0).getTimes().getArrival().toString());
     }
 
 

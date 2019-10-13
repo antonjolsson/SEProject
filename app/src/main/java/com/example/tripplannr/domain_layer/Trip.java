@@ -18,22 +18,24 @@ public class Trip {
     private Long id;
     private String name;
     private ArrayList<Route> routes;
-    @Embedded(prefix = "origin_")
+    @Embedded(prefix = "trip_origin_")
     private TripLocation origin;
-    @Embedded(prefix = "destination_")
+    @Embedded(prefix = "trip_destination_")
     private TripLocation destination;
-    // private List<> notifications;
-    @Embedded
+    @Ignore
     private TravelTimes times;
+    // private List<> notifications;
     // private FerryInfo ferryinfo;
 
-    public Trip(Long id, String name, ArrayList<Route> routes, TripLocation origin, TripLocation destination, TravelTimes times) {
+    public Trip(Long id, String name, ArrayList<Route> routes, TripLocation origin, TripLocation destination) {
         this.id = id;
         this.name = name;
         this.routes = routes;
         this.origin = origin;
         this.destination = destination;
-        this.times = times;
+        times = new TravelTimes(
+                this.routes.get(0).getTimes().getDeparture()
+                , this.routes.get(this.routes.size() - 1).getTimes().getArrival());
     }
 
     private Trip(Builder builder) {
@@ -41,7 +43,9 @@ public class Trip {
         routes = builder.routes;
         origin = builder.origin;
         destination = builder.destination;
-        times = builder.times;
+        times = new TravelTimes(
+                routes.get(0).getTimes().getDeparture()
+                , routes.get(routes.size() - 1).getTimes().getArrival());
     }
 
     public String getName() {
@@ -58,10 +62,6 @@ public class Trip {
 
     public TripLocation getDestination() {
         return destination;
-    }
-
-    public TravelTimes getTimes() {
-        return times;
     }
 
     public Long getId() {
@@ -88,8 +88,8 @@ public class Trip {
         this.destination = destination;
     }
 
-    public void setTimes(TravelTimes times) {
-        this.times = times;
+    public TravelTimes getTimes() {
+        return times;
     }
 
     public boolean hasFerry() {
@@ -110,7 +110,6 @@ public class Trip {
         private ArrayList<Route> routes;
         private TripLocation origin;
         private TripLocation destination;
-        private TravelTimes times;
 
         public Builder() {
         }
@@ -132,11 +131,6 @@ public class Trip {
 
         public Builder destination(TripLocation val) {
             destination = val;
-            return this;
-        }
-
-        public Builder times(TravelTimes val) {
-            times = val;
             return this;
         }
 

@@ -17,6 +17,27 @@
                             <option name="y" value="12" />
                           </Point>
                         </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_navigation_saved_trips_to_navigation_saved_trips_detailed">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="navigation_saved_trips_detailed">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="250" />
+                            <option name="y" value="-3" />
+                          </Point>
+                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -49,15 +70,6 @@
                             <option name="x" value="256" />
                             <option name="y" value="368" />
                           </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_navigation_trip_fragment_to_navigation_trip_results">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

@@ -58,6 +58,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
     }
 
     public void saveTrip(Trip trip) {
+        System.out.println(trip.getRoutes().get(0).getTimes().getArrival());
         tripRepository.save(trip);
     }
 

@@ -1,9 +1,14 @@
 package com.example.tripplannr.domain_layer;
 
+import androidx.room.Embedded;
+
 public class Route {
 
+    @Embedded(prefix = "route_origin_")
     private TripLocation origin;
+    @Embedded(prefix = "route_destination_")
     private TripLocation destination;
+    @Embedded(prefix = "route_")
     private TravelTimes times;
     private ModeOfTransport mode;
 
@@ -36,6 +41,22 @@ public class Route {
 
     public ModeOfTransport getMode() {
         return mode;
+    }
+
+    public void setOrigin(TripLocation origin) {
+        this.origin = origin;
+    }
+
+    public void setDestination(TripLocation destination) {
+        this.destination = destination;
+    }
+
+    public void setTimes(TravelTimes times) {
+        this.times = times;
+    }
+
+    public void setMode(ModeOfTransport mode) {
+        this.mode = mode;
     }
 
     public static final class Builder {

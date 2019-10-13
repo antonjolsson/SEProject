@@ -1,5 +1,7 @@
 package com.example.tripplannr.application_layer.trip;
 
+import android.content.res.Resources;
+import android.graphics.drawable.Icon;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.application_layer.util.ModeOfTransportIconDictionary;
 import com.example.tripplannr.databinding.RouteViewHolderBinding;
 import com.example.tripplannr.domain_layer.Route;
 
@@ -36,7 +39,7 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
     @Override
     public void onBindViewHolder(@NonNull RouteViewHolder holder, int position) {
         holder.routeViewHolderBinding.setRoute(routes.get(position));
-        holder.routeViewHolderBinding.setIconType(routes.get(position).getMode());
+        holder.setIconType(ModeOfTransportIconDictionary.getTransportIcon(routes.get(position).getMode()));
     }
 
     @Override
@@ -90,7 +93,13 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
         public RouteViewHolder(@NonNull View itemView) {
             super(itemView);
             routeViewHolderBinding = DataBindingUtil.bind(itemView);
-            Objects.requireNonNull(routeViewHolderBinding).setFragmentActivity((FragmentActivity) itemView.getContext());
+        }
+
+        public void setIconType(int iconType) {
+            routeViewHolderBinding.iconImageView
+                    .setImageDrawable(itemView.getContext()
+                            .getResources()
+                            .getDrawable(iconType, itemView.getContext().getTheme()));
         }
 
     }

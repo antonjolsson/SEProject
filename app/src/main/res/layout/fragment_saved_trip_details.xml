@@ -5,7 +5,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.example.tripplannr.view.SavedTripDetails" />
+            type="com.example.tripplannr.application_layer.profile.SavedTripDetailsFragment" />
         <variable
             name="deleted"
             type="Boolean"/>
@@ -44,7 +44,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:onClick="@{() -> fragment.activateNotifications()}"
+                android:onClick="@{() -> fragment.getNotification()}"
                 android:enabled="@{deleted ? false : true}"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -58,8 +58,6 @@ public class VasttrafikParser {
                     .routes(routes)
                     .origin(start_route.getOrigin())
                     .destination(end_route.getDestination())
-                    .times(new TravelTimes(start_route.getTimes().getDeparture(),
-                            end_route.getTimes().getArrival()))
                     .build();
             trips.add(trip);
         }

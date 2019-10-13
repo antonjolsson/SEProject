@@ -1,4 +1,4 @@
-package com.example.tripplannr.view;
+package com.example.tripplannr.application_layer.profile;
 
 import android.app.Notification;
 import android.content.Context;
@@ -10,7 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,42 +22,50 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tripplannr.R;
-import com.example.tripplannr.model.Trip;
-import com.example.tripplannr.viewmodel.TripResultViewModel;
+import com.example.tripplannr.application_layer.trip.RoutesAdapter;
+import com.example.tripplannr.application_layer.trip.TripResultViewModel;
+import com.example.tripplannr.application_layer.util.InjectorUtils;
+import com.example.tripplannr.application_layer.util.ModeOfTransportIconDictionary;
+import com.example.tripplannr.databinding.FragmentSavedTripDetailsBinding;
+import com.example.tripplannr.domain_layer.Trip;
+
 
 import java.util.Objects;
 
 
-public class SavedTripDetails extends Fragment {
+public class SavedTripDetailsFragment extends Fragment {
 
     private TripResultViewModel viewModel;
     private RecyclerView recyclerView;
+    private Trip tripData;
+    private FragmentSavedTripDetailsBinding detailsBinding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_saved_trip_details, container, false);
+        detailsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_saved_trip_details, container, false);
+        View view = detailsBinding.getRoot();
+        detailsBinding.setFragment(this);
         initViewModel();
         initRecyclerView(view);
         return view;
     }
 
     private void initViewModel(){
-        viewModel = ViewModelProviders.of(this).get(TripResultViewModel.class);
+        viewModel = InjectorUtils.getTripResultViewModel(getContext(), getActivity());
+        tripData = viewModel.getTripLiveData().getValue();
     }
-
-
 
     private void initRecyclerView(View view){
         recyclerView = view.findViewById(R.id.routesRecyclerView);
-        recyclerView.setAdapter(new RoutesAdapter(viewModel.getSavedTrips().getRoutes()));
+        recyclerView.setAdapter(new RoutesAdapter(tripData.getRoutes()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void deleteSavedTrip(){
         NotificationManagerCompat.from(Objects.requireNonNull(getActivity())).notify(0, getNotification());
-        //TODO delete saved trip
+        viewModel.removeTrip(tripData);
     }
 
-    private Notification getNotificationt() {
+    public Notification getNotification() {
         return new NotificationCompat.Builder(Objects.requireNonNull(getActivity()), "TRIP_CHANNEL")
                 .setSmallIcon(R.drawable.ic_notifications_black_24dp)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), ModeOfTransportIconDictionary.getTransportIcon(tripData.getRoutes().get(0).getMode())))
