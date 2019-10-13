@@ -36,18 +36,21 @@ public interface VasttrafikService  {
     @GET(api_path + "journeyDetail")
     Call<ResponseBody> getJourneyDetail(
             @Query("ref") String ref,
+            @Query("format") String format,
             @Header("Authorization") String bearer);
 
     // Get geometry details for referenced trip
     @GET(api_path + "geometry")
     Call<ResponseBody> getGeometry(
             @Query("ref") String ref,
+            @Query("format") String format,
             @Header("Authorization") String bearer);
 
     // Get a pattern matching for stops using given string
     @GET(api_path + "location.name")
-    Call<ResponseBody> getNearbyStops(
-
+    Call<ResponseBody> getName(
+            @Query("input") String input,
+            @Query("format") String format,
             @Header("Authorization") String bearer);
 
     // Get all stops nearby a given address
@@ -55,11 +58,13 @@ public interface VasttrafikService  {
     Call<ResponseBody> getNearbyStops(
             @Query("originCoordLat") double originLat,
             @Query("originCoordLong") double originLong,
+            @Query("format") String format,
             @Header("Authorization") String bearer);
 
     // Get all stops in Västtrafiks database
     @GET(api_path + "location.allstops")
     Call<ResponseBody> getAllStops(
+            @Query("format") String format,
             @Header("Authorization") String bearer);
 
     // Get the nearest address to given coordinate
@@ -67,6 +72,7 @@ public interface VasttrafikService  {
     Call<ResponseBody> getNearbyAddress(
             @Query("lat") Double lat,
             @Query("lon") Double lon,
+            @Query("format") String format,
             @Header("Authorization") String bearer);
 
     // Get the next 20 arrivals from a given point in time to a given origin
@@ -75,6 +81,7 @@ public interface VasttrafikService  {
             @Query("originId") String originId,
             @Query("date") Date date,
             @Query("time") String time,
+            @Query("format") String format,
             @Header("Authorization") String bearer);
 
     // Get the next 20 departures from a given point in time to a given origin
@@ -83,6 +90,7 @@ public interface VasttrafikService  {
             @Query("originId") String originId,
             @Query("date") Date date,
             @Query("time") String time,
+            @Query("format") String format,
             @Header("Authorization") String bearer);
 
     // Get the positions of all vehicles in a given bounding box
@@ -93,10 +101,12 @@ public interface VasttrafikService  {
             @Query("miny") String miny,
             @Query("maxy") String maxy,
             @Query("onlyRealTime") String bool, // yes or no
+            @Query("format") String format,
             @Header("Authorization") String bearer);
 
     // Get information about the journey planner and underlying data
     @GET(api_path + "systeminfo")
     Call<ResponseBody> getSysteminfo(
+            @Query("format") String format,
             @Header("Authorization") String bearer);
 }

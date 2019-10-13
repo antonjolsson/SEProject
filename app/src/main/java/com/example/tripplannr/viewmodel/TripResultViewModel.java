@@ -13,8 +13,6 @@ import com.example.tripplannr.model.Trip;
 import com.example.tripplannr.model.api.VasttrafikApi;
 import com.example.tripplannr.model.api.VasttrafikRepository;
 import com.example.tripplannr.model.tripdata.TripLocation;
-import com.google.android.gms.common.util.Base64Utils;
-import com.google.api.client.auth.oauth2.TokenResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -93,9 +91,6 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        System.out.println(":(");
-                        System.out.println(t.getMessage());
-                        System.out.println(Base64Utils.encode(("j521RSopUUqHVTy_Ej8iuMdlYpga"+":"+"s5_gqFYGJvojrv8Qoc_44UpjVboa").getBytes()));
                     }
                 });
     }
@@ -111,7 +106,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                             Thread.sleep(2000);
                             if(response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
-                                mTripsLiveData.postValue(new VasttrafikApi().getRoute(body));
+                                mTripsLiveData.postValue(new VasttrafikApi().getTrips(body));
                                 isLoading.postValue(false);
                             }
                         } catch (IOException | InterruptedException ignored) {} catch (JSONException e) {
@@ -139,14 +134,14 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
     private void sendSecondRequest(final String ref, String token) {
         vasttrafikRepository
                 .getVasttrafikService()
-                .getJourneyDetail(ref, "Bearer " + token)
+                .getJourneyDetail(ref, "json", "Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         try {
                             if(response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
-                                mTripsLiveData.postValue(new VasttrafikApi().getRoute(body));
+                                mTripsLiveData.postValue(new VasttrafikApi().getTrips(body));
                                 isLoading.postValue(false);
                             }
                         } catch (IOException | JSONException ignored) {}

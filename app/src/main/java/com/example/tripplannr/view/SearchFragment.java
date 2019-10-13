@@ -17,15 +17,27 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.model.api.VasttrafikApi;
+import com.example.tripplannr.model.api.VasttrafikRepository;
 import com.example.tripplannr.model.tripdata.TripLocation;
 import com.example.tripplannr.viewmodel.TripViewModel;
 import com.example.tripplannr.viewmodel.TripViewModel.LocationField;
 import com.example.tripplannr.model.Utilities;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.example.tripplannr.viewmodel.TripViewModel.LocationField.DESTINATION;
 import static com.example.tripplannr.viewmodel.TripViewModel.LocationField.ORIGIN;
@@ -38,9 +50,12 @@ public class SearchFragment extends Fragment {
     private Button timeButton, searchButton;
     private String name;
     private TripViewModel model;
+    private VasttrafikRepository vasttrafikRepository = new VasttrafikRepository();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // TODO remove test call
+        getMatching("berg");
         model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
                 get(TripViewModel.class);
         setModelObservers();
@@ -192,6 +207,54 @@ public class SearchFragment extends Fragment {
             fromTextField.setText("From");
         }
         model.setFocusedLocationField(locationField);
+    }
+
+    private void getMatching(final String pattern) {
+        vasttrafikRepository
+                .getVasttrafikService()
+                .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
+                        "application/x-www-form-urlencoded", "client_credentials")
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        System.out.println(response.code());
+                        System.out.println(response.body());
+                        try {
+                            sendPatternRequest(new JSONObject(response.body().string()).getString("access_token"), pattern);
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    }
+                });
+    }
+
+    private void sendPatternRequest(String token, String pattern) {
+        vasttrafikRepository
+                .getVasttrafikService()
+                .getName(pattern, "json","Bearer " + token)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            Thread.sleep(2000);
+                            if(response.code() >= 200 && response.code() <= 299) {
+                                String body = response.body().string();
+                                // TODO do something with response
+                                List<TripLocation> matches = new VasttrafikApi().getMatching(body);
+                            }
+                        } catch (IOException | InterruptedException ignored) {} catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    }
+                });
     }
 
 }
