@@ -8,6 +8,9 @@
         <variable
             name="saved"
             type="Boolean" />
+        <variable
+            name="trip"
+            type="com.example.tripplannr.domain_layer.Trip" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:tools="http://schemas.android.com/tools"
@@ -42,7 +45,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:onClick="@{(v) -> fragment.activateNotifications(v)}"
+                android:onClick="@{(v) -> trip.hasFerry() ? fragment.createDialog(@string/vasttrafik, v) : fragment.createDialog(@string/vasttrafik, @string/stenaline, v)}"
                 android:enabled="@{saved ? false : true}"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,6 +1,8 @@
 package com.example.tripplannr.application_layer.trip;
 
+import android.app.AlertDialog;
 import android.app.Notification;
+import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
@@ -15,9 +17,14 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.application_layer.util.InjectorUtils;
@@ -48,6 +55,7 @@ public class TripFragment extends Fragment {
         tripBinding.setFragment(this);
         View view = tripBinding.getRoot();
         initViewModel();
+        tripBinding.setTrip(tripData);
         initRecyclerView(view);
         return view;
     }
@@ -57,7 +65,7 @@ public class TripFragment extends Fragment {
         tripData = tripResultViewModel.getTripLiveData().getValue();
     }
 
-    public void activateNotifications(View view) {
+    private void activateNotifications(View view) {
         tripBinding.setSaved(true);
         NotificationManagerCompat.from(Objects.requireNonNull(getActivity())).notify(0, getNotification());
         Snackbar
@@ -96,6 +104,52 @@ public class TripFragment extends Fragment {
         routesRecyclerView = view.findViewById(R.id.routesRecyclerView);
         routesRecyclerView.setAdapter(new RoutesAdapter(tripData.getRoutes()));
         routesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    public void createDialog(String vasttrafik, String stenaline, View view) {
+        TextView message = new TextView(getContext());
+        message.setText("Book trip here: \n" +
+                        vasttrafik + "\n" +
+                        stenaline);
+        Linkify.addLinks(message, Linkify.WEB_URLS);
+        message.setMovementMethod(LinkMovementMethod.getInstance());
+        message.setTextSize(18);
+        getDialogBuilder(view)
+                .setView(message)
+                .create()
+                .show();
+
+    }
+
+    public void createDialog(String vasttrafik, View view) {
+        TextView message = new TextView(getContext());
+        message.setText("Book trip here: \n" +
+                        vasttrafik);
+        Linkify.addLinks(message, Linkify.WEB_URLS);
+        message.setMovementMethod(LinkMovementMethod.getInstance());
+        message.setTextSize(18);
+        getDialogBuilder(view)
+                .setView(message)
+                .create()
+                .show();
+
+    }
+
+    private AlertDialog.Builder getDialogBuilder(final View view) {
+        return new AlertDialog.Builder(getActivity())
+                    .setTitle("Book trip?")
+                    .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            activateNotifications(view);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
     }
 
 

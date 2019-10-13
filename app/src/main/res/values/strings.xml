@@ -14,4 +14,6 @@
     <string name="google_maps_key">AIzaSyDyDlgpaXHE1mqwvy1HXAXKC7KMWSK60aU</string>
     <string name="search">Search Fragment</string>
     <string name="title_saved_trips">Saved Trips</string>
+    <string name="vasttrafik" >Västtrafik: <a href="https://vasttrafik.se/biljetter/mer-om-biljetter/vasttrafik-to-go/">https://vasttrafik.se/biljetter/mer-om-biljetter/vasttrafik-to-go/</a></string>
+    <string name="stenaline">Stenaline: <a href="https://stenaline.se">https://stenaline.se</a></string>
 </resources>

@@ -9,6 +9,7 @@ import androidx.room.Relation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Entity
 public class Trip {
@@ -89,6 +90,19 @@ public class Trip {
 
     public void setTimes(TravelTimes times) {
         this.times = times;
+    }
+
+    public boolean hasFerry() {
+        return routes
+                .stream()
+                .filter(new Predicate<Route>() {
+                    @Override
+                    public boolean test(Route route) {
+                        return route.getMode().equals(ModeOfTransport.FERRY);
+                    }
+                })
+                .findAny()
+                .isPresent();
     }
 
     public static final class Builder {
