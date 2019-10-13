@@ -1,5 +1,6 @@
 package com.example.tripplannr.view.map;
 
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -14,6 +15,7 @@ import com.example.tripplannr.model.tripdata.Route;
 import com.example.tripplannr.model.tripdata.TripLocation;
 import com.example.tripplannr.viewmodel.TripResultViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
@@ -35,6 +37,7 @@ public class ResultMapFragment extends MapFragment {
 
     // Padding between map edge and itinerary locations in initial view
     private static final int MAP_LOC_PADDING = 120;
+    private static final int POLYLINE_WIDTH = 15;
     private TripResultViewModel tripResultViewModel;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -66,13 +69,25 @@ public class ResultMapFragment extends MapFragment {
         points.add(locationToLatlng(trip.getOrigin().getLocation()));
         points.add(locationToLatlng(trip.getDestination().getLocation()));
         for (Route route : trip.getRoutes()) {
-            points.add(locationToLatlng(route.getOrigin().getLocation()));
-            points.add(locationToLatlng(route.getDestination().getLocation()));
+            getLatLngsFromRoute(points, route);
         }
-        LatLng[] mostRemotePoints = getLongestDistance(points);
-        LatLngBounds bounds = LatLngBounds.builder().include(mostRemotePoints[0]).
-                include(mostRemotePoints[1]).build();
+        centerPoints(points);
+    }
+
+    private void centerPoints(List<LatLng> points) {
+        LatLngBounds bounds = getLatLngBounds(points);
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, MAP_LOC_PADDING));
+    }
+
+    private LatLngBounds getLatLngBounds(List<LatLng> points) {
+        LatLng[] mostRemotePoints = getLongestDistance(points);
+        return LatLngBounds.builder().include(mostRemotePoints[0]).
+                include(mostRemotePoints[1]).build();
+    }
+
+    private void getLatLngsFromRoute(List<LatLng> points, Route route) {
+        points.add(locationToLatlng(route.getOrigin().getLocation()));
+        points.add(locationToLatlng(route.getDestination().getLocation()));
     }
 
     private LatLng[] getLongestDistance(List<LatLng> points) {
@@ -94,22 +109,44 @@ public class ResultMapFragment extends MapFragment {
     }
 
     private void drawPolyLines(Trip trip) {
+        final int primaryColor = ContextCompat.getColor(Objects.requireNonNull(getContext()),
+                R.color.colorPrimary);
+        final int magenta = ContextCompat.getColor(Objects.requireNonNull(getContext()),
+                R.color.magenta);
         List<Route> routes = trip.getRoutes();
-        PolylineOptions polylineOptions = new PolylineOptions();
+        PolylineOptions polylineOptions;
         List<PatternItem> dotLine = Arrays.asList(new Dot(), new Gap(14));
+        final List<Polyline> polylines = new ArrayList<>();
 
         for (Route route : routes) {
+            polylineOptions = new PolylineOptions();
             polylineOptions.add(new LatLng(route.getOrigin().getLocation().getLatitude(),
                             route.getOrigin().getLocation().getLongitude()),
                     new LatLng(route.getDestination().getLocation().getLatitude(),
                             route.getDestination().getLocation().getLongitude()));
+            polylineOptions.color(primaryColor);
+            if (route.getMode().equals(WALK)) polylineOptions.pattern(dotLine);
+            polylineOptions.width(POLYLINE_WIDTH).clickable(true);
             Polyline polyline = mMap.addPolyline(polylineOptions);
-            if (route.getMode().equals(WALK)) polyline.setPattern(dotLine);
-            polyline.setColor(ContextCompat.getColor(Objects.requireNonNull(getContext()),
-                    R.color.colorPrimary));
-            polyline.setWidth(15);
-            polyline.setClickable(true);
+            polylines.add(polyline);
         }
+        setPolylineListener(primaryColor, magenta, polylines);
+    }
+
+    private void setPolylineListener(final int primaryColor, final int magenta,
+                                     final List<Polyline> polylines) {
+        mMap.setOnPolylineClickListener(new GoogleMap.OnPolylineClickListener() {
+            @Override
+            public void onPolylineClick(Polyline pLine) {
+                for (Polyline polyline : polylines) {
+                    if (polyline.getId().equals(pLine.getId())) {
+                        polyline.setColor(magenta);
+                        centerPoints(polyline.getPoints());
+                    }
+                    else polyline.setColor(primaryColor);
+                }
+            }
+        });
     }
 
     private void drawMarkers(Trip trip) {
