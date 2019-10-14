@@ -245,6 +245,7 @@ public class SearchFragment extends Fragment {
                                 String body = response.body().string();
                                 // TODO do something with response
                                 List<TripLocation> matches = new VasttrafikApi().getMatching(body);
+                                System.out.println(matches.get(1).getStop_id());
                             }
                         } catch (IOException | InterruptedException ignored) {} catch (JSONException e) {
                             e.printStackTrace();

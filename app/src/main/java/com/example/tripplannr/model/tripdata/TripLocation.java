@@ -7,6 +7,7 @@ public class TripLocation {
     private String name;
     private Location location;
     private String track;
+    private long stop_id;
 
     public TripLocation(String name, Location location) {
         this.name = name;
@@ -29,5 +30,13 @@ public class TripLocation {
 
     public String getTrack() {
         return track;
+    }
+
+    public void setStop_id(long stop_id) {
+        this.stop_id = stop_id;
+    }
+
+    public long getStop_id() {
+        return stop_id;
     }
 }

@@ -41,7 +41,10 @@ public class VasttrafikApi {
             Location location = new Location("");
             location.setLongitude(stops.getJSONObject(i).getDouble("lon"));
             location.setLatitude(stops.getJSONObject(i).getDouble("lat"));
-            locations.add(new TripLocation(stops.getJSONObject(i).getString("name"), location));
+            TripLocation trip_location = new TripLocation(stops.getJSONObject(i).getString("name"), location);
+            if(stops.getJSONObject(i).has("id"))
+                trip_location.setStop_id(stops.getJSONObject(i).getLong("id"));
+            locations.add(trip_location);
         }
         return locations;
     }
