@@ -96,7 +96,7 @@ public class Trip {
 
     public static final class Builder {
         private String name;
-        private ArrayList<Route> routes;
+        private List<Route> routes;
 
         public Builder() {
         }
@@ -106,7 +106,7 @@ public class Trip {
             return this;
         }
 
-        public Builder routes(ArrayList<Route> val) {
+        public Builder routes(List<Route> val) {
             routes = val;
             return this;
         }

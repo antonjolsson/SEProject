@@ -9,11 +9,11 @@ public class TripQuery {
     private TripLocation destination;
     private Calendar time;
     private boolean timeIsDeparture;
-    private List<FerryInfo.ModeOfTransport> travelModes;
+    private List<ModeOfTransport> travelModes;
 
 
     public TripQuery(TripLocation origin, TripLocation destination, Calendar time, boolean timeIsDeparture,
-                     List<FerryInfo.ModeOfTransport> travelModes) {
+                     List<ModeOfTransport> travelModes) {
         this.origin = origin;
         this.destination = destination;
         this.time = time;
@@ -32,12 +32,16 @@ public class TripQuery {
     public Calendar getTime() {
         return time;
     }
+    public String getDate(){
+
+        return (time.get(Calendar.MONTH) + "-" + time.get(Calendar.DAY_OF_MONTH));
+       }
 
     public boolean isTimeDeparture() {
         return timeIsDeparture;
     }
 
-    public List<FerryInfo.ModeOfTransport> getTravelModes() {
+    public List<ModeOfTransport> getTravelModes() {
         return travelModes;
     }
 

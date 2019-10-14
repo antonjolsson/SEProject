@@ -1,0 +1,25 @@
+{
+	"ShipList": {
+		"Stena Danica": {
+			"LargeBorderShop": "true",
+			"Food": "true",
+			"Lounge": "true",
+			"Conference": "true",
+			"Url": "https://www.stenaline.se/vara-fartyg/stena-danica"
+		},
+		"Stena Vinga": {
+			"LargeBorderShop": "false",
+			"Food": "true",
+			"Lounge": "false",
+			"Conference": "false",
+			"Url": "https://www.stenaline.se/vara-fartyg/stena-vinga"
+		},
+		"Stena Jutlandica": {
+			"LargeBorderShop": "true",
+			"Food": "true",
+			"Lounge": "true",
+			"Conference": "false",
+			"Url": "https://www.stenaline.se/vara-fartyg/stena-jutlandica"
+		}
+	}
+}
