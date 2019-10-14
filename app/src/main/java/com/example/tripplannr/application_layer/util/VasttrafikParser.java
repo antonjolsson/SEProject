@@ -45,7 +45,7 @@ public class VasttrafikParser {
             catch (JSONException e) {
                 legs = alternatives.getJSONObject(i).getJSONArray("Leg");
             }
-            List<Route> routes = new ArrayList<>();
+            ArrayList<Route> routes = new ArrayList<>();
             for (int j = 0; j < legs.length(); j++) {
                 // Build route from JSON data
                 routes.add(getRoute(legs.getJSONObject(j)));
@@ -56,10 +56,6 @@ public class VasttrafikParser {
                     .name(start_route.getOrigin().getName() + " - " +
                             end_route.getDestination().getName())
                     .routes(routes)
-                    .origin(start_route.getOrigin())
-                    .destination(end_route.getDestination())
-                    .times(new TravelTimes(start_route.getTimes().getDeparture(),
-                            end_route.getTimes().getArrival()))
                     .build();
             trips.add(trip);
         }

@@ -12,6 +12,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.example.tripplannr.databinding.TripResultViewHolderBinding;
 import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.R;
@@ -21,14 +22,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.TripResultViewHolder> {
+public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.TripResultViewHolder> implements GenericTripAdapter<Trip> {
 
     private List<Trip> trips;
     private int viewHolderNavigation;
+    private TripResultViewModel viewModel;
 
-    public TripResultAdapter(List<Trip> trips, int viewHolderNavigation) {
+    public TripResultAdapter(List<Trip> trips, int viewHolderNavigation, TripResultViewModel viewModel) {
         if(trips != null) this.trips = new ArrayList<>(trips);
         else this.trips = new ArrayList<>();
+        this.viewModel = viewModel;
         this.viewHolderNavigation = viewHolderNavigation;
     }
 
@@ -36,7 +39,7 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
     @Override
     public TripResultViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trip_result_view_holder, parent, false);
-        return new TripResultViewHolder(view, viewHolderNavigation);
+        return new TripResultViewHolder(view, viewHolderNavigation, viewModel);
     }
 
     @Override
@@ -49,7 +52,8 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
         return trips.size();
     }
 
-    public void setTrips(final List<Trip> newTrips) {
+    @Override
+    public void updateTrips(final List<Trip> newTrips) {
         DiffUtil.DiffResult diffUtil = DiffUtil.calculateDiff(new DiffUtil.Callback() {
             @Override
             public int getOldListSize() {
@@ -77,11 +81,13 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
         notifyDataSetChanged();
     }
 
+    @Override
     public void switchPosition(int from, int to) {
         Collections.swap(trips, from, to);
         notifyDataSetChanged();
     }
 
+    @Override
     public List<Trip> getData() {
         return Collections.unmodifiableList(trips);
     }
@@ -89,30 +95,26 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
     public class TripResultViewHolder extends RecyclerView.ViewHolder {
 
         private TripResultViewHolderBinding tripResultViewHolderBinding;
-        private TripResultViewModel tripResultViewModel;
+        private TripResultViewModel viewModel;
         private int navigation;
 
-        public TripResultViewHolder(@NonNull View itemView, int navigation) {
+        public TripResultViewHolder(@NonNull View itemView, int navigation, TripResultViewModel viewModel) {
             super(itemView);
             tripResultViewHolderBinding = DataBindingUtil.bind(itemView);
+            this.viewModel = viewModel;
             this.navigation = navigation;
             Objects.requireNonNull(tripResultViewHolderBinding).setViewHolder(this);
-            initViewModel();
         }
 
         public void navigateToDetailedView(Trip trip) {
             if(navigation != 0) {
-                tripResultViewModel.onClick(trip);
+                viewModel.onClick(trip);
                 Navigation.findNavController(itemView).navigate(navigation);
             }
         }
 
         public Trip getContent() {
             return tripResultViewHolderBinding.getTrip();
-        }
-
-        private void initViewModel() {
-            tripResultViewModel = ViewModelProviders.of((FragmentActivity) itemView.getContext()).get(TripResultViewModel.class);
         }
 
     }
