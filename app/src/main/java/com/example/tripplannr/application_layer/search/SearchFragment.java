@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
@@ -43,7 +44,7 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
         searchViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
                 get(SearchViewModel.class);
-
+        setModelObservers();
     }
 
     private void initControls(View view) {
@@ -56,7 +57,7 @@ public class SearchFragment extends Fragment {
         nowTextView = Objects.requireNonNull(view).findViewById(R.id.nowTextView);
     }
 
-    /*private void setModelObservers() {
+    private void setModelObservers() {
         searchViewModel.getOrigin().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {
@@ -87,7 +88,7 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
-    }*/
+    }
 
     private void setTimeButtonText(Calendar calendar) {
         String timeText = Objects.requireNonNull(searchViewModel.getTimeIsDeparture().getValue()) ? "Dep. " :
