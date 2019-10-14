@@ -100,6 +100,8 @@ public class TripFragment extends Fragment {
                 .build();
     }
 
+
+
     private void initRecyclerView(View view) {
         routesRecyclerView = view.findViewById(R.id.routesRecyclerView);
         routesRecyclerView.setAdapter(new RoutesAdapter(tripData.getRoutes()));
