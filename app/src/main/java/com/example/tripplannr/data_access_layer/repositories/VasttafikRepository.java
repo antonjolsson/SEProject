@@ -25,4 +25,8 @@ public class VasttafikRepository {
         return vasttrafikService.isLoading();
     }
 
+    public void getMatching(final String pattern) {
+        vasttrafikService.getMatching(pattern);
+    }
+
 }

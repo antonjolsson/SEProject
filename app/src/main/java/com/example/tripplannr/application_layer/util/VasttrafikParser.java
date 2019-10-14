@@ -13,22 +13,79 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public class VasttrafikParser {
 
 
     public VasttrafikParser() {}
 
-    public List<Trip> getRoute(String data) throws JSONException {
+    public List<TripLocation> getMatching(String data) throws JSONException {
+        List<TripLocation> locations = new ArrayList<>();
 
+        JSONObject json = new JSONObject(data);
+        JSONArray stops = json.getJSONObject("LocationList").getJSONArray("StopLocation");
+        if(json.getJSONObject("LocationList").has("CoordLocation")) {
+            try {
+                JSONArray others = json.getJSONObject("LocationList").getJSONArray("CoordLocation");
+                for (int i = 0; i < others.length(); i++) {
+                    stops.put(others.getJSONObject(i));
+                }
+            }
+            // Vasttrafik sometimes break there own JSON model and sends singles as object...
+            catch (JSONException e) {
+                stops.put(json.getJSONObject("LocationList").getJSONObject("CoordLocation"));
+            }
+        }
+
+        for (int i = 0; i < stops.length(); i++){
+            Location location = new Location("");
+            location.setLongitude(stops.getJSONObject(i).getDouble("lon"));
+            location.setLatitude(stops.getJSONObject(i).getDouble("lat"));
+            locations.add(new TripLocation(stops.getJSONObject(i).getString("name"), location));
+        }
+        return locations;
+    }
+
+    public List<TripLocation> getJourneyDetail(String data) throws JSONException {
+        List<TripLocation> journeyDetails = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(data);
+        JSONArray stopLocations = jsonObject.getJSONObject("JourneyDetail").getJSONArray("Stop");
+
+        // Get all stop coordinates and names
+        for (int i = 0; i < stopLocations.length(); i++) {
+            JSONObject stop = stopLocations.getJSONObject(i);
+            Location location = new Location("");
+            location.setAltitude(stop.getDouble("lat"));
+            location.setLongitude(stop.getDouble("lon"));
+            journeyDetails.add(new TripLocation(stop.getString("name"), location, stop.getString("track")));
+        }
+
+        return journeyDetails;
+    }
+
+    public List<LatLng> getPoints(String data) throws JSONException {
+        List<LatLng> points = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(data);
+        JSONArray jsonPoints = jsonObject.getJSONObject("Points").getJSONArray("Point");
+
+        for (int i = 0; i < jsonPoints.length(); i++){
+            JSONObject coordinates = jsonPoints.getJSONObject(i);
+            points.add(new LatLng(coordinates.getDouble("lat"), coordinates.getDouble("lon")));
+
+        }
+
+        return points;
+    }
+
+    public List<Trip> getTrips(String data) throws JSONException, UnsupportedEncodingException {
         List<Trip> trips = new ArrayList<>();
 
         JSONObject jsonObject = new JSONObject(data);
@@ -36,20 +93,20 @@ public class VasttrafikParser {
 
         // Build trips for each alternative
         for (int i = 0; i < alternatives.length(); i++){
+            List<Route> routes = new ArrayList<>();
             // Leg is a collection of sub routes
-            JSONArray legs = new JSONArray();
             try {
-                legs = new JSONArray()
-                        .put(alternatives.getJSONObject(i).getJSONObject("Leg"));
+                JSONArray legs = alternatives.getJSONObject(i).getJSONArray("Leg");
+                for (int j = 0; j < legs.length(); j++) {
+                    // Build route from JSON data
+                    routes.add(getRoute(legs.getJSONObject(j)));
+                }
             }
+            // Vasttrafik sometimes break there own JSON model and sends singles as object...
             catch (JSONException e) {
-                legs = alternatives.getJSONObject(i).getJSONArray("Leg");
+                routes.add(getRoute(alternatives.getJSONObject(i).getJSONObject("Leg")));
             }
-            ArrayList<Route> routes = new ArrayList<>();
-            for (int j = 0; j < legs.length(); j++) {
-                // Build route from JSON data
-                routes.add(getRoute(legs.getJSONObject(j)));
-            }
+
             Route start_route = routes.get(0);
             Route end_route = routes.get(routes.size() - 1);
             Trip trip = new Trip.Builder()
@@ -62,51 +119,52 @@ public class VasttrafikParser {
         return trips;
     }
 
-    private Route getRoute(JSONObject route) throws JSONException {
-        // TODO, Västtrafik API call using JourneyDetailRef
-        List<TripLocation> stops = new ArrayList<>();
-//                if(route.has("JourneyDetailRef")) {
-//                    String journeyDetailURL = route.getJSONObject("JourneyDetailRef").getString("ref");
-//                    stops = getStops(new JSONObject(journeyDetails));
-//                }
+    private Route getRoute(JSONObject routeJSON) throws JSONException, UnsupportedEncodingException {
 
         // Get origin stop info from JSON
-        String origin_name = route.getJSONObject("Origin").getString("name");
-        String origin_track = route.getJSONObject("Origin").getString("track");
-        LatLng origin_coordinates = getCoordinates(origin_name, stops);
+        String origin_name = routeJSON.getJSONObject("Origin").getString("name");
+        String origin_track = routeJSON.getJSONObject("Origin").getString("track");
+        // We don't know coordinates at this stage, could make another call but seems redundant since
+        // since its not used yet.
         Location originLocation = new Location("");
-        originLocation.setLatitude(origin_coordinates.latitude);
-        originLocation.setLongitude(origin_coordinates.longitude);
         TripLocation origin = new TripLocation(origin_name, originLocation, origin_track);
 
         // Get destination stop info from JSON
-        String destination_name = route.getJSONObject("Destination").getString("name");
-        String destination_track = route.getJSONObject("Destination").getString("track");
-        LatLng destination_coordinates = getCoordinates(destination_name, stops);
+        String destination_name = routeJSON.getJSONObject("Destination").getString("name");
+        String destination_track = routeJSON.getJSONObject("Destination").getString("track");
         Location destinationLocation = new Location("");
-        destinationLocation.setLongitude(destination_coordinates.longitude);
-        destinationLocation.setAltitude(destination_coordinates.latitude);
         TripLocation destination = new TripLocation(destination_name, destinationLocation, destination_track);
 
         // Get origin time info from JSON
-        String start_date = route.getJSONObject("Origin").getString("date");
-        String start_time = route.getJSONObject("Origin").getString("time");
+        String start_date = routeJSON.getJSONObject("Origin").getString("date");
+        String start_time = routeJSON.getJSONObject("Origin").getString("time");
         LocalDateTime departure = LocalDateTime.parse(start_date + " " + start_time,
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.ENGLISH));
 
         // Get destination time info from JSON
-        String end_date = route.getJSONObject("Destination").getString("date");
-        String end_time = route.getJSONObject("Destination").getString("time");
+        String end_date = routeJSON.getJSONObject("Destination").getString("date");
+        String end_time = routeJSON.getJSONObject("Destination").getString("time");
         LocalDateTime arrival = LocalDateTime.parse(end_date + " " + end_time,
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.ENGLISH));
 
         // Get mode of transport from JSON
-        String type = route.getString("type");
+        String type = routeJSON.getString("type");
         ModeOfTransport mode = ModeOfTransport.valueOf(type);
 
         TravelTimes times = new TravelTimes(departure, arrival);
 
-        return new Route(origin, destination, times, mode);
+        Route route = new Route(origin, destination, times, mode);
+
+        //Get Västtrafik journey reference that can be used to get more info
+//        if(routeJSON.has("JourneyDetailRef"))
+//            route.setJourneyRef(refParser(routeJSON.getJSONObject("JourneyDetailRef").getString("ref")));
+
+        return route;
+    }
+
+    private String refParser(String reference) throws UnsupportedEncodingException {
+        //We don't want the full URL, only the reference key and we want to decode it
+        return URLDecoder.decode(reference.substring(reference.lastIndexOf("ref=") + 4), StandardCharsets.UTF_8.toString());
     }
 
     private List<TripLocation> getStops(JSONObject journeyDetail) throws JSONException {
