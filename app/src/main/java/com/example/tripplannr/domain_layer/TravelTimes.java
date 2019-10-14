@@ -1,25 +1,25 @@
 package com.example.tripplannr.domain_layer;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class TravelTimes {
 
-    private Calendar departure;
-    private Calendar arrival;
+    private LocalDateTime departure;
+    private LocalDateTime arrival;
     private long duration;
 
-    public TravelTimes(Calendar departure, Calendar arrival) {
+    public TravelTimes(LocalDateTime departure, LocalDateTime arrival) {
         this.departure = departure;
         this.arrival = arrival;
-        //duration = ChronoUnit.MINUTES.between(departure, arrival);
-        duration = (departure.getTimeInMillis() -arrival.getTimeInMillis())/60000;
+        duration = ChronoUnit.MINUTES.between(departure, arrival);
     }
 
-    public Calendar getDeparture() {
+    public LocalDateTime getDeparture() {
         return departure;
     }
 
-    public Calendar getArrival() {
+    public LocalDateTime getArrival() {
         return arrival;
     }
 

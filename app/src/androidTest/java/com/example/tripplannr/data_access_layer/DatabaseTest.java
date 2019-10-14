@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RunWith(AndroidJUnit4ClassRunner.class)

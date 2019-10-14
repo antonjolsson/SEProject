@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.tripplannr.application_layer.util.VasttrafikParser;
 import com.example.tripplannr.data_access_layer.data_sources.VasttrafikService;
 import com.example.tripplannr.domain_layer.Trip;
-import com.example.tripplannr.domain_layer.TripLocation;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -168,7 +167,7 @@ public class VasttrafikServiceImpl {
                             if(response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
                                 System.out.println(body);
-                                data.postValue(new VasttrafikParser().getTrips(body));
+                                data.postValue(new VasttrafikParser().getRoute(body));
                                 isLoading.postValue(false);
                             }
                             else onFetchFail();
@@ -181,54 +180,6 @@ public class VasttrafikServiceImpl {
                     @Override
                     public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                         onFetchFail();
-                    }
-                });
-    }
-
-    public void getMatching(final String pattern) {
-        vasttrafikService
-                .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
-                        "application/x-www-form-urlencoded", "client_credentials")
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        System.out.println(response.code());
-                        System.out.println(response.body());
-                        try {
-                            sendPatternRequest(new JSONObject(response.body().string()).getString("access_token"), pattern);
-                        } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    }
-                });
-    }
-
-    private void sendPatternRequest(String token, String pattern) {
-        vasttrafikService
-                .getName(pattern, "json", "Bearer " + token)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        try {
-                            Thread.sleep(2000);
-                            if (response.code() >= 200 && response.code() <= 299) {
-                                String body = response.body().string();
-                                // TODO do something with response
-                                List<TripLocation> matches = new VasttrafikParser().getMatching(body);
-                                System.out.println(matches.get(1).getName());
-                            }
-                        } catch (IOException | InterruptedException ignored) {
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
                     }
                 });
     }

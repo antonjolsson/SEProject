@@ -16,9 +16,6 @@ public class VasttafikRepository {
         vasttrafikService.loadTrips(query.getOrigin(), query.getDestination());
     }
 
-    public void getMatching(final String pattern) {
-        vasttrafikService.getMatching(pattern);
-    }
 
     public LiveData<List<Trip>> getData() {
         return vasttrafikService.getData();

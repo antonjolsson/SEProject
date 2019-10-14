@@ -16,71 +16,19 @@ import org.json.JSONObject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class VasttrafikParser {
 
 
     public VasttrafikParser() {}
 
-    public List<TripLocation> getMatching(String data) throws JSONException {
-        List<TripLocation> locations = new ArrayList<>();
+    public List<Trip> getRoute(String data) throws JSONException {
 
-        JSONObject json = new JSONObject(data);
-        JSONArray stops = json.getJSONObject("LocationList").getJSONArray("StopLocation");
-        if(json.getJSONObject("LocationList").has("CoordLocation")) {
-            try {
-                JSONArray others = json.getJSONObject("LocationList").getJSONArray("CoordLocation");
-                for (int i = 0; i < others.length(); i++) {
-                    stops.put(others.getJSONObject(i));
-                }
-            } catch (JSONException e) {
-                stops.put(json.getJSONObject("LocationList").getJSONObject("CoordLocation"));
-            }
-        }
-
-        for (int i = 0; i < stops.length(); i++){
-            Location location = new Location("");
-            location.setLongitude(stops.getJSONObject(i).getDouble("lon"));
-            location.setLatitude(stops.getJSONObject(i).getDouble("lat"));
-            TripLocation trip_location = new TripLocation(stops.getJSONObject(i).getString("name"), location);
-            locations.add(trip_location);
-        }
-        return locations;
-    }
-
-    public List<LatLng> getPoints(String data) throws JSONException {
-        List<LatLng> points = new ArrayList<>();
-        JSONObject jsonObject = new JSONObject(data);
-        JSONArray jsonPoints = jsonObject.getJSONObject("Points").getJSONArray("Point");
-
-        for (int i = 0; i < jsonPoints.length(); i++){
-            JSONObject coordinates = jsonPoints.getJSONObject(i);
-            points.add(new LatLng(coordinates.getDouble("lat"), coordinates.getDouble("lon")));
-
-        }
-
-        return points;
-    }
-
-    public List<TripLocation> getJourneyDetail(String data) throws JSONException {
-        List<TripLocation> journeyDetails = new ArrayList<>();
-        JSONObject jsonObject = new JSONObject(data);
-        JSONArray stopLocations = jsonObject.getJSONObject("JourneyDetail").getJSONArray("Stop");
-
-        for (int i = 0; i < stopLocations.length(); i++) {
-            JSONObject stop = stopLocations.getJSONObject(i);
-            Location location = new Location("");
-            location.setAltitude(stop.getDouble("lat"));
-            location.setLongitude(stop.getDouble("lon"));
-            journeyDetails.add(new TripLocation(stop.getString("name"), location, stop.getString("track")));
-        }
-        return journeyDetails;
-    }
-
-    public List<Trip> getTrips(String data) throws JSONException {
         List<Trip> trips = new ArrayList<>();
 
         JSONObject jsonObject = new JSONObject(data);
@@ -115,42 +63,46 @@ public class VasttrafikParser {
     }
 
     private Route getRoute(JSONObject route) throws JSONException {
+        // TODO, Västtrafik API call using JourneyDetailRef
+        List<TripLocation> stops = new ArrayList<>();
+//                if(route.has("JourneyDetailRef")) {
+//                    String journeyDetailURL = route.getJSONObject("JourneyDetailRef").getString("ref");
+//                    stops = getStops(new JSONObject(journeyDetails));
+//                }
+
         // Get origin stop info from JSON
         String origin_name = route.getJSONObject("Origin").getString("name");
         String origin_track = route.getJSONObject("Origin").getString("track");
-        // We don't know coordinates at this stage, could make another call but seems redundant since
-        // since its not used yet.
+        LatLng origin_coordinates = getCoordinates(origin_name, stops);
         Location originLocation = new Location("");
+        originLocation.setLatitude(origin_coordinates.latitude);
+        originLocation.setLongitude(origin_coordinates.longitude);
         TripLocation origin = new TripLocation(origin_name, originLocation, origin_track);
 
         // Get destination stop info from JSON
         String destination_name = route.getJSONObject("Destination").getString("name");
         String destination_track = route.getJSONObject("Destination").getString("track");
+        LatLng destination_coordinates = getCoordinates(destination_name, stops);
         Location destinationLocation = new Location("");
+        destinationLocation.setLongitude(destination_coordinates.longitude);
+        destinationLocation.setAltitude(destination_coordinates.latitude);
         TripLocation destination = new TripLocation(destination_name, destinationLocation, destination_track);
 
         // Get origin time info from JSON
         String start_date = route.getJSONObject("Origin").getString("date");
         String start_time = route.getJSONObject("Origin").getString("time");
-        LocalDateTime departure_time = LocalDateTime.parse(start_date + " " + start_time,
+        LocalDateTime departure = LocalDateTime.parse(start_date + " " + start_time,
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.ENGLISH));
-        Calendar departure = Calendar.getInstance();
-        departure.set(Calendar.HOUR_OF_DAY, departure_time.getHour());
-        departure.set(Calendar.MINUTE, departure_time.getMinute());
 
         // Get destination time info from JSON
         String end_date = route.getJSONObject("Destination").getString("date");
         String end_time = route.getJSONObject("Destination").getString("time");
-        LocalDateTime arrival_time = LocalDateTime.parse(end_date + " " + end_time,
+        LocalDateTime arrival = LocalDateTime.parse(end_date + " " + end_time,
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.ENGLISH));
-        Calendar arrival = Calendar.getInstance();
-        arrival.set(Calendar.HOUR_OF_DAY, arrival_time.getHour());
-        arrival.set(Calendar.MINUTE, arrival_time.getMinute());
 
         // Get mode of transport from JSON
         String type = route.getString("type");
         ModeOfTransport mode = ModeOfTransport.valueOf(type);
-
 
         TravelTimes times = new TravelTimes(departure, arrival);
 

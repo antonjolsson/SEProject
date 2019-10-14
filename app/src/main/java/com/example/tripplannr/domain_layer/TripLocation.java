@@ -24,12 +24,6 @@ public class TripLocation {
         this.track = track;
     }
 
-    @Ignore
-    public TripLocation(String name, Location location) {
-        this.name = name;
-        this.location = location;
-    }
-
     public TripLocation(String name, String track) {
         this.name = name;
         this.track = track;
