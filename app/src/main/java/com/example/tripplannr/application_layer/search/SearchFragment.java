@@ -161,15 +161,21 @@ public class SearchFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE)))
-                        .hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-                searchViewModel.setTime(Calendar.getInstance(),
-                        Objects.requireNonNull(searchViewModel.getTimeIsDeparture().getValue()));
-                searchViewModel.obtainTrips(fromTextField.getText().toString(), toTextField.getText().toString());
-                Navigation.findNavController(v).navigate(R.id.action_navigation_search_to_navigation_trip_results);
+                if(validateForm()) {
+                    ((InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE)))
+                            .hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                    searchViewModel.setTime(Calendar.getInstance(),
+                            Objects.requireNonNull(searchViewModel.getTimeIsDeparture().getValue()));
+                    searchViewModel.obtainTrips(fromTextField.getText().toString(), toTextField.getText().toString());
+                    Navigation.findNavController(v).navigate(R.id.action_navigation_search_to_navigation_trip_results);
+                }
             }
         });
 
+    }
+
+    private boolean validateForm() {
+        return !toTextField.getText().toString().isEmpty() && !fromTextField.getText().toString().isEmpty();
     }
 
     private void swapLocations() {

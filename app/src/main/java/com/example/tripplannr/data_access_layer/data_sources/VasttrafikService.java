@@ -1,6 +1,7 @@
 
 package com.example.tripplannr.data_access_layer.data_sources;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import okhttp3.ResponseBody;
@@ -29,6 +30,7 @@ public interface VasttrafikService {
     Call<ResponseBody> getTrips(
             @Query("destId") long destId,
             @Query("originId") long originId,
+            @Query("date") String date,
             @Query("format") String format,
             @Header("Authorization") String bearer);
 

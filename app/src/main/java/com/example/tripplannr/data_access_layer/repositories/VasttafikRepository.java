@@ -13,9 +13,12 @@ public class VasttafikRepository {
     private VasttrafikServiceImpl vasttrafikService = VasttrafikServiceImpl.getInstance();
 
     public void loadTrips(TripQuery query) {
-        vasttrafikService.loadTrips(query.getOrigin(), query.getDestination());
+        vasttrafikService.loadTrips(query.getOrigin(), query.getDestination(), query.getTime());
     }
 
+    public LiveData<Integer> getStatusCode() {
+        return vasttrafikService.getStatusCode();
+    }
 
     public LiveData<List<Trip>> getData() {
         return vasttrafikService.getData();

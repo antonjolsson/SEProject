@@ -28,6 +28,8 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     private LiveData<Boolean> isLoading;
 
+    private LiveData<Integer> statusCode;
+
     private MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
     private MutableLiveData<Route> mRouteLiveData = new MutableLiveData<>();
 
@@ -38,6 +40,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         this.tripRepository = tripRepository;
         isLoading = vasttafikRepository.isLoading();
         mTripsLiveData = vasttafikRepository.getData();
+        statusCode = vasttafikRepository.getStatusCode();
     }
 
     public LiveData<Trip> getTripLiveData() {
@@ -50,6 +53,10 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     public LiveData<Boolean> isLoading() {
         return isLoading;
+    }
+
+    public LiveData<Integer> getStatusCode() {
+        return statusCode;
     }
 
     @Override
