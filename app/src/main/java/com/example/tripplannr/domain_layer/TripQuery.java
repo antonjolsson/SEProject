@@ -1,5 +1,6 @@
 package com.example.tripplannr.domain_layer;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 
@@ -7,12 +8,12 @@ public class TripQuery {
 
     private TripLocation origin;
     private TripLocation destination;
-    private Calendar time;
+    private LocalDateTime time;
     private boolean timeIsDeparture;
     private List<ModeOfTransport> travelModes;
 
 
-    public TripQuery(TripLocation origin, TripLocation destination, Calendar time, boolean timeIsDeparture,
+    public TripQuery(TripLocation origin, TripLocation destination, LocalDateTime time, boolean timeIsDeparture,
                      List<ModeOfTransport> travelModes) {
         this.origin = origin;
         this.destination = destination;
@@ -29,13 +30,10 @@ public class TripQuery {
         return destination;
     }
 
-    public Calendar getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
-    public String getDate(){
 
-        return (time.get(Calendar.MONTH) + "-" + time.get(Calendar.DAY_OF_MONTH));
-       }
 
     public boolean isTimeDeparture() {
         return timeIsDeparture;
