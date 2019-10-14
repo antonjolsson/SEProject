@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_trip_fragment"
-        android:name="com.example.tripplannr.view.TripFragment"
+        android:name="com.example.tripplannr.application_layer.trip.TripFragment"
         android:label="@string/trip">
         <action
             android:id="@+id/action_navigation_trip_fragment_to_navigation_trip_results"
@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/navigation_trip_results"
-        android:name="com.example.tripplannr.view.TripResultFragment"
+        android:name="com.example.tripplannr.application_layer.trip.TripResultFragment"
         android:label="@string/trip_result"
         tools:layout="@layout/fragment_dashboard">
         <action
@@ -26,7 +26,7 @@
 
     <!--<fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.tripplannr.view.HomeFragment"
+        android:name="com.example.tripplannr.controller.trip.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
@@ -36,15 +36,10 @@
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />-->
 
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.tripplannr.view.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.example.tripplannr.view.SearchFragment"
+        android:name="com.example.tripplannr.application_layer.search.MainSearchFragment"
         android:label="@string/search"
         tools:layout="@layout/search_frag" >
         <action
@@ -54,7 +49,7 @@
 
     <fragment
         android:id="@+id/navigation_saved_trips"
-        android:name="com.example.tripplannr.viewmodel.SavedTripFragment"
+        android:name="com.example.tripplannr.application_layer.profile.SavedTripFragment"
         android:label="@string/title_saved_trips"
         tools:layout="@layout/fragment_saved_trip" />
 
