@@ -114,7 +114,7 @@ public class TripFragment extends Fragment {
     private void initRecyclerView(View view) {
         routesRecyclerView = view.findViewById(R.id.routesRecyclerView);
         routesRecyclerView.setAdapter(new RoutesAdapter(Objects.requireNonNull(tripResultViewModel)));
-        routesRecyclerView.setAdapter(new RoutesAdapter(tripData.getRoutes()));
+        routesRecyclerView.setAdapter(new RoutesAdapter(tripResultViewModel));
         routesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 

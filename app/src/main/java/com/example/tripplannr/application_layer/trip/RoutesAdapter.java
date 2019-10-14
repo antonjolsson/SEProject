@@ -26,7 +26,7 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
     private List<Route> routes;
     private TripResultViewModel tripResultViewModel;
 
-    RoutesAdapter(TripResultViewModel viewModel) {
+    public RoutesAdapter(TripResultViewModel viewModel) {
         this.tripResultViewModel = viewModel;
         this.routes = Objects.requireNonNull(viewModel.getTripLiveData().getValue()).getRoutes();
     }
@@ -89,7 +89,6 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
     }
 
     public class RouteViewHolder extends RecyclerView.ViewHolder {
-    class RouteViewHolder extends RecyclerView.ViewHolder {
 
         private RouteViewHolderBinding routeViewHolderBinding;
 
@@ -103,12 +102,10 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
                     .setImageDrawable(itemView.getContext()
                             .getResources()
                             .getDrawable(iconType, itemView.getContext().getTheme()));
-            Objects.requireNonNull(routeViewHolderBinding).setFragmentActivity((FragmentActivity)
-                    itemView.getContext());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    tripResultViewModel.setSelectedRoute(routeViewHolderBinding.getRoute());
+                    tripResultViewModel.updateRoute(routeViewHolderBinding.getRoute());
                 }
             });
         }

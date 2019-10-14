@@ -14,13 +14,10 @@ public class GenericTripRepository {
 
     public GenericTripRepository() {
         tripParsers = new ArrayList<>();
-        TripParser stenaLineApi = new StenaLineParser();
-
         //TODO implement when no context needed?
         //TripParser vasttrafikAPi = new VasttrafikParser(new Context() {
         //})
-
-        tripParsers.add(stenaLineApi);
+        
     }
 
     public List<Trip> makeTrip(TripQuery tripQuery) {

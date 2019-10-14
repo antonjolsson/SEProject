@@ -38,7 +38,6 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         this.tripRepository = tripRepository;
         isLoading = vasttafikRepository.isLoading();
         mTripsLiveData = vasttafikRepository.getData();
-        vasttafikRepository.loadTrips("Skogome", "Frölunda");
     }
 
     public LiveData<Trip> getTripLiveData() {
@@ -70,6 +69,12 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
     public void removeTrip(Trip trip) {
         tripRepository.delete(trip);
     }
+
+    public LiveData<Route> getRouteLiveData() {
+        return mRouteLiveData;
+    }
+
+    public void updateRoute(Route route) {mRouteLiveData.setValue(route);}
 
 
     /*private List<Trip> buildFakeTrips() {

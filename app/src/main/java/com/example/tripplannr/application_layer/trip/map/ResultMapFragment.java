@@ -192,8 +192,7 @@ public class ResultMapFragment extends MapFragment {
         TripLocation destTripLocation = new TripLocation(trip.getDestination().getName(), destLoc,
                 trip.getDestination().getTrack());
         //List<Route> routes = getRoutes(trip.getRoutes());
-        return new Trip(trip.getName(), routes, originTripLocation,
-                destTripLocation, trip.getTimes());
+        return new Trip(trip.getName(), routes);
     }
 
     private List<Route> getRoutes(List<Route> routes) {
