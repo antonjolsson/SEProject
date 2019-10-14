@@ -25,7 +25,7 @@ public class Trip {
     @Ignore
     private TravelTimes times;
     // private List<> notifications;
-    // private FerryInfo ferryinfo;
+
 
 
     public Trip(String name) {

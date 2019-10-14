@@ -156,14 +156,14 @@ public class StenaLineParser {
             route = new Route(origin, destination, times, mode);
 
             //ska ferryINfo ligga i trip isf ha en add så slipper allt annat bry sig om det
-            // ferryInfo(ferryName);
+            route.setFerryinfo(ferryInfo(ferryName));
 
             //Skapar lista av Locations
             String geoRef = objRoute.getString("GeometryRef");
             locationList = geoList(geoRef);
 
-            //skapa add metod eller ha i constructorn
-            //route.addGeoList(locationList);
+
+            route.setLegs(locationList);
 
 
         } catch (JSONException e) {
