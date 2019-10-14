@@ -5,7 +5,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.example.tripplannr.view.TripFragment" />
+            type="com.example.tripplannr.application_layer.trip.TripFragment" />
         <variable
             name="saved"
             type="Boolean" />
@@ -36,7 +36,7 @@
 
             <fragment
                 android:id="@+id/trip_map_fragment"
-                android:name="com.example.tripplannr.view.map.ResultMapFragment"
+                android:name="com.example.tripplannr.application_layer.trip.map.ResultMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="8dp" />
@@ -48,11 +48,14 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="225dp"
                 android:layout_marginBottom="8dp"
-                android:enabled="@{saved ? false : true}"
                 android:fontFamily="@font/rajdhani_medium"
-                android:onClick="@{() -> fragment.activateNotifications()}"
                 android:text="@string/get_notifcations"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="@{(v) -> fragment.activateNotifications(v)}"
+                android:enabled="@{saved ? false : true}"/>
         </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

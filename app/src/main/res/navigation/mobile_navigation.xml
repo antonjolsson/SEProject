@@ -7,18 +7,16 @@
 
     <fragment
         android:id="@+id/navigation_trip_fragment"
-        android:name="com.example.tripplannr.view.TripFragment"
-        android:label="@string/trip"
-        tools:layout="@layout/fragment_trip">
+        android:name="com.example.tripplannr.application_layer.trip.TripFragment"
+        android:label="@string/trip">
         <action
             android:id="@+id/action_navigation_trip_fragment_to_navigation_trip_results"
             app:destination="@id/navigation_trip_results" />
-        <argument android:name="model" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_trip_results"
-        android:name="com.example.tripplannr.view.TripResultFragment"
+        android:name="com.example.tripplannr.application_layer.trip.TripResultFragment"
         android:label="@string/trip_result"
         tools:layout="@layout/fragment_dashboard">
         <action
@@ -41,7 +39,7 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.example.tripplannr.view.search.MainSearchFragment"
+        android:name="com.example.tripplannr.application_layer.search.MainSearchFragment"
         android:label="@string/search"
         tools:layout="@layout/search_frag" >
         <action
@@ -51,7 +49,7 @@
 
     <fragment
         android:id="@+id/navigation_saved_trips"
-        android:name="com.example.tripplannr.viewmodel.SavedTripFragment"
+        android:name="com.example.tripplannr.application_layer.profile.SavedTripFragment"
         android:label="@string/title_saved_trips"
         tools:layout="@layout/fragment_saved_trip" />
 
