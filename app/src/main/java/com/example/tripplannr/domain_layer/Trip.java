@@ -1,32 +1,54 @@
 package com.example.tripplannr.domain_layer;
 
-import java.util.Collections;
-import java.util.List;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import androidx.room.Relation;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+@Entity
 public class Trip {
 
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String name;
+    @Ignore
     private List<Route> routes;
+    @Ignore
     private TripLocation origin;
+    @Ignore
     private TripLocation destination;
-    // private List<> notifications;
+    @Ignore
     private TravelTimes times;
+    // private List<> notifications;
     // private FerryInfo ferryinfo;
 
-    public Trip(String name, List<Route> routes, TripLocation origin, TripLocation destination, TravelTimes times) {
+
+    public Trip(String name) {
         this.name = name;
-        this.routes = routes;
-        this.origin = origin;
-        this.destination = destination;
-        this.times = times;
+    }
+
+    public Trip(String name, List<Route> routes) {
+        this.name = name;
+        setRoutes(routes);
+
     }
 
     private Trip(Builder builder) {
         name = builder.name;
-        routes = builder.routes;
-        origin = builder.origin;
-        destination = builder.destination;
-        times = builder.times;
+        setRoutes(builder.routes);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -34,7 +56,7 @@ public class Trip {
     }
 
     public List<Route> getRoutes() {
-        return Collections.unmodifiableList(routes);
+        return new ArrayList<>(routes);
     }
 
     public TripLocation getOrigin() {
@@ -45,17 +67,36 @@ public class Trip {
         return destination;
     }
 
-
     public TravelTimes getTimes() {
         return times;
+    }
+
+    public void setRoutes(List<Route> routes) {
+        this.routes = routes;
+        origin = routes.get(0).getOrigin();
+        destination = routes.get(routes.size() - 1).getDestination();
+        times = new TravelTimes(
+                this.routes.get(0).getTimes().getDeparture()
+                , this.routes.get(this.routes.size() - 1).getTimes().getArrival());
+    }
+
+
+    public boolean hasFerry() {
+        return routes
+                .stream()
+                .filter(new Predicate<Route>() {
+                    @Override
+                    public boolean test(Route route) {
+                        return route.getMode().equals(ModeOfTransport.FERRY);
+                    }
+                })
+                .findAny()
+                .isPresent();
     }
 
     public static final class Builder {
         private String name;
         private List<Route> routes;
-        private TripLocation origin;
-        private TripLocation destination;
-        private TravelTimes times;
 
         public Builder() {
         }
@@ -70,23 +111,10 @@ public class Trip {
             return this;
         }
 
-        public Builder origin(TripLocation val) {
-            origin = val;
-            return this;
-        }
-
-        public Builder destination(TripLocation val) {
-            destination = val;
-            return this;
-        }
-
-        public Builder times(TravelTimes val) {
-            times = val;
-            return this;
-        }
-
         public Trip build() {
             return new Trip(this);
         }
     }
+
+
 }

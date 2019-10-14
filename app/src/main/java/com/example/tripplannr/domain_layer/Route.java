@@ -1,9 +1,21 @@
 package com.example.tripplannr.domain_layer;
 
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Route {
 
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    private int tripId;
+    @Embedded(prefix = "origin_")
     private TripLocation origin;
+    @Embedded(prefix = "destination_")
     private TripLocation destination;
+    @Embedded
     private TravelTimes times;
     private ModeOfTransport mode;
 
@@ -22,6 +34,22 @@ public class Route {
         mode = builder.mode;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getTripId() {
+        return tripId;
+    }
+
+    public void setTripId(int tripId) {
+        this.tripId = tripId;
+    }
+
     public TripLocation getOrigin() {
         return origin;
     }
@@ -37,6 +65,7 @@ public class Route {
     public ModeOfTransport getMode() {
         return mode;
     }
+
 
     public static final class Builder {
         private TripLocation origin;

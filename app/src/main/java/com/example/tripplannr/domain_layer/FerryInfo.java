@@ -4,12 +4,19 @@ public class FerryInfo {
 
     private String name;
     private boolean food;
-    private boolean shop;
+    private boolean largeBorderShop;
+    private boolean conference;
+    private boolean lounge;
+    private String url;
 
-    public FerryInfo(String name, boolean food, boolean shop) {
+    public FerryInfo(String name, boolean food, boolean largeBorderShop,boolean conference, boolean lounge, String url) {
         this.name = name;
         this.food = food;
-        this.shop = shop;
+        this.largeBorderShop = largeBorderShop;
+        this.conference = conference;
+        this.lounge = lounge;
+        this.url = url;
+
     }
 
     public String getName() {
@@ -20,11 +27,19 @@ public class FerryInfo {
         return food;
     }
 
-    public boolean isShop() {
-        return shop;
+    public boolean isLargeBorderShop() {
+        return largeBorderShop;
     }
 
-    public enum ModeOfTransport {
-        BUS, TRAM, BOAT, WALK, FERRY
+    public boolean isConference() {
+        return conference;
+    }
+
+    public boolean isLounge() {
+        return lounge;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

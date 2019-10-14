@@ -6,12 +6,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.tripplannr.data_access_layer.data_sources.TripDAOImpl;
+import com.example.tripplannr.data_access_layer.repositories.TripRepository;
 import com.example.tripplannr.data_access_layer.repositories.VasttafikRepository;
 import com.example.tripplannr.domain_layer.Route;
 import com.example.tripplannr.domain_layer.TravelTimes;
 import com.example.tripplannr.domain_layer.Trip;
-import com.example.tripplannr.data_access_layer.data_sources.VasttrafikServiceImpl;
 import com.example.tripplannr.domain_layer.TripLocation;
 
 import java.time.LocalDateTime;
@@ -31,10 +30,11 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     private MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
 
-    private TripDAOImpl tripRepository = TripDAOImpl.getInstance();
+    private TripRepository tripRepository;
 
-    public TripResultViewModel() {
+    public TripResultViewModel(TripRepository tripRepository) {
         super();
+        this.tripRepository = tripRepository;
         isLoading = vasttafikRepository.isLoading();
         mTripsLiveData = vasttafikRepository.getData();
         vasttafikRepository.loadTrips("Skogome", "Frölunda");
@@ -57,20 +57,21 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         mTripLiveData.setValue(trip);
     }
 
-    public boolean saveTrip(Trip trip) {
-        return tripRepository.save(trip).isPresent();
+    public void saveTrip(Trip trip) {
+        System.out.println(trip.getRoutes().get(0).getTimes().getArrival());
+        tripRepository.save(trip);
     }
 
     public List<Trip> getSavedTrips() {
         return tripRepository.findAll();
     }
 
-    public boolean removeTrip(Trip trip) {
-        return tripRepository.delete(trip);
+    public void removeTrip(Trip trip) {
+        tripRepository.delete(trip);
     }
 
 
-    private List<Trip> buildFakeTrips() {
+    /*private List<Trip> buildFakeTrips() {
         Route route1 = new Route.Builder()
                 .origin(new TripLocation("Lillhagens Station", new Location(""), "A"))
                 .destination(new TripLocation("Brunnsparken", new Location(""), "A"))
@@ -121,6 +122,6 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                 .routes(Arrays.asList(route1))
                 .build();
         return new ArrayList<>(Arrays.asList(trip, trip2));
-    }
+    }*/
 
 }

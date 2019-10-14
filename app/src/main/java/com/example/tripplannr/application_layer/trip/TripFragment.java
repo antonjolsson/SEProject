@@ -1,6 +1,8 @@
 package com.example.tripplannr.application_layer.trip;
 
+import android.app.AlertDialog;
 import android.app.Notification;
+import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
@@ -15,11 +17,17 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.example.tripplannr.application_layer.util.ModeOfTransportIconDictionary;
 import com.example.tripplannr.databinding.FragmentTripBinding;
 import com.example.tripplannr.domain_layer.Trip;
@@ -27,6 +35,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
+import java.util.Observable;
 
 
 public class TripFragment extends Fragment {
@@ -46,24 +55,17 @@ public class TripFragment extends Fragment {
         tripBinding.setFragment(this);
         View view = tripBinding.getRoot();
         initViewModel();
+        tripBinding.setTrip(tripData);
         initRecyclerView(view);
         return view;
     }
 
     private void initViewModel() {
-        tripResultViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(TripResultViewModel.class);
-        tripResultViewModel.getTripLiveData().observe(this, new Observer<Trip>() {
-            @Override
-            public void onChanged(Trip trip) {
-                tripData = trip;
-                if(trip.getRoutes().size() > 0) {
-                    routesRecyclerView.setAdapter(new RoutesAdapter(trip.getRoutes()));
-                }
-            }
-        });
+        tripResultViewModel = InjectorUtils.getTripResultViewModel(getContext(), getActivity());
+        tripData = tripResultViewModel.getTripLiveData().getValue();
     }
 
-    public void activateNotifications(View view) {
+    private void activateNotifications(View view) {
         tripBinding.setSaved(true);
         NotificationManagerCompat.from(Objects.requireNonNull(getActivity())).notify(0, getNotification());
         Snackbar
@@ -100,8 +102,54 @@ public class TripFragment extends Fragment {
 
     private void initRecyclerView(View view) {
         routesRecyclerView = view.findViewById(R.id.routesRecyclerView);
-        routesRecyclerView.setAdapter(new RoutesAdapter(Objects.requireNonNull(tripResultViewModel.getTripLiveData().getValue()).getRoutes()));
+        routesRecyclerView.setAdapter(new RoutesAdapter(tripData.getRoutes()));
         routesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    public void createDialog(String vasttrafik, String stenaline, View view) {
+        TextView message = new TextView(getContext());
+        message.setText("Book trip here: \n" +
+                        vasttrafik + "\n" +
+                        stenaline);
+        Linkify.addLinks(message, Linkify.WEB_URLS);
+        message.setMovementMethod(LinkMovementMethod.getInstance());
+        message.setTextSize(18);
+        getDialogBuilder(view)
+                .setView(message)
+                .create()
+                .show();
+
+    }
+
+    public void createDialog(String vasttrafik, View view) {
+        TextView message = new TextView(getContext());
+        message.setText("Book trip here: \n" +
+                        vasttrafik);
+        Linkify.addLinks(message, Linkify.WEB_URLS);
+        message.setMovementMethod(LinkMovementMethod.getInstance());
+        message.setTextSize(18);
+        getDialogBuilder(view)
+                .setView(message)
+                .create()
+                .show();
+
+    }
+
+    private AlertDialog.Builder getDialogBuilder(final View view) {
+        return new AlertDialog.Builder(getActivity())
+                    .setTitle("Book trip?")
+                    .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            activateNotifications(view);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
     }
 
 
