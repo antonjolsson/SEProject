@@ -30,13 +30,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class VasttrafikServiceImpl {
 
+    private static VasttrafikServiceImpl instance;
+
+    public static VasttrafikServiceImpl getInstance() {
+        if(instance == null) instance = new VasttrafikServiceImpl();
+        return instance;
+    }
+
     private VasttrafikService vasttrafikService;
 
     private MutableLiveData<List<Trip>> data = new MutableLiveData<>();
 
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
-    public VasttrafikServiceImpl() {
+    private VasttrafikServiceImpl() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(10, TimeUnit.SECONDS)
                 .build();

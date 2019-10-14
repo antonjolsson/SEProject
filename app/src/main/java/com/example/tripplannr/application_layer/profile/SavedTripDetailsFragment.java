@@ -56,7 +56,7 @@ public class SavedTripDetailsFragment extends Fragment {
 
     private void initRecyclerView(View view){
         recyclerView = view.findViewById(R.id.routesRecyclerView);
-        recyclerView.setAdapter(new RoutesAdapter(tripData.getRoutes()));
+        recyclerView.setAdapter(new RoutesAdapter(viewModel));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 

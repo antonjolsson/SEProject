@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.tripplannr.application_layer.util.Utilities;
+import com.example.tripplannr.data_access_layer.repositories.VasttafikRepository;
 import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.domain_layer.TripLocation;
 import com.example.tripplannr.data_access_layer.repositories.GenericTripRepository;
@@ -31,6 +33,7 @@ public class SearchViewModel extends ViewModel {
     private MutableLiveData<Boolean> timeIsDeparture = new MutableLiveData<>();
     private MutableLiveData<ShownFragment> fragments = new MutableLiveData<>();
     private MutableLiveData<List<Trip>> trips = new MutableLiveData<>();
+    private VasttafikRepository vasttafikRepository = new VasttafikRepository();
 
     private boolean initOriginField = true;
     private Deque<LocationField> focusedLocationFields = new ArrayDeque<>();
@@ -43,11 +46,19 @@ public class SearchViewModel extends ViewModel {
         desiredTime.setValue(Calendar.getInstance());
     }
 
-    public void obtainTrips() {
-        TripQuery tripQuery = new TripQuery(origin.getValue(), destination.getValue(),
-                desiredTime.getValue(),
-                Objects.requireNonNull(timeIsDeparture.getValue()), null);
-        trips.setValue(genericTripRepository.makeTrip(tripQuery));
+    public void obtainTrips(String origin, String destination) {
+        this.origin.setValue(new TripLocation(origin, new Location("")));
+        this.destination.setValue(new TripLocation(destination, new Location("")));
+        vasttafikRepository.loadTrips(obtainQuery());
+    }
+
+    private TripQuery obtainQuery() {
+        return new TripQuery.Builder()
+                .origin(origin.getValue().getName())
+                .destination(destination.getValue().getName())
+                .time(Utilities.toLocalDateTime(desiredTime.getValue()))
+                .timeIsDeparture(timeIsDeparture.getValue())
+                .build();
     }
 
     public MutableLiveData<ShownFragment> getFragments() {

@@ -4,15 +4,16 @@ import androidx.lifecycle.LiveData;
 
 import com.example.tripplannr.data_access_layer.data_sources.VasttrafikServiceImpl;
 import com.example.tripplannr.domain_layer.Trip;
+import com.example.tripplannr.domain_layer.TripQuery;
 
 import java.util.List;
 
 public class VasttafikRepository {
 
-    private VasttrafikServiceImpl vasttrafikService = new VasttrafikServiceImpl();
+    private VasttrafikServiceImpl vasttrafikService = VasttrafikServiceImpl.getInstance();
 
-    public void loadTrips(final String origin, final String destination) {
-        vasttrafikService.loadTrips(origin, destination);
+    public void loadTrips(TripQuery query) {
+        vasttrafikService.loadTrips(query.getOrigin(), query.getDestination());
     }
 
     public void getMatching(final String pattern) {

@@ -24,9 +24,11 @@ import java.util.Objects;
 public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewHolder> implements GenericTripAdapter<Route> {
 
     private List<Route> routes;
+    private TripResultViewModel tripResultViewModel;
 
-    public RoutesAdapter(List<Route> routes) {
-        this.routes = routes;
+    public RoutesAdapter(TripResultViewModel viewModel) {
+        this.tripResultViewModel = viewModel;
+        this.routes = Objects.requireNonNull(viewModel.getTripLiveData().getValue()).getRoutes();
     }
 
     @NonNull
@@ -90,7 +92,7 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
 
         private RouteViewHolderBinding routeViewHolderBinding;
 
-        public RouteViewHolder(@NonNull View itemView) {
+        RouteViewHolder(@NonNull View itemView) {
             super(itemView);
             routeViewHolderBinding = DataBindingUtil.bind(itemView);
         }
@@ -100,6 +102,12 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
                     .setImageDrawable(itemView.getContext()
                             .getResources()
                             .getDrawable(iconType, itemView.getContext().getTheme()));
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tripResultViewModel.updateRoute(routeViewHolderBinding.getRoute());
+                }
+            });
         }
 
     }

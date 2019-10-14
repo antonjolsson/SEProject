@@ -39,7 +39,8 @@ public class TripActivity extends AppCompatActivity {
 
     private void createNotificationChannel() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel("TRIP_CHANNEL", "Trip channel", NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel notificationChannel = new NotificationChannel("TRIP_CHANNEL",
+                    "Trip channel", NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             notificationChannel.setShowBadge(true);
             Objects.requireNonNull(getSystemService(NotificationManager.class)).createNotificationChannel(notificationChannel);

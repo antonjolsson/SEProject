@@ -18,9 +18,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 public class StenaLineParser {
@@ -69,48 +72,48 @@ public class StenaLineParser {
                 JSONObject objDes = arr.getJSONObject(i).getJSONObject("Destination");
 
                 //Compare the origin and destination from json file to the one in tripQuery object
-                if (0 == objOri.getString("name").compareTo(tQ.getOrigin().getName()) && 0 == objDes.getString("name").compareTo(tQ.getDestination().getName())) {
+                if (0 == objOri.getString("name").compareTo(tQ.getOrigin()) && 0 == objDes.getString("name").compareTo(tQ.getDestination())) {
 
                     //Checks time in tripQuery and compare time to the one in json file, if time is later adds 1 day to json date
-                    String start_time = objOri.getString("time");
+                    /*String start_time = objOri.getString("time");
                     int start_hour = Integer.parseInt(start_time.substring(0, 2));
                     int start_min = Integer.parseInt(start_time.substring(3, 5));
                     Calendar departure = Calendar.getInstance();
                     departure.set(Calendar.HOUR_OF_DAY, start_hour);
                     departure.set(Calendar.MINUTE, start_min);
-
                     String end_time = objDes.getString("time");
                     int end_hour = Integer.parseInt(end_time.substring(0, 2));
                     int end_min = Integer.parseInt(end_time.substring(3, 5));
                     Calendar arrival = Calendar.getInstance();
                     arrival.set(Calendar.HOUR_OF_DAY, end_hour);
-                    arrival.set(Calendar.MINUTE, end_min);
+                    arrival.set(Calendar.MINUTE, end_min);*/
 
+                    String start_time = objOri.getString("time");
+                    String start_date = tQ.getTime().toLocalDate().toString();
+                    LocalDateTime departure = LocalDateTime.parse(start_date + " " + start_time,
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.ENGLISH));
 
-                    //Checks so that if the times are before current time we add 1 day
-                    if (departure.before(tQ.getTime())) {
-                        departure.add(Calendar.DATE, 1);
-                        arrival.add(Calendar.DATE, 1);
+                    String end_time = objDes.getString("time");
+                    String end_date = tQ.getTime().toLocalDate().toString();
+                    LocalDateTime arrival = LocalDateTime.parse(end_date + " " + end_time,
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.ENGLISH));
+
+                    if (departure.isBefore(tQ.getTime())) {
+                        departure = departure.plusDays(1);
+                        arrival = arrival.plusDays(1);
                     }
-
-                    //adds 1 day if they arrive after midnight
-                    arrival.add(Calendar.DATE, 1);
+                    arrival = arrival.plusDays(objDes.getLong("date"));
 
                     TravelTimes times = new TravelTimes(departure, arrival);
 
                     routes.add(getRoute(arr.getJSONObject(i).getString("JourneyDetailRef"), departure, arrival));
 
-                    //har ju bara 1 stop så enklast(?) att hämta location där ifrån, inte  super snyggt dock
+
                     Trip trip = new Trip.Builder()
                             .name(arr.getJSONObject(i).getString("name"))
                             .routes(routes)
                             .build();
 
-                    //  System.out.print(departure.get(Calendar.MINUTE));
-                    //  System.out.println(arrival.get(Calendar.HOUR));
-                    // System.out.print(arrival.get(Calendar.MINUTE));
-                    //    System.out.println(objOri.getString("name"));
-                    //  System.out.println(objDes.getString("name"));
 
                     trips.add(trip);
 
@@ -123,7 +126,7 @@ public class StenaLineParser {
         return trips;
     }
 
-    private Route getRoute(String jRef, Calendar depart, Calendar arrInp) {
+    private Route getRoute(String jRef, LocalDateTime depart, LocalDateTime arrInp) {
         Route route = null;
         List<Location> locationList = new ArrayList<>();
         try {
@@ -156,14 +159,14 @@ public class StenaLineParser {
             route = new Route(origin, destination, times, mode);
 
             //ska ferryINfo ligga i trip isf ha en add så slipper allt annat bry sig om det
-            // ferryInfo(ferryName);
+            route.setFerryinfo(ferryInfo(ferryName));
 
             //Skapar lista av Locations
             String geoRef = objRoute.getString("GeometryRef");
             locationList = geoList(geoRef);
 
-            //skapa add metod eller ha i constructorn
-            //route.addGeoList(locationList);
+
+            route.setLegs(locationList);
 
 
         } catch (JSONException e) {
@@ -209,4 +212,3 @@ public class StenaLineParser {
         return locationList;
     }
 }
-

@@ -29,6 +29,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
     private LiveData<Boolean> isLoading;
 
     private MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
+    private MutableLiveData<Route> mRouteLiveData = new MutableLiveData<>();
 
     private TripRepository tripRepository;
 
@@ -37,7 +38,6 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         this.tripRepository = tripRepository;
         isLoading = vasttafikRepository.isLoading();
         mTripsLiveData = vasttafikRepository.getData();
-        vasttafikRepository.loadTrips("Skogome", "Frölunda");
     }
 
     public LiveData<Trip> getTripLiveData() {
@@ -70,6 +70,12 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         tripRepository.delete(trip);
     }
 
+    public LiveData<Route> getRouteLiveData() {
+        return mRouteLiveData;
+    }
+
+    public void updateRoute(Route route) {mRouteLiveData.setValue(route);}
+
 
     /*private List<Trip> buildFakeTrips() {
         Route route1 = new Route.Builder()
@@ -86,7 +92,13 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                 .destination(new TripLocation("Brunnsparken", new Location(""), "C"))
                 .mode(WALK)
                 .build();
+    public void setSelectedRoute(Route route) {
+        mRouteLiveData.setValue(route);
+    }
 
+    public LiveData<Route> getRouteLiveData() {
+        return mRouteLiveData;
+    }
         Route route3 = new Route.Builder()
                 .mode(WALK)
                 .origin(new TripLocation("Brunnsparken", new Location(""), "C"))

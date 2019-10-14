@@ -1,9 +1,15 @@
 package com.example.tripplannr.domain_layer;
 
+import android.location.Location;
+
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Route {
@@ -18,6 +24,10 @@ public class Route {
     @Embedded
     private TravelTimes times;
     private ModeOfTransport mode;
+    @Ignore
+    private FerryInfo ferryinfo;
+    @Ignore
+    private List<Location> legs;
 
     public Route(TripLocation origin, TripLocation destination, TravelTimes times,
                  ModeOfTransport mode) {
@@ -99,5 +109,13 @@ public class Route {
         public Route build() {
             return new Route(this);
         }
+    }
+
+    public void setFerryinfo(FerryInfo ferryinfo) {
+        this.ferryinfo = ferryinfo;
+    }
+
+    public void setLegs(List<Location> legs) {
+        this.legs = legs;
     }
 }

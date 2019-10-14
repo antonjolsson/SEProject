@@ -1,12 +1,10 @@
-package com.example.tripplannr.application_layer.search;
+package com.example.tripplannr.application_layer.trip.map;
 
 import android.Manifest;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,11 +19,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tripplannr.R;
-import com.example.tripplannr.application_layer.addressservice.AddressResultReceiver;
-import com.example.tripplannr.application_layer.addressservice.FetchAddressConstants;
-import com.example.tripplannr.application_layer.addressservice.FetchAddressIntentService;
+import com.example.tripplannr.application_layer.search.SearchViewModel;
 import com.example.tripplannr.domain_layer.TripLocation;
-import com.example.tripplannr.application_layer.search.SearchViewModel.LocationField;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -47,7 +42,7 @@ import java.util.Objects;
 import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.DESTINATION;
 import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.ORIGIN;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback,
+public abstract class MapFragment extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMapClickListener{
 
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -55,22 +50,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private static final LatLng DEF_LAT_LNG = new LatLng(57.707202, 11.940108);
     private static final float DEF_ZOOM_LEVEL = 13;
 
-    private GoogleMap mMap;
+    private static final int BOTTOM_PADDING = 130; // TODO: Remove this when map frag gets more space
+
+    GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
-    private Location mLastLocation;
-    private Location clickedLocation;
-    private SearchViewModel model;
-    private Marker originMarker;
-    private Marker destinationMarker;
+    Location mLastLocation;
+    Location clickedLocation;
+    SearchViewModel model;
     private float zoomLevel;
     private LatLng latLng;
+    private Marker originMarker;
+    private Marker destinationMarker;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(SearchViewModel.class);
         fusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getActivity()));
-        model = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
         zoomLevel = DEF_ZOOM_LEVEL;
         latLng = DEF_LAT_LNG;
     }
@@ -104,8 +100,41 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                 zoomLevel = cameraPosition.zoom;
             }
         });
+        mMap.setPadding(0, 0, 0, BOTTOM_PADDING);
         initLocationRequest();
         setListeners();
+    }
+
+    void updateMarker(LatLng latLng) {
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        if (model.isInitOriginField() || model.getFocusedLocationField() == ORIGIN) {
+            removeMarker(ORIGIN);
+            markerOptions.icon(BitmapDescriptorFactory.
+                    defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            originMarker = mMap.addMarker(markerOptions);
+        }
+        else {
+            removeMarker(DESTINATION);
+            markerOptions.icon(BitmapDescriptorFactory.
+                    defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+            destinationMarker = mMap.addMarker(markerOptions);
+        }
+    }
+
+    void removeMarker(SearchViewModel.LocationField field) {
+        if (field == DESTINATION && destinationMarker != null) {
+            destinationMarker.remove();
+        }
+        else if (field == ORIGIN && originMarker != null) {
+            originMarker.remove();
+        }
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        //move map camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
     }
 
     private void initLocationRequest() {
@@ -127,19 +156,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         }
     }
 
-    private void locationChanged(TripLocation tripLocation, LocationField destination) {
-        if (tripLocation != null) {
-            LatLng latLng = tripLocationToLatLng(tripLocation.getLocation());
-            updateMarker(latLng);
-        }
-        else removeMarker(destination);
-        if (model.getAddressQuery().getValue() != null &&
-                model.getAddressQuery().getValue()) {
-            model.setAddressQuery(false);
-            model.flattenFocLocationStack();
-        }
-    }
-
     @Override
     public void onPause() {
         super.onPause();
@@ -148,47 +164,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         if (fusedLocationClient != null) {
             fusedLocationClient.removeLocationUpdates(mLocationCallback);
         }
-    }
-
-    @Override
-    public void onMapClick(LatLng latLng) {
-        updateMarker(latLng);
-
-        //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
-        //this.latLng = latLng;
-        //zoomLevel = 14;
-
-        clickedLocation = new Location("");
-        clickedLocation.setLatitude(latLng.latitude);
-        clickedLocation.setLongitude(latLng.longitude);
-        startIntentService();
-    }
-
-    private void updateMarker(LatLng latLng) {
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        if (model.isInitOriginField() || model.getFocusedLocationField() == ORIGIN) {
-            removeMarker(ORIGIN);
-            markerOptions.icon(BitmapDescriptorFactory.
-                    defaultMarker(BitmapDescriptorFactory.HUE_RED));
-            originMarker = mMap.addMarker(markerOptions);
-        }
-        else {
-            removeMarker(DESTINATION);
-            markerOptions.icon(BitmapDescriptorFactory.
-                    defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-            destinationMarker = mMap.addMarker(markerOptions);
-        }
-    }
-
-    private void startIntentService() {
-        AddressResultReceiver resultReceiver = new AddressResultReceiver(model, new Handler(),
-                clickedLocation);
-        Intent intent = new Intent(getContext(), FetchAddressIntentService.class);
-        intent.putExtra(FetchAddressConstants.RECEIVER, resultReceiver);
-        intent.putExtra(FetchAddressConstants.LOCATION_DATA_EXTRA, clickedLocation);
-        Objects.requireNonNull(getActivity()).startService(intent);
     }
 
     private LocationCallback mLocationCallback = new LocationCallback() {
@@ -208,7 +183,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         }
     };
 
-    private void simulateMapClick(Location location) {
+    void simulateMapClick(Location location) {
         LatLng latLng = tripLocationToLatLng(location);
         clickedLocation = mLastLocation;
         onMapClick(latLng);
@@ -217,15 +192,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private LatLng tripLocationToLatLng(Location location) {
         return new LatLng(location.getLatitude(),
                 location.getLongitude());
-    }
-
-    private void removeMarker(LocationField field) {
-        if (field == DESTINATION && destinationMarker != null) {
-            destinationMarker.remove();
-        }
-        else if (field == ORIGIN && originMarker != null) {
-            originMarker.remove();
-        }
     }
 
     private void checkLocationPermission() {
@@ -262,7 +228,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         }
     }
 
-    private void setListeners() {
+    protected void setListeners() {
         model.getDestination().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {
@@ -275,11 +241,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                 locationChanged(tripLocation, ORIGIN);
             }
         });
-        model.getAddressQuery().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged (Boolean addressQuery) {
-                if (addressQuery) simulateMapClick(mLastLocation);
-            }
-        });
     }
+
+    private void locationChanged(TripLocation tripLocation, SearchViewModel.LocationField destination) {
+        if (tripLocation != null) {
+            LatLng latLng = tripLocationToLatLng(tripLocation.getLocation());
+            updateMarker(latLng);
+        }
+        else removeMarker(destination);
+        if (model.getAddressQuery().getValue() != null &&
+                model.getAddressQuery().getValue()) {
+            model.setAddressQuery(false);
+            model.flattenFocLocationStack();
+        }
+    }
+
 }

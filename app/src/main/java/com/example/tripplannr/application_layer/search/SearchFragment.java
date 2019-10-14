@@ -1,45 +1,34 @@
 package com.example.tripplannr.application_layer.search;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.example.tripplannr.R;
-import com.example.tripplannr.data_access_layer.data_sources.VasttrafikServiceImpl;
 import com.example.tripplannr.domain_layer.TripLocation;
 import com.example.tripplannr.application_layer.search.SearchViewModel.LocationField;
 import com.example.tripplannr.application_layer.util.Utilities;
-import com.example.tripplannr.application_layer.util.VasttrafikParser;
-import com.example.tripplannr.data_access_layer.repositories.VasttafikRepository;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
 import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.DESTINATION;
 import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.ORIGIN;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SearchFragment extends Fragment {
 
@@ -48,16 +37,13 @@ public class SearchFragment extends Fragment {
     private ImageView locIconView, swapIconView;
     private Button timeButton, searchButton;
     private String name;
-    private SearchViewModel model;
-    private VasttafikRepository vasttrafikRepository = new VasttafikRepository();
+    private SearchViewModel searchViewModel;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO remove test call
-        vasttrafikRepository.getMatching("berg");
-        model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
+        searchViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
                 get(SearchViewModel.class);
-        setModelObservers();
+
     }
 
     private void initControls(View view) {
@@ -70,8 +56,8 @@ public class SearchFragment extends Fragment {
         nowTextView = Objects.requireNonNull(view).findViewById(R.id.nowTextView);
     }
 
-    private void setModelObservers() {
-        model.getOrigin().observe(this, new Observer<TripLocation>() {
+    /*private void setModelObservers() {
+        searchViewModel.getOrigin().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {
                 if (tripLocation == null) return;
@@ -79,7 +65,7 @@ public class SearchFragment extends Fragment {
                 fromTextField.setText(name);
             }
         });
-        model.getDestination().observe(this, new Observer<TripLocation>() {
+        searchViewModel.getDestination().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {
                 if (tripLocation == null) return;
@@ -87,7 +73,7 @@ public class SearchFragment extends Fragment {
                 toTextField.setText(name);
             }
         });
-        model.getDesiredTime().observe(this, new Observer<Calendar>() {
+        searchViewModel.getDesiredTime().observe(this, new Observer<Calendar>() {
             @Override
             public void onChanged(Calendar calendar) {
                 setTimeButtonText(calendar);
@@ -101,10 +87,10 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
-    }
+    }*/
 
     private void setTimeButtonText(Calendar calendar) {
-        String timeText = Objects.requireNonNull(model.getTimeIsDeparture().getValue()) ? "Dep. " :
+        String timeText = Objects.requireNonNull(searchViewModel.getTimeIsDeparture().getValue()) ? "Dep. " :
                 "Arr. ";
         if (Utilities.isNow(calendar)) timeText += "now";
         else {
@@ -143,21 +129,21 @@ public class SearchFragment extends Fragment {
         toTextField.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                model.setFocusedLocationField(DESTINATION);
+                searchViewModel.setFocusedLocationField(DESTINATION);
                 return false;
             }
         });
         fromTextField.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                model.setFocusedLocationField(ORIGIN);
+                searchViewModel.setFocusedLocationField(ORIGIN);
                 return false;
             }
         });
         locIconView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.getCurrTripLocation();
+                searchViewModel.getCurrTripLocation();
             }
         });
         swapIconView.setOnClickListener(new View.OnClickListener() {
@@ -169,43 +155,41 @@ public class SearchFragment extends Fragment {
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.showTimeControls();
+                searchViewModel.showTimeControls();
             }
         });
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.obtainTrips();
+                ((InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE)))
+                        .hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                searchViewModel.setTime(Calendar.getInstance(),
+                        Objects.requireNonNull(searchViewModel.getTimeIsDeparture().getValue()));
+                searchViewModel.obtainTrips(fromTextField.getText().toString(), toTextField.getText().toString());
                 Navigation.findNavController(v).navigate(R.id.action_navigation_search_to_navigation_trip_results);
             }
         });
-        nowTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                model.setTime(Calendar.getInstance(),
-                        Objects.requireNonNull(model.getTimeIsDeparture().getValue()));
-            }
-        });
+
     }
 
     private void swapLocations() {
-        TripLocation origin = model.getOrigin().getValue();
-        TripLocation destination = model.getDestination().getValue();
-        LocationField locationField = model.getFocusedLocationField();
-        model.setFocusedLocationField(DESTINATION);
-        if (origin != null) model.setLocation(origin.getLocation(), origin.getName());
+        TripLocation origin = searchViewModel.getOrigin().getValue();
+        TripLocation destination = searchViewModel.getDestination().getValue();
+        LocationField locationField = searchViewModel.getFocusedLocationField();
+        searchViewModel.setFocusedLocationField(DESTINATION);
+        if (origin != null) searchViewModel.setLocation(origin.getLocation(), origin.getName());
         else {
-            model.setLocation(null, null);
+            searchViewModel.setLocation(null, null);
             toTextField.setText("To");
         }
-        model.setFocusedLocationField(ORIGIN);
+        searchViewModel.setFocusedLocationField(ORIGIN);
         if (destination != null)
-            model.setLocation(destination.getLocation(), destination.getName());
+            searchViewModel.setLocation(destination.getLocation(), destination.getName());
         else {
-            model.setLocation(null, null);
+            searchViewModel.setLocation(null, null);
             fromTextField.setText("From");
         }
-        model.setFocusedLocationField(locationField);
+        searchViewModel.setFocusedLocationField(locationField);
     }
 
 }

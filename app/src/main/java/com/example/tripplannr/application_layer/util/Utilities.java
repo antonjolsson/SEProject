@@ -1,6 +1,9 @@
 package com.example.tripplannr.application_layer.util;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 public class Utilities {
 
@@ -25,4 +28,15 @@ public class Utilities {
                 rightNow.get(Calendar.HOUR_OF_DAY) == calendar.get(Calendar.HOUR_OF_DAY) &&
                 rightNow.get(Calendar.MINUTE) == calendar.get(Calendar.MINUTE);
     }
+
+    public static LocalDateTime toLocalDateTime(Calendar calendar) {
+        if (calendar == null) {
+            return null;
+        }
+        TimeZone tz = calendar.getTimeZone();
+        ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
+        return LocalDateTime.ofInstant(calendar.toInstant(), zid);
+    }
+
+
 }
