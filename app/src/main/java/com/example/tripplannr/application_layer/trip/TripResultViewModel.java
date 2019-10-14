@@ -29,6 +29,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
     private LiveData<Boolean> isLoading;
 
     private MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
+    private MutableLiveData<Route> mRouteLiveData = new MutableLiveData<>();
 
     private TripRepository tripRepository;
 
@@ -86,7 +87,13 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                 .destination(new TripLocation("Brunnsparken", new Location(""), "C"))
                 .mode(WALK)
                 .build();
+    public void setSelectedRoute(Route route) {
+        mRouteLiveData.setValue(route);
+    }
 
+    public LiveData<Route> getRouteLiveData() {
+        return mRouteLiveData;
+    }
         Route route3 = new Route.Builder()
                 .mode(WALK)
                 .origin(new TripLocation("Brunnsparken", new Location(""), "C"))

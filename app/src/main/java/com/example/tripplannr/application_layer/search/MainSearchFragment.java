@@ -1,6 +1,10 @@
 package com.example.tripplannr.application_layer.search;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,12 +14,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-
 import com.example.tripplannr.R;
+import com.example.tripplannr.application_layer.trip.map.SearchMapFragment;
 import com.example.tripplannr.domain_layer.Trip;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class MainSearchFragment extends Fragment {
     private final static float SEMI_TRANSPARENT_ALPHA = 0.5f;
     private final static float OPAQUE_ALPHA = 1f;
 
-    private MapFragment mapFragment;
+    private SearchMapFragment searchMapFragment;
     private DateTimeFragment dateTimeFragment;
     private ConstraintLayout searchFragView;
     private SearchViewModel model;
@@ -63,21 +63,21 @@ public class MainSearchFragment extends Fragment {
     }
 
     private void showMapFragment() {
-        if (mapFragment == null) mapFragment = new MapFragment();
+        if (searchMapFragment == null) searchMapFragment = new SearchMapFragment();
 
-        mapFragment.setArguments(getActivity().getIntent().getExtras());
+        searchMapFragment.setArguments(getActivity().getIntent().getExtras());
 
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().
+                beginTransaction();
 
         // Add the fragment to the 'fragment_container' FrameLayout
-        transaction.replace(main_lower_container, mapFragment).commit();
+        transaction.replace(main_lower_container, searchMapFragment).commit();
         transaction.addToBackStack(null);
 
         searchFragView.setAlpha(OPAQUE_ALPHA);
         mainLowerContainer.setElevation(noElevation);
         mainUpperContainer.setElevation(modFragElevation);
         enableDisableViewGroup(searchFragView, true);
-
     }
 
     private void showDateTimeFragment() {
@@ -97,7 +97,6 @@ public class MainSearchFragment extends Fragment {
         mainUpperContainer.setElevation(noElevation);
         mainLowerContainer.setElevation(modFragElevation);
         enableDisableViewGroup(searchFragView, false);
-
     }
 
     private void setListeners() {

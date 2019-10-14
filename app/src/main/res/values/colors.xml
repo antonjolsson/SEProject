@@ -6,5 +6,6 @@
     <color name="black">#000000</color>
     <color name="greyButton">#CFCFCF</color>
     <color name="red">#FF0000</color>
+    <color name="magenta">#FFFF00FF</color>
     <color name="white">#FFFFFF</color>
 </resources>

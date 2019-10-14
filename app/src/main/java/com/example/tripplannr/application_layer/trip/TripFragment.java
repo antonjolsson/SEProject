@@ -61,6 +61,16 @@ public class TripFragment extends Fragment {
     }
 
     private void initViewModel() {
+        tripResultViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(TripResultViewModel.class);
+        tripResultViewModel.getTripLiveData().observe(this, new Observer<Trip>() {
+            @Override
+            public void onChanged(Trip trip) {
+                tripData = trip;
+                if(trip.getRoutes().size() > 0) {
+                    routesRecyclerView.setAdapter(new RoutesAdapter(tripResultViewModel));
+                }
+            }
+        });
         tripResultViewModel = InjectorUtils.getTripResultViewModel(getContext(), getActivity());
         tripData = tripResultViewModel.getTripLiveData().getValue();
     }
@@ -90,7 +100,8 @@ public class TripFragment extends Fragment {
     private Notification getNotification() {
         return new NotificationCompat.Builder(Objects.requireNonNull(getActivity()), "TRIP_CHANNEL")
                 .setSmallIcon(R.drawable.ic_notifications_black_24dp)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), ModeOfTransportIconDictionary.getTransportIcon(tripData.getRoutes().get(0).getMode())))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),
+                        ModeOfTransportIconDictionary.getTransportIcon(tripData.getRoutes().get(0).getMode())))
                 .setContentTitle("Notification about your Trip")
                 .setContentText("Your trip \"" + tripData.getName() + "\" has been saved to your profile," +
                         " you will now be receiving notifications related to this trip")
@@ -102,6 +113,7 @@ public class TripFragment extends Fragment {
 
     private void initRecyclerView(View view) {
         routesRecyclerView = view.findViewById(R.id.routesRecyclerView);
+        routesRecyclerView.setAdapter(new RoutesAdapter(Objects.requireNonNull(tripResultViewModel)));
         routesRecyclerView.setAdapter(new RoutesAdapter(tripData.getRoutes()));
         routesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
