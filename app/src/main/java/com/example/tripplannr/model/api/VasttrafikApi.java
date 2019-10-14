@@ -30,10 +30,13 @@ public class VasttrafikApi {
         JSONObject json = new JSONObject(data);
         JSONArray stops = json.getJSONObject("LocationList").getJSONArray("StopLocation");
         if(json.getJSONObject("LocationList").has("CoordLocation")) {
-            JSONArray others = json.getJSONObject("LocationList").getJSONArray("CoordLocation");
-
-            for (int i = 0; i < others.length(); i++) {
-                stops.put(others.getJSONObject(i));
+            try {
+                JSONArray others = json.getJSONObject("LocationList").getJSONArray("CoordLocation");
+                for (int i = 0; i < others.length(); i++) {
+                    stops.put(others.getJSONObject(i));
+                }
+            } catch (JSONException e) {
+                stops.put(json.getJSONObject("LocationList").getJSONObject("CoordLocation"));
             }
         }
 
