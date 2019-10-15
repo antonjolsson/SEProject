@@ -1,5 +1,7 @@
 package com.example.tripplannr.data_access_layer.repositories;
 
+import android.os.AsyncTask;
+
 import androidx.lifecycle.LiveData;
 
 import com.example.tripplannr.data_access_layer.data_sources.VasttrafikServiceImpl;
@@ -27,6 +29,7 @@ public class VasttrafikRepository {
 
     public void getMatching(final String pattern) {
         vasttrafikService.getMatching(pattern);
+
     }
 
     public LiveData<List<TripLocation>> getAddressMatches() {

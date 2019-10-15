@@ -6,6 +6,7 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,7 +44,7 @@ import static com.example.tripplannr.application_layer.search.SearchViewModel.Lo
 
 public class SearchFragment extends Fragment {
 
-    private EditText toTextField, fromTextField;
+    private AutoCompleteTextView toTextField, fromTextField;
     private TextView nowTextView;
     private ImageView locIconView, swapIconView;
     private Button timeButton, searchButton;
@@ -52,7 +55,7 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO remove test call
-        vasttrafikRepository.getMatching("berg");
+        //vasttrafikRepository.getMatching("berg");
         searchViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
                 get(SearchViewModel.class);
         setObservers();
@@ -102,11 +105,23 @@ public class SearchFragment extends Fragment {
         vasttrafikRepository.getAddressMatches().observe(this, new Observer<List<TripLocation>>() {
             @Override
             public void onChanged(List<TripLocation> tripLocations) {
-                if (searchViewModel.getFocusedLocationField() == ORIGIN)
-                    fromTextField.setText(tripLocations.get(0).getName());
-                else toTextField.setText(tripLocations.get(0).getName());
+                showAddressSuggestions(tripLocations);
             }
         });
+    }
+
+    private void showAddressSuggestions(List<TripLocation> tripLocations) {
+        String[] addresses = new String[tripLocations.size()];
+        for (int i = 0; i < tripLocations.size(); i++) {
+            TripLocation location = tripLocations.get(i);
+            addresses[i] = location.getName();
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()),
+                android.R.layout.simple_dropdown_item_1line, addresses);
+
+        if (searchViewModel.getFocusedLocationField() == ORIGIN)
+            fromTextField.setAdapter(adapter);
+        else toTextField.setAdapter(adapter);
     }
 
     private void setTimeButtonText(Calendar calendar) {
@@ -208,70 +223,11 @@ public class SearchFragment extends Fragment {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(fromTextField);
                 else {
                     vasttrafikRepository.getMatching(fromTextField.getText().toString());
+                    //new GetSuggestions().execute(fromTextField.getText().toString());
                     return true;
                 }
             }
         });
-    }
-
-    /*private List<String> makeAutoCompleteRequest(String query) {
-        final List<String> resultList = new ArrayList<>();
-        AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
-
-        Places.initialize(Objects.requireNonNull(getContext()),
-                String.valueOf(R.string.google_maps_key));
-        PlacesClient placesClient = Places.createClient(getContext());
-        FindAutocompletePredictionsRequest request =
-                FindAutocompletePredictionsRequest.builder().setQuery(query).
-                        setSessionToken(token).build();
-        /*Task<FindAutocompletePredictionsResponse> autocompletePredictions =
-                placesClient.findAutocompletePredictions(request);
-
-        // This method should have been called off the main UI thread. Block and wait for at most
-        // 60s for a result from the API.
-        try {
-            Tasks.await(autocompletePredictions, 60, TimeUnit.SECONDS);
-        } catch (ExecutionException | InterruptedException | TimeoutException e) {
-            e.printStackTrace();
-        }
-
-        if (autocompletePredictions.isSuccessful()) {
-            FindAutocompletePredictionsResponse findAutocompletePredictionsResponse = autocompletePredictions.getResult();
-            if (findAutocompletePredictionsResponse != null)
-                for (AutocompletePrediction prediction : findAutocompletePredictionsResponse.
-                        getAutocompletePredictions()) {
-                    resultList.add(prediction.getPrimaryText(new StyleSpan(Typeface.NORMAL)).toString());
-                }
-        }*/
-
-        /*placesClient.findAutocompletePredictions(request).
-                addOnSuccessListener(new OnSuccessListener<FindAutocompletePredictionsResponse>() {
-            @Override
-            public void onSuccess(FindAutocompletePredictionsResponse response) {
-                for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
-                    String s = prediction.getPrimaryText(null).toString();
-                    Log.i("AutoComplete", prediction.getPlaceId());
-                    Log.i("AutoComplete", s);
-                    resultList.add(s);
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                if (e instanceof ApiException) {
-                    ApiException apiException = (ApiException) e;
-                    Log.e("AutoComplete", "Place not found: " + apiException.getStatusCode());
-            }
-        }});
-        return resultList;
-    }*/
-
-    private boolean setLocationOnEnter(EditText textField) {
-        Location location = getLocation(textField.getText().toString());
-        searchViewModel.setLocation(location, textField.getText().toString());
-        hideKeyboardFrom(Objects.requireNonNull(getContext()),
-                Objects.requireNonNull(getView()));
-        return true;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -289,10 +245,19 @@ public class SearchFragment extends Fragment {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(toTextField);
                 else {
                    vasttrafikRepository.getMatching(toTextField.getText().toString());
+                    //new GetSuggestions().execute(toTextField.getText().toString());
                     return false;
                 }
             }
         });
+    }
+
+    private boolean setLocationOnEnter(EditText textField) {
+        Location location = getLocation(textField.getText().toString());
+        searchViewModel.setLocation(location, textField.getText().toString());
+        hideKeyboardFrom(Objects.requireNonNull(getContext()),
+                Objects.requireNonNull(getView()));
+        return true;
     }
 
     // TODO: Move this to appropriate class
@@ -342,4 +307,10 @@ public class SearchFragment extends Fragment {
         Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    /*public class GetSuggestions extends AsyncTask<String, Void, Void> {
+        protected Void doInBackground(String... search) {
+            vasttrafikRepository.getMatching(search[0]);
+            return null;
+        }
+    }*/
 }
