@@ -6,7 +6,6 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -27,10 +26,10 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.example.tripplannr.R;
-import com.example.tripplannr.model.Utilities;
-import com.example.tripplannr.model.tripdata.TripLocation;
-import com.example.tripplannr.viewmodel.TripViewModel;
-import com.example.tripplannr.viewmodel.TripViewModel.LocationField;
+import com.example.tripplannr.application_layer.search.SearchViewModel.LocationField;
+import com.example.tripplannr.application_layer.util.Utilities;
+import com.example.tripplannr.data_access_layer.repositories.VasttafikRepository;
+import com.example.tripplannr.domain_layer.TripLocation;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,10 +39,6 @@ import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.example.tripplannr.domain_layer.TripLocation;
-import com.example.tripplannr.application_layer.search.SearchViewModel.LocationField;
-import com.example.tripplannr.application_layer.util.Utilities;
-import com.example.tripplannr.data_access_layer.repositories.VasttafikRepository;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -69,7 +64,7 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO remove test call
-        vasttrafikRepository.getMatching("berg");
+        //vasttrafikRepository.getMatching("berg");
         searchViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
                 get(SearchViewModel.class);
         setModelObservers();
@@ -131,7 +126,8 @@ public class SearchFragment extends Fragment {
                         Locale.getDefault());
                 dateString = dateFormat.format(calendar.getTime());
             }
-            timeText += dateString + ", " + String.format("%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+            timeText += dateString + ", " + String.format(Locale.getDefault(), "%02d:%02d",
+                    calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
         }
         timeButton.setText(timeText);
     }
@@ -191,6 +187,13 @@ public class SearchFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_navigation_search_to_navigation_trip_results);
             }
         });
+        nowTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchViewModel.setTime(Calendar.getInstance(),
+                        Objects.requireNonNull(searchViewModel.getTimeIsDeparture().getValue()));
+            }
+        });
         nowTextView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -205,7 +208,7 @@ public class SearchFragment extends Fragment {
         fromTextField.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                model.setFocusedLocationField(ORIGIN);
+                searchViewModel.setFocusedLocationField(ORIGIN);
                 return false;
             }
         });
@@ -275,7 +278,7 @@ public class SearchFragment extends Fragment {
 
     private boolean setLocationOnEnter(EditText textField) {
         Location location = getLocation(textField.getText().toString());
-        model.setLocation(location, textField.getText().toString());
+        searchViewModel.setLocation(location, textField.getText().toString());
         hideKeyboardFrom(Objects.requireNonNull(getContext()),
                 Objects.requireNonNull(getView()));
         return true;
@@ -286,7 +289,7 @@ public class SearchFragment extends Fragment {
         toTextField.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                model.setFocusedLocationField(DESTINATION);
+                searchViewModel.setFocusedLocationField(DESTINATION);
                 return false;
             }
         });
@@ -322,12 +325,12 @@ public class SearchFragment extends Fragment {
 
     // Swap origin and destination
     private void swapLocations() {
-        model.setSwappingLocations(true);
-        TripLocation origin = model.getOrigin().getValue();
-        TripLocation destination = model.getDestination().getValue();
-        LocationField tempField = model.getFocusedLocationField();
-        model.setFocusedLocationField(DESTINATION);
-        if (origin != null) model.setLocation(origin.getLocation(), origin.getName());
+        searchViewModel.setSwappingLocations(true);
+        TripLocation origin = searchViewModel.getOrigin().getValue();
+        TripLocation destination = searchViewModel.getDestination().getValue();
+        LocationField tempField = searchViewModel.getFocusedLocationField();
+        searchViewModel.setFocusedLocationField(DESTINATION);
+        if (origin != null) searchViewModel.setLocation(origin.getLocation(), origin.getName());
         else {
             searchViewModel.setLocation(null, null);
             toTextField.setText("To");
@@ -339,9 +342,8 @@ public class SearchFragment extends Fragment {
             searchViewModel.setLocation(null, null);
             fromTextField.setText("From");
         }
-        searchViewModel.setFocusedLocationField(locationField);
-        model.setFocusedLocationField(tempField);
-        model.setSwappingLocations(false);
+        searchViewModel.setFocusedLocationField(tempField);
+        searchViewModel.setSwappingLocations(false);
     }
 
     private void hideKeyboardFrom(Context context, View view) {

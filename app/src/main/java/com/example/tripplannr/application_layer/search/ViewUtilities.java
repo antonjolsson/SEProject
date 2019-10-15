@@ -1,4 +1,4 @@
-package com.example.tripplannr.view;
+package com.example.tripplannr.application_layer.search;
 
 import android.view.MotionEvent;
 import android.view.View;

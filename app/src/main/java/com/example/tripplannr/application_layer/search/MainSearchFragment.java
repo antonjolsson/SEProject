@@ -28,8 +28,6 @@ import static com.example.tripplannr.application_layer.search.SearchViewModel.Sh
 
 /* Class for displaying various fragments related to the search screen */
 
-public class MainActivity extends FragmentActivity {
-
 public class MainSearchFragment extends Fragment {
 
     private final static float SEMI_TRANSPARENT_ALPHA = 0.5f;
@@ -79,7 +77,7 @@ public class MainSearchFragment extends Fragment {
         transaction.replace(main_lower_container, searchMapFragment).commit();
         transaction.addToBackStack(null);
 
-        searchFragView.setAlpha(ViewUtilities.OPAQUE_ALPHA);
+        searchFragView.setAlpha(OPAQUE_ALPHA);
         mainLowerContainer.setElevation(noElevation);
         mainUpperContainer.setElevation(modFragElevation);
         enableDisableViewGroup(searchFragView, true);
@@ -98,7 +96,7 @@ public class MainSearchFragment extends Fragment {
         transaction.replace(main_lower_container, dateTimeFragment).commit();
         transaction.addToBackStack(null);
 
-        searchFragView.setAlpha(ViewUtilities.SEMI_TRANSPARENT_ALPHA);
+        searchFragView.setAlpha(SEMI_TRANSPARENT_ALPHA);
         mainUpperContainer.setElevation(noElevation);
         mainLowerContainer.setElevation(modFragElevation);
         enableDisableViewGroup(searchFragView, false);
