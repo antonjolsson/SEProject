@@ -4,9 +4,10 @@ import com.example.tripplannr.domain_layer.Trip;
 
 import org.json.JSONException;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.List;
 
 public interface TripParser {
-    List<Trip> getRoute(String data) throws ParseException, JSONException;
+    List<Trip> getTrips(String data) throws ParseException, JSONException;
 }

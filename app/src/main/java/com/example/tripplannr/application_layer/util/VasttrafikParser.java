@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class VasttrafikParser {
+public class VasttrafikParser implements TripParser{
 
 
     public VasttrafikParser() {}
@@ -85,7 +85,8 @@ public class VasttrafikParser {
         return points;
     }
 
-    public List<Trip> getTrips(String data) throws JSONException, UnsupportedEncodingException {
+    @Override
+    public List<Trip> getTrips(String data) throws JSONException {
         List<Trip> trips = new ArrayList<>();
 
         JSONObject jsonObject = new JSONObject(data);
@@ -119,7 +120,7 @@ public class VasttrafikParser {
         return trips;
     }
 
-    private Route getRoute(JSONObject routeJSON) throws JSONException, UnsupportedEncodingException {
+    private Route getRoute(JSONObject routeJSON) throws JSONException {
 
         // Get origin stop info from JSON
         String origin_name = routeJSON.getJSONObject("Origin").getString("name");
