@@ -1,12 +1,9 @@
 package com.example.tripplannr.data_access_layer.repositories;
 
 import android.content.Context;
-import android.widget.Switch;
 
 import com.example.tripplannr.application_layer.util.StenaLineParser;
 import com.example.tripplannr.application_layer.util.TripParser;
-import com.example.tripplannr.application_layer.util.VasttrafikParser;
-import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.domain_layer.TripQuery;
 
 import java.util.ArrayList;
@@ -14,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GenericTripRepository {
-    List<String> stenaStops = Arrays.asList("StenaTerminalen, Göteborg", "StenaTerminalen, Fredrikshamn");
+    ArrayList<String> stenaStops = new ArrayList<>(Arrays.asList("StenaTerminalen, Göteborg", "StenaTerminalen, Fredrikshamn"));
 
     private List<TripParser> tripParsers;
     private StenaLineParser stenaLineApi;
@@ -27,11 +24,12 @@ public class GenericTripRepository {
     }
 
     public void setStenaLineApi(Context context) {
-        this.stenaLineApi = new StenaLineParser(context);
+        return;
+        // this.stenaLineApi = new StenaLineParser(context);
     }
 
-    public List<Trip> makeTrip(TripQuery tripQuery) {
-        if (Arrays.asList(stenaStops).contains(tripQuery.getDestination())) {
+    public void makeTrip(TripQuery tripQuery) {
+        if (stenaStops.contains(tripQuery.getDestination())) {
             switch (tripQuery.getDestination()) {
                 case "StenaTerminalen, Fredrikshamn":
                     vasttafikRepository.loadTrips(new TripQuery.Builder()
@@ -40,10 +38,10 @@ public class GenericTripRepository {
                             .time(tripQuery.getTime())
                             .timeIsDeparture(tripQuery.isTimeDeparture())
                             .build());
+                    return;
             }
-
         }
-        if (Arrays.asList(stenaStops).contains(tripQuery.getOrigin())) {
+        if (stenaStops.contains(tripQuery.getOrigin())) {
             switch (tripQuery.getOrigin()) {
                 case "StenaTerminalen, Fredrikshamn":
                     vasttafikRepository.loadTrips(new TripQuery.Builder()
@@ -52,13 +50,10 @@ public class GenericTripRepository {
                             .time(tripQuery.getTime())
                             .timeIsDeparture(tripQuery.isTimeDeparture())
                             .build());
+                    return;
             }
         }
-        else{
-
-        }
-        List<Trip> trips = new ArrayList<>();
-        return trips;
+        vasttafikRepository.loadTrips(tripQuery);
     }
 
 }
