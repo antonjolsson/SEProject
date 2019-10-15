@@ -7,7 +7,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -28,21 +26,11 @@ import androidx.navigation.Navigation;
 import com.example.tripplannr.R;
 import com.example.tripplannr.application_layer.search.SearchViewModel.LocationField;
 import com.example.tripplannr.application_layer.util.Utilities;
-import com.example.tripplannr.data_access_layer.repositories.VasttafikRepository;
+import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
 import com.example.tripplannr.domain_layer.TripLocation;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.AutocompletePrediction;
-import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
-import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -59,15 +47,15 @@ public class SearchFragment extends Fragment {
     private Button timeButton, searchButton;
     private String name;
     private SearchViewModel searchViewModel;
-    private VasttafikRepository vasttrafikRepository = new VasttafikRepository();
+    private VasttrafikRepository vasttrafikRepository = new VasttrafikRepository();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO remove test call
-        //vasttrafikRepository.getMatching("berg");
+        vasttrafikRepository.getMatching("berg");
         searchViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
                 get(SearchViewModel.class);
-        setModelObservers();
+        setObservers();
     }
 
     private void initControls(View view) {
@@ -80,7 +68,7 @@ public class SearchFragment extends Fragment {
         nowTextView = Objects.requireNonNull(view).findViewById(R.id.nowTextView);
     }
 
-    private void setModelObservers() {
+    private void setObservers() {
         searchViewModel.getOrigin().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {
@@ -111,6 +99,14 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
+        vasttrafikRepository.getAddressMatches().observe(this, new Observer<List<TripLocation>>() {
+            @Override
+            public void onChanged(List<TripLocation> tripLocations) {
+                if (searchViewModel.getFocusedLocationField() == ORIGIN)
+                    fromTextField.setText(tripLocations.get(0).getName());
+                else toTextField.setText(tripLocations.get(0).getName());
+            }
+        });
     }
 
     private void setTimeButtonText(Calendar calendar) {
@@ -130,12 +126,6 @@ public class SearchFragment extends Fragment {
                     calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
         }
         timeButton.setText(timeText);
-    }
-
-    // Makes sure time always has format hh:mm
-    private String setNumOfZeroes(int time) {
-        String timeAsString = String.valueOf(time);
-        return timeAsString.length() < 2 ? '0' + timeAsString : timeAsString;
     }
 
     private String formatLocationName(String name) {
@@ -217,14 +207,14 @@ public class SearchFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(fromTextField);
                 else {
-                    makeAutoCompleteRequest(fromTextField.getText().toString());
+                    vasttrafikRepository.getMatching(fromTextField.getText().toString());
                     return true;
                 }
             }
         });
     }
 
-    private List<String> makeAutoCompleteRequest(String query) {
+    /*private List<String> makeAutoCompleteRequest(String query) {
         final List<String> resultList = new ArrayList<>();
         AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
 
@@ -254,7 +244,7 @@ public class SearchFragment extends Fragment {
                 }
         }*/
 
-        placesClient.findAutocompletePredictions(request).
+        /*placesClient.findAutocompletePredictions(request).
                 addOnSuccessListener(new OnSuccessListener<FindAutocompletePredictionsResponse>() {
             @Override
             public void onSuccess(FindAutocompletePredictionsResponse response) {
@@ -274,7 +264,7 @@ public class SearchFragment extends Fragment {
             }
         }});
         return resultList;
-    }
+    }*/
 
     private boolean setLocationOnEnter(EditText textField) {
         Location location = getLocation(textField.getText().toString());
@@ -298,7 +288,7 @@ public class SearchFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(toTextField);
                 else {
-                    makeAutoCompleteRequest(toTextField.getText().toString());
+                   vasttrafikRepository.getMatching(toTextField.getText().toString());
                     return false;
                 }
             }

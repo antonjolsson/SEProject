@@ -13,11 +13,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -46,6 +43,8 @@ public class VasttrafikServiceImpl {
 
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
+    private MutableLiveData<List<TripLocation>> adressMatches = new MutableLiveData<>();
+
     private VasttrafikServiceImpl() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(10, TimeUnit.SECONDS)
@@ -66,6 +65,10 @@ public class VasttrafikServiceImpl {
 
     public LiveData<Boolean> isLoading() {
         return isLoading;
+    }
+
+    public LiveData<List<TripLocation>> getAddressMatches() {
+        return adressMatches;
     }
 
     private void onFetchFail() {
@@ -226,8 +229,8 @@ public class VasttrafikServiceImpl {
                             if (response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
                                 // TODO do something with response
-                                List<TripLocation> matches = new VasttrafikParser().getMatching(body);
-                                System.out.println(matches.get(1).getName());
+                                adressMatches.setValue(new VasttrafikParser().getMatching(body));
+                                System.out.println(getAddressMatches().getValue().get(1).getName());
                             }
                         } catch (IOException | InterruptedException ignored) {
                         } catch (JSONException e) {

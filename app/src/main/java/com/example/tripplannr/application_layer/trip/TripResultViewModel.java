@@ -1,28 +1,19 @@
 package com.example.tripplannr.application_layer.trip;
 
-import android.location.Location;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.tripplannr.data_access_layer.repositories.TripRepository;
-import com.example.tripplannr.data_access_layer.repositories.VasttafikRepository;
+import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
 import com.example.tripplannr.domain_layer.Route;
-import com.example.tripplannr.domain_layer.TravelTimes;
 import com.example.tripplannr.domain_layer.Trip;
-import com.example.tripplannr.domain_layer.TripLocation;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import static com.example.tripplannr.domain_layer.ModeOfTransport.*;
 
 public class TripResultViewModel extends ViewModel implements IClickHandler<Trip> {
 
-    private VasttafikRepository vasttafikRepository = new VasttafikRepository();
+    private VasttrafikRepository vasttrafikRepository = new VasttrafikRepository();
 
     private LiveData<List<Trip>> mTripsLiveData;
 
@@ -36,8 +27,8 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
     public TripResultViewModel(TripRepository tripRepository) {
         super();
         this.tripRepository = tripRepository;
-        isLoading = vasttafikRepository.isLoading();
-        mTripsLiveData = vasttafikRepository.getData();
+        isLoading = vasttrafikRepository.isLoading();
+        mTripsLiveData = vasttrafikRepository.getData();
     }
 
     public LiveData<Trip> getTripLiveData() {
