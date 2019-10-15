@@ -29,6 +29,8 @@ public interface VasttrafikService {
     Call<ResponseBody> getTrips(
             @Query("destId") long destId,
             @Query("originId") long originId,
+            @Query("date") String date,
+            @Query("time") String time,
             @Query("format") String format,
             @Header("Authorization") String bearer);
 

@@ -107,8 +107,7 @@ public class SearchFragment extends Fragment {
                         Locale.getDefault());
                 dateString = dateFormat.format(calendar.getTime());
             }
-            timeText += dateString + ", " + calendar.get(Calendar.HOUR_OF_DAY) + ":" +
-                    calendar.get(Calendar.MINUTE);
+            timeText += dateString + ", " + String.format("%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
         }
         timeButton.setText(timeText);
     }

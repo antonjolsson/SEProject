@@ -7,13 +7,17 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.tripplannr.application_layer.util.VasttrafikParser;
 import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.domain_layer.TripLocation;
+import com.example.tripplannr.domain_layer.TripQuery;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -69,7 +73,7 @@ public class VasttrafikServiceImpl {
         data.postValue(new ArrayList<Trip>());
     }
 
-    public void loadTrips(final String origin, final String destination) {
+    public void loadTrips(final TripQuery tripQuery) {
         vasttrafikService
                 .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
                         "application/x-www-form-urlencoded", "client_credentials")
@@ -80,7 +84,7 @@ public class VasttrafikServiceImpl {
                             if(response.code() >= 200 && response.code() <= 299) {
                                 String token = "Bearer " + new JSONObject(response.body().string())
                                         .getString("access_token");
-                                searchAndLoadTrips(origin, destination, token);
+                                searchAndLoadTrips(tripQuery, token);
                             }
                             else onFetchFail();
                         } catch (JSONException | IOException e) {
@@ -95,16 +99,16 @@ public class VasttrafikServiceImpl {
                 });
     }
 
-    private void searchAndLoadTrips(String origin, final String destination, final String token) {
+    private void searchAndLoadTrips(final TripQuery tripQuery, final String token) {
         isLoading.setValue(true);
         vasttrafikService
-                .getName(origin, "json", token)
+                .getName(tripQuery.getOrigin(), "json", token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                         if(response.code() >= 200 && response.code() <= 299) {
                             try {
-                                searchAndLoadTripsHelper(destination
+                                searchAndLoadTripsHelper(tripQuery
                                         , new JSONObject(response.body().string())
                                                 .getJSONObject("LocationList")
                                                 .getJSONArray("StopLocation")
@@ -126,9 +130,9 @@ public class VasttrafikServiceImpl {
 
     }
 
-    private void searchAndLoadTripsHelper(String destination, final long originId, final String token) {
+    private void searchAndLoadTripsHelper(final TripQuery tripQuery, final long originId, final String token) {
         vasttrafikService
-                .getName(destination, "json", token)
+                .getName(tripQuery.getDestination(), "json", token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -141,7 +145,7 @@ public class VasttrafikServiceImpl {
                                         .getLong("id");
                                 System.out.println(originId);
                                 System.out.println(destId);
-                                loadTripsHelper(token, destId, originId);
+                                loadTripsHelper(tripQuery, originId, destId, token);
                             } catch (IOException | JSONException e) {
                                 onFetchFail();
                             }
@@ -156,9 +160,14 @@ public class VasttrafikServiceImpl {
                 });
     }
 
-    private void loadTripsHelper(final String token, final long originId, final long destinationId) {
+    private void loadTripsHelper(TripQuery tripQuery, final long originId, final long destinationId, final String token) {
+        String date = tripQuery.getTime().getYear() + "-" + tripQuery.getTime().getMonthValue()
+                + "-" + tripQuery.getTime().getDayOfMonth();
+        String time = tripQuery.getTime().getHour() + ":" + tripQuery.getTime().getMonthValue();
+        System.out.println(date);
+        System.out.println(time);
         vasttrafikService
-                .getTrips(originId, destinationId, "json","Bearer " + token)
+                .getTrips(originId, destinationId, date, time, "json","Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
