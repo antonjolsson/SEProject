@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="fragment"
-            type="com.example.tripplannr.view.TripFragment" />
+            type="com.example.tripplannr.application_layer.trip.TripFragment" />
         <variable
             name="saved"
             type="Boolean" />
+        <variable
+            name="trip"
+            type="com.example.tripplannr.domain_layer.Trip" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".controller.trip.TripFragment">
@@ -18,33 +21,45 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/routesRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="441dp"
+            android:layout_height="277dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="@dimen/modal_fragment_elevation"
+            android:outlineProvider="bounds"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/routesRecyclerView">
 
+            <fragment
+                android:id="@+id/trip_map_fragment"
+                android:name="com.example.tripplannr.application_layer.trip.map.ResultMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp" />
+
             <Button
                 android:id="@+id/getNotificationButton"
                 android:layout_width="249dp"
                 android:layout_height="42dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="225dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/rajdhani_medium"
                 android:text="@string/get_notifications"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:onClick="@{() -> fragment.activateNotifications()}"
+                android:onClick="@{(v) -> trip.hasFerry() ? fragment.createDialog(@string/vasttrafik, v) : fragment.createDialog(@string/vasttrafik, @string/stenaline, v)}"
                 android:enabled="@{saved ? false : true}"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
