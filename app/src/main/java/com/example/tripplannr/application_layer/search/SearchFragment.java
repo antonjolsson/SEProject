@@ -6,7 +6,6 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -55,7 +54,6 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO remove test call
-        //vasttrafikRepository.getMatching("berg");
         searchViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
                 get(SearchViewModel.class);
         setObservers();
@@ -306,11 +304,4 @@ public class SearchFragment extends Fragment {
                 context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
-    /*public class GetSuggestions extends AsyncTask<String, Void, Void> {
-        protected Void doInBackground(String... search) {
-            vasttrafikRepository.getMatching(search[0]);
-            return null;
-        }
-    }*/
 }
