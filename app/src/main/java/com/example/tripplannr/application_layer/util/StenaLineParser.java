@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,16 +50,9 @@ public class StenaLineParser {
         }
         return json;
     }
-/*
-    public List<Trip> getRoute(String data) {
-        TripLocation locOrgin = new TripLocation("StenaTerminalen, Göteborg", new Location(""), "");
-        TripLocation locDestination = new TripLocation("StenaTerminalen, Fredrikshamn", new Location(""), "");
-        Calendar dateTime = Calendar.getInstance();
-        TripQuery tripQ = new TripQuery(locOrgin, locDestination, dateTime);
-        return getTrip(tripQ);
-    }*/
 
-    public List<Trip> getTrip(TripQuery tQ) {
+
+    public List<Trip> getTrips(TripQuery tQ) {
         List<Trip> trips = new ArrayList<>();
         try {
             JSONObject obj = new JSONObject(loadJSONFromAsset("stenaTripList.json"));
@@ -74,19 +68,7 @@ public class StenaLineParser {
                 //Compare the origin and destination from json file to the one in tripQuery object
                 if (0 == objOri.getString("name").compareTo(tQ.getOrigin()) && 0 == objDes.getString("name").compareTo(tQ.getDestination())) {
 
-                    //Checks time in tripQuery and compare time to the one in json file, if time is later adds 1 day to json date
-                    /*String start_time = objOri.getString("time");
-                    int start_hour = Integer.parseInt(start_time.substring(0, 2));
-                    int start_min = Integer.parseInt(start_time.substring(3, 5));
-                    Calendar departure = Calendar.getInstance();
-                    departure.set(Calendar.HOUR_OF_DAY, start_hour);
-                    departure.set(Calendar.MINUTE, start_min);
-                    String end_time = objDes.getString("time");
-                    int end_hour = Integer.parseInt(end_time.substring(0, 2));
-                    int end_min = Integer.parseInt(end_time.substring(3, 5));
-                    Calendar arrival = Calendar.getInstance();
-                    arrival.set(Calendar.HOUR_OF_DAY, end_hour);
-                    arrival.set(Calendar.MINUTE, end_min);*/
+
 
                     String start_time = objOri.getString("time");
                     String start_date = tQ.getTime().toLocalDate().toString();
@@ -123,6 +105,7 @@ public class StenaLineParser {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return trips;
     }
 
@@ -211,4 +194,7 @@ public class StenaLineParser {
         }
         return locationList;
     }
+
+
+
 }

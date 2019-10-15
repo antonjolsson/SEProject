@@ -1,5 +1,6 @@
 package com.example.tripplannr.application_layer.search;
 
+import android.content.Context;
 import android.location.Location;
 
 import androidx.lifecycle.LiveData;
@@ -33,11 +34,12 @@ public class SearchViewModel extends ViewModel {
     private MutableLiveData<Boolean> timeIsDeparture = new MutableLiveData<>();
     private MutableLiveData<ShownFragment> fragments = new MutableLiveData<>();
     private MutableLiveData<List<Trip>> trips = new MutableLiveData<>();
-    private VasttafikRepository vasttafikRepository = new VasttafikRepository();
+    //private VasttafikRepository vasttafikRepository = new VasttafikRepository();
 
     private boolean initOriginField = true;
     private Deque<LocationField> focusedLocationFields = new ArrayDeque<>();
     private GenericTripRepository genericTripRepository;
+    private Context context;
 
     public SearchViewModel() {
         focusedLocationFields.push(DESTINATION);
@@ -46,10 +48,16 @@ public class SearchViewModel extends ViewModel {
         desiredTime.setValue(Calendar.getInstance());
     }
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
     public void obtainTrips(String origin, String destination) {
         this.origin.setValue(new TripLocation(origin, new Location("")));
         this.destination.setValue(new TripLocation(destination, new Location("")));
-        vasttafikRepository.loadTrips(obtainQuery());
+        genericTripRepository.setStenaLineApi(context);
+        genericTripRepository.makeTrip(obtainQuery());
+        // vasttafikRepository.loadTrips(obtainQuery());
     }
 
     private TripQuery obtainQuery() {

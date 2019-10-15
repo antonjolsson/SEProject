@@ -51,6 +51,7 @@ public class SearchFragment extends Fragment {
         setModelObservers();
     }
 
+
     private void initControls(View view) {
         toTextField = Objects.requireNonNull(view).findViewById(R.id.toText);
         fromTextField = Objects.requireNonNull(view).findViewById(R.id.fromText);
@@ -170,6 +171,7 @@ public class SearchFragment extends Fragment {
                 searchViewModel.setTime(Calendar.getInstance(),
                         Objects.requireNonNull(searchViewModel.getTimeIsDeparture().getValue()));
                 searchViewModel.obtainTrips(fromTextField.getText().toString(), toTextField.getText().toString());
+                searchViewModel.setContext(getContext());
                 Navigation.findNavController(v).navigate(R.id.action_navigation_search_to_navigation_trip_results);
             }
         });
