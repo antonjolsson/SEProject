@@ -35,6 +35,12 @@ public class SearchViewModel extends ViewModel {
     private MutableLiveData<List<Trip>> trips = new MutableLiveData<>();
     private VasttrafikRepository vasttrafikRepository = new VasttrafikRepository();
 
+    public LiveData<List<TripLocation>> getAddressMatches() {
+        return addressMatches;
+    }
+
+    private LiveData<List<TripLocation>> addressMatches;
+
     // If the app is starting up, set current location as origin
     private boolean initOriginField = true;
     // Keep track of which location field is focused
@@ -44,10 +50,15 @@ public class SearchViewModel extends ViewModel {
     private boolean swappingLocations;
 
     public SearchViewModel() {
+        addressMatches = vasttrafikRepository.getAddressMatches();
         focusedLocationFields.push(DESTINATION);
         timeIsDeparture.setValue(true);
         genericTripRepository = new GenericTripRepository();
         desiredTime.setValue(Calendar.getInstance());
+    }
+
+    void autoComplete(String pattern) {
+        vasttrafikRepository.getMatching(pattern);
     }
 
     public void obtainTrips(String origin, String destination) {

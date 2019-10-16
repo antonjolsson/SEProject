@@ -6,7 +6,6 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -102,7 +101,7 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
-        vasttrafikRepository.getAddressMatches().observe(this, new Observer<List<TripLocation>>() {
+        searchViewModel.getAddressMatches().observe(this, new Observer<List<TripLocation>>() {
             @Override
             public void onChanged(List<TripLocation> tripLocations) {
                 showAddressSuggestions(tripLocations);
@@ -118,7 +117,6 @@ public class SearchFragment extends Fragment {
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()),
                 android.R.layout.simple_dropdown_item_1line, addresses);
-
         if (searchViewModel.getFocusedLocationField() == ORIGIN)
             fromTextField.setAdapter(adapter);
         else toTextField.setAdapter(adapter);
@@ -222,8 +220,8 @@ public class SearchFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(fromTextField);
                 else {
-                    vasttrafikRepository.getMatching(fromTextField.getText().toString());
-                    //new GetSuggestions().execute(fromTextField.getText().toString());
+                    //vasttrafikRepository.getMatching(fromTextField.getText().toString());
+                    searchViewModel.autoComplete(fromTextField.getText().toString());
                     return true;
                 }
             }
@@ -244,8 +242,8 @@ public class SearchFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(toTextField);
                 else {
-                   vasttrafikRepository.getMatching(toTextField.getText().toString());
-                    //new GetSuggestions().execute(toTextField.getText().toString());
+                   //vasttrafikRepository.getMatching(toTextField.getText().toString());
+                    searchViewModel.autoComplete(toTextField.getText().toString());
                     return false;
                 }
             }
