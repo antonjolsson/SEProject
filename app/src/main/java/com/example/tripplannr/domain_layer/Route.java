@@ -30,8 +30,6 @@ public class Route {
     private List<Location> legs;
     // Västtrafik journey reference
     private String journeyRef;
-    // Västtrafik points reference
-    private String geometryRef;
 
     public Route(TripLocation origin, TripLocation destination, TravelTimes times,
                  ModeOfTransport mode) {
