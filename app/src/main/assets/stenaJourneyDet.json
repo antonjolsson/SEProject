@@ -128,7 +128,7 @@
             },
             "GeometryRef": "FREGOT"
             ,
-            "ShipRef": "Stena Danica"
+            "Ship": "Stena Danica"
             ,
             "JourneyType":  "BOAT"
 
