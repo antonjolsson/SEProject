@@ -38,6 +38,8 @@ public class VasttrafikRepository {
         return vasttrafikService.isLoading();
     }
 
+    public LiveData<List<TripLocation>> getTripLocationData() { return vasttrafikService.getAddressMatches(); }
+
     public void getMatching(final String pattern) {
         vasttrafikService.getMatching(pattern);
 

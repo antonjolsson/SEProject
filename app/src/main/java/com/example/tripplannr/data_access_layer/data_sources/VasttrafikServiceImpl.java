@@ -56,7 +56,7 @@ public class VasttrafikServiceImpl {
 
     private MutableLiveData<Integer> statusCode = new MutableLiveData<>();
 
-    private MutableLiveData<List<TripLocation>> adressMatches = new MutableLiveData<>();
+    private MutableLiveData<List<TripLocation>> addressMatches = new MutableLiveData<>();
 
     private TripQuery original;
 
@@ -86,7 +86,7 @@ public class VasttrafikServiceImpl {
     }
 
     public LiveData<List<TripLocation>> getAddressMatches() {
-        return adressMatches;
+        return addressMatches;
     }
 
     public LiveData<Integer> getStatusCode() {
@@ -260,14 +260,13 @@ public class VasttrafikServiceImpl {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         try {
-                            Thread.sleep(2000);
                             if (response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
                                 // TODO do something with response
-                                adressMatches.setValue(new VasttrafikParser().getMatching(body));
+                                addressMatches.setValue(new VasttrafikParser().getMatching(body));
                                 System.out.println(getAddressMatches().getValue().get(1).getName());
                             }
-                        } catch (IOException | InterruptedException ignored) {
+                        } catch (IOException e) {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
