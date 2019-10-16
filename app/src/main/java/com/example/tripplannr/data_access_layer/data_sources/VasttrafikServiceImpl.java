@@ -1,10 +1,15 @@
 package com.example.tripplannr.data_access_layer.data_sources;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.tripplannr.application_layer.util.StenaLineParser;
+import com.example.tripplannr.application_layer.util.TripDictionary;
 import com.example.tripplannr.application_layer.util.VasttrafikParser;
+import com.example.tripplannr.domain_layer.Route;
 import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.domain_layer.TripLocation;
 import com.example.tripplannr.domain_layer.TripQuery;
@@ -19,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -35,8 +41,8 @@ public class VasttrafikServiceImpl {
 
     private static VasttrafikServiceImpl instance;
 
-    public static VasttrafikServiceImpl getInstance() {
-        if(instance == null) instance = new VasttrafikServiceImpl();
+    public static VasttrafikServiceImpl getInstance(Context context) {
+        if(instance == null) instance = new VasttrafikServiceImpl(context);
         return instance;
     }
 
@@ -46,7 +52,12 @@ public class VasttrafikServiceImpl {
 
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
-    private VasttrafikServiceImpl() {
+    private TripQuery original;
+
+    private Context context;
+
+    private VasttrafikServiceImpl(Context context) {
+        this.context = context;
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(10, TimeUnit.SECONDS)
                 .build();
@@ -74,6 +85,12 @@ public class VasttrafikServiceImpl {
     }
 
     public void loadTrips(final TripQuery tripQuery) {
+        original = new TripQuery.Builder()
+                        .destination(tripQuery.getDestination())
+                        .origin(tripQuery.getOrigin())
+                        .time(tripQuery.getTime())
+                        .build();
+        tripQuery.setDestination(TripDictionary.translateTrip(tripQuery.getDestination()));
         vasttrafikService
                 .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
                         "application/x-www-form-urlencoded", "client_credentials")
@@ -160,8 +177,8 @@ public class VasttrafikServiceImpl {
                 });
     }
 
-    private void loadTripsHelper(TripQuery tripQuery, final long originId, final long destinationId, final String token) {
-        String date = tripQuery.getTime().getYear() + "-" + tripQuery.getTime().getMonthValue()
+    private void loadTripsHelper(final TripQuery tripQuery, final long originId, final long destinationId, final String token) {
+        final String date = tripQuery.getTime().getYear() + "-" + tripQuery.getTime().getMonthValue()
                 + "-" + tripQuery.getTime().getDayOfMonth();
         String time = tripQuery.getTime().getHour() + ":" + tripQuery.getTime().getMonthValue();
         System.out.println(date);
@@ -176,7 +193,11 @@ public class VasttrafikServiceImpl {
                             if(response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
                                 System.out.println(body);
-                                data.postValue(new VasttrafikParser().getTrips(body));
+                                List<Trip> trips = new VasttrafikParser().getTrips(body);
+                                for(Trip trip : trips) {
+                                    trip.addRouteEnd(new StenaLineParser(context).getRoute(original));
+                                }
+                                data.postValue(trips);
                                 isLoading.postValue(false);
                             }
                             else onFetchFail();

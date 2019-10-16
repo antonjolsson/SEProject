@@ -11,14 +11,12 @@ import com.example.tripplannr.application_layer.util.Utilities;
 import com.example.tripplannr.data_access_layer.repositories.VasttafikRepository;
 import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.domain_layer.TripLocation;
-import com.example.tripplannr.data_access_layer.repositories.GenericTripRepository;
 import com.example.tripplannr.domain_layer.TripQuery;
 
 import java.util.ArrayDeque;
 import java.util.Calendar;
 import java.util.Deque;
 import java.util.List;
-import java.util.Objects;
 
 import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.*;
 import static com.example.tripplannr.application_layer.search.SearchViewModel.ShownFragment.*;
@@ -34,17 +32,16 @@ public class SearchViewModel extends ViewModel {
     private MutableLiveData<Boolean> timeIsDeparture = new MutableLiveData<>();
     private MutableLiveData<ShownFragment> fragments = new MutableLiveData<>();
     private MutableLiveData<List<Trip>> trips = new MutableLiveData<>();
-    //private VasttafikRepository vasttafikRepository = new VasttafikRepository();
+    private VasttafikRepository vasttafikRepository;
 
     private boolean initOriginField = true;
     private Deque<LocationField> focusedLocationFields = new ArrayDeque<>();
-    private GenericTripRepository genericTripRepository;
     private Context context;
 
-    public SearchViewModel() {
+    public SearchViewModel(VasttafikRepository vasttafikRepository) {
+        this.vasttafikRepository = vasttafikRepository;
         focusedLocationFields.push(DESTINATION);
         timeIsDeparture.setValue(true);
-        genericTripRepository = new GenericTripRepository();
         desiredTime.setValue(Calendar.getInstance());
     }
 
@@ -55,8 +52,7 @@ public class SearchViewModel extends ViewModel {
     public void obtainTrips(String origin, String destination) {
         this.origin.setValue(new TripLocation(origin, new Location("")));
         this.destination.setValue(new TripLocation(destination, new Location("")));
-        genericTripRepository.setStenaLineApi(context);
-        genericTripRepository.makeTrip(obtainQuery());
+        vasttafikRepository.loadTrips(obtainQuery());
         // vasttafikRepository.loadTrips(obtainQuery());
     }
 

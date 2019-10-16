@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.application_layer.trip.map.SearchMapFragment;
+import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.example.tripplannr.domain_layer.Trip;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class MainSearchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(SearchViewModel.class);
+        model = InjectorUtils.getSearchViewModel(getContext(), getActivity());
         View view = inflater.inflate(R.layout.main_activity, container, false);
         setListeners();
 

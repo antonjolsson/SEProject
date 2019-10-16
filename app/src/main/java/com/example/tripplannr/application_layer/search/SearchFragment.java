@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.example.tripplannr.domain_layer.TripLocation;
 import com.example.tripplannr.application_layer.search.SearchViewModel.LocationField;
 import com.example.tripplannr.application_layer.util.Utilities;
@@ -40,14 +41,10 @@ public class SearchFragment extends Fragment {
     private Button timeButton, searchButton;
     private String name;
     private SearchViewModel searchViewModel;
-    private VasttafikRepository vasttrafikRepository = new VasttafikRepository();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO remove test call
-        vasttrafikRepository.getMatching("berg");
-        searchViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
-                get(SearchViewModel.class);
+        searchViewModel = InjectorUtils.getSearchViewModel(getContext(), getActivity());
         setModelObservers();
     }
 

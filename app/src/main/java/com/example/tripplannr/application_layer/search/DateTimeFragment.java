@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.application_layer.util.InjectorUtils;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -33,8 +34,7 @@ public class DateTimeFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
-                get(SearchViewModel.class);
+        model = InjectorUtils.getSearchViewModel(getContext(), getActivity());
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

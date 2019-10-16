@@ -22,7 +22,7 @@ import static com.example.tripplannr.domain_layer.ModeOfTransport.*;
 
 public class TripResultViewModel extends ViewModel implements IClickHandler<Trip> {
 
-    private VasttafikRepository vasttafikRepository = new VasttafikRepository();
+    private VasttafikRepository vasttafikRepository;
 
     private LiveData<List<Trip>> mTripsLiveData;
 
@@ -33,9 +33,10 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     private TripRepository tripRepository;
 
-    public TripResultViewModel(TripRepository tripRepository) {
+    public TripResultViewModel(TripRepository tripRepository, VasttafikRepository vasttafikRepository) {
         super();
         this.tripRepository = tripRepository;
+        this.vasttafikRepository = vasttafikRepository;
         isLoading = vasttafikRepository.isLoading();
         mTripsLiveData = vasttafikRepository.getData();
     }
