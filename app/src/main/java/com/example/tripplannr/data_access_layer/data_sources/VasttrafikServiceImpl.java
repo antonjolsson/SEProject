@@ -20,9 +20,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -52,6 +54,8 @@ public class VasttrafikServiceImpl {
 
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
+    private MutableLiveData<Integer> statusCode = new MutableLiveData<>();
+
     private TripQuery original;
 
     private Context context;
@@ -79,12 +83,19 @@ public class VasttrafikServiceImpl {
         return isLoading;
     }
 
-    private void onFetchFail() {
+    public LiveData<Integer> getStatusCode() {
+        return statusCode;
+    }
+
+    private void onFetchFail(int statusCode) {
         isLoading.postValue(false);
         data.postValue(new ArrayList<Trip>());
+        this.statusCode.setValue(statusCode);
     }
 
     public void loadTrips(final TripQuery tripQuery) {
+        data.setValue(new ArrayList<Trip>());
+        isLoading.setValue(true);
         original = new TripQuery.Builder()
                         .destination(tripQuery.getDestination())
                         .origin(tripQuery.getOrigin())
@@ -103,15 +114,15 @@ public class VasttrafikServiceImpl {
                                         .getString("access_token");
                                 searchAndLoadTrips(tripQuery, token);
                             }
-                            else onFetchFail();
+                            else onFetchFail(response.code());
                         } catch (JSONException | IOException e) {
-                            onFetchFail();
+                            onFetchFail(response.code());
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                        onFetchFail();
+                        onFetchFail(500);
                     }
                 });
     }
@@ -133,15 +144,15 @@ public class VasttrafikServiceImpl {
                                                 .getLong("id")
                                         , token);
                             } catch (IOException | JSONException e) {
-                                onFetchFail();
+                                onFetchFail(response.code());
                             }
                         }
-                        else onFetchFail();
+                        else onFetchFail(response.code());
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                        onFetchFail();
+                        onFetchFail(500);
                     }
                 });
 
@@ -164,15 +175,15 @@ public class VasttrafikServiceImpl {
                                 System.out.println(destId);
                                 loadTripsHelper(tripQuery, originId, destId, token);
                             } catch (IOException | JSONException e) {
-                                onFetchFail();
+                                onFetchFail(response.code());
                             }
                         }
-                        else onFetchFail();
+                        else onFetchFail(response.code());
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                        onFetchFail();
+                        onFetchFail(500);
                     }
                 });
     }
@@ -200,16 +211,16 @@ public class VasttrafikServiceImpl {
                                 data.postValue(trips);
                                 isLoading.postValue(false);
                             }
-                            else onFetchFail();
+                            else onFetchFail(response.code());
                         } catch (IOException | InterruptedException | JSONException e) {
                             e.printStackTrace();
-                            onFetchFail();
+                            onFetchFail(response.code());
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                        onFetchFail();
+                        onFetchFail(500);
                     }
                 });
     }

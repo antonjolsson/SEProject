@@ -54,28 +54,6 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
 
     @Override
     public void updateTrips(final List<Trip> newTrips) {
-        DiffUtil.DiffResult diffUtil = DiffUtil.calculateDiff(new DiffUtil.Callback() {
-            @Override
-            public int getOldListSize() {
-                return trips.size();
-            }
-
-            @Override
-            public int getNewListSize() {
-                return newTrips.size();
-            }
-
-            @Override
-            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                return trips.get(oldItemPosition).equals(newTrips.get(newItemPosition));
-            }
-
-            @Override
-            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                return trips.get(oldItemPosition).equals(newTrips.get(newItemPosition));
-            }
-        });
-        diffUtil.dispatchUpdatesTo(this);
         trips.clear();
         trips.addAll(newTrips);
         notifyDataSetChanged();

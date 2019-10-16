@@ -47,21 +47,24 @@ public class TripResultFragment extends Fragment {
         tripResultViewModel.getTripsLiveData().observe(this, new Observer<List<Trip>>() {
             @Override
             public void onChanged(List<Trip> trips) {
-                tripResultBinding.setErrorText("");
                 if(trips.size() > 0) {
                     tripResultBinding.setTrip(trips.get(0));
-                    tripResultAdapter.updateTrips(trips);
                 }
-                else {
-                    tripResultAdapter.updateTrips(trips);
-                    tripResultBinding.setErrorText("Error fetching data \n from the Server");
-                }
+                else tripResultBinding.setErrorText("Found no trips with that route");
+                tripResultAdapter.updateTrips(trips);
             }
         });
         tripResultViewModel.isLoading().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 tripResultBinding.setIsLoading(aBoolean);
+            }
+        });
+        tripResultViewModel.getStatusCode().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if(integer > 299) tripResultBinding.setErrorText("Error fetching data from server");
+                else tripResultBinding.setErrorText("");
             }
         });
     }

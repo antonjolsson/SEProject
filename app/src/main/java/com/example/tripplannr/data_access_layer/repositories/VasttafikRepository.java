@@ -23,6 +23,9 @@ public class VasttafikRepository {
         vasttrafikService.loadTrips(query);
     }
 
+    public LiveData<Integer> getStatusCode() {
+        return vasttrafikService.getStatusCode();
+    }
 
     public LiveData<List<Trip>> getData() {
         return vasttrafikService.getData();
