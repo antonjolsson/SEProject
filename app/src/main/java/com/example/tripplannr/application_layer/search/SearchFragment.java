@@ -49,7 +49,6 @@ public class SearchFragment extends Fragment {
     private Button timeButton, searchButton;
     private String name;
     private SearchViewModel searchViewModel;
-    private VasttrafikRepository vasttrafikRepository = new VasttrafikRepository();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
