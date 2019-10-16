@@ -29,7 +29,9 @@ import android.widget.TextView;
 import com.example.tripplannr.R;
 import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.example.tripplannr.application_layer.util.ModeOfTransportIconDictionary;
+import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
 import com.example.tripplannr.databinding.FragmentTripBinding;
+import com.example.tripplannr.domain_layer.Route;
 import com.example.tripplannr.domain_layer.Trip;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -48,6 +50,8 @@ public class TripFragment extends Fragment {
 
     private Trip tripData;
 
+    private VasttrafikRepository vasttrafikRepository;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,7 +61,14 @@ public class TripFragment extends Fragment {
         initViewModel();
         tripBinding.setTrip(tripData);
         initRecyclerView(view);
+        vasttrafikRepository = new VasttrafikRepository(getContext());
+        getJourneyDetails();
         return view;
+    }
+
+    private void getJourneyDetails(){
+        for(Route route : tripData.getRoutes())
+            vasttrafikRepository.getJourneyDetail(route.getJourneyRef());
     }
 
     private void initViewModel() {

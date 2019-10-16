@@ -287,7 +287,7 @@ public class VasttrafikServiceImpl {
     }
 
     public void getJourneyDetail(final String ref) {
-        if(ref.equals(""))
+        if(ref == null || ref.isEmpty())
             return;
         vasttrafikService
                 .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
@@ -317,14 +317,14 @@ public class VasttrafikServiceImpl {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         try {
-                            Thread.sleep(2000);
                             if(response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
                                 // TODO do something with response
                                 List<TripLocation> journeyDetail = new VasttrafikParser().getJourneyDetail(body);
-                                System.out.println(journeyDetail.get(0).getLocation());
+                                System.out.println(journeyDetail.get(0).getLocation().getLatitude());
+                                System.out.println(journeyDetail.get(0).getLocation().getLongitude());
                             }
-                        } catch (IOException | InterruptedException ignored) {} catch (JSONException e) {
+                        } catch (IOException ignored) {} catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
