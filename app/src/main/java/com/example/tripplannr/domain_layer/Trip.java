@@ -114,5 +114,16 @@ public class Trip {
         }
     }
 
+    public void addRouteEnd(Route route) {
+        routes.add(route);
+        destination = route.getDestination();
+        times = new TravelTimes(times.getDeparture(), route.getTimes().getArrival());
+    }
+
+    public void addRouteStart(Route route) {
+        routes.add(0, route);
+        origin = route.getOrigin();
+        times = new TravelTimes(route.getTimes().getDeparture(), times.getArrival());
+    }
 
 }

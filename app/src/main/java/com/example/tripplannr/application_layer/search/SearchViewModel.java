@@ -1,5 +1,6 @@
 package com.example.tripplannr.application_layer.search;
 
+import android.content.Context;
 import android.location.Location;
 
 import androidx.lifecycle.LiveData;
@@ -10,7 +11,6 @@ import com.example.tripplannr.application_layer.util.Utilities;
 import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
 import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.domain_layer.TripLocation;
-import com.example.tripplannr.data_access_layer.repositories.GenericTripRepository;
 import com.example.tripplannr.domain_layer.TripQuery;
 
 import java.util.ArrayDeque;
@@ -33,21 +33,31 @@ public class SearchViewModel extends ViewModel {
     private MutableLiveData<Boolean> timeIsDeparture = new MutableLiveData<>();
     private MutableLiveData<ShownFragment> fragments = new MutableLiveData<>();
     private MutableLiveData<List<Trip>> trips = new MutableLiveData<>();
-    private VasttrafikRepository vasttrafikRepository = new VasttrafikRepository();
+    private VasttrafikRepository vasttrafikRepository;
+
+    public LiveData<List<TripLocation>> getAddressMatches() {
+        return addressMatches;
+    }
+
+    private LiveData<List<TripLocation>> addressMatches;
 
     // If the app is starting up, set current location as origin
     private boolean initOriginField = true;
     // Keep track of which location field is focused
     private Deque<LocationField> focusedLocationFields = new ArrayDeque<>();
-    private GenericTripRepository genericTripRepository;
 
     private boolean swappingLocations;
 
-    public SearchViewModel() {
+    public SearchViewModel(VasttrafikRepository vasttrafikRepository) {
+        addressMatches = vasttrafikRepository.getAddressMatches();
+        this.vasttrafikRepository = vasttrafikRepository;
         focusedLocationFields.push(DESTINATION);
         timeIsDeparture.setValue(true);
-        genericTripRepository = new GenericTripRepository();
         desiredTime.setValue(Calendar.getInstance());
+    }
+
+    void autoComplete(String pattern) {
+        vasttrafikRepository.getMatching(pattern);
     }
 
     public void obtainTrips(String origin, String destination) {

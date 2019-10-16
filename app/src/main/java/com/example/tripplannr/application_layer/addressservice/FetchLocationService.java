@@ -1,4 +1,4 @@
-package com.example.tripplannr.model.addressservice;
+package com.example.tripplannr.application_layer.addressservice;
 
 import android.location.Geocoder;
 

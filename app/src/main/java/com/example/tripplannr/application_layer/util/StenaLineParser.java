@@ -17,11 +17,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,16 +49,21 @@ public class StenaLineParser {
         }
         return json;
     }
-/*
-    public List<Trip> getRoute(String data) {
-        TripLocation locOrgin = new TripLocation("StenaTerminalen, Göteborg", new Location(""), "");
-        TripLocation locDestination = new TripLocation("StenaTerminalen, Fredrikshamn", new Location(""), "");
-        Calendar dateTime = Calendar.getInstance();
-        TripQuery tripQ = new TripQuery(locOrgin, locDestination, dateTime);
-        return getTrip(tripQ);
-    }*/
 
-    public List<Trip> getTrip(TripQuery tQ) {
+
+    public Route getRoute(TripQuery tQ) {
+        System.out.println(tQ.getOrigin());
+        System.out.println(tQ.getDestination());
+        if (tQ.getOrigin().equals("Fredrikshamn"))
+            tQ.setOrigin("StenaTerminalen, Fredrikshamn");
+        else if (!tQ.getOrigin().equals("StenaTerminalen, Fredrikshamn") )
+            tQ.setOrigin("StenaTerminalen, Göteborg");
+        if (tQ.getDestination().equals("Fredrikshamn"))
+            tQ.setDestination("StenaTerminalen, Fredrikshamn");
+        else if (!tQ.getDestination().equals("StenaTerminalen, Fredrikshamn") )
+            tQ.setDestination("StenaTerminalen, Göteborg");
+        System.out.println(tQ.getOrigin());
+        System.out.println(tQ.getDestination());
         List<Trip> trips = new ArrayList<>();
         try {
             JSONObject obj = new JSONObject(loadJSONFromAsset("stenaTripList.json"));
@@ -73,20 +78,6 @@ public class StenaLineParser {
 
                 //Compare the origin and destination from json file to the one in tripQuery object
                 if (0 == objOri.getString("name").compareTo(tQ.getOrigin()) && 0 == objDes.getString("name").compareTo(tQ.getDestination())) {
-
-                    //Checks time in tripQuery and compare time to the one in json file, if time is later adds 1 day to json date
-                    /*String start_time = objOri.getString("time");
-                    int start_hour = Integer.parseInt(start_time.substring(0, 2));
-                    int start_min = Integer.parseInt(start_time.substring(3, 5));
-                    Calendar departure = Calendar.getInstance();
-                    departure.set(Calendar.HOUR_OF_DAY, start_hour);
-                    departure.set(Calendar.MINUTE, start_min);
-                    String end_time = objDes.getString("time");
-                    int end_hour = Integer.parseInt(end_time.substring(0, 2));
-                    int end_min = Integer.parseInt(end_time.substring(3, 5));
-                    Calendar arrival = Calendar.getInstance();
-                    arrival.set(Calendar.HOUR_OF_DAY, end_hour);
-                    arrival.set(Calendar.MINUTE, end_min);*/
 
                     String start_time = objOri.getString("time");
                     String start_date = tQ.getTime().toLocalDate().toString();
@@ -104,29 +95,31 @@ public class StenaLineParser {
                     }
                     arrival = arrival.plusDays(objDes.getLong("date"));
 
-                    TravelTimes times = new TravelTimes(departure, arrival);
-
-                    routes.add(getRoute(arr.getJSONObject(i).getString("JourneyDetailRef"), departure, arrival));
-
+                    routes.add(parseRoute(arr.getJSONObject(i).getString("JourneyDetailRef"), departure, arrival));
 
                     Trip trip = new Trip.Builder()
                             .name(arr.getJSONObject(i).getString("name"))
                             .routes(routes)
                             .build();
 
-
                     trips.add(trip);
-
                 }
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return trips;
+        Collections.sort(trips, new Comparator<Trip>(){
+
+            public int compare(Trip t1, Trip t2)
+            {
+                return  t1.getTimes().getDeparture().compareTo(t2.getTimes().getDeparture());
+            }
+        });
+
+        return trips.get(0).getRoutes().get(0);
     }
 
-    private Route getRoute(String jRef, LocalDateTime depart, LocalDateTime arrInp) {
+    private Route parseRoute(String jRef, LocalDateTime depart, LocalDateTime arrInp) {
         Route route = null;
         List<Location> locationList = new ArrayList<>();
         try {
@@ -211,4 +204,7 @@ public class StenaLineParser {
         }
         return locationList;
     }
+
+
+
 }

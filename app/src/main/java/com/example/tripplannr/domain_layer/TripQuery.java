@@ -50,6 +50,13 @@ public class TripQuery {
         return travelModes;
     }
 
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
 
     public static final class Builder {
         private String origin;

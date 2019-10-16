@@ -453,7 +453,7 @@ title __APP's Class Diagram__\n
   com.example.tripplannr.application_layer.trip.TripResultViewModel .up.|> com.example.tripplannr.application_layer.trip.IClickHandler
   com.example.tripplannr.application_layer.trip.TripResultViewModel -up-|> androidx.lifecycle.ViewModel
   com.example.tripplannr.application_layer.trip.TripResultViewModel o-- com.example.tripplannr.data_access_layer.data_sources.TripDAOImpl : tripRepository
-  com.example.tripplannr.application_layer.trip.TripResultViewModel o-- com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository : vasttafikRepository
+  com.example.tripplannr.application_layer.trip.TripResultViewModel o-- com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository : vasttrafikRepository
   com.example.tripplannr.application_layer.util.StenaLineParser .up.|> com.example.tripplannr.application_layer.util.TripParser
   com.example.tripplannr.data_access_layer.data_sources.TripDAOImpl .up.|> com.example.tripplannr.data_access_layer.data_sources.TripDAO
   com.example.tripplannr.data_access_layer.data_sources.VasttrafikServiceImpl o-- com.example.tripplannr.data_access_layer.data_sources.VasttrafikService : vasttrafikService

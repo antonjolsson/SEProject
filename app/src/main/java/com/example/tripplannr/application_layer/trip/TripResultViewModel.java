@@ -13,22 +13,26 @@ import java.util.List;
 
 public class TripResultViewModel extends ViewModel implements IClickHandler<Trip> {
 
-    private VasttrafikRepository vasttrafikRepository = new VasttrafikRepository();
+    private VasttrafikRepository vasttrafikRepository;
 
     private LiveData<List<Trip>> mTripsLiveData;
 
     private LiveData<Boolean> isLoading;
+
+    private LiveData<Integer> statusCode;
 
     private MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
     private MutableLiveData<Route> mRouteLiveData = new MutableLiveData<>();
 
     private TripRepository tripRepository;
 
-    public TripResultViewModel(TripRepository tripRepository) {
+    public TripResultViewModel(TripRepository tripRepository, VasttrafikRepository vasttrafikRepository) {
         super();
         this.tripRepository = tripRepository;
+        this.vasttrafikRepository = vasttrafikRepository;
         isLoading = vasttrafikRepository.isLoading();
         mTripsLiveData = vasttrafikRepository.getData();
+        statusCode = vasttrafikRepository.getStatusCode();
     }
 
     public LiveData<Trip> getTripLiveData() {
@@ -41,6 +45,10 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     public LiveData<Boolean> isLoading() {
         return isLoading;
+    }
+
+    public LiveData<Integer> getStatusCode() {
+        return statusCode;
     }
 
     @Override

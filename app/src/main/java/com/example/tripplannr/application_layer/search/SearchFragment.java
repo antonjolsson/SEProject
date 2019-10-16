@@ -22,10 +22,11 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.application_layer.util.InjectorUtils;
+import com.example.tripplannr.domain_layer.TripLocation;
 import com.example.tripplannr.application_layer.search.SearchViewModel.LocationField;
 import com.example.tripplannr.application_layer.util.Utilities;
 import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
@@ -49,15 +50,13 @@ public class SearchFragment extends Fragment {
     private Button timeButton, searchButton;
     private String name;
     private SearchViewModel searchViewModel;
-    private VasttrafikRepository vasttrafikRepository = new VasttrafikRepository();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO remove test call
-        searchViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).
-                get(SearchViewModel.class);
+        searchViewModel = InjectorUtils.getSearchViewModel(getContext(), getActivity());
         setObservers();
     }
+
 
     private void initControls(View view) {
         toTextField = Objects.requireNonNull(view).findViewById(R.id.toText);
@@ -100,7 +99,7 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
-        vasttrafikRepository.getAddressMatches().observe(this, new Observer<List<TripLocation>>() {
+        searchViewModel.getAddressMatches().observe(this, new Observer<List<TripLocation>>() {
             @Override
             public void onChanged(List<TripLocation> tripLocations) {
                 showAddressSuggestions(tripLocations);
@@ -116,7 +115,6 @@ public class SearchFragment extends Fragment {
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()),
                 android.R.layout.simple_dropdown_item_1line, addresses);
-
         if (searchViewModel.getFocusedLocationField() == ORIGIN)
             fromTextField.setAdapter(adapter);
         else toTextField.setAdapter(adapter);
@@ -182,12 +180,14 @@ public class SearchFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE)))
-                        .hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-                searchViewModel.setTime(Calendar.getInstance(),
-                        Objects.requireNonNull(searchViewModel.getTimeIsDeparture().getValue()));
-                searchViewModel.obtainTrips(fromTextField.getText().toString(), toTextField.getText().toString());
-                Navigation.findNavController(v).navigate(R.id.action_navigation_search_to_navigation_trip_results);
+                if (validateForm()) {
+                    ((InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE)))
+                            .hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                    searchViewModel.setTime(Calendar.getInstance(),
+                            Objects.requireNonNull(searchViewModel.getTimeIsDeparture().getValue()));
+                    searchViewModel.obtainTrips(fromTextField.getText().toString(), toTextField.getText().toString());
+                    Navigation.findNavController(v).navigate(R.id.action_navigation_search_to_navigation_trip_results);
+                }
             }
         });
         nowTextView.setOnClickListener(new View.OnClickListener() {
@@ -206,6 +206,10 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    private boolean validateForm() {
+        return !toTextField.getText().toString().isEmpty() && !fromTextField.getText().toString().isEmpty();
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private void setFromFieldListeners() {
         fromTextField.setOnTouchListener(new View.OnTouchListener() {
@@ -220,8 +224,8 @@ public class SearchFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(fromTextField);
                 else {
-                    vasttrafikRepository.getMatching(fromTextField.getText().toString());
-                    //new GetSuggestions().execute(fromTextField.getText().toString());
+                    //vasttrafikRepository.getMatching(fromTextField.getText().toString());
+                    searchViewModel.autoComplete(fromTextField.getText().toString());
                     return true;
                 }
             }
@@ -242,8 +246,8 @@ public class SearchFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(toTextField);
                 else {
-                   vasttrafikRepository.getMatching(toTextField.getText().toString());
-                    //new GetSuggestions().execute(toTextField.getText().toString());
+                   //vasttrafikRepository.getMatching(toTextField.getText().toString());
+                    searchViewModel.autoComplete(toTextField.getText().toString());
                     return false;
                 }
             }
