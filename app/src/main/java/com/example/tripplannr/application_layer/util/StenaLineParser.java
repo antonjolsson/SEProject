@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -105,6 +106,13 @@ public class StenaLineParser {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Collections.sort(trips, new Comparator<Trip>(){
+
+            public int compare(Trip t1, Trip t2)
+            {
+                return  t1.getTimes().getDeparture().compareTo(t2.getTimes().getDeparture());
+            }
+        });
 
         return trips;
     }
