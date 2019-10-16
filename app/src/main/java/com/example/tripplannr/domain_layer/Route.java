@@ -28,6 +28,10 @@ public class Route {
     private FerryInfo ferryinfo;
     @Ignore
     private List<Location> legs;
+    // Västtrafik journey reference
+    private String journeyRef;
+    // Västtrafik points reference
+    private String geometryRef;
 
     public Route(TripLocation origin, TripLocation destination, TravelTimes times,
                  ModeOfTransport mode) {
@@ -117,5 +121,13 @@ public class Route {
 
     public void setLegs(List<Location> legs) {
         this.legs = legs;
+    }
+
+    public void setJourneyRef(String journeyRef) {
+        this.journeyRef = journeyRef;
+    }
+
+    public String getJourneyRef() {
+        return journeyRef;
     }
 }

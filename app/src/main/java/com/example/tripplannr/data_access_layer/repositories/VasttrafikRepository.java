@@ -36,4 +36,8 @@ public class VasttrafikRepository {
         return vasttrafikService.getAddressMatches();
     }
 
+    public void getJourneyDetail(String ref) {
+        vasttrafikService.getJourneyDetail(ref);
+    }
+
 }

@@ -157,8 +157,13 @@ public class VasttrafikParser implements TripParser{
         Route route = new Route(origin, destination, times, mode);
 
         //Get Västtrafik journey reference that can be used to get more info
-//        if(routeJSON.has("JourneyDetailRef"))
-//            route.setJourneyRef(refParser(routeJSON.getJSONObject("JourneyDetailRef").getString("ref")));
+        if(routeJSON.has("JourneyDetailRef")) {
+            try {
+                route.setJourneyRef(refParser(routeJSON.getJSONObject("JourneyDetailRef").getString("ref")));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
 
         return route;
     }

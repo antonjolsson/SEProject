@@ -243,4 +243,53 @@ public class VasttrafikServiceImpl {
                     }
                 });
     }
+
+    public void getJourneyDetail(final String ref) {
+        if(ref.equals(""))
+            return;
+        vasttrafikService
+                .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
+                        "application/x-www-form-urlencoded", "client_credentials")
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        System.out.println(response.code());
+                        System.out.println(response.body());
+                        try {
+                            sendJourneyDetailRequest(ref, new JSONObject(response.body().string()).getString("access_token"));
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    }
+                });
+    }
+
+    private void sendJourneyDetailRequest(String ref, String token) {
+        vasttrafikService
+                .getJourneyDetail(ref, "json","Bearer " + token)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            Thread.sleep(2000);
+                            if(response.code() >= 200 && response.code() <= 299) {
+                                String body = response.body().string();
+                                // TODO do something with response
+                                List<TripLocation> journeyDetail = new VasttrafikParser().getJourneyDetail(body);
+                                System.out.println(journeyDetail.get(0).getLocation());
+                            }
+                        } catch (IOException | InterruptedException ignored) {} catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    }
+                });
+    }
 }
