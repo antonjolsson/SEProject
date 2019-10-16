@@ -4,26 +4,26 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.tripplannr.data_access_layer.repositories.VasttafikRepository;
+import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
 
 public class SearchViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private static SearchViewModelFactory instance;
 
-    public static SearchViewModelFactory getInstance(VasttafikRepository vasttafikRepository) {
-        if(instance == null) instance = new SearchViewModelFactory(vasttafikRepository);
+    public static SearchViewModelFactory getInstance(VasttrafikRepository vasttrafikRepository) {
+        if(instance == null) instance = new SearchViewModelFactory(vasttrafikRepository);
         return instance;
     }
 
-    private VasttafikRepository vasttafikRepository;
+    private VasttrafikRepository vasttrafikRepository;
 
-    private SearchViewModelFactory(VasttafikRepository vasttafikRepository) {
-        this.vasttafikRepository = vasttafikRepository;
+    private SearchViewModelFactory(VasttrafikRepository vasttrafikRepository) {
+        this.vasttrafikRepository = vasttrafikRepository;
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new SearchViewModel(vasttafikRepository);
+        return (T) new SearchViewModel(vasttrafikRepository);
     }
 }

@@ -1,9 +1,11 @@
 package com.example.tripplannr.application_layer.search;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -25,6 +27,7 @@ import java.util.Objects;
 import static com.example.tripplannr.R.id.main_lower_container;
 import static com.example.tripplannr.application_layer.search.SearchViewModel.ShownFragment.MAP;
 
+/* Class for displaying various fragments related to the search screen */
 
 public class MainSearchFragment extends Fragment {
 
@@ -38,7 +41,7 @@ public class MainSearchFragment extends Fragment {
     private FrameLayout mainLowerContainer;
     private FrameLayout mainUpperContainer;
 
-    private float modFragElevation;
+    private float modFragElevation; // Default elevation for modal/most important fragments
     private float noElevation;
 
     @Nullable
@@ -116,6 +119,7 @@ public class MainSearchFragment extends Fragment {
         });
     }
 
+    // Enable or disable ViewGroup and all its children
     private void enableDisableViewGroup(ViewGroup viewGroup, boolean enabled) {
         int childCount = viewGroup.getChildCount();
         for (int i = 0; i < childCount; i++) {

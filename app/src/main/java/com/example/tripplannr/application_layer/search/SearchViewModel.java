@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.tripplannr.application_layer.util.Utilities;
-import com.example.tripplannr.data_access_layer.repositories.VasttafikRepository;
+import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
 import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.domain_layer.TripLocation;
 import com.example.tripplannr.domain_layer.TripQuery;
@@ -27,19 +27,24 @@ public class SearchViewModel extends ViewModel {
     public enum LocationField {ORIGIN, DESTINATION}
     private MutableLiveData<TripLocation> origin = new MutableLiveData<>();
     private MutableLiveData<TripLocation> destination = new MutableLiveData<>();
+    // Address is requested by a fragment
     private MutableLiveData<Boolean> addressQuery = new MutableLiveData<>();
     private MutableLiveData<Calendar> desiredTime = new MutableLiveData<>();
     private MutableLiveData<Boolean> timeIsDeparture = new MutableLiveData<>();
     private MutableLiveData<ShownFragment> fragments = new MutableLiveData<>();
     private MutableLiveData<List<Trip>> trips = new MutableLiveData<>();
-    private VasttafikRepository vasttafikRepository;
+    private VasttrafikRepository vasttrafikRepository;
 
+    // If the app is starting up, set current location as origin
     private boolean initOriginField = true;
+    // Keep track of which location field is focused
     private Deque<LocationField> focusedLocationFields = new ArrayDeque<>();
     private Context context;
 
-    public SearchViewModel(VasttafikRepository vasttafikRepository) {
-        this.vasttafikRepository = vasttafikRepository;
+    private boolean swappingLocations;
+
+    public SearchViewModel(VasttrafikRepository vasttrafikRepository) {
+        this.vasttrafikRepository = vasttrafikRepository;
         focusedLocationFields.push(DESTINATION);
         timeIsDeparture.setValue(true);
         desiredTime.setValue(Calendar.getInstance());
@@ -52,8 +57,7 @@ public class SearchViewModel extends ViewModel {
     public void obtainTrips(String origin, String destination) {
         this.origin.setValue(new TripLocation(origin, new Location("")));
         this.destination.setValue(new TripLocation(destination, new Location("")));
-        vasttafikRepository.loadTrips(obtainQuery());
-        // vasttafikRepository.loadTrips(obtainQuery());
+        vasttrafikRepository.loadTrips(obtainQuery());
     }
 
     private TripQuery obtainQuery() {
@@ -83,7 +87,8 @@ public class SearchViewModel extends ViewModel {
     }
 
     public void flattenFocLocationStack() {
-        if (focusedLocationFields.size() > 1) focusedLocationFields.remove();
+        while (focusedLocationFields.size() > 1)
+            focusedLocationFields.remove();
     }
 
     public void setAddressQuery(boolean addressQuery) {
@@ -113,7 +118,7 @@ public class SearchViewModel extends ViewModel {
         }
         else if (focusedLocationFields.peek() == ORIGIN)
             origin.setValue(tripLocation);
-        else destination.setValue(tripLocation);
+        else this.destination.setValue(tripLocation);
     }
 
     public MutableLiveData<Boolean> getAddressQuery() {
@@ -142,5 +147,17 @@ public class SearchViewModel extends ViewModel {
 
     public boolean isInitOriginField() {
         return initOriginField;
+    }
+
+    public void setTempLocationField(LocationField locationField) {
+        focusedLocationFields.push(locationField);
+    }
+
+    public void setSwappingLocations(boolean b) {
+        swappingLocations = b;
+    }
+
+    public boolean isSwappingLocations() {
+        return swappingLocations;
     }
 }

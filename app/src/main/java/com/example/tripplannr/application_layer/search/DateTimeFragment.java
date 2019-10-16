@@ -22,6 +22,8 @@ import com.example.tripplannr.application_layer.util.InjectorUtils;
 import java.util.Calendar;
 import java.util.Objects;
 
+/* Displays fragment for picking date and time for desired trip */
+
 public class DateTimeFragment extends Fragment {
 
     private Button nowButton, hourButton, minutesButton, departureButton, arrivalButton;
@@ -30,7 +32,7 @@ public class DateTimeFragment extends Fragment {
     private DatePicker datePicker;
     private SearchViewModel model;
     private Calendar desiredTime;
-    private boolean timeIsDeparture = true;
+    private boolean timeIsDeparture = true; // Is the specified time time of departure or arrival?
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,7 +146,7 @@ public class DateTimeFragment extends Fragment {
         cancelTextView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                setAlphaLevels(v, event);
+                ViewUtilities.setAlphaLevels(v, event);
                 return false;
             }
         });
@@ -162,22 +164,10 @@ public class DateTimeFragment extends Fragment {
         setTextView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                setAlphaLevels(v, event);
+                ViewUtilities.setAlphaLevels(v, event);
                 return false;
             }
         });
-    }
-
-    private void setAlphaLevels(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                v.setAlpha(0.5f);
-                break;
-            case MotionEvent.ACTION_UP:
-                v.setAlpha(1f);
-            default:
-                v.setAlpha(1f);
-        }
     }
 
     private void swapSelectedTimeButton(Button button1, Button button2) {
@@ -189,6 +179,7 @@ public class DateTimeFragment extends Fragment {
         button2.setTextColor(getResources().getColor(R.color.black, null));
     }
 
+    // Advance the time in pickers by minutes
     private void setTimeInPickers(int minutes) {
         Calendar rightNow = getFutureTimeInstance(Calendar.MINUTE, minutes);
 
@@ -202,6 +193,7 @@ public class DateTimeFragment extends Fragment {
                 rightNow.get(Calendar.MINUTE));
     }
 
+    // Get calendar representing current time plus [number] [field (hours, minutes, etc...)]
     private Calendar getFutureTimeInstance(int field, int number) {
         Calendar rightNow = Calendar.getInstance();
         rightNow.add(field, number);

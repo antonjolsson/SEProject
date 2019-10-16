@@ -306,7 +306,7 @@ title __APP's Class Diagram__\n
 
   namespace com.example.tripplannr {
     namespace data_access_layer.repositories {
-      class com.example.tripplannr.data_access_layer.repositories.VasttafikRepository {
+      class com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository {
       }
     }
   }
@@ -453,12 +453,12 @@ title __APP's Class Diagram__\n
   com.example.tripplannr.application_layer.trip.TripResultViewModel .up.|> com.example.tripplannr.application_layer.trip.IClickHandler
   com.example.tripplannr.application_layer.trip.TripResultViewModel -up-|> androidx.lifecycle.ViewModel
   com.example.tripplannr.application_layer.trip.TripResultViewModel o-- com.example.tripplannr.data_access_layer.data_sources.TripDAOImpl : tripRepository
-  com.example.tripplannr.application_layer.trip.TripResultViewModel o-- com.example.tripplannr.data_access_layer.repositories.VasttafikRepository : vasttafikRepository
+  com.example.tripplannr.application_layer.trip.TripResultViewModel o-- com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository : vasttrafikRepository
   com.example.tripplannr.application_layer.util.StenaLineParser .up.|> com.example.tripplannr.application_layer.util.TripParser
   com.example.tripplannr.data_access_layer.data_sources.TripDAOImpl .up.|> com.example.tripplannr.data_access_layer.data_sources.TripDAO
   com.example.tripplannr.data_access_layer.data_sources.VasttrafikServiceImpl o-- com.example.tripplannr.data_access_layer.data_sources.VasttrafikService : vasttrafikService
   com.example.tripplannr.data_access_layer.repositories.TripRepository o-- com.example.tripplannr.data_access_layer.data_sources.TripDAOImpl : tripDAOImpl
-  com.example.tripplannr.data_access_layer.repositories.VasttafikRepository o-- com.example.tripplannr.data_access_layer.data_sources.VasttrafikServiceImpl : vasttrafikService
+  com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository o-- com.example.tripplannr.data_access_layer.data_sources.VasttrafikServiceImpl : vasttrafikService
   com.example.tripplannr.databinding.FragmentTripBindingImpl .up.|> com.example.tripplannr.generated.callback.OnClickListener.Listener
   com.example.tripplannr.databinding.FragmentTripBindingImpl -up-|> com.example.tripplannr.databinding.FragmentTripBinding
   com.example.tripplannr.databinding.FragmentTripResultBindingImpl -up-|> com.example.tripplannr.databinding.FragmentTripResultBinding

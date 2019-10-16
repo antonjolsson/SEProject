@@ -5,6 +5,8 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+/* Class for general (logic) utility methods */
+
 public class Utilities {
 
     public static boolean isTomorrow(Calendar calendar) {

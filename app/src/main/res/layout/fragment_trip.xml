@@ -52,7 +52,7 @@
                 android:layout_marginTop="225dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/rajdhani_medium"
-                android:text="@string/get_notifcations"
+                android:text="@string/get_notifications"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
