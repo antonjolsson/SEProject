@@ -107,6 +107,7 @@ public class VasttrafikServiceImpl {
                         .origin(tripQuery.getOrigin())
                         .time(tripQuery.getTime())
                         .build();
+        tripQuery.setOrigin(TripDictionary.translateTrip(tripQuery.getOrigin()));
         tripQuery.setDestination(TripDictionary.translateTrip(tripQuery.getDestination()));
         vasttrafikService
                 .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
@@ -211,8 +212,15 @@ public class VasttrafikServiceImpl {
                                 String body = response.body().string();
                                 System.out.println(body);
                                 List<Trip> trips = new VasttrafikParser().getTrips(body);
-                                for(Trip trip : trips) {
-                                    trip.addRouteEnd(new StenaLineParser(context).getRoute(original));
+                                if(original.getOrigin().equals("Fredrikshamn") || original.getOrigin().equals("StenaTerminalen, Fredrikshamn")) {
+                                    for(Trip trip : trips) {
+                                        trip.addRouteStart(new StenaLineParser(context).getRoute(original));
+                                    }
+                                }
+                                if(original.getDestination().equals("Fredrikshamn") || original.getDestination().equals("StenaTerminalen, Fredrikshamn")) {
+                                    for(Trip trip : trips) {
+                                        trip.addRouteEnd(new StenaLineParser(context).getRoute(original));
+                                    }
                                 }
                                 data.postValue(trips);
                                 isLoading.postValue(false);
