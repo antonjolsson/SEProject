@@ -68,6 +68,7 @@ public class MainSearchFragment extends Fragment {
 
     private void showMapFragment() {
         /*if (searchMapFragment == null)*/
+
         searchMapFragment = new SearchMapFragment();
 
         searchMapFragment.setArguments(getActivity().getIntent().getExtras());
