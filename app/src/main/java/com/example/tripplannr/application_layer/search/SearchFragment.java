@@ -29,8 +29,6 @@ import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.example.tripplannr.domain_layer.TripLocation;
 import com.example.tripplannr.application_layer.search.SearchViewModel.LocationField;
 import com.example.tripplannr.application_layer.util.Utilities;
-import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
-import com.example.tripplannr.domain_layer.TripLocation;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -224,7 +222,6 @@ public class SearchFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(fromTextField);
                 else {
-                    //vasttrafikRepository.getMatching(fromTextField.getText().toString());
                     searchViewModel.autoComplete(fromTextField.getText().toString());
                     return true;
                 }
@@ -246,7 +243,6 @@ public class SearchFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(toTextField);
                 else {
-                   //vasttrafikRepository.getMatching(toTextField.getText().toString());
                     searchViewModel.autoComplete(toTextField.getText().toString());
                     return false;
                 }

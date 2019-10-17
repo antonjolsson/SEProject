@@ -31,7 +31,14 @@ public class VasttrafikParser implements TripParser{
         List<TripLocation> locations = new ArrayList<>();
 
         JSONObject json = new JSONObject(data);
-        JSONArray stops = json.getJSONObject("LocationList").getJSONArray("StopLocation");
+        JSONArray stops = new JSONArray();
+        try {
+            stops = json.getJSONObject("LocationList").getJSONArray("StopLocation");
+        }
+        // Vasttrafik sometimes break there own JSON model and sends singles as object...
+        catch (JSONException e) {
+            stops.put(json.getJSONObject("LocationList").getJSONObject("StopLocation"));
+        }
         if(json.getJSONObject("LocationList").has("CoordLocation")) {
             try {
                 JSONArray others = json.getJSONObject("LocationList").getJSONArray("CoordLocation");

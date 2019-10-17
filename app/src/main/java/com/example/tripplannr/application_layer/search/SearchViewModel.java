@@ -1,6 +1,5 @@
 package com.example.tripplannr.application_layer.search;
 
-import android.content.Context;
 import android.location.Location;
 
 import androidx.lifecycle.LiveData;
@@ -67,9 +66,13 @@ public class SearchViewModel extends ViewModel {
     }
 
     private TripQuery obtainQuery() {
+        Location originLocation = new Location("");
+        originLocation.setLongitude(11.972957);
+        originLocation.setLatitude(57.690000);
         return new TripQuery.Builder()
                 .origin(origin.getValue().getName())
                 .destination(destination.getValue().getName())
+                .originLocation(originLocation)
                 .time(Utilities.toLocalDateTime(desiredTime.getValue()))
                 .timeIsDeparture(timeIsDeparture.getValue())
                 .build();

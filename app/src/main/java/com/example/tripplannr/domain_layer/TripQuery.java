@@ -1,13 +1,16 @@
 package com.example.tripplannr.domain_layer;
 
+import android.location.Location;
+
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.List;
 
 public class TripQuery {
 
     private String origin;
     private String destination;
+    private Location originLocation;
+    private Location destinationLocation;
     private LocalDateTime time;
     private boolean timeIsDeparture;
     private List<ModeOfTransport> travelModes;
@@ -22,9 +25,20 @@ public class TripQuery {
         this.travelModes = travelModes;
     }
 
+    public TripQuery(Location originLocation, Location destinationLocation, LocalDateTime time, boolean timeIsDeparture,
+                     List<ModeOfTransport> travelModes) {
+        this.originLocation = originLocation;
+        this.destinationLocation = destinationLocation;
+        this.time = time;
+        this.timeIsDeparture = timeIsDeparture;
+        this.travelModes = travelModes;
+    }
+
     private TripQuery(Builder builder) {
         origin = builder.origin;
         destination = builder.destination;
+        originLocation = builder.originLocation;
+        destinationLocation = builder.destinationLocation;
         time = builder.time;
         timeIsDeparture = builder.timeIsDeparture;
         travelModes = builder.travelModes;
@@ -36,6 +50,14 @@ public class TripQuery {
 
     public String getDestination() {
         return destination;
+    }
+
+    public Location getOriginLocation() {
+        return originLocation;
+    }
+
+    public Location getDestinationLocation() {
+        return destinationLocation;
     }
 
     public LocalDateTime getTime() {
@@ -61,6 +83,8 @@ public class TripQuery {
     public static final class Builder {
         private String origin;
         private String destination;
+        private Location originLocation;
+        private Location destinationLocation;
         private LocalDateTime time;
         private boolean timeIsDeparture;
         private List<ModeOfTransport> travelModes;
@@ -75,6 +99,16 @@ public class TripQuery {
 
         public Builder destination(String val) {
             destination = val;
+            return this;
+        }
+
+        public  Builder originLocation(Location val) {
+            originLocation = val;
+            return this;
+        }
+
+        public  Builder destinationLocation(Location val) {
+            destinationLocation = val;
             return this;
         }
 

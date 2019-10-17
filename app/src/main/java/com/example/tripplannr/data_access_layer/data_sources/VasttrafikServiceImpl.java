@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.tripplannr.application_layer.util.StenaLineParser;
 import com.example.tripplannr.application_layer.util.TripDictionary;
 import com.example.tripplannr.application_layer.util.VasttrafikParser;
-import com.example.tripplannr.domain_layer.Route;
 import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.domain_layer.TripLocation;
 import com.example.tripplannr.domain_layer.TripQuery;
@@ -18,15 +17,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -105,6 +98,8 @@ public class VasttrafikServiceImpl {
         original = new TripQuery.Builder()
                         .destination(tripQuery.getDestination())
                         .origin(tripQuery.getOrigin())
+                        .originLocation(tripQuery.getOriginLocation())
+                        .destinationLocation(tripQuery.getDestinationLocation())
                         .time(tripQuery.getTime())
                         .build();
         tripQuery.setOrigin(TripDictionary.translateTrip(tripQuery.getOrigin()));
@@ -136,63 +131,121 @@ public class VasttrafikServiceImpl {
 
     private void searchAndLoadTrips(final TripQuery tripQuery, final String token) {
         isLoading.setValue(true);
-        vasttrafikService
-                .getName(tripQuery.getOrigin(), "json", token)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                        if(response.code() >= 200 && response.code() <= 299) {
-                            try {
-                                searchAndLoadTripsHelper(tripQuery
-                                        , new JSONObject(response.body().string())
-                                                .getJSONObject("LocationList")
-                                                .getJSONArray("StopLocation")
-                                                .getJSONObject(0)
-                                                .getLong("id")
-                                        , token);
-                            } catch (IOException | JSONException e) {
-                                onFetchFail(response.code());
-                            }
+        // If we got coordinates find closest stop otherwise try to pattern match using string
+        if(tripQuery.getOriginLocation() == null) {
+            vasttrafikService
+                    .getName(tripQuery.getOrigin(), "json", token)
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                            if (response.code() >= 200 && response.code() <= 299) {
+                                try {
+                                    searchAndLoadTripsHelper(tripQuery
+                                            , new JSONObject(response.body().string())
+                                                    .getJSONObject("LocationList")
+                                                    .getJSONArray("StopLocation")
+                                                    .getJSONObject(0)
+                                                    .getLong("id")
+                                            , token);
+                                } catch (IOException | JSONException e) {
+                                    onFetchFail(response.code());
+                                }
+                            } else onFetchFail(response.code());
                         }
-                        else onFetchFail(response.code());
-                    }
 
-                    @Override
-                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                        onFetchFail(500);
-                    }
-                });
+                        @Override
+                        public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                            onFetchFail(500);
+                        }
+                    });
+        }
+        else {
+            vasttrafikService
+                    .getNearbyStops(tripQuery.getOriginLocation().getLatitude(), tripQuery.getOriginLocation().getLongitude(), "json", token)
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                            if (response.code() >= 200 && response.code() <= 299) {
+                                try {
+                                    searchAndLoadTripsHelper(tripQuery
+                                            , new JSONObject(response.body().string())
+                                                    .getJSONObject("LocationList")
+                                                    .getJSONArray("StopLocation")
+                                                    .getJSONObject(0)
+                                                    .getLong("id")
+                                            , token);
+                                } catch (IOException | JSONException e) {
+                                    onFetchFail(response.code());
+                                }
+                            } else onFetchFail(response.code());
+                        }
 
+                        @Override
+                        public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                            onFetchFail(500);
+                        }
+                    });
+        }
     }
 
     private void searchAndLoadTripsHelper(final TripQuery tripQuery, final long originId, final String token) {
-        vasttrafikService
-                .getName(tripQuery.getDestination(), "json", token)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                        if(response.code() >= 200 && response.code() <= 299) {
-                            try {
-                                long destId = new JSONObject(response.body().string())
-                                        .getJSONObject("LocationList")
-                                        .getJSONArray("StopLocation")
-                                        .getJSONObject(0)
-                                        .getLong("id");
-                                System.out.println(originId);
-                                System.out.println(destId);
-                                loadTripsHelper(tripQuery, originId, destId, token);
-                            } catch (IOException | JSONException e) {
-                                onFetchFail(response.code());
-                            }
+        // If we got coordinates find closest stop otherwise try to pattern match using string
+        if(tripQuery.getDestinationLocation() == null) {
+            vasttrafikService
+                    .getName(tripQuery.getDestination(), "json", token)
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                            if (response.code() >= 200 && response.code() <= 299) {
+                                try {
+                                    long destId = new JSONObject(response.body().string())
+                                            .getJSONObject("LocationList")
+                                            .getJSONArray("StopLocation")
+                                            .getJSONObject(0)
+                                            .getLong("id");
+                                    System.out.println(originId);
+                                    System.out.println(destId);
+                                    loadTripsHelper(tripQuery, originId, destId, token);
+                                } catch (IOException | JSONException e) {
+                                    onFetchFail(response.code());
+                                }
+                            } else onFetchFail(response.code());
                         }
-                        else onFetchFail(response.code());
-                    }
 
-                    @Override
-                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                        onFetchFail(500);
-                    }
-                });
+                        @Override
+                        public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                            onFetchFail(500);
+                        }
+                    });
+        }
+        else {
+            vasttrafikService
+                    .getNearbyStops(tripQuery.getDestinationLocation().getLatitude(), tripQuery.getDestinationLocation().getLongitude(), "json", token)
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                            if (response.code() >= 200 && response.code() <= 299) {
+                                try {
+                                    long destId = new JSONObject(response.body().string())
+                                            .getJSONObject("LocationList")
+                                            .getJSONArray("StopLocation")
+                                            .getJSONObject(0)
+                                            .getLong("id");
+                                    System.out.println(originId);
+                                    System.out.println(destId);
+                                    loadTripsHelper(tripQuery, originId, destId, token);
+                                } catch (IOException | JSONException e) {
+                                    onFetchFail(response.code());
+                                }
+                            } else onFetchFail(response.code());
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                            onFetchFail(500);
+                        }
+                    });
+        }
     }
 
     private void loadTripsHelper(final TripQuery tripQuery, final long originId, final long destinationId, final String token) {
@@ -270,7 +323,6 @@ public class VasttrafikServiceImpl {
                         try {
                             if (response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
-                                // TODO do something with response
                                 addressMatches.setValue(new VasttrafikParser().getMatching(body));
                                 System.out.println(getAddressMatches().getValue().get(1).getName());
                             }
