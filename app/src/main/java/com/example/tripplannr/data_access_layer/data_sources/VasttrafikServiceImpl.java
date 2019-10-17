@@ -347,6 +347,7 @@ public class VasttrafikServiceImpl {
         location.setLongitude(10.543817);
         TripLocation tripLocation = new TripLocation(name, location);
         locations.add(0, tripLocation);
+
     }
 
     public void addJourneyDetails(final String ref, final Route route) {
