@@ -3,14 +3,12 @@ package com.example.tripplannr.data_access_layer.repositories;
 import android.os.AsyncTask;
 
 import com.example.tripplannr.data_access_layer.data_sources.TripDAO;
-import com.example.tripplannr.domain_layer.Route;
 import com.example.tripplannr.domain_layer.Trip;
 import com.google.common.base.Function;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 

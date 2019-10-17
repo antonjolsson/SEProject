@@ -11,7 +11,7 @@
     <string name="trip_result">Trip Results</string>
     <string name="get_notifications">Get Notifications</string>
 
-    <string name="google_maps_key">AIzaSyDyDlgpaXHE1mqwvy1HXAXKC7KMWSK60aU</string>
+    <string name="google_maps_key">AIzaSyD8ui_bKdQDAIrPXE8f7cl_Tm9SXSX_iAQ</string>
     <string name="search">Search Fragment</string>
     <string name="title_saved_trips">Saved Trips</string>
     <string name="vasttrafik" >Västtrafik: <a href="https://vasttrafik.se/biljetter/mer-om-biljetter/vasttrafik-to-go/">https://vasttrafik.se/biljetter/mer-om-biljetter/vasttrafik-to-go/</a></string>
