@@ -102,6 +102,7 @@ public class SearchFragment extends Fragment {
         searchViewModel.getAddressMatches().observe(this, new Observer<List<TripLocation>>() {
             @Override
             public void onChanged(List<TripLocation> tripLocations) {
+
                 showAddressSuggestions(tripLocations);
             }
         });
