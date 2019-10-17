@@ -84,7 +84,7 @@ public class TripFragment extends Fragment {
             @Override
             public void onChanged(Trip trip) {
                 tripData = trip;
-                if(trip.getRoutes().size() > 0) {
+                if (trip.getRoutes().size() > 0) {
                     routesRecyclerView.setAdapter(new RoutesAdapter(tripResultViewModel));
                 }
             }
@@ -93,7 +93,7 @@ public class TripFragment extends Fragment {
         tripData = tripResultViewModel.getTripLiveData().getValue();
     }
 
-    private void activateNotifications(View view) {
+    public void activateNotifications(View view) {
         tripBinding.setSaved(true);
         NotificationManagerCompat.from(Objects.requireNonNull(getActivity())).notify(0, getNotification());
         Snackbar
@@ -107,7 +107,7 @@ public class TripFragment extends Fragment {
                 .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
                     @Override
                     public void onDismissed(Snackbar transientBottomBar, int event) {
-                        if(event == (DISMISS_EVENT_TIMEOUT | DISMISS_EVENT_SWIPE)) {
+                        if (event == (DISMISS_EVENT_TIMEOUT | DISMISS_EVENT_SWIPE)) {
                             tripResultViewModel.saveTrip(tripData);
                         }
                     }
@@ -139,8 +139,8 @@ public class TripFragment extends Fragment {
     public void createDialog(String vasttrafik, String stenaline, View view) {
         TextView message = new TextView(getContext());
         message.setText("Book trip here: \n" +
-                        vasttrafik + "\n" +
-                        stenaline);
+                vasttrafik + "\n" +
+                stenaline);
         Linkify.addLinks(message, Linkify.WEB_URLS);
         message.setMovementMethod(LinkMovementMethod.getInstance());
         message.setTextSize(18);
@@ -154,7 +154,7 @@ public class TripFragment extends Fragment {
     public void createDialog(String vasttrafik, View view) {
         TextView message = new TextView(getContext());
         message.setText("Book trip here: \n" +
-                        vasttrafik);
+                vasttrafik);
         Linkify.addLinks(message, Linkify.WEB_URLS);
         message.setMovementMethod(LinkMovementMethod.getInstance());
         message.setTextSize(18);
@@ -168,12 +168,6 @@ public class TripFragment extends Fragment {
     private AlertDialog.Builder getDialogBuilder(final View view) {
         return new AlertDialog.Builder(getActivity())
                     .setTitle("Book trip?")
-                    .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            activateNotifications(view);
-                        }
-                    })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -29,8 +30,6 @@ import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.example.tripplannr.domain_layer.TripLocation;
 import com.example.tripplannr.application_layer.search.SearchViewModel.LocationField;
 import com.example.tripplannr.application_layer.util.Utilities;
-import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
-import com.example.tripplannr.domain_layer.TripLocation;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -92,8 +91,7 @@ public class SearchFragment extends Fragment {
                 if (Utilities.isNow(calendar)) {
                     nowTextView.setVisibility(View.INVISIBLE);
                     nowTextView.setEnabled(false);
-                }
-                else {
+                } else {
                     nowTextView.setVisibility(View.VISIBLE);
                     nowTextView.setEnabled(true);
                 }
@@ -116,9 +114,24 @@ public class SearchFragment extends Fragment {
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()),
                 android.R.layout.simple_dropdown_item_1line, addresses);
-        if (searchViewModel.getFocusedLocationField() == ORIGIN)
+        if (searchViewModel.getFocusedLocationField() == ORIGIN) {
             fromTextField.setAdapter(adapter);
-        else toTextField.setAdapter(adapter);
+            fromTextField.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    setLocationOnEnter(fromTextField, view);
+                }
+            });
+        }
+        else{
+            toTextField.setAdapter(adapter);
+            toTextField.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    setLocationOnEnter(toTextField, view);
+                }
+            });
+        }
     }
 
     private void setTimeButtonText(Calendar calendar) {
@@ -223,9 +236,8 @@ public class SearchFragment extends Fragment {
         fromTextField.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(fromTextField);
+                if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(fromTextField, v);
                 else {
-                    //vasttrafikRepository.getMatching(fromTextField.getText().toString());
                     searchViewModel.autoComplete(fromTextField.getText().toString());
                     return true;
                 }
@@ -245,9 +257,8 @@ public class SearchFragment extends Fragment {
         toTextField.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(toTextField);
+                if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(toTextField, v);
                 else {
-                   //vasttrafikRepository.getMatching(toTextField.getText().toString());
                     searchViewModel.autoComplete(toTextField.getText().toString());
                     return false;
                 }
@@ -255,11 +266,11 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private boolean setLocationOnEnter(EditText textField) {
+    private boolean setLocationOnEnter(EditText textField, View view) {
         Location location = getLocation(textField.getText().toString());
         searchViewModel.setLocation(location, textField.getText().toString());
         hideKeyboardFrom(Objects.requireNonNull(getContext()),
-                Objects.requireNonNull(getView()));
+                Objects.requireNonNull(view));
         return true;
     }
 

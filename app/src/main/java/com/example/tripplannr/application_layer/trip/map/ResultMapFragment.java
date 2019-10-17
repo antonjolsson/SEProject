@@ -170,8 +170,7 @@ public class ResultMapFragment extends MapFragment {
             if (pLine.equals(polyline)) {
                 polyline.setColor(focusedPolylineColor);
                 centerPoints(polyline.getPoints());
-            }
-            else pLine.setColor(commonPolylineColor);
+            } else pLine.setColor(commonPolylineColor);
         }
     }
 

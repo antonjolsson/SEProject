@@ -56,11 +56,11 @@ public class StenaLineParser {
         System.out.println(tQ.getDestination());
         if (tQ.getOrigin().equals("Fredrikshamn"))
             tQ.setOrigin("StenaTerminalen, Fredrikshamn");
-        else if (!tQ.getOrigin().equals("StenaTerminalen, Fredrikshamn") )
+        else if (!tQ.getOrigin().equals("StenaTerminalen, Fredrikshamn"))
             tQ.setOrigin("StenaTerminalen, Göteborg");
         if (tQ.getDestination().equals("Fredrikshamn"))
             tQ.setDestination("StenaTerminalen, Fredrikshamn");
-        else if (!tQ.getDestination().equals("StenaTerminalen, Fredrikshamn") )
+        else if (!tQ.getDestination().equals("StenaTerminalen, Fredrikshamn"))
             tQ.setDestination("StenaTerminalen, Göteborg");
         System.out.println(tQ.getOrigin());
         System.out.println(tQ.getDestination());
@@ -108,11 +108,10 @@ public class StenaLineParser {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Collections.sort(trips, new Comparator<Trip>(){
+        Collections.sort(trips, new Comparator<Trip>() {
 
-            public int compare(Trip t1, Trip t2)
-            {
-                return  t1.getTimes().getDeparture().compareTo(t2.getTimes().getDeparture());
+            public int compare(Trip t1, Trip t2) {
+                return t1.getTimes().getDeparture().compareTo(t2.getTimes().getDeparture());
             }
         });
 
@@ -206,7 +205,6 @@ public class StenaLineParser {
         }
         return locationList;
     }
-
 
 
 }

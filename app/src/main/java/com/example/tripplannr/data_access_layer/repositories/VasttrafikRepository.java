@@ -18,7 +18,7 @@ public class VasttrafikRepository {
 
     public VasttrafikRepository(Context context) {
         System.out.println(context);
-       vasttrafikService = VasttrafikServiceImpl.getInstance(context);
+        vasttrafikService = VasttrafikServiceImpl.getInstance(context);
     }
 
     public void loadTrips(TripQuery query) {
@@ -37,7 +37,9 @@ public class VasttrafikRepository {
         return vasttrafikService.isLoading();
     }
 
-    public LiveData<List<TripLocation>> getTripLocationData() { return vasttrafikService.getAddressMatches(); }
+    public LiveData<List<TripLocation>> getTripLocationData() {
+        return vasttrafikService.getAddressMatches();
+    }
 
     public void getMatching(final String pattern) {
         vasttrafikService.getMatching(pattern);
