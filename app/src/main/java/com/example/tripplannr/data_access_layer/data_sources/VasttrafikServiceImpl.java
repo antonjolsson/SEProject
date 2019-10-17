@@ -252,7 +252,7 @@ public class VasttrafikServiceImpl {
     private void loadTripsHelper(final TripQuery tripQuery, final long originId, final long destinationId, final String token) {
         final String date = tripQuery.getTime().getYear() + "-" + tripQuery.getTime().getMonthValue()
                 + "-" + tripQuery.getTime().getDayOfMonth();
-        String time = tripQuery.getTime().getHour() + ":" + tripQuery.getTime().getMonthValue();
+        String time = tripQuery.getTime().getHour() + ":" + tripQuery.getTime().getMinute();
         System.out.println(date);
         System.out.println(time);
         vasttrafikService
