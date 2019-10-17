@@ -43,7 +43,7 @@ import static com.example.tripplannr.application_layer.search.SearchViewModel.Lo
 import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.ORIGIN;
 
 public abstract class MapFragment extends Fragment implements OnMapReadyCallback,
-        GoogleMap.OnMapClickListener{
+        GoogleMap.OnMapClickListener {
 
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     // Chalmers Lindholmen location :)
@@ -103,6 +103,20 @@ public abstract class MapFragment extends Fragment implements OnMapReadyCallback
         mMap.setPadding(0, 0, 0, BOTTOM_PADDING);
         initLocationRequest();
         setListeners();
+        if (model.getOrigin().getValue() != null) {
+            model.setFocusedLocationField(ORIGIN);
+            model.setLocation(model.getOrigin().getValue().getLocation(),
+                    model.getOrigin().getValue().getName());
+            /*LatLng latLng = new LatLng(model.getOrigin().getValue().getLocation().getLatitude(),
+                    model.getOrigin().getValue().getLocation().getLongitude());
+            updateMarker(latLng);*/
+        }
+        if (model.getDestination().getValue() != null) {
+            model.setFocusedLocationField(DESTINATION);
+            LatLng latLng = new LatLng(model.getDestination().getValue().getLocation().getLatitude(),
+                    model.getDestination().getValue().getLocation().getLongitude());
+            updateMarker(latLng);
+        }
     }
 
     void updateMarker(LatLng latLng) {
@@ -113,8 +127,7 @@ public abstract class MapFragment extends Fragment implements OnMapReadyCallback
             markerOptions.icon(BitmapDescriptorFactory.
                     defaultMarker(BitmapDescriptorFactory.HUE_RED));
             originMarker = mMap.addMarker(markerOptions);
-        }
-        else {
+        } else {
             removeMarker(DESTINATION);
             markerOptions.icon(BitmapDescriptorFactory.
                     defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
@@ -125,8 +138,7 @@ public abstract class MapFragment extends Fragment implements OnMapReadyCallback
     void removeMarker(SearchViewModel.LocationField field) {
         if (field == DESTINATION && destinationMarker != null) {
             destinationMarker.remove();
-        }
-        else if (field == ORIGIN && originMarker != null) {
+        } else if (field == ORIGIN && originMarker != null) {
             originMarker.remove();
         }
     }
@@ -215,7 +227,7 @@ public abstract class MapFragment extends Fragment implements OnMapReadyCallback
                                 //Prompt the user once explanation has been shown
                                 ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()),
                                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                        MY_PERMISSIONS_REQUEST_LOCATION );
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
                             }
                         })
                         .create().show();
@@ -223,7 +235,7 @@ public abstract class MapFragment extends Fragment implements OnMapReadyCallback
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION );
+                        MY_PERMISSIONS_REQUEST_LOCATION);
             }
         }
     }
@@ -247,8 +259,7 @@ public abstract class MapFragment extends Fragment implements OnMapReadyCallback
         if (tripLocation != null) {
             LatLng latLng = tripLocationToLatLng(tripLocation.getLocation());
             updateMarker(latLng);
-        }
-        else removeMarker(destination);
+        } else removeMarker(destination);
         if (model.getAddressQuery().getValue() != null &&
                 model.getAddressQuery().getValue()) {
             model.setAddressQuery(false);

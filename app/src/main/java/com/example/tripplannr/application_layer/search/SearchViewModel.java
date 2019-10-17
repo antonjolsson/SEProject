@@ -23,7 +23,9 @@ import static com.example.tripplannr.application_layer.search.SearchViewModel.Sh
 public class SearchViewModel extends ViewModel {
 
     public enum ShownFragment {MAP, TIME_CONTROLS}
+
     public enum LocationField {ORIGIN, DESTINATION}
+
     private MutableLiveData<TripLocation> origin = new MutableLiveData<>();
     private MutableLiveData<TripLocation> destination = new MutableLiveData<>();
     // Address is requested by a fragment
@@ -125,8 +127,7 @@ public class SearchViewModel extends ViewModel {
         if (initOriginField) {
             origin.setValue(tripLocation);
             initOriginField = false;
-        }
-        else if (focusedLocationFields.peek() == ORIGIN)
+        } else if (focusedLocationFields.peek() == ORIGIN)
             origin.setValue(tripLocation);
         else this.destination.setValue(tripLocation);
     }

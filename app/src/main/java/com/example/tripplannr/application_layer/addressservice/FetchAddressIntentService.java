@@ -28,14 +28,13 @@ public class FetchAddressIntentService extends IntentService {
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
+     * <p>
      * //@param name Used to name the worker thread, important only for debugging.
      */
     /* Not used, should probably be removed
     public FetchAddressIntentService(String name) {
         super(name);
     }*/
-
     public FetchAddressIntentService() {
         super("FetchAddressIntentService");
     }
@@ -78,7 +77,7 @@ public class FetchAddressIntentService extends IntentService {
         }
 
         // Handle case where no name was found.
-        if (addresses == null || addresses.size()  == 0) {
+        if (addresses == null || addresses.size() == 0) {
             if (errorMessage.isEmpty()) {
                 errorMessage = "No name found";
                 Log.e(TAG, errorMessage);
@@ -90,7 +89,7 @@ public class FetchAddressIntentService extends IntentService {
 
             // Fetch the name lines using getAddressLine,
             // join them, and send them to the thread.
-            for(int i = 0; i <= address.getMaxAddressLineIndex(); i++) {
+            for (int i = 0; i <= address.getMaxAddressLineIndex(); i++) {
                 addressFragments.add(address.getAddressLine(i));
             }
             Log.i(TAG, "Address found");

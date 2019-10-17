@@ -90,8 +90,7 @@ public class SearchFragment extends Fragment {
                 if (Utilities.isNow(calendar)) {
                     nowTextView.setVisibility(View.INVISIBLE);
                     nowTextView.setEnabled(false);
-                }
-                else {
+                } else {
                     nowTextView.setVisibility(View.VISIBLE);
                     nowTextView.setEnabled(true);
                 }

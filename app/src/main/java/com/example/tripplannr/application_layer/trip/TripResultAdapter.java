@@ -29,7 +29,7 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
     private TripResultViewModel viewModel;
 
     public TripResultAdapter(List<Trip> trips, int viewHolderNavigation, TripResultViewModel viewModel) {
-        if(trips != null) this.trips = new ArrayList<>(trips);
+        if (trips != null) this.trips = new ArrayList<>(trips);
         else this.trips = new ArrayList<>();
         this.viewModel = viewModel;
         this.viewHolderNavigation = viewHolderNavigation;
@@ -85,7 +85,7 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
         }
 
         public void navigateToDetailedView(Trip trip) {
-            if(navigation != 0) {
+            if (navigation != 0) {
                 viewModel.onClick(trip);
                 Navigation.findNavController(itemView).navigate(navigation);
             }
