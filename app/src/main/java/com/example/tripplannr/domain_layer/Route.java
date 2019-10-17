@@ -8,7 +8,6 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,13 +23,19 @@ public class Route {
     @Embedded
     private TravelTimes times;
     private ModeOfTransport mode;
+    private String name;
     @Ignore
     private FerryInfo ferryinfo;
     @Ignore
     private List<Location> legs;
+    @Ignore
+    private List<TripLocation> locations;
+    // Västtrafik journey reference
+    private String journeyRef;
 
-    public Route(TripLocation origin, TripLocation destination, TravelTimes times,
+    public Route(String name, TripLocation origin, TripLocation destination, TravelTimes times,
                  ModeOfTransport mode) {
+        this.name = name;
         this.origin = origin;
         this.destination = destination;
         this.times = times;
@@ -44,6 +49,10 @@ public class Route {
         mode = builder.mode;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int getId() {
         return id;
     }
@@ -52,12 +61,20 @@ public class Route {
         this.id = id;
     }
 
-    public int getTripId() {
-        return tripId;
-    }
-
     public void setTripId(int tripId) {
         this.tripId = tripId;
+    }
+
+    public void setLocations(List<TripLocation> locations) {
+        this.locations = locations;
+    }
+
+    public void setOrigin(TripLocation origin) {
+        this.origin = origin;
+    }
+
+    public void setDestination(TripLocation destination) {
+        this.destination = destination;
     }
 
     public TripLocation getOrigin() {
@@ -76,6 +93,17 @@ public class Route {
         return mode;
     }
 
+    public int getTripId() {
+        return tripId;
+    }
+
+    public List<Location> getLegs() {
+        return legs;
+    }
+
+    public List<TripLocation> getLocations() {
+        return locations;
+    }
 
     public static final class Builder {
         private TripLocation origin;
@@ -117,5 +145,13 @@ public class Route {
 
     public void setLegs(List<Location> legs) {
         this.legs = legs;
+    }
+
+    public void setJourneyRef(String journeyRef) {
+        this.journeyRef = journeyRef;
+    }
+
+    public String getJourneyRef() {
+        return journeyRef;
     }
 }

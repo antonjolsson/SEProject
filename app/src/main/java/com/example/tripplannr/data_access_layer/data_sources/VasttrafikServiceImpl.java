@@ -1,6 +1,7 @@
 package com.example.tripplannr.data_access_layer.data_sources;
 
 import android.content.Context;
+import android.location.Location;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -9,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.tripplannr.application_layer.util.StenaLineParser;
 import com.example.tripplannr.application_layer.util.TripDictionary;
 import com.example.tripplannr.application_layer.util.VasttrafikParser;
+import com.example.tripplannr.domain_layer.Route;
 import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.domain_layer.TripLocation;
 import com.example.tripplannr.domain_layer.TripQuery;
@@ -312,7 +314,7 @@ public class VasttrafikServiceImpl {
                 });
     }
 
-    private void sendPatternRequest(String token, String pattern) {
+    private void sendPatternRequest(String token, final String pattern) {
         vasttrafikService
                 .getName(pattern, "json", "Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
@@ -321,11 +323,70 @@ public class VasttrafikServiceImpl {
                         try {
                             if (response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
-                                addressMatches.setValue(new VasttrafikParser().getMatching(body));
+                                List<TripLocation> matches = new VasttrafikParser().getMatching(body);
+                                if (pattern.length() > 2 && pattern.substring(0, 3).toLowerCase().
+                                        equals("fre")) addFrederikshavn(matches);
+                                addressMatches.setValue(matches);
                                 System.out.println(getAddressMatches().getValue().get(1).getName());
                             }
                         } catch (IOException e) {
                         } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    }
+                });
+    }
+
+    private void addFrederikshavn(List<TripLocation> locations) {
+        String name = "Fredrikshamn, Danmark";
+        Location location = new Location("");
+        location.setLatitude(57.434609);
+        location.setLongitude(10.543817);
+        TripLocation tripLocation = new TripLocation(name, location);
+        locations.add(0, tripLocation);
+
+    }
+
+    public void addJourneyDetails(final String ref, final Route route) {
+        if(ref == null || ref.isEmpty())
+            return;
+        vasttrafikService
+                .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
+                        "application/x-www-form-urlencoded", "client_credentials")
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        System.out.println(response.code());
+                        System.out.println(response.body());
+                        try {
+                            sendJourneyDetailRequest(ref, new JSONObject(response.body().string()).getString("access_token"), route);
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    }
+                });
+    }
+
+    private void sendJourneyDetailRequest(String ref, String token, final Route route) {
+        vasttrafikService
+                .getJourneyDetail(ref, "json","Bearer " + token)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            if(response.code() >= 200 && response.code() <= 299) {
+                                String body = response.body().string();
+                                // TODO do something with response
+                                new VasttrafikParser().addJourneyDetails(body, route);
+                            }
+                        } catch (IOException ignored) {} catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }

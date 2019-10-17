@@ -40,5 +40,4 @@ public class TripLocation {
     public String getTrack() {
         return track;
     }
-
 }

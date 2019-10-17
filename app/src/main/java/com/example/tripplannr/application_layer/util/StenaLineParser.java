@@ -120,8 +120,11 @@ public class StenaLineParser {
 
     private Route parseRoute(String jRef, LocalDateTime depart, LocalDateTime arrInp) {
         Route route = null;
-        List<Location> locationList = new ArrayList<>();
+        List<Location> locationList;
         try {
+            // TODO Add name in JSON?
+            String name = "Stena";
+
             JSONObject obj = new JSONObject(loadJSONFromAsset("stenaJourneyDet.json"));
             JSONObject objRoute = obj.getJSONObject("JourneyDetail").getJSONObject(jRef);
 
@@ -130,7 +133,6 @@ public class StenaLineParser {
             Location origin_location = new Location("");
             origin_location.setLatitude(objRoute.getJSONObject("Origin").getDouble("lat"));
             origin_location.setLongitude(objRoute.getJSONObject("Origin").getDouble("lon"));
-            //LatLng origin_coords =new LatLng(objRoute.getJSONObject("Origin").getDouble("lat"),objRoute.getJSONObject("Origin").getDouble("lon"));
             TripLocation origin = new TripLocation(origin_name, origin_location, origin_track);
 
             String destination_name = objRoute.getJSONObject("Destination").getString("name");
@@ -148,7 +150,7 @@ public class StenaLineParser {
             String ferryName = objRoute.getString("Ship");
 
 
-            route = new Route(origin, destination, times, mode);
+            route = new Route(name, origin, destination, times, mode);
 
             //ska ferryINfo ligga i trip isf ha en add så slipper allt annat bry sig om det
             route.setFerryinfo(ferryInfo(ferryName));

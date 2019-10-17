@@ -17,9 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
-import android.text.method.MovementMethod;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,13 +27,15 @@ import android.widget.TextView;
 import com.example.tripplannr.R;
 import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.example.tripplannr.application_layer.util.ModeOfTransportIconDictionary;
+import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
 import com.example.tripplannr.databinding.FragmentTripBinding;
+import com.example.tripplannr.domain_layer.Route;
 import com.example.tripplannr.domain_layer.Trip;
+import com.example.tripplannr.domain_layer.TripLocation;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
-import java.util.Observable;
 
 
 public class TripFragment extends Fragment {
@@ -48,6 +48,8 @@ public class TripFragment extends Fragment {
 
     private Trip tripData;
 
+    private VasttrafikRepository vasttrafikRepository;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,7 +59,23 @@ public class TripFragment extends Fragment {
         initViewModel();
         tripBinding.setTrip(tripData);
         initRecyclerView(view);
+        vasttrafikRepository = new VasttrafikRepository(getContext());
+        addJourneyDetails();
+        for(Route route : tripData.getRoutes()) {
+            if(route.getLocations() != null) {
+                for (TripLocation trip : route.getLocations()) {
+                    System.out.println(trip.getName());
+                    System.out.println(trip.getLocation().getLongitude());
+                    System.out.println(trip.getLocation().getLatitude());
+                }
+            }
+        }
         return view;
+    }
+
+    private void addJourneyDetails(){
+        for(Route route : tripData.getRoutes())
+            vasttrafikRepository.addJourneyDetails(route.getJourneyRef(), route);
     }
 
     private void initViewModel() {
