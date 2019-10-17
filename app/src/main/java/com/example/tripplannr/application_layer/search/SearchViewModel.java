@@ -60,19 +60,20 @@ public class SearchViewModel extends ViewModel {
     }
 
     public void obtainTrips(String origin, String destination) {
-        this.origin.setValue(new TripLocation(origin, new Location("")));
-        this.destination.setValue(new TripLocation(destination, new Location("")));
+        // TODO, reimplement string search?
+        //if(this.origin.getValue() == null)
+        //    this.origin.setValue(new TripLocation(origin,origin));
+        //if(this.destination.getValue() == null)
+        //    this.destination.setValue(new TripLocation(destination, new Location("")));
         vasttrafikRepository.loadTrips(obtainQuery());
     }
 
     private TripQuery obtainQuery() {
-        Location originLocation = new Location("");
-        originLocation.setLongitude(11.972957);
-        originLocation.setLatitude(57.690000);
         return new TripQuery.Builder()
                 .origin(origin.getValue().getName())
                 .destination(destination.getValue().getName())
-                .originLocation(originLocation)
+                .originLocation(origin.getValue().getLocation())
+                .destinationLocation(destination.getValue().getLocation())
                 .time(Utilities.toLocalDateTime(desiredTime.getValue()))
                 .timeIsDeparture(timeIsDeparture.getValue())
                 .build();
