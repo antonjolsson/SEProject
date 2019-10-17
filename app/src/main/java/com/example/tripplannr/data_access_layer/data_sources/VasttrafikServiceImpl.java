@@ -18,15 +18,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -286,7 +280,7 @@ public class VasttrafikServiceImpl {
                 });
     }
 
-    public void getJourneyDetail(final String ref) {
+    public void addJourneyDetails(final String ref, final Route route) {
         if(ref == null || ref.isEmpty())
             return;
         vasttrafikService
@@ -298,7 +292,7 @@ public class VasttrafikServiceImpl {
                         System.out.println(response.code());
                         System.out.println(response.body());
                         try {
-                            sendJourneyDetailRequest(ref, new JSONObject(response.body().string()).getString("access_token"));
+                            sendJourneyDetailRequest(ref, new JSONObject(response.body().string()).getString("access_token"), route);
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
                         }
@@ -310,7 +304,7 @@ public class VasttrafikServiceImpl {
                 });
     }
 
-    private void sendJourneyDetailRequest(String ref, String token) {
+    private void sendJourneyDetailRequest(String ref, String token, final Route route) {
         vasttrafikService
                 .getJourneyDetail(ref, "json","Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
@@ -320,9 +314,7 @@ public class VasttrafikServiceImpl {
                             if(response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
                                 // TODO do something with response
-                                List<TripLocation> journeyDetail = new VasttrafikParser().getJourneyDetail(body);
-                                System.out.println(journeyDetail.get(0).getLocation().getLatitude());
-                                System.out.println(journeyDetail.get(0).getLocation().getLongitude());
+                                new VasttrafikParser().addJourneyDetails(body, route);
                             }
                         } catch (IOException ignored) {} catch (JSONException e) {
                             e.printStackTrace();

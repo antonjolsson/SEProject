@@ -203,13 +203,13 @@ public class ResultMapFragment extends MapFragment {
                 originLoc, "30");
         TripLocation t2 = new TripLocation(routes.get(0).getDestination().getName(),
                 destLoc, "D");
-        routes2.add(new Route(t1, t2, routes.get(0).getTimes(), routes.get(1).getMode()));
+        routes2.add(new Route(routes.get(0).getName(), t1, t2, routes.get(0).getTimes(), routes.get(1).getMode()));
 
         t1 = new TripLocation(routes.get(0).getDestination().getName(),
                 destLoc, "D");
         destLoc = makeLocation(57.687775, 11.979341);
         t2 = new TripLocation("Chalmers, Göteborg", destLoc, null);
-        routes2.add(new Route(t1, t2, routes.get(0).getTimes(), WALK));
+        routes2.add(new Route(routes.get(0).getName(), t1, t2, routes.get(0).getTimes(), WALK));
 
         return routes2;
     }
