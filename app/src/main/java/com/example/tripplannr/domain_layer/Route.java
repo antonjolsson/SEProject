@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
 import java.util.List;
 
 @Entity
-public class Route {
+public class Route implements Locatable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;

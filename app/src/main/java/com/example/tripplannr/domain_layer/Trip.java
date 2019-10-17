@@ -9,13 +9,14 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Entity
-public class Trip {
+public class Trip implements Locatable{
 
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
     @Ignore
     private List<Route> routes;
+
     @Ignore
     private TripLocation origin;
     @Ignore
@@ -124,6 +125,14 @@ public class Trip {
         routes.add(0, route);
         origin = route.getOrigin();
         times = new TravelTimes(route.getTimes().getDeparture(), times.getArrival());
+    }
+
+    public void setOrigin(TripLocation origin) {
+        this.origin = origin;
+    }
+
+    public void setDestination(TripLocation destination) {
+        this.destination = destination;
     }
 
 }

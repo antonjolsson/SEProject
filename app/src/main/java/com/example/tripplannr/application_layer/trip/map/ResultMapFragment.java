@@ -8,7 +8,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.application_layer.addressservice.LocationService;
 import com.example.tripplannr.application_layer.trip.TripResultViewModel;
+import com.example.tripplannr.domain_layer.Locatable;
 import com.example.tripplannr.domain_layer.Route;
 import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.domain_layer.TripLocation;
@@ -81,7 +83,7 @@ public class ResultMapFragment extends MapFragment {
     }
 
     private void drawTrip(Trip trip) {
-        trip = getFakeTrip(trip);
+        //trip = getFakeTrip(trip);
         drawMarkers(trip);
         drawPolyLines(trip);
         centerItinerary(trip);
@@ -138,6 +140,7 @@ public class ResultMapFragment extends MapFragment {
 
         for (Route route : routes) {
             polylineOptions = new PolylineOptions();
+            validateLocations(route);
             polylineOptions.add(new LatLng(route.getOrigin().getLocation().getLatitude(),
                             route.getOrigin().getLocation().getLongitude()),
                     new LatLng(route.getDestination().getLocation().getLatitude(),
@@ -149,6 +152,20 @@ public class ResultMapFragment extends MapFragment {
             polylines.add(polyline);
         }
         setPolylineListener(polylines);
+    }
+
+    // Todo: remove when all Routes/Trips have valid Locations
+    private void validateLocations(Locatable locatable) {
+        Location location = locatable.getOrigin().getLocation();
+        if (location.getLatitude() < 0.001)
+            location = LocationService.getLocation(locatable.getOrigin().getName(), getContext());
+        locatable.setOrigin(new TripLocation(locatable.getOrigin().getName(), location,
+                locatable.getOrigin().getTrack()));
+        location = locatable.getDestination().getLocation();
+        if (location.getLatitude() < 0.001)
+            location = LocationService.getLocation(locatable.getDestination().getName(), getContext());
+        locatable.setDestination(new TripLocation(locatable.getDestination().getName(), location,
+                    locatable.getDestination().getTrack()));
     }
 
     private void setPolylineListener(final List<Polyline> polylines) {
@@ -175,6 +192,7 @@ public class ResultMapFragment extends MapFragment {
     }
 
     private void drawMarkers(Trip trip) {
+        validateLocations(trip);
         model.setFocusedLocationField(ORIGIN);
         model.setLocation(trip.getOrigin().getLocation(), null);
         model.setFocusedLocationField(DESTINATION);
