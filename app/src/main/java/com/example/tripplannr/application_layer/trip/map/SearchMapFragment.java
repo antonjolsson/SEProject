@@ -42,12 +42,12 @@ public class SearchMapFragment extends MapFragment {
         Objects.requireNonNull(getActivity()).startService(intent);
     }
 
-     @Override
-     protected void setListeners() {
+    @Override
+    protected void setListeners() {
         super.setListeners();
         model.getAddressQuery().observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged (Boolean addressQuery) {
+            public void onChanged(Boolean addressQuery) {
                 if (addressQuery) simulateMapClick(mLastLocation);
             }
         });

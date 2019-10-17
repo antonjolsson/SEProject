@@ -44,7 +44,7 @@ public class VasttrafikServiceImpl {
     private static VasttrafikServiceImpl instance;
 
     public static VasttrafikServiceImpl getInstance(Context context) {
-        if(instance == null) instance = new VasttrafikServiceImpl(context);
+        if (instance == null) instance = new VasttrafikServiceImpl(context);
         return instance;
     }
 
@@ -103,10 +103,10 @@ public class VasttrafikServiceImpl {
         data.setValue(new ArrayList<Trip>());
         isLoading.setValue(true);
         original = new TripQuery.Builder()
-                        .destination(tripQuery.getDestination())
-                        .origin(tripQuery.getOrigin())
-                        .time(tripQuery.getTime())
-                        .build();
+                .destination(tripQuery.getDestination())
+                .origin(tripQuery.getOrigin())
+                .time(tripQuery.getTime())
+                .build();
         tripQuery.setOrigin(TripDictionary.translateTrip(tripQuery.getOrigin()));
         tripQuery.setDestination(TripDictionary.translateTrip(tripQuery.getDestination()));
         vasttrafikService
@@ -116,12 +116,11 @@ public class VasttrafikServiceImpl {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                         try {
-                            if(response.code() >= 200 && response.code() <= 299) {
+                            if (response.code() >= 200 && response.code() <= 299) {
                                 String token = "Bearer " + new JSONObject(response.body().string())
                                         .getString("access_token");
                                 searchAndLoadTrips(tripQuery, token);
-                            }
-                            else onFetchFail(response.code());
+                            } else onFetchFail(response.code());
                         } catch (JSONException | IOException e) {
                             onFetchFail(response.code());
                         }
@@ -141,7 +140,7 @@ public class VasttrafikServiceImpl {
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                        if(response.code() >= 200 && response.code() <= 299) {
+                        if (response.code() >= 200 && response.code() <= 299) {
                             try {
                                 searchAndLoadTripsHelper(tripQuery
                                         , new JSONObject(response.body().string())
@@ -153,8 +152,7 @@ public class VasttrafikServiceImpl {
                             } catch (IOException | JSONException e) {
                                 onFetchFail(response.code());
                             }
-                        }
-                        else onFetchFail(response.code());
+                        } else onFetchFail(response.code());
                     }
 
                     @Override
@@ -171,7 +169,7 @@ public class VasttrafikServiceImpl {
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                        if(response.code() >= 200 && response.code() <= 299) {
+                        if (response.code() >= 200 && response.code() <= 299) {
                             try {
                                 long destId = new JSONObject(response.body().string())
                                         .getJSONObject("LocationList")
@@ -184,8 +182,7 @@ public class VasttrafikServiceImpl {
                             } catch (IOException | JSONException e) {
                                 onFetchFail(response.code());
                             }
-                        }
-                        else onFetchFail(response.code());
+                        } else onFetchFail(response.code());
                     }
 
                     @Override
@@ -202,30 +199,29 @@ public class VasttrafikServiceImpl {
         System.out.println(date);
         System.out.println(time);
         vasttrafikService
-                .getTrips(originId, destinationId, date, time, "json","Bearer " + token)
+                .getTrips(originId, destinationId, date, time, "json", "Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                         try {
                             Thread.sleep(2000);
-                            if(response.code() >= 200 && response.code() <= 299) {
+                            if (response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
                                 System.out.println(body);
                                 List<Trip> trips = new VasttrafikParser().getTrips(body);
-                                if(original.getOrigin().equals("Fredrikshamn") || original.getOrigin().equals("StenaTerminalen, Fredrikshamn")) {
-                                    for(Trip trip : trips) {
+                                if (original.getOrigin().equals("Fredrikshamn") || original.getOrigin().equals("StenaTerminalen, Fredrikshamn")) {
+                                    for (Trip trip : trips) {
                                         trip.addRouteStart(new StenaLineParser(context).getRoute(original));
                                     }
                                 }
-                                if(original.getDestination().equals("Fredrikshamn") || original.getDestination().equals("StenaTerminalen, Fredrikshamn")) {
-                                    for(Trip trip : trips) {
+                                if (original.getDestination().equals("Fredrikshamn") || original.getDestination().equals("StenaTerminalen, Fredrikshamn")) {
+                                    for (Trip trip : trips) {
                                         trip.addRouteEnd(new StenaLineParser(context).getRoute(original));
                                     }
                                 }
                                 data.postValue(trips);
                                 isLoading.postValue(false);
-                            }
-                            else onFetchFail(response.code());
+                            } else onFetchFail(response.code());
                         } catch (IOException | InterruptedException | JSONException e) {
                             e.printStackTrace();
                             onFetchFail(response.code());

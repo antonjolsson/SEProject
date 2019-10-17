@@ -50,34 +50,34 @@ public class SavedTripFragment extends Fragment {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT) {
 
             @Override
-                    public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                        final int startPos = viewHolder.getAdapterPosition();
-                        final int targetPos = target.getAdapterPosition();
-                        tripResultAdapter.switchPosition(startPos, targetPos);
-                        return true;
-                    }
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                final int startPos = viewHolder.getAdapterPosition();
+                final int targetPos = target.getAdapterPosition();
+                tripResultAdapter.switchPosition(startPos, targetPos);
+                return true;
+            }
 
-                    @Override
-                    public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
-                        Snackbar
-                            .make(view, "Deleted Trip", Snackbar.LENGTH_LONG)
-                            .setAction("UNDO", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    tripResultAdapter.notifyDataSetChanged();
+            @Override
+            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+                Snackbar
+                        .make(view, "Deleted Trip", Snackbar.LENGTH_LONG)
+                        .setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                tripResultAdapter.notifyDataSetChanged();
+                            }
+                        })
+                        .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                            @Override
+                            public void onDismissed(Snackbar transientBottomBar, int event) {
+                                if (event == (DISMISS_EVENT_TIMEOUT | DISMISS_EVENT_SWIPE)) {
+                                    viewModel.removeTrip(tripResultAdapter.getData().get(viewHolder.getAdapterPosition()));
                                 }
-                            })
-                            .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                                @Override
-                                public void onDismissed(Snackbar transientBottomBar, int event) {
-                                    if(event == (DISMISS_EVENT_TIMEOUT | DISMISS_EVENT_SWIPE)) {
-                                        viewModel.removeTrip(tripResultAdapter.getData().get(viewHolder.getAdapterPosition()));
-                                    }
-                                }
-                            })
-                            .show();
-                    }
-                })
+                            }
+                        })
+                        .show();
+            }
+        })
                 .attachToRecyclerView(recyclerView);
 
     }

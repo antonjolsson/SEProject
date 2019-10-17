@@ -49,18 +49,18 @@ public class SavedTripDetailsFragment extends Fragment {
         return view;
     }
 
-    private void initViewModel(){
+    private void initViewModel() {
         viewModel = InjectorUtils.getTripResultViewModel(getContext(), getActivity());
         tripData = viewModel.getTripLiveData().getValue();
     }
 
-    private void initRecyclerView(View view){
+    private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.routesRecyclerView);
         recyclerView.setAdapter(new RoutesAdapter(viewModel));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private void deleteSavedTrip(){
+    private void deleteSavedTrip() {
         NotificationManagerCompat.from(Objects.requireNonNull(getActivity())).notify(0, getNotification());
         viewModel.removeTrip(tripData);
     }

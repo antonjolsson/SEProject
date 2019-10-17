@@ -92,8 +92,7 @@ public class SearchFragment extends Fragment {
                 if (Utilities.isNow(calendar)) {
                     nowTextView.setVisibility(View.INVISIBLE);
                     nowTextView.setEnabled(false);
-                }
-                else {
+                } else {
                     nowTextView.setVisibility(View.VISIBLE);
                     nowTextView.setEnabled(true);
                 }
@@ -246,7 +245,7 @@ public class SearchFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(toTextField);
                 else {
-                   //vasttrafikRepository.getMatching(toTextField.getText().toString());
+                    //vasttrafikRepository.getMatching(toTextField.getText().toString());
                     searchViewModel.autoComplete(toTextField.getText().toString());
                     return false;
                 }

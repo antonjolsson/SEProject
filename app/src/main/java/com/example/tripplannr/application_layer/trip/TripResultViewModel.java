@@ -73,7 +73,9 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         return mRouteLiveData;
     }
 
-    public void updateRoute(Route route) {mRouteLiveData.setValue(route);}
+    public void updateRoute(Route route) {
+        mRouteLiveData.setValue(route);
+    }
 
 
     /*private List<Trip> buildFakeTrips() {

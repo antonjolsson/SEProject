@@ -11,7 +11,7 @@ public class SearchViewModelFactory extends ViewModelProvider.NewInstanceFactory
     private static SearchViewModelFactory instance;
 
     public static SearchViewModelFactory getInstance(VasttrafikRepository vasttrafikRepository) {
-        if(instance == null) instance = new SearchViewModelFactory(vasttrafikRepository);
+        if (instance == null) instance = new SearchViewModelFactory(vasttrafikRepository);
         return instance;
     }
 

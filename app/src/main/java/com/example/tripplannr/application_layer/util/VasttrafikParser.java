@@ -22,17 +22,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class VasttrafikParser implements TripParser{
+public class VasttrafikParser implements TripParser {
 
 
-    public VasttrafikParser() {}
+    public VasttrafikParser() {
+    }
 
     public List<TripLocation> getMatching(String data) throws JSONException {
         List<TripLocation> locations = new ArrayList<>();
 
         JSONObject json = new JSONObject(data);
         JSONArray stops = json.getJSONObject("LocationList").getJSONArray("StopLocation");
-        if(json.getJSONObject("LocationList").has("CoordLocation")) {
+        if (json.getJSONObject("LocationList").has("CoordLocation")) {
             try {
                 JSONArray others = json.getJSONObject("LocationList").getJSONArray("CoordLocation");
                 for (int i = 0; i < others.length(); i++) {
@@ -45,7 +46,7 @@ public class VasttrafikParser implements TripParser{
             }
         }
 
-        for (int i = 0; i < stops.length(); i++){
+        for (int i = 0; i < stops.length(); i++) {
             Location location = new Location("");
             location.setLongitude(stops.getJSONObject(i).getDouble("lon"));
             location.setLatitude(stops.getJSONObject(i).getDouble("lat"));
@@ -76,7 +77,7 @@ public class VasttrafikParser implements TripParser{
         JSONObject jsonObject = new JSONObject(data);
         JSONArray jsonPoints = jsonObject.getJSONObject("Points").getJSONArray("Point");
 
-        for (int i = 0; i < jsonPoints.length(); i++){
+        for (int i = 0; i < jsonPoints.length(); i++) {
             JSONObject coordinates = jsonPoints.getJSONObject(i);
             points.add(new LatLng(coordinates.getDouble("lat"), coordinates.getDouble("lon")));
 
@@ -93,7 +94,7 @@ public class VasttrafikParser implements TripParser{
         JSONArray alternatives = jsonObject.getJSONObject("TripList").getJSONArray("Trip");
 
         // Build trips for each alternative
-        for (int i = 0; i < alternatives.length(); i++){
+        for (int i = 0; i < alternatives.length(); i++) {
             List<Route> routes = new ArrayList<>();
             // Leg is a collection of sub routes
             try {
@@ -182,8 +183,8 @@ public class VasttrafikParser implements TripParser{
     }
 
     private LatLng getCoordinates(String name, List<TripLocation> stops) {
-        for (TripLocation stop: stops){
-            if(name.equals(stop.getName()))
+        for (TripLocation stop : stops) {
+            if (name.equals(stop.getName()))
                 return new LatLng(stop.getLocation().getLatitude(), stop.getLocation().getLongitude());
         }
         // No Match

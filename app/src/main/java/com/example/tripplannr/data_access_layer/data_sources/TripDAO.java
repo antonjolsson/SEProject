@@ -43,14 +43,14 @@ public abstract class TripDAO {
     public void save(final Trip trip) {
         final int id = (int) insertTrip(trip);
         insertAllRoutes(trip.getRoutes()
-                            .stream()
-                            .map(new Function<Route, Route>() {
-                                @Override
-                                public Route apply(Route route) {
-                                    route.setTripId(id);
-                                    return route;
-                                }
-                            }).collect(Collectors.toCollection(new Supplier<List<Route>>() {
+                .stream()
+                .map(new Function<Route, Route>() {
+                    @Override
+                    public Route apply(Route route) {
+                        route.setTripId(id);
+                        return route;
+                    }
+                }).collect(Collectors.toCollection(new Supplier<List<Route>>() {
                     @Override
                     public List<Route> get() {
                         return new ArrayList<>();

@@ -9,7 +9,7 @@ public class FerryInfo {
     private boolean lounge;
     private String url;
 
-    public FerryInfo(String name, boolean food, boolean largeBorderShop,boolean conference, boolean lounge, String url) {
+    public FerryInfo(String name, boolean food, boolean largeBorderShop, boolean conference, boolean lounge, String url) {
         this.name = name;
         this.food = food;
         this.largeBorderShop = largeBorderShop;
