@@ -127,7 +127,7 @@ public class StenaLineParser {
             JSONObject objRoute = obj.getJSONObject("JourneyDetail").getJSONObject(jRef);
 
             String origin_name = objRoute.getJSONObject("Origin").getString("name");
-            String origin_track = "";
+            String origin_track = "A";
             Location origin_location = new Location("");
             origin_location.setLatitude(objRoute.getJSONObject("Origin").getDouble("lat"));
             origin_location.setLongitude(objRoute.getJSONObject("Origin").getDouble("lon"));
@@ -135,7 +135,7 @@ public class StenaLineParser {
             TripLocation origin = new TripLocation(origin_name, origin_location, origin_track);
 
             String destination_name = objRoute.getJSONObject("Destination").getString("name");
-            String destination_track = "";
+            String destination_track = "A";
             Location destination_location = new Location("");
             destination_location.setLatitude(objRoute.getJSONObject("Destination").getDouble("lat"));
             destination_location.setLongitude(objRoute.getJSONObject("Destination").getDouble("lon"));
@@ -204,6 +204,7 @@ public class StenaLineParser {
         }
         return locationList;
     }
+
 
 
 

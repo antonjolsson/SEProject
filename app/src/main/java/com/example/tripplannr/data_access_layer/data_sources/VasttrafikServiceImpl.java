@@ -1,6 +1,7 @@
 package com.example.tripplannr.data_access_layer.data_sources;
 
 import android.content.Context;
+import android.location.Location;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -10,6 +11,7 @@ import com.example.tripplannr.application_layer.util.StenaLineParser;
 import com.example.tripplannr.application_layer.util.TripDictionary;
 import com.example.tripplannr.application_layer.util.VasttrafikParser;
 import com.example.tripplannr.domain_layer.Route;
+import com.example.tripplannr.domain_layer.TravelTimes;
 import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.domain_layer.TripLocation;
 import com.example.tripplannr.domain_layer.TripQuery;
@@ -35,6 +37,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.tripplannr.domain_layer.ModeOfTransport.WALK;
 
 /**
  * Not sure if this should be a repo or implementation as retrofit might create an implementation under the hood
@@ -214,11 +218,15 @@ public class VasttrafikServiceImpl {
                                 List<Trip> trips = new VasttrafikParser().getTrips(body);
                                 if(original.getOrigin().equals("Fredrikshamn") || original.getOrigin().equals("StenaTerminalen, Fredrikshamn")) {
                                     for(Trip trip : trips) {
+                                        trip.addRouteStart(stenaToMasthugget(trip.getRoutes().get(0)));
                                         trip.addRouteStart(new StenaLineParser(context).getRoute(original));
+
+
                                     }
                                 }
                                 if(original.getDestination().equals("Fredrikshamn") || original.getDestination().equals("StenaTerminalen, Fredrikshamn")) {
                                     for(Trip trip : trips) {
+                                        trip.addRouteEnd(masthuggetToStena(trip.getRoutes().get(trip.getRoutes().size()-1)));
                                         trip.addRouteEnd(new StenaLineParser(context).getRoute(original));
                                     }
                                 }
@@ -285,4 +293,37 @@ public class VasttrafikServiceImpl {
                     }
                 });
     }
+    private Route stenaToMasthugget(Route route)
+    {
+
+        Location location = new Location("");
+        location.setLongitude(11.946647);
+        location.setLatitude(57.701843);
+        TripLocation origin = new TripLocation("StenaTerminalen, Göteborg", location,"A");
+        TravelTimes travelTimes = new TravelTimes(route.getTimes().getDeparture(),route.getTimes().getDeparture().minusMinutes(5));
+        Route returnRoute = new Route.Builder()
+                .origin(origin)
+                .destination(route.getDestination())
+                .mode(WALK)
+                .times(travelTimes)
+                .build();
+        return returnRoute;
+    }
+    private Route masthuggetToStena(Route route)
+    {
+
+        Location location = new Location("");
+        location.setLongitude(11.946647);
+        location.setLatitude(57.701843);
+        TripLocation destination = new TripLocation("StenaTerminalen, Göteborg", location,"A");
+        TravelTimes travelTimes = new TravelTimes(route.getTimes().getArrival(),route.getTimes().getArrival().plusMinutes(5));
+        Route returnRoute = new Route.Builder()
+                .origin(route.getOrigin())
+                .destination(destination)
+                .mode(WALK)
+                .times(travelTimes)
+                .build();
+        return returnRoute;
+    }
+
 }
