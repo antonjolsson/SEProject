@@ -58,6 +58,10 @@ public class TripQuery {
         this.origin = origin;
     }
 
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
     public static final class Builder {
         private String origin;
         private String destination;
