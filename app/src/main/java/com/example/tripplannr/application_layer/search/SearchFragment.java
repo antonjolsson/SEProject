@@ -26,6 +26,7 @@ import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 
 import com.example.tripplannr.R;
+import com.example.tripplannr.application_layer.addressservice.LocationService;
 import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.example.tripplannr.domain_layer.TripLocation;
 import com.example.tripplannr.application_layer.search.SearchViewModel.LocationField;
@@ -267,29 +268,11 @@ public class SearchFragment extends Fragment {
     }
 
     private boolean setLocationOnEnter(EditText textField, View view) {
-        Location location = getLocation(textField.getText().toString());
+        Location location = LocationService.getLocation(textField.getText().toString(), getContext());
         searchViewModel.setLocation(location, textField.getText().toString());
         hideKeyboardFrom(Objects.requireNonNull(getContext()),
                 Objects.requireNonNull(view));
         return true;
-    }
-
-    // TODO: Move this to appropriate class
-    private Location getLocation(String address) {
-        Geocoder geocoder = new Geocoder(getContext());
-        List<Address> addresses;
-        Location location = null;
-        try {
-            addresses = geocoder.getFromLocationName(address, 1);
-            if (addresses.size() > 0) {
-                location = new Location("");
-                location.setLatitude(addresses.get(0).getLatitude());
-                location.setLongitude(addresses.get(0).getLongitude());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return location;
     }
 
     // Swap origin and destination
