@@ -123,7 +123,7 @@ public class ResultMapFragment extends MapFragment {
             for (int j = i + 1; j < points.size(); j++) {
                 Location.distanceBetween(points.get(i).latitude, points.get(i).longitude,
                         points.get(j).latitude, points.get(j).longitude, results);
-                if (results[0] > longestDist) {
+                if (results[0] >= longestDist) {
                     longestDist = results[0];
                     mostRemotePoints[0] = points.get(i);
                     mostRemotePoints[1] = points.get(j);
