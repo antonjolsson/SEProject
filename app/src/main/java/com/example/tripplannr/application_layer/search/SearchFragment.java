@@ -64,6 +64,23 @@ public class SearchFragment extends Fragment {
         timeButton = Objects.requireNonNull(view).findViewById(R.id.timeButton);
         searchButton = Objects.requireNonNull(view).findViewById(R.id.searchButton);
         nowTextView = Objects.requireNonNull(view).findViewById(R.id.nowTextView);
+        toTextField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    System.out.println("Lost focus");
+                    System.out.println(toTextField.getText().toString());
+                    System.out.println();
+                    setLocationOnEnter(toTextField, v);
+                }
+            }
+        });
+        fromTextField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) setLocationOnEnter(fromTextField, v);
+            }
+        });
     }
 
     private void setObservers() {
@@ -177,6 +194,8 @@ public class SearchFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toTextField.clearFocus();
+                fromTextField.clearFocus();
                 if (validateForm()) {
                     ((InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE)))
                             .hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
@@ -219,7 +238,7 @@ public class SearchFragment extends Fragment {
         fromTextField.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(fromTextField);
+                if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(fromTextField, v);
                 else {
                     searchViewModel.autoComplete(fromTextField.getText().toString());
                     return true;
@@ -240,7 +259,7 @@ public class SearchFragment extends Fragment {
         toTextField.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(toTextField);
+                if (keyCode == KeyEvent.KEYCODE_ENTER) return setLocationOnEnter(toTextField, v);
                 else {
                     searchViewModel.autoComplete(toTextField.getText().toString());
                     return false;
@@ -249,11 +268,11 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private boolean setLocationOnEnter(EditText textField) {
+    private boolean setLocationOnEnter(EditText textField, View view) {
         Location location = getLocation(textField.getText().toString());
         searchViewModel.setLocation(location, textField.getText().toString());
         hideKeyboardFrom(Objects.requireNonNull(getContext()),
-                Objects.requireNonNull(getView()));
+                Objects.requireNonNull(view));
         return true;
     }
 
