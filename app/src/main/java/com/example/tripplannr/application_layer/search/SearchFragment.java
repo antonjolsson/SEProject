@@ -155,7 +155,7 @@ public class SearchFragment extends Fragment {
     }
 
     private String formatLocationName(String name) {
-        return name.replaceAll(",(\\s\\d+)+", ",").
+        return name == null ? null : name.replaceAll(",(\\s\\d+)+", ",").
                 replaceAll(",(\\s\\D+)+,(\\s\\D+)+", ",$1");
     }
 
