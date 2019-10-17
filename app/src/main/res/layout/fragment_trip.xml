@@ -28,7 +28,7 @@
             android:elevation="@dimen/modal_fragment_elevation"
             android:outlineProvider="bounds"/>
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -42,24 +42,35 @@
                 android:name="com.example.tripplannr.application_layer.trip.map.ResultMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="8dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/getNotificationButton"
                 android:layout_width="249dp"
                 android:layout_height="42dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="225dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="25dp"
+                android:enabled="@{saved ? false : true}"
                 android:fontFamily="@font/rajdhani_medium"
                 android:text="@string/get_notifications"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:onClick="@{(v) -> fragment.activateNotifications(v)}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bookButton" />
+
+            <Button
+                android:id="@+id/bookButton"
+                android:layout_width="249dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="125dp"
                 android:onClick="@{(v) -> trip.hasFerry() ? fragment.createDialog(@string/vasttrafik, v) : fragment.createDialog(@string/vasttrafik, @string/stenaline, v)}"
-                android:enabled="@{saved ? false : true}"/>
-        </RelativeLayout>
+                android:text="Book"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/trip_map_fragment" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -63,10 +63,10 @@ public class SearchViewModel extends ViewModel {
 
     public void obtainTrips(String origin, String destination) {
         // TODO, reimplement string search?
-        //if(this.origin.getValue() == null)
-        //    this.origin.setValue(new TripLocation(origin,origin));
-        //if(this.destination.getValue() == null)
-        //    this.destination.setValue(new TripLocation(destination, new Location("")));
+        if(this.origin.getValue() == null)
+            this.origin.setValue(new TripLocation(origin,new Location("")));
+        if(this.destination.getValue() == null)
+            this.destination.setValue(new TripLocation(destination, new Location("")));
         vasttrafikRepository.loadTrips(obtainQuery());
     }
 
@@ -158,6 +158,10 @@ public class SearchViewModel extends ViewModel {
 
     public boolean isInitOriginField() {
         return initOriginField;
+    }
+
+    public void setInitOriginField(boolean initOriginField) {
+        this.initOriginField = initOriginField;
     }
 
     public void setTempLocationField(LocationField locationField) {

@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -64,23 +65,6 @@ public class SearchFragment extends Fragment {
         timeButton = Objects.requireNonNull(view).findViewById(R.id.timeButton);
         searchButton = Objects.requireNonNull(view).findViewById(R.id.searchButton);
         nowTextView = Objects.requireNonNull(view).findViewById(R.id.nowTextView);
-        toTextField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    System.out.println("Lost focus");
-                    System.out.println(toTextField.getText().toString());
-                    System.out.println();
-                    setLocationOnEnter(toTextField, v);
-                }
-            }
-        });
-        fromTextField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus) setLocationOnEnter(fromTextField, v);
-            }
-        });
     }
 
     private void setObservers() {
@@ -129,9 +113,24 @@ public class SearchFragment extends Fragment {
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()),
                 android.R.layout.simple_dropdown_item_1line, addresses);
-        if (searchViewModel.getFocusedLocationField() == ORIGIN)
+        if (searchViewModel.getFocusedLocationField() == ORIGIN) {
             fromTextField.setAdapter(adapter);
-        else toTextField.setAdapter(adapter);
+            fromTextField.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    setLocationOnEnter(fromTextField, view);
+                }
+            });
+        }
+        else{
+            toTextField.setAdapter(adapter);
+            toTextField.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    setLocationOnEnter(toTextField, view);
+                }
+            });
+        }
     }
 
     private void setTimeButtonText(Calendar calendar) {
@@ -194,8 +193,6 @@ public class SearchFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toTextField.clearFocus();
-                fromTextField.clearFocus();
                 if (validateForm()) {
                     ((InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE)))
                             .hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
