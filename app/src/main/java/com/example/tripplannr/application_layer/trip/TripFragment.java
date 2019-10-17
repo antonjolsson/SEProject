@@ -75,7 +75,7 @@ public class TripFragment extends Fragment {
         tripData = tripResultViewModel.getTripLiveData().getValue();
     }
 
-    private void activateNotifications(View view) {
+    public void activateNotifications(View view) {
         tripBinding.setSaved(true);
         NotificationManagerCompat.from(Objects.requireNonNull(getActivity())).notify(0, getNotification());
         Snackbar
@@ -150,12 +150,6 @@ public class TripFragment extends Fragment {
     private AlertDialog.Builder getDialogBuilder(final View view) {
         return new AlertDialog.Builder(getActivity())
                     .setTitle("Book trip?")
-                    .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            activateNotifications(view);
-                        }
-                    })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
