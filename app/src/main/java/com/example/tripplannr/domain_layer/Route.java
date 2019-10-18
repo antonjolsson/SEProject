@@ -43,10 +43,12 @@ public class Route {
     }
 
     private Route(Builder builder) {
-        origin = builder.origin;
-        destination = builder.destination;
+        setOrigin(builder.origin);
+        setDestination(builder.destination);
         times = builder.times;
         mode = builder.mode;
+        name = builder.name;
+        setFerryinfo(builder.ferryinfo);
     }
 
     public String getName() {
@@ -105,11 +107,35 @@ public class Route {
         return locations;
     }
 
+    public FerryInfo getFerryinfo() {
+        return ferryinfo;
+    }
+
+
+
+    public void setFerryinfo(FerryInfo ferryinfo) {
+        this.ferryinfo = ferryinfo;
+    }
+
+    public void setLegs(List<Location> legs) {
+        this.legs = legs;
+    }
+
+    public void setJourneyRef(String journeyRef) {
+        this.journeyRef = journeyRef;
+    }
+
+    public String getJourneyRef() {
+        return journeyRef;
+    }
+
     public static final class Builder {
         private TripLocation origin;
         private TripLocation destination;
         private TravelTimes times;
         private ModeOfTransport mode;
+        private String name;
+        private FerryInfo ferryinfo;
 
         public Builder() {
         }
@@ -134,24 +160,18 @@ public class Route {
             return this;
         }
 
+        public Builder name(String val) {
+            name = val;
+            return this;
+        }
+
+        public Builder ferryinfo(FerryInfo val) {
+            ferryinfo = val;
+            return this;
+        }
+
         public Route build() {
             return new Route(this);
         }
-    }
-
-    public void setFerryinfo(FerryInfo ferryinfo) {
-        this.ferryinfo = ferryinfo;
-    }
-
-    public void setLegs(List<Location> legs) {
-        this.legs = legs;
-    }
-
-    public void setJourneyRef(String journeyRef) {
-        this.journeyRef = journeyRef;
-    }
-
-    public String getJourneyRef() {
-        return journeyRef;
     }
 }

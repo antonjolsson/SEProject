@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="ferryInfo"
+            type="com.example.tripplannr.domain_layer.FerryInfo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        tools:context=".application_layer.trip.FerryInfoFragment">
+
+        <TextView
+            android:id="@+id/resturantTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text='@{"Resturants: " + (ferryInfo.food ? @string/checkmark : "X") }'
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/nameTextView"
+            app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
+
+        <TextView
+            android:id="@+id/shipInfoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginEnd="15dp"
+            android:text="Information about the ship"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text='@{"Name: " + ferryInfo.name}'
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/shipInfoTextView"
+            app:layout_constraintTop_toBottomOf="@+id/shipInfoTextView" />
+
+
+        <TextView
+            android:id="@+id/shopTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text='@{"BorderShop: " + (ferryInfo.largeBorderShop ? @string/checkmark : "X") }'
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/resturantTextView"
+            app:layout_constraintTop_toBottomOf="@+id/resturantTextView" />
+
+        <TextView
+            android:id="@+id/loungeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text='@{"Lounge: " + (ferryInfo.lounge ? @string/checkmark : "X") }'
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/shopTextView"
+            app:layout_constraintTop_toBottomOf="@+id/shopTextView" />
+
+
+        <TextView
+            android:id="@+id/conferenceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text='@{"Conference: " + (ferryInfo.conference ? @string/checkmark : "X") }'
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/loungeTextView"
+            app:layout_constraintTop_toBottomOf="@+id/loungeTextView" />
+
+        <TextView
+            android:id="@+id/urlTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text='@{"Website: " + ferryInfo.url}'
+            android:linksClickable="true"
+            android:autoLink="web"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/conferenceTextView"
+            app:layout_constraintTop_toBottomOf="@+id/conferenceTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

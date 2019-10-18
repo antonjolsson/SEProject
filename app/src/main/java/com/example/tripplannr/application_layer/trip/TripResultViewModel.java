@@ -1,15 +1,29 @@
 package com.example.tripplannr.application_layer.trip;
 
+import android.location.Location;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.tripplannr.data_access_layer.repositories.TripRepository;
 import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
+import com.example.tripplannr.domain_layer.FerryInfo;
+import com.example.tripplannr.domain_layer.ModeOfTransport;
 import com.example.tripplannr.domain_layer.Route;
+import com.example.tripplannr.domain_layer.TravelTimes;
 import com.example.tripplannr.domain_layer.Trip;
+import com.example.tripplannr.domain_layer.TripLocation;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static com.example.tripplannr.domain_layer.ModeOfTransport.BUS;
+import static com.example.tripplannr.domain_layer.ModeOfTransport.FERRY;
+import static com.example.tripplannr.domain_layer.ModeOfTransport.TRAM;
+import static com.example.tripplannr.domain_layer.ModeOfTransport.WALK;
 
 public class TripResultViewModel extends ViewModel implements IClickHandler<Trip> {
 
@@ -23,6 +37,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     private MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
     private MutableLiveData<Route> mRouteLiveData = new MutableLiveData<>();
+    private MutableLiveData<FerryInfo> ferryInfoMutableLiveData = new MutableLiveData<>();
 
     private TripRepository tripRepository;
 
@@ -51,6 +66,8 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         return statusCode;
     }
 
+    public LiveData<FerryInfo> getFerryInfo() { return ferryInfoMutableLiveData; }
+
     @Override
     public void onClick(Trip trip) {
         mTripLiveData.setValue(trip);
@@ -77,8 +94,10 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         mRouteLiveData.setValue(route);
     }
 
+    public void updateFerryInfo(FerryInfo ferryInfo) { ferryInfoMutableLiveData.setValue(ferryInfo); }
 
-    /*private List<Trip> buildFakeTrips() {
+
+    public List<Trip> buildFakeTrips() {
         Route route1 = new Route.Builder()
                 .origin(new TripLocation("Lillhagens Station", new Location(""), "A"))
                 .destination(new TripLocation("Brunnsparken", new Location(""), "A"))
@@ -93,13 +112,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                 .destination(new TripLocation("Brunnsparken", new Location(""), "C"))
                 .mode(WALK)
                 .build();
-    public void setSelectedRoute(Route route) {
-        mRouteLiveData.setValue(route);
-    }
 
-    public LiveData<Route> getRouteLiveData() {
-        return mRouteLiveData;
-    }
         Route route3 = new Route.Builder()
                 .mode(WALK)
                 .origin(new TripLocation("Brunnsparken", new Location(""), "C"))
@@ -119,22 +132,17 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                 .destination(new TripLocation("Fredrikshavn", new Location(""), "Gate B"))
                 .mode(FERRY)
                 .times(new TravelTimes(LocalDateTime.now().plusMinutes(58), LocalDateTime.now().plusDays(1)))
+                .ferryinfo(new FerryInfo("ST Danica", true, true, false, true, "https://stenaline.se"))
                 .build();
         Trip trip = new Trip.Builder()
                 .name("Göteborg, Fredrikshavn")
-                .origin(new TripLocation("Lillhagens Station", new Location(""), "A"))
-                .destination(new TripLocation("Fredrikshavn", new Location(""), "Gate B"))
-                .times(new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusDays(1).plusMinutes(58)))
                 .routes(Arrays.asList(route1, route2, route3, route4, route5))
                 .build();
         Trip trip2 = new Trip.Builder()
                 .name("Lillhagens Station, Brunnsparken")
-                .origin(new TripLocation("Lillhagens Station", new Location(""), "A"))
-                .destination(new TripLocation("Brunnsparken", new Location(""), "A"))
-                .times(new TravelTimes(LocalDateTime.now(), LocalDateTime.now().plusMinutes(18)))
                 .routes(Arrays.asList(route1))
                 .build();
         return new ArrayList<>(Arrays.asList(trip, trip2));
-    }*/
+    }
 
 }
