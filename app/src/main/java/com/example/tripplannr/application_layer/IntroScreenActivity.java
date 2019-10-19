@@ -4,10 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
 import com.example.tripplannr.R;
 import com.example.tripplannr.application_layer.trip.TripActivity;
 
-
+@SuppressWarnings({"FieldCanBeLocal"})
 public class IntroScreenActivity extends Activity {
 
      // vvv Set this to false to bypass intro screen
@@ -27,7 +28,5 @@ public class IntroScreenActivity extends Activity {
                 finish();
             }
         }, introScreen ? DISPLAY_TIME : 0);
-
     }
-
 }

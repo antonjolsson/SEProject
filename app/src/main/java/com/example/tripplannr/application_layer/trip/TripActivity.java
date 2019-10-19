@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.Window;
 
 import com.example.tripplannr.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
