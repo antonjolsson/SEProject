@@ -95,6 +95,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="startFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-632" />
+                            <option name="y" value="26" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                 </map>
               </option>
             </LayoutPositions>

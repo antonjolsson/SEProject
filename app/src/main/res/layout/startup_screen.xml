@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <FrameLayout
+        android:layout_width="270dp"
+        android:layout_height="121dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:id="@+id/plannrText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:text="TextView"
+            android:textColor="@color/yellow"
+            android:textSize="50sp"
+            android:textStyle="italic"
+            tools:text="PLANNR"
+            android:shadowColor="@color/yellow"
+            android:shadowDx="0.0"
+            android:shadowDy="0.0"
+            android:shadowRadius="20"/>
+
+        <TextView
+            android:id="@+id/tripText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:fontFamily="@font/arizonia"
+            android:foregroundGravity="left"
+            android:rotation="-40"
+            android:text="TextView"
+            android:textColor="@color/magenta"
+            android:textSize="70sp"
+            tools:text="Trip"
+            android:shadowColor="@color/magenta"
+            android:shadowDx="0.0"
+            android:shadowDy="0.0"
+            android:shadowRadius="20"/>
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
