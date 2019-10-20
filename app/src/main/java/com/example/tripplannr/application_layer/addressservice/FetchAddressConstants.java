@@ -3,6 +3,7 @@ package com.example.tripplannr.application_layer.addressservice;
 public final class FetchAddressConstants {
     public static final int SUCCESS_RESULT = 0;
     public static final int FAILURE_RESULT = 1;
+    @SuppressWarnings("SpellCheckingInspection")
     private static final String PACKAGE_NAME =
             "com.google.android.gms.location.sample.locationaddress";
     public static final String RECEIVER = PACKAGE_NAME + ".RECEIVER";

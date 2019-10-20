@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
+    @SuppressWarnings("SpellCheckingInspection")
     @Test
     public void useAppContext() {
         // Context of the app under test.
