@@ -20,9 +20,9 @@ import java.util.Objects;
 
 public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.TripResultViewHolder> implements GenericTripAdapter<Trip> {
 
-    private List<Trip> trips;
-    private int viewHolderNavigation;
-    private TripResultViewModel viewModel;
+    private final List<Trip> trips;
+    private final int viewHolderNavigation;
+    private final TripResultViewModel viewModel;
 
     public TripResultAdapter(List<Trip> trips, int viewHolderNavigation, TripResultViewModel viewModel) {
         if (trips != null) this.trips = new ArrayList<>(trips);
@@ -68,11 +68,11 @@ public class TripResultAdapter extends RecyclerView.Adapter<TripResultAdapter.Tr
 
     public class TripResultViewHolder extends RecyclerView.ViewHolder {
 
-        private TripResultViewHolderBinding tripResultViewHolderBinding;
-        private TripResultViewModel viewModel;
-        private int navigation;
+        private final TripResultViewHolderBinding tripResultViewHolderBinding;
+        private final TripResultViewModel viewModel;
+        private final int navigation;
 
-        public TripResultViewHolder(@NonNull View itemView, int navigation, TripResultViewModel viewModel) {
+        TripResultViewHolder(@NonNull View itemView, int navigation, TripResultViewModel viewModel) {
             super(itemView);
             tripResultViewHolderBinding = DataBindingUtil.bind(itemView);
             this.viewModel = viewModel;

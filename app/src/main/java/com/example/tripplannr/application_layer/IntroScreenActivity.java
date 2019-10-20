@@ -13,9 +13,9 @@ public class IntroScreenActivity extends Activity {
 
      // vvv Set this to false to bypass intro screen
 
-    private boolean introScreen = true;
+    private final boolean introScreen = true;
 
-    private static int DISPLAY_TIME = 3000;
+    private static final int DISPLAY_TIME = 3000;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

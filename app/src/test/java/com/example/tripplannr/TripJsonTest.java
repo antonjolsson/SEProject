@@ -1,6 +1,6 @@
 package com.example.tripplannr;
 
-public class TripJsonTest {
+class TripJsonTest {
 
     public static String TRIPS = "{\n" +
             "  \"TripList\": {\n" +

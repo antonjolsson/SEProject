@@ -24,7 +24,7 @@ import static com.example.tripplannr.application_layer.addressservice.FetchAddre
 
 public class FetchAddressIntentService extends IntentService {
 
-    protected ResultReceiver receiver;
+    private ResultReceiver receiver;
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.

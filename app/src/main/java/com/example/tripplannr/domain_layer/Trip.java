@@ -13,7 +13,7 @@ public class Trip implements Locatable{
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private String name;
+    private final String name;
     @Ignore
     private List<Route> routes;
 
@@ -24,7 +24,7 @@ public class Trip implements Locatable{
     @Ignore
     private TravelTimes times;
     // private List<> notifications;
-    // private FerryInfo ferryinfo;
+    // private FerryInfo ferryInfo;
 
 
     public Trip(String name) {

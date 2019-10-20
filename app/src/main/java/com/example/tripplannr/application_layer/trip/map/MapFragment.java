@@ -42,7 +42,7 @@ import java.util.Objects;
 import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.DESTINATION;
 import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.ORIGIN;
 
-public abstract class MapFragment extends Fragment implements OnMapReadyCallback,
+abstract class MapFragment extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMapClickListener {
 
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -175,7 +175,7 @@ public abstract class MapFragment extends Fragment implements OnMapReadyCallback
         }
     }
 
-    private LocationCallback mLocationCallback = new LocationCallback() {
+    private final LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             List<Location> locationList = locationResult.getLocations();
@@ -237,7 +237,7 @@ public abstract class MapFragment extends Fragment implements OnMapReadyCallback
         }
     }
 
-    protected void setListeners() {
+    void setListeners() {
         model.getDestination().observe(this, new Observer<TripLocation>() {
             @Override
             public void onChanged(TripLocation tripLocation) {

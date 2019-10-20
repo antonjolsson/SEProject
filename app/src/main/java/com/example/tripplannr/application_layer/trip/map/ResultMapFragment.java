@@ -104,7 +104,7 @@ public class ResultMapFragment extends MapFragment {
         points.add(Utilities.locationToLatlng(trip.getOrigin().getLocation()));
         points.add(Utilities.locationToLatlng(trip.getDestination().getLocation()));
         for (Route route : trip.getRoutes()) {
-            getLatLngsFromRoute(points, route);
+            getCoordinatesFromRoute(points, route);
         }
         centerPoints(points);
     }
@@ -120,9 +120,9 @@ public class ResultMapFragment extends MapFragment {
                 include(mostRemotePoints[1]).build();
     }
 
-    private void getLatLngsFromRoute(List<LatLng> points, Route route) {
+    private void getCoordinatesFromRoute(List<LatLng> points, Route route) {
         points.add(Utilities.locationToLatlng(route.getOrigin().getLocation()));
-        points.add(Utilities.locationToLatlng(route.getDestination().getLocation()));
+        points.add(Utilities.locationToLalLng(route.getDestination().getLocation()));
     }
 
     private LatLng[] getLongestDistance(List<LatLng> points) {
@@ -199,11 +199,11 @@ public class ResultMapFragment extends MapFragment {
                     locatable.getDestination().getTrack()));
     }
 
-    private void setPolylineListener(final List<Polyline> polylines) {
+    private void setPolylineListener(final List<Polyline> polyLines) {
         mMap.setOnPolylineClickListener(new GoogleMap.OnPolylineClickListener() {
             @Override
             public void onPolylineClick(Polyline pLine) {
-                for (Polyline polyline : polylines) {
+                for (Polyline polyline : polyLines) {
                     if (polyline.getId().equals(pLine.getId())) {
                         focusPolyline(polyline);
                         break;
