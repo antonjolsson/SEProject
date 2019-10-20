@@ -32,6 +32,7 @@ public interface VasttrafikService {
             @Query("destId") long destId,
             @Query("date") String date,
             @Query("time") String time,
+            @Query("searchForArrival") String arrival,
             @Query("format") String format,
             @Header("Authorization") String bearer);
 

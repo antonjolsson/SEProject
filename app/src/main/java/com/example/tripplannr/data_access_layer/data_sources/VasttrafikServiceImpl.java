@@ -257,8 +257,14 @@ public class VasttrafikServiceImpl {
         String time = tripQuery.getTime().getHour() + ":" + tripQuery.getTime().getMinute();
         System.out.println(date);
         System.out.println(time);
+        String arrival;
+        // Check if time is for arrival or departure
+        if(tripQuery.isTimeDeparture())
+            arrival = "0";
+        else
+            arrival = "1";
         vasttrafikService
-                .getTrips(originId, destinationId, date, time, "json", "Bearer " + token)
+                .getTrips(originId, destinationId, date, time, arrival, "json", "Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
