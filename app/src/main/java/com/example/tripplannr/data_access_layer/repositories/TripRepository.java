@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 
 public class TripRepository {
 
-    private TripDAO tripDAO;
+    private final TripDAO tripDAO;
 
     public TripRepository(TripDAO tripDAO) {
         this.tripDAO = tripDAO;
@@ -69,10 +69,10 @@ public class TripRepository {
 
     private static class DataBaseTask<T, R> extends AsyncTask<Void, Void, R> {
 
-        private T data;
-        private Function<T, R> asyncFunction;
+        private final T data;
+        private final Function<T, R> asyncFunction;
 
-        public DataBaseTask(T data, Function<T, R> asyncFunction) {
+        DataBaseTask(T data, Function<T, R> asyncFunction) {
             this.data = data;
             this.asyncFunction = asyncFunction;
         }

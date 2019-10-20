@@ -43,19 +43,19 @@ public class VasttrafikServiceImpl {
         return instance;
     }
 
-    private VasttrafikService vasttrafikService;
+    private final VasttrafikService vasttrafikService;
 
-    private MutableLiveData<List<Trip>> data = new MutableLiveData<>();
+    private final MutableLiveData<List<Trip>> data = new MutableLiveData<>();
 
-    private MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
-    private MutableLiveData<Integer> statusCode = new MutableLiveData<>();
+    private final MutableLiveData<Integer> statusCode = new MutableLiveData<>();
 
-    private MutableLiveData<List<TripLocation>> addressMatches = new MutableLiveData<>();
+    private final MutableLiveData<List<TripLocation>> addressMatches = new MutableLiveData<>();
 
     private TripQuery original;
 
-    private Context context;
+    private final Context context;
 
     private VasttrafikServiceImpl(Context context) {
         this.context = context;

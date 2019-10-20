@@ -28,6 +28,7 @@ public class VasttrafikParser implements TripParser {
     public VasttrafikParser() {
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     public List<TripLocation> getMatching(String data) throws JSONException {
         List<TripLocation> locations = new ArrayList<>();
 

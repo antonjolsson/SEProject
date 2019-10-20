@@ -135,11 +135,11 @@ public class TripFragment extends Fragment {
         routesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    public void createDialog(String vasttrafik, String stenaline, View view) {
+    public void createDialog(String vasttrafik, String stenaLine, View view) {
         TextView message = new TextView(getContext());
         message.setText("Book trip here: \n" +
                 vasttrafik + "\n" +
-                stenaline);
+                stenaLine);
         Linkify.addLinks(message, Linkify.WEB_URLS);
         message.setMovementMethod(LinkMovementMethod.getInstance());
         message.setTextSize(18);

@@ -91,10 +91,10 @@ public class ResultMapFragment extends MapFragment {
 
     private void centerItinerary(Trip trip) {
         List<LatLng> points = new ArrayList<>();
-        points.add(locationToLatlng(trip.getOrigin().getLocation()));
-        points.add(locationToLatlng(trip.getDestination().getLocation()));
+        points.add(locationToLatLng(trip.getOrigin().getLocation()));
+        points.add(locationToLatLng(trip.getDestination().getLocation()));
         for (Route route : trip.getRoutes()) {
-            getLatLngsFromRoute(points, route);
+            getCoordinatesFromRoute(points, route);
         }
         centerPoints(points);
     }
@@ -110,9 +110,9 @@ public class ResultMapFragment extends MapFragment {
                 include(mostRemotePoints[1]).build();
     }
 
-    private void getLatLngsFromRoute(List<LatLng> points, Route route) {
-        points.add(locationToLatlng(route.getOrigin().getLocation()));
-        points.add(locationToLatlng(route.getDestination().getLocation()));
+    private void getCoordinatesFromRoute(List<LatLng> points, Route route) {
+        points.add(locationToLatLng(route.getOrigin().getLocation()));
+        points.add(locationToLatLng(route.getDestination().getLocation()));
     }
 
     private LatLng[] getLongestDistance(List<LatLng> points) {
@@ -168,11 +168,11 @@ public class ResultMapFragment extends MapFragment {
                     locatable.getDestination().getTrack()));
     }
 
-    private void setPolylineListener(final List<Polyline> polylines) {
+    private void setPolylineListener(final List<Polyline> polyLines) {
         mMap.setOnPolylineClickListener(new GoogleMap.OnPolylineClickListener() {
             @Override
             public void onPolylineClick(Polyline pLine) {
-                for (Polyline polyline : polylines) {
+                for (Polyline polyline : polyLines) {
                     if (polyline.getId().equals(pLine.getId())) {
                         focusPolyline(polyline);
                         break;
@@ -240,7 +240,7 @@ public class ResultMapFragment extends MapFragment {
         return originLoc;
     }
 
-    private static LatLng locationToLatlng(Location location) {
+    private static LatLng locationToLatLng(Location location) {
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         return new LatLng(latitude, longitude);

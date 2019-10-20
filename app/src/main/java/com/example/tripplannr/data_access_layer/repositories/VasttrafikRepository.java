@@ -14,7 +14,7 @@ import java.util.List;
 
 public class VasttrafikRepository {
 
-    private VasttrafikServiceImpl vasttrafikService;
+    private final VasttrafikServiceImpl vasttrafikService;
 
     public VasttrafikRepository(Context context) {
         System.out.println(context);

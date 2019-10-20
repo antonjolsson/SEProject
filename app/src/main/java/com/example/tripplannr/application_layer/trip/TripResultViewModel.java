@@ -13,16 +13,16 @@ import java.util.List;
 
 public class TripResultViewModel extends ViewModel implements IClickHandler<Trip> {
 
-    private LiveData<List<Trip>> mTripsLiveData;
+    private final LiveData<List<Trip>> mTripsLiveData;
 
-    private LiveData<Boolean> isLoading;
+    private final LiveData<Boolean> isLoading;
 
-    private LiveData<Integer> statusCode;
+    private final LiveData<Integer> statusCode;
 
-    private MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
-    private MutableLiveData<Route> mRouteLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Route> mRouteLiveData = new MutableLiveData<>();
 
-    private TripRepository tripRepository;
+    private final TripRepository tripRepository;
 
     public TripResultViewModel(TripRepository tripRepository, VasttrafikRepository vasttrafikRepository) {
         super();

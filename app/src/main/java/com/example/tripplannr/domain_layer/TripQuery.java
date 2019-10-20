@@ -11,9 +11,9 @@ public class TripQuery {
     private String destination;
     private Location originLocation;
     private Location destinationLocation;
-    private LocalDateTime time;
-    private boolean timeIsDeparture;
-    private List<ModeOfTransport> travelModes;
+    private final LocalDateTime time;
+    private final boolean timeIsDeparture;
+    private final List<ModeOfTransport> travelModes;
 
 
     public TripQuery(String origin, String destination, LocalDateTime time, boolean timeIsDeparture,

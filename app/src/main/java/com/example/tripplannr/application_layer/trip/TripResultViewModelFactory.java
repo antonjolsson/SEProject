@@ -9,8 +9,8 @@ import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepositor
 
 public class TripResultViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private TripRepository tripRepository;
-    private VasttrafikRepository vasttrafikRepository;
+    private final TripRepository tripRepository;
+    private final VasttrafikRepository vasttrafikRepository;
 
     private static TripResultViewModelFactory instance = null;
 

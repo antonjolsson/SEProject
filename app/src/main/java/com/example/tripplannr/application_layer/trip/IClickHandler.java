@@ -1,6 +1,6 @@
 package com.example.tripplannr.application_layer.trip;
 
-public interface IClickHandler<T> {
+interface IClickHandler<T> {
 
     void onClick(T t);
 

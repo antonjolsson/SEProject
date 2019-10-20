@@ -2,12 +2,12 @@ package com.example.tripplannr.domain_layer;
 
 public class FerryInfo {
 
-    private String name;
-    private boolean food;
-    private boolean largeBorderShop;
-    private boolean conference;
-    private boolean lounge;
-    private String url;
+    private final String name;
+    private final boolean food;
+    private final boolean largeBorderShop;
+    private final boolean conference;
+    private final boolean lounge;
+    private final String url;
 
     public FerryInfo(String name, boolean food, boolean largeBorderShop, boolean conference, boolean lounge, String url) {
         this.name = name;

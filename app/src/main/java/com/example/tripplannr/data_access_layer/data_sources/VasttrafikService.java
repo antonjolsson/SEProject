@@ -12,7 +12,8 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
-public interface VasttrafikService {
+@SuppressWarnings("unused")
+interface VasttrafikService {
 
     // Get Västtrafik API access token
     @POST("token")
@@ -65,6 +66,7 @@ public interface VasttrafikService {
             @Header("Authorization") String bearer);
 
     // Get all stops in Västtrafiks database
+    @SuppressWarnings("SpellCheckingInspection")
     @GET(api_path + "location.allstops")
     Call<ResponseBody> getAllStops(
             @Query("format") String format,
