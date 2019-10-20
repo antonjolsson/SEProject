@@ -7,8 +7,8 @@ import android.view.View;
 
 class ViewUtilities {
 
-    final static float SEMI_TRANSPARENT_ALPHA = 0.5f;
-    final static float OPAQUE_ALPHA = 1f;
+    private final static float SEMI_TRANSPARENT_ALPHA = 0.5f;
+    private final static float OPAQUE_ALPHA = 1f;
 
 
     // Set different levels of alpha (opacity) when view pressed and when not
