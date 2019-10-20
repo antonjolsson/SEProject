@@ -1,6 +1,5 @@
 package com.example.tripplannr;
 
-@SuppressWarnings("SpellCheckingInspection")
 class TripJsonTest {
 
     public static String TRIPS = "{\n" +

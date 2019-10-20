@@ -121,8 +121,8 @@ public class ResultMapFragment extends MapFragment {
     }
 
     private void getCoordinatesFromRoute(List<LatLng> points, Route route) {
-        points.add(Utilities.locationToLatlng(route.getOrigin().getLocation()));
-        points.add(Utilities.locationToLalLng(route.getDestination().getLocation()));
+        points.add(locationToLatLng(route.getOrigin().getLocation()));
+        points.add(locationToLatLng(route.getDestination().getLocation()));
     }
 
     private LatLng[] getLongestDistance(List<LatLng> points) {

@@ -28,14 +28,14 @@ import java.util.Locale;
 
 
 public class StenaLineParser {
-    Context mContext;
+    private final Context mContext;
 
 
     public StenaLineParser(Context context) {
         mContext = context.getApplicationContext();
     }
 
-    public String loadJSONFromAsset(String jsonFil) {
+    private String loadJSONFromAsset(String jsonFil) {
         String json;
         try {
             InputStream is = mContext.getAssets().open(jsonFil);
@@ -153,10 +153,10 @@ public class StenaLineParser {
 
             route = new Route(name, origin, destination, times, mode);
 
-            //ska ferryINfo ligga i trip isf ha en add så slipper allt annat bry sig om det
-            route.setFerryinfo(ferryInfo(ferryName));
+            //ska ferryINfo ligga i trip isf ha en add så slipper allt annat bry sig om det, TODO?
+            route.setFerryInfo(ferryInfo(ferryName));
 
-            //Skapar lista av Locations
+            // Create a list of locations
             String geoRef = objRoute.getString("GeometryRef");
             locationList = geoList(geoRef);
 
