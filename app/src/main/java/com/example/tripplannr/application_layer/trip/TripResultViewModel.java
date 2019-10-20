@@ -35,7 +35,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         statusCode = vasttrafikRepository.getStatusCode();
     }
 
-    public LiveData<Trip> getTripLiveData() {
+    public MutableLiveData<Trip> getTripLiveData() {
         return mTripLiveData;
     }
 
@@ -75,6 +75,10 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
 
     public void updateRoute(Route route) {
         mRouteLiveData.setValue(route);
+    }
+
+    public void sendPointsRequest() {
+        vasttrafikRepository.sendPointsRequest(mTripLiveData.getValue());
     }
 
 

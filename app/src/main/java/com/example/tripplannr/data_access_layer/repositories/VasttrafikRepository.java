@@ -3,6 +3,7 @@ package com.example.tripplannr.data_access_layer.repositories;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.tripplannr.data_access_layer.data_sources.VasttrafikServiceImpl;
 import com.example.tripplannr.domain_layer.Route;
@@ -50,8 +51,11 @@ public class VasttrafikRepository {
         return vasttrafikService.getAddressMatches();
     }
 
-    public void addJourneyDetails(String ref, Route route) {
-        vasttrafikService.addJourneyDetails(ref, route);
+    public void addJourneyDetails(String ref, Route route, MutableLiveData<Trip> tripLiveData) {
+        vasttrafikService.addJourneyDetails(ref, route, tripLiveData);
     }
 
+    public void sendPointsRequest(Trip trip) {
+        vasttrafikService.sendPointsRequest(trip);
+    }
 }

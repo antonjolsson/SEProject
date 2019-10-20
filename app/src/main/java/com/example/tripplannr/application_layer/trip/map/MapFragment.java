@@ -135,7 +135,7 @@ public abstract class MapFragment extends Fragment implements OnMapReadyCallback
         }
     }
 
-    void removeMarker(SearchViewModel.LocationField field) {
+    private void removeMarker(SearchViewModel.LocationField field) {
         if (field == DESTINATION && destinationMarker != null) {
             destinationMarker.remove();
         } else if (field == ORIGIN && originMarker != null) {

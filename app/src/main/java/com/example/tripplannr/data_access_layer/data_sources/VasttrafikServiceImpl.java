@@ -350,7 +350,7 @@ public class VasttrafikServiceImpl {
 
     }
 
-    public void addJourneyDetails(final String ref, final Route route) {
+    public void addJourneyDetails(final String ref, final Route route, final MutableLiveData<Trip> tripLiveData) {
         if(ref == null || ref.isEmpty())
             return;
         vasttrafikService
@@ -362,7 +362,8 @@ public class VasttrafikServiceImpl {
                         System.out.println(response.code());
                         System.out.println(response.body());
                         try {
-                            sendJourneyDetailRequest(ref, new JSONObject(response.body().string()).getString("access_token"), route);
+                            sendJourneyDetailRequest(ref, new JSONObject(response.body().string()).
+                                    getString("access_token"), route, tripLiveData);
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
                         }
@@ -370,11 +371,13 @@ public class VasttrafikServiceImpl {
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        System.out.println(t.getMessage());
                     }
                 });
     }
 
-    private void sendJourneyDetailRequest(String ref, String token, final Route route) {
+    private void sendJourneyDetailRequest(String ref, String token, final Route route,
+                                          final MutableLiveData<Trip> tripLiveData) {
         vasttrafikService
                 .getJourneyDetail(ref, "json","Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
@@ -385,6 +388,7 @@ public class VasttrafikServiceImpl {
                                 String body = response.body().string();
                                 // TODO do something with response
                                 new VasttrafikParser().addJourneyDetails(body, route);
+                                tripLiveData.setValue(tripLiveData.getValue());
                             }
                         } catch (IOException ignored) {} catch (JSONException e) {
                             e.printStackTrace();
@@ -393,7 +397,12 @@ public class VasttrafikServiceImpl {
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        System.out.println(t.getMessage());
                     }
                 });
+    }
+
+    public void sendPointsRequest(Trip trip) {
+
     }
 }

@@ -42,12 +42,12 @@ public class ResultMapFragment extends MapFragment {
     private int commonPolylineColor;
     private int focusedPolylineColor;
 
-    private TripResultViewModel tripResultViewModel;
+    private TripResultViewModel viewModel;
     private List<Route> routes;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tripResultViewModel = ViewModelProviders.
+        viewModel = ViewModelProviders.
                 of(Objects.requireNonNull(getActivity())).get(TripResultViewModel.class);
         commonPolylineColor = ContextCompat.getColor(Objects.requireNonNull(getContext()),
                 R.color.colorPrimary);
@@ -58,17 +58,18 @@ public class ResultMapFragment extends MapFragment {
     @Override
     protected void setListeners() {
         super.setListeners();
-        tripResultViewModel.getTripLiveData().observe(this, new Observer<Trip>() {
+        viewModel.getTripLiveData().observe(this, new Observer<Trip>() {
             @Override
             public void onChanged(Trip trip) {
-                routes = getRoutes(trip.getRoutes()); // Todo: remove when routes contain locations
-                drawTrip(trip);
+                //routes = getRoutes(trip.getRoutes()); // Todo: remove when routes contain locations
+                if (allRoutesHaveLocations(trip))
+                    drawTrip(trip);
             }
         });
-        tripResultViewModel.getRouteLiveData().observe(this, new Observer<Route>() {
+        viewModel.getRouteLiveData().observe(this, new Observer<Route>() {
             @Override
             public void onChanged(Route route) {
-                List<Route> rs = Objects.requireNonNull(tripResultViewModel.getTripLiveData().getValue()).
+                List<Route> rs = Objects.requireNonNull(viewModel.getTripLiveData().getValue()).
                         getRoutes();
                 int routeIndex = 0;
                 for (int i = 0; i < rs.size(); i++) {
@@ -80,6 +81,14 @@ public class ResultMapFragment extends MapFragment {
                 focusPolyline(polylines.get(routeIndex));
             }
         });
+    }
+
+    private boolean allRoutesHaveLocations(Trip trip) {
+        for (Route route : trip.getRoutes()) {
+            if (route.getMode() == WALK) continue;
+            if (route.getLocations() == null) return false;
+        }
+        return true;
     }
 
     private void drawTrip(Trip trip) {
@@ -140,11 +149,8 @@ public class ResultMapFragment extends MapFragment {
 
         for (Route route : routes) {
             polylineOptions = new PolylineOptions();
-            validateLocations(route);
-            polylineOptions.add(new LatLng(route.getOrigin().getLocation().getLatitude(),
-                            route.getOrigin().getLocation().getLongitude()),
-                    new LatLng(route.getDestination().getLocation().getLatitude(),
-                            route.getDestination().getLocation().getLongitude()));
+            if (route.getMode() == WALK) replaceLocations(route);
+            addPoints(polylineOptions, route);
             polylineOptions.color(commonPolylineColor);
             if (route.getMode().equals(WALK)) polylineOptions.pattern(dotLine);
             polylineOptions.width(POLYLINE_WIDTH).clickable(true);
@@ -154,8 +160,26 @@ public class ResultMapFragment extends MapFragment {
         setPolylineListener(polylines);
     }
 
+    private void addPoints(PolylineOptions polylineOptions, Route route) {
+        List<LatLng> latLngs = new ArrayList<>();
+        if (route.getLocations() == null) {
+            latLngs.add(locationToLatlng(route.getOrigin().getLocation()));
+            latLngs.add(locationToLatlng(route.getDestination().getLocation()));
+        }
+        else for (TripLocation location : route.getLocations()) {
+            latLngs.add(locationToLatlng(location.getLocation()));
+        }
+        addLatLng(polylineOptions, latLngs);
+    }
+
+    private void addLatLng(PolylineOptions polylineOptions, List<LatLng> latLngs) {
+        for (LatLng latLng : latLngs) {
+            polylineOptions.add(latLng);
+        }
+    }
+
     // Todo: remove when all Routes/Trips have valid Locations
-    private void validateLocations(Locatable locatable) {
+    private void replaceLocations(Locatable locatable) {
         Location location = locatable.getOrigin().getLocation();
         if (location.getLatitude() < 0.001)
             location = LocationService.getLocation(locatable.getOrigin().getName(), getContext());
@@ -192,7 +216,7 @@ public class ResultMapFragment extends MapFragment {
     }
 
     private void drawMarkers(Trip trip) {
-        validateLocations(trip);
+        replaceLocations(trip);
         model.setFocusedLocationField(ORIGIN);
         model.setLocation(trip.getOrigin().getLocation(), null);
         model.setFocusedLocationField(DESTINATION);
