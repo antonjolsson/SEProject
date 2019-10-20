@@ -39,7 +39,7 @@ public class ResultMapFragment extends MapFragment {
     // Padding between map edge and itinerary locations in initial view
     private static final int MAP_LOC_PADDING = 120;
     private static final int POLYLINE_WIDTH = 15;
-    private final List<Polyline> polylines = new ArrayList<>();
+    private final List<Polyline> polyLines = new ArrayList<>();
     private int commonPolylineColor;
     private int focusedPolylineColor;
 
@@ -79,7 +79,7 @@ public class ResultMapFragment extends MapFragment {
                         break;
                     }
                 }
-                focusPolyline(polylines.get(routeIndex));
+                focusPolyline(polyLines.get(routeIndex));
             }
         });
     }
@@ -156,9 +156,9 @@ public class ResultMapFragment extends MapFragment {
             if (route.getMode().equals(WALK)) polylineOptions.pattern(dotLine);
             polylineOptions.width(POLYLINE_WIDTH).clickable(true);
             Polyline polyline = mMap.addPolyline(polylineOptions);
-            polylines.add(polyline);
+            polyLines.add(polyline);
         }
-        setPolylineListener(polylines);
+        setPolylineListener(polyLines);
     }
 
     // Tries first to add leg points, else stop points, else origin/dest points
@@ -214,7 +214,7 @@ public class ResultMapFragment extends MapFragment {
     }
 
     private void focusPolyline(Polyline polyline) {
-        for (Polyline pLine : polylines) {
+        for (Polyline pLine : polyLines) {
             if (pLine.equals(polyline)) {
                 polyline.setColor(focusedPolylineColor);
                 centerPoints(polyline.getPoints());

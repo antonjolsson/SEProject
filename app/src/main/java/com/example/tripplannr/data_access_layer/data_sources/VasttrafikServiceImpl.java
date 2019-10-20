@@ -108,6 +108,7 @@ public class VasttrafikServiceImpl {
                         .build();
         tripQuery.setOrigin(TripDictionary.translateTrip(tripQuery.getOrigin()));
         tripQuery.setDestination(TripDictionary.translateTrip(tripQuery.getDestination()));
+        //noinspection SpellCheckingInspection
         vasttrafikService
                 .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
                         "application/x-www-form-urlencoded", "client_credentials")
@@ -348,6 +349,7 @@ public class VasttrafikServiceImpl {
                 });
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     private void addFrederikshavn(List<TripLocation> locations) {
         String name = "Fredrikshamn, Danmark";
         Location location = new Location("");
@@ -361,6 +363,7 @@ public class VasttrafikServiceImpl {
     public void addJourneyDetails(final String ref, final Route route, final MutableLiveData<Trip> tripLiveData) {
         if(ref == null || ref.isEmpty())
             return;
+        //noinspection SpellCheckingInspection
         vasttrafikService
                 .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
                         "application/x-www-form-urlencoded", "client_credentials")
