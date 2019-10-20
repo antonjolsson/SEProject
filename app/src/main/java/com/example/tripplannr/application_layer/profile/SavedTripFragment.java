@@ -1,36 +1,28 @@
 package com.example.tripplannr.application_layer.profile;
 
-import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.tripplannr.R;
-import com.example.tripplannr.application_layer.util.InjectorUtils;
-import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.application_layer.trip.TripResultAdapter;
 import com.example.tripplannr.application_layer.trip.TripResultViewModel;
+import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.List;
-import java.util.Objects;
 
 
 public class SavedTripFragment extends Fragment {
 
     private TripResultViewModel viewModel;
-    private RecyclerView recyclerView;
     private TripResultAdapter tripResultAdapter;
 
     @Nullable
@@ -44,7 +36,7 @@ public class SavedTripFragment extends Fragment {
 
     private void initRecyclerView(final View view) {
         tripResultAdapter = new TripResultAdapter(viewModel.getSavedTrips(), R.id.action_navigation_saved_trips_to_navigation_saved_trips_detailed, viewModel);
-        recyclerView = view.findViewById(R.id.savedTripRecyclerView);
+        RecyclerView recyclerView = view.findViewById(R.id.savedTripRecyclerView);
         recyclerView.setAdapter(tripResultAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT) {

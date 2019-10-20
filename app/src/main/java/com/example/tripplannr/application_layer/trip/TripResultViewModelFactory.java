@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.tripplannr.data_access_layer.data_sources.TripDAO;
 import com.example.tripplannr.data_access_layer.repositories.TripRepository;
 import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
 

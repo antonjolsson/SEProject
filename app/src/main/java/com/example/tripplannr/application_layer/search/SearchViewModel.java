@@ -17,8 +17,10 @@ import java.util.Calendar;
 import java.util.Deque;
 import java.util.List;
 
-import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.*;
-import static com.example.tripplannr.application_layer.search.SearchViewModel.ShownFragment.*;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.DESTINATION;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.ORIGIN;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.ShownFragment.MAP;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.ShownFragment.TIME_CONTROLS;
 
 public class SearchViewModel extends ViewModel {
 

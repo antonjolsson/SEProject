@@ -3,8 +3,6 @@ package com.example.tripplannr.application_layer.search;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -27,12 +25,11 @@ import androidx.navigation.Navigation;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.application_layer.addressservice.LocationService;
-import com.example.tripplannr.application_layer.util.InjectorUtils;
-import com.example.tripplannr.domain_layer.TripLocation;
 import com.example.tripplannr.application_layer.search.SearchViewModel.LocationField;
+import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.example.tripplannr.application_layer.util.Utilities;
+import com.example.tripplannr.domain_layer.TripLocation;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;

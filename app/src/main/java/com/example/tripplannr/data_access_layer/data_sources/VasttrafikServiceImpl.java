@@ -335,7 +335,7 @@ public class VasttrafikServiceImpl {
                                 addressMatches.setValue(matches);
                                 System.out.println(getAddressMatches().getValue().get(1).getName());
                             }
-                        } catch (IOException e) {
+                        } catch (IOException ignored) {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

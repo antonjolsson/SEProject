@@ -6,16 +6,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tripplannr.application_layer.util.InjectorUtils;
+import com.example.tripplannr.R;
 import com.example.tripplannr.databinding.TripResultViewHolderBinding;
 import com.example.tripplannr.domain_layer.Trip;
-import com.example.tripplannr.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

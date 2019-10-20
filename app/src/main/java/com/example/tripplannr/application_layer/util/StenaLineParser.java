@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -35,14 +36,14 @@ public class StenaLineParser {
     }
 
     public String loadJSONFromAsset(String jsonFil) {
-        String json = null;
+        String json;
         try {
             InputStream is = mContext.getAssets().open(jsonFil);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
-            json = new String(buffer, "UTF-8");
+            json = new String(buffer, StandardCharsets.UTF_8);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -175,10 +176,10 @@ public class StenaLineParser {
         try {
             JSONObject obj = new JSONObject(loadJSONFromAsset("stenaFerries.json"));
             JSONObject objShip = obj.getJSONObject("ShipList").getJSONObject(shipName);
-            Boolean lounge = objShip.getBoolean("Lounge");
-            Boolean food = objShip.getBoolean("Food");
-            Boolean largeBorderShop = objShip.getBoolean("LargeBorderShop");
-            Boolean conference = objShip.getBoolean("Conference");
+            boolean lounge = objShip.getBoolean("Lounge");
+            boolean food = objShip.getBoolean("Food");
+            boolean largeBorderShop = objShip.getBoolean("LargeBorderShop");
+            boolean conference = objShip.getBoolean("Conference");
             String url = objShip.getString("Url");
             ferryInfo = new FerryInfo(shipName, food, largeBorderShop, conference, lounge, url);
 

@@ -2,7 +2,6 @@ package com.example.tripplannr.domain_layer;
 
 import android.location.Location;
 
-import androidx.room.Embedded;
 import androidx.room.Ignore;
 
 public class TripLocation {
