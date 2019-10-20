@@ -5,6 +5,12 @@ import android.app.Notification;
 import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,13 +22,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.application_layer.util.InjectorUtils;
@@ -137,11 +136,11 @@ public class TripFragment extends Fragment {
         routesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    public void createDialog(String vasttrafik, String stenaline, View view) {
+    public void createDialog(String vasttrafik, String stenaLine, View view) {
         TextView message = new TextView(getContext());
         message.setText("Book trip here: \n" +
                 vasttrafik + "\n" +
-                stenaline);
+                stenaLine);
         Linkify.addLinks(message, Linkify.WEB_URLS);
         message.setMovementMethod(LinkMovementMethod.getInstance());
         message.setTextSize(18);

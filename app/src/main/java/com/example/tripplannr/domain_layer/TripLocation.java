@@ -2,12 +2,11 @@ package com.example.tripplannr.domain_layer;
 
 import android.location.Location;
 
-import androidx.room.Embedded;
 import androidx.room.Ignore;
 
 public class TripLocation {
 
-    private String name;
+    private final String name;
     @Ignore
     private Location location;
     private String track;

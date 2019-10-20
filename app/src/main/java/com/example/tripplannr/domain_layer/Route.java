@@ -4,7 +4,6 @@ import android.location.Location;
 
 import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
@@ -21,8 +20,8 @@ public class Route implements Locatable {
     @Embedded(prefix = "destination_")
     private TripLocation destination;
     @Embedded
-    private TravelTimes times;
-    private ModeOfTransport mode;
+    private final TravelTimes times;
+    private final ModeOfTransport mode;
     private String name;
     @Ignore
     private FerryInfo ferryinfo;
@@ -139,7 +138,7 @@ public class Route implements Locatable {
         }
     }
 
-    public void setFerryinfo(FerryInfo ferryinfo) {
+    public void setFerryInfo(FerryInfo ferryinfo) {
         this.ferryinfo = ferryinfo;
     }
 

@@ -2,20 +2,14 @@ package com.example.tripplannr.application_layer.trip.map;
 
 import android.content.Intent;
 import android.location.Location;
-import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tripplannr.application_layer.addressservice.AddressResultReceiver;
 import com.example.tripplannr.application_layer.addressservice.FetchAddressConstants;
 import com.example.tripplannr.application_layer.addressservice.FetchAddressIntentService;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Objects;
 

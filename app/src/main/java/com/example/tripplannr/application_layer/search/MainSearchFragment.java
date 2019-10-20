@@ -1,11 +1,9 @@
 package com.example.tripplannr.application_layer.search;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -14,7 +12,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.application_layer.trip.map.SearchMapFragment;
@@ -22,7 +19,6 @@ import com.example.tripplannr.application_layer.util.InjectorUtils;
 import com.example.tripplannr.domain_layer.Trip;
 
 import java.util.List;
-import java.util.Objects;
 
 import static com.example.tripplannr.R.id.main_lower_container;
 import static com.example.tripplannr.application_layer.search.SearchViewModel.ShownFragment.MAP;
@@ -34,7 +30,6 @@ public class MainSearchFragment extends Fragment {
     private final static float SEMI_TRANSPARENT_ALPHA = 0.5f;
     private final static float OPAQUE_ALPHA = 1f;
 
-    private SearchMapFragment searchMapFragment;
     private DateTimeFragment dateTimeFragment;
     private ConstraintLayout searchFragView;
     private SearchViewModel model;
@@ -69,7 +64,7 @@ public class MainSearchFragment extends Fragment {
     private void showMapFragment() {
         /*if (searchMapFragment == null)*/
 
-        searchMapFragment = new SearchMapFragment();
+        SearchMapFragment searchMapFragment = new SearchMapFragment();
 
         searchMapFragment.setArguments(getActivity().getIntent().getExtras());
 

@@ -4,14 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.tripplannr.data_access_layer.data_sources.TripDAO;
 import com.example.tripplannr.data_access_layer.repositories.TripRepository;
 import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
 
 public class TripResultViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private TripRepository tripRepository;
-    private VasttrafikRepository vasttrafikRepository;
+    private final TripRepository tripRepository;
+    private final VasttrafikRepository vasttrafikRepository;
 
     private static TripResultViewModelFactory instance = null;
 

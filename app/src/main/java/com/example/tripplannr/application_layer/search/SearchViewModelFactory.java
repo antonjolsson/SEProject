@@ -15,7 +15,7 @@ public class SearchViewModelFactory extends ViewModelProvider.NewInstanceFactory
         return instance;
     }
 
-    private VasttrafikRepository vasttrafikRepository;
+    private final VasttrafikRepository vasttrafikRepository;
 
     private SearchViewModelFactory(VasttrafikRepository vasttrafikRepository) {
         this.vasttrafikRepository = vasttrafikRepository;

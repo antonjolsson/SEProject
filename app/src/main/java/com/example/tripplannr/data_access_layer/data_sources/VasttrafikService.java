@@ -1,7 +1,6 @@
 
 package com.example.tripplannr.data_access_layer.data_sources;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import okhttp3.ResponseBody;
@@ -13,7 +12,8 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
-public interface VasttrafikService {
+@SuppressWarnings({"unused", "SpellCheckingInspection"})
+interface VasttrafikService {
 
     // Get Västtrafik API access token
     @POST("token")
@@ -32,6 +32,7 @@ public interface VasttrafikService {
             @Query("destId") long destId,
             @Query("date") String date,
             @Query("time") String time,
+            @Query("searchForArrival") String arrival,
             @Query("format") String format,
             @Header("Authorization") String bearer);
 
@@ -65,6 +66,7 @@ public interface VasttrafikService {
             @Header("Authorization") String bearer);
 
     // Get all stops in Västtrafiks database
+    @SuppressWarnings("SpellCheckingInspection")
     @GET(api_path + "location.allstops")
     Call<ResponseBody> getAllStops(
             @Query("format") String format,

@@ -5,8 +5,8 @@ import java.time.temporal.ChronoUnit;
 
 public class TravelTimes {
 
-    private LocalDateTime departure;
-    private LocalDateTime arrival;
+    private final LocalDateTime departure;
+    private final LocalDateTime arrival;
     private long duration;
 
     public TravelTimes(LocalDateTime departure, LocalDateTime arrival) {

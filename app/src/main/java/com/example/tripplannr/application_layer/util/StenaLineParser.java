@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -27,22 +28,22 @@ import java.util.Locale;
 
 
 public class StenaLineParser {
-    Context mContext;
+    private final Context mContext;
 
 
     public StenaLineParser(Context context) {
         mContext = context.getApplicationContext();
     }
 
-    public String loadJSONFromAsset(String jsonFil) {
-        String json = null;
+    private String loadJSONFromAsset(String jsonFil) {
+        String json;
         try {
             InputStream is = mContext.getAssets().open(jsonFil);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
-            json = new String(buffer, "UTF-8");
+            json = new String(buffer, StandardCharsets.UTF_8);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -152,10 +153,10 @@ public class StenaLineParser {
 
             route = new Route(name, origin, destination, times, mode);
 
-            //ska ferryINfo ligga i trip isf ha en add så slipper allt annat bry sig om det
-            route.setFerryinfo(ferryInfo(ferryName));
+            //ska ferryINfo ligga i trip isf ha en add så slipper allt annat bry sig om det, TODO?
+            route.setFerryInfo(ferryInfo(ferryName));
 
-            //Skapar lista av Locations
+            // Create a list of locations
             String geoRef = objRoute.getString("GeometryRef");
             locationList = geoList(geoRef);
 
@@ -175,10 +176,10 @@ public class StenaLineParser {
         try {
             JSONObject obj = new JSONObject(loadJSONFromAsset("stenaFerries.json"));
             JSONObject objShip = obj.getJSONObject("ShipList").getJSONObject(shipName);
-            Boolean lounge = objShip.getBoolean("Lounge");
-            Boolean food = objShip.getBoolean("Food");
-            Boolean largeBorderShop = objShip.getBoolean("LargeBorderShop");
-            Boolean conference = objShip.getBoolean("Conference");
+            boolean lounge = objShip.getBoolean("Lounge");
+            boolean food = objShip.getBoolean("Food");
+            boolean largeBorderShop = objShip.getBoolean("LargeBorderShop");
+            boolean conference = objShip.getBoolean("Conference");
             String url = objShip.getString("Url");
             ferryInfo = new FerryInfo(shipName, food, largeBorderShop, conference, lounge, url);
 

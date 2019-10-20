@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.application_layer.util.InjectorUtils;

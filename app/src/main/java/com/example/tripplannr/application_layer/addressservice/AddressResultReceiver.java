@@ -9,8 +9,8 @@ import com.example.tripplannr.application_layer.search.SearchViewModel;
 
 public class AddressResultReceiver extends ResultReceiver {
 
-    private SearchViewModel model;
-    private Location clickedLocation;
+    private final SearchViewModel model;
+    private final Location clickedLocation;
 
     public AddressResultReceiver(SearchViewModel model, Handler handler, Location clickedLocation) {
         super(handler);
@@ -23,8 +23,7 @@ public class AddressResultReceiver extends ResultReceiver {
         if (resultData == null) {
             return;
         }
-        // Display the name string
-        // or an error message sent from the intent service.
+        // Display the name string or an error message sent from the intent service.
         String addressOutput =
                 resultData.getString(FetchAddressConstants.RESULT_DATA_KEY);
         if (addressOutput == null) {

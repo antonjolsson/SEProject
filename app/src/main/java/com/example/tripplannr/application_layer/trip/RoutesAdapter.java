@@ -1,14 +1,11 @@
 package com.example.tripplannr.application_layer.trip;
 
-import android.content.res.Resources;
-import android.graphics.drawable.Icon;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,8 +20,8 @@ import java.util.Objects;
 
 public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewHolder> implements GenericTripAdapter<Route> {
 
-    private List<Route> routes;
-    private TripResultViewModel tripResultViewModel;
+    private final List<Route> routes;
+    private final TripResultViewModel tripResultViewModel;
 
     public RoutesAdapter(TripResultViewModel viewModel) {
         this.tripResultViewModel = viewModel;
@@ -90,14 +87,14 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
 
     public class RouteViewHolder extends RecyclerView.ViewHolder {
 
-        private RouteViewHolderBinding routeViewHolderBinding;
+        private final RouteViewHolderBinding routeViewHolderBinding;
 
         RouteViewHolder(@NonNull View itemView) {
             super(itemView);
             routeViewHolderBinding = DataBindingUtil.bind(itemView);
         }
 
-        public void setIconType(int iconType) {
+        void setIconType(int iconType) {
             routeViewHolderBinding.iconImageView
                     .setImageDrawable(itemView.getContext()
                             .getResources()

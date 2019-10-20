@@ -17,8 +17,10 @@ import java.util.Calendar;
 import java.util.Deque;
 import java.util.List;
 
-import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.*;
-import static com.example.tripplannr.application_layer.search.SearchViewModel.ShownFragment.*;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.DESTINATION;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.ORIGIN;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.ShownFragment.MAP;
+import static com.example.tripplannr.application_layer.search.SearchViewModel.ShownFragment.TIME_CONTROLS;
 
 public class SearchViewModel extends ViewModel {
 
@@ -26,26 +28,26 @@ public class SearchViewModel extends ViewModel {
 
     public enum LocationField {ORIGIN, DESTINATION}
 
-    private MutableLiveData<TripLocation> origin = new MutableLiveData<>();
-    private MutableLiveData<TripLocation> destination = new MutableLiveData<>();
+    private final MutableLiveData<TripLocation> origin = new MutableLiveData<>();
+    private final MutableLiveData<TripLocation> destination = new MutableLiveData<>();
     // Address is requested by a fragment
-    private MutableLiveData<Boolean> addressQuery = new MutableLiveData<>();
-    private MutableLiveData<Calendar> desiredTime = new MutableLiveData<>();
-    private MutableLiveData<Boolean> timeIsDeparture = new MutableLiveData<>();
-    private MutableLiveData<ShownFragment> fragments = new MutableLiveData<>();
-    private MutableLiveData<List<Trip>> trips = new MutableLiveData<>();
-    private VasttrafikRepository vasttrafikRepository;
+    private final MutableLiveData<Boolean> addressQuery = new MutableLiveData<>();
+    private final MutableLiveData<Calendar> desiredTime = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> timeIsDeparture = new MutableLiveData<>();
+    private final MutableLiveData<ShownFragment> fragments = new MutableLiveData<>();
+    private final MutableLiveData<List<Trip>> trips = new MutableLiveData<>();
+    private final VasttrafikRepository vasttrafikRepository;
 
     public LiveData<List<TripLocation>> getAddressMatches() {
         return addressMatches;
     }
 
-    private LiveData<List<TripLocation>> addressMatches;
+    private final LiveData<List<TripLocation>> addressMatches;
 
     // If the app is starting up, set current location as origin
     private boolean initOriginField = true;
     // Keep track of which location field is focused
-    private Deque<LocationField> focusedLocationFields = new ArrayDeque<>();
+    private final Deque<LocationField> focusedLocationFields = new ArrayDeque<>();
 
     private boolean swappingLocations;
 

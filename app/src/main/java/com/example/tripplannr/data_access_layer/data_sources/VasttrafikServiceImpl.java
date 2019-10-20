@@ -43,19 +43,19 @@ public class VasttrafikServiceImpl {
         return instance;
     }
 
-    private VasttrafikService vasttrafikService;
+    private final VasttrafikService vasttrafikService;
 
-    private MutableLiveData<List<Trip>> data = new MutableLiveData<>();
+    private final MutableLiveData<List<Trip>> data = new MutableLiveData<>();
 
-    private MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
-    private MutableLiveData<Integer> statusCode = new MutableLiveData<>();
+    private final MutableLiveData<Integer> statusCode = new MutableLiveData<>();
 
-    private MutableLiveData<List<TripLocation>> addressMatches = new MutableLiveData<>();
+    private final MutableLiveData<List<TripLocation>> addressMatches = new MutableLiveData<>();
 
     private TripQuery original;
 
-    private Context context;
+    private final Context context;
 
     private VasttrafikServiceImpl(Context context) {
         this.context = context;
@@ -106,6 +106,7 @@ public class VasttrafikServiceImpl {
                         .build();
         tripQuery.setOrigin(TripDictionary.translateTrip(tripQuery.getOrigin()));
         tripQuery.setDestination(TripDictionary.translateTrip(tripQuery.getDestination()));
+        //noinspection SpellCheckingInspection
         vasttrafikService
                 .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
                         "application/x-www-form-urlencoded", "client_credentials")
@@ -255,8 +256,14 @@ public class VasttrafikServiceImpl {
         String time = tripQuery.getTime().getHour() + ":" + tripQuery.getTime().getMinute();
         System.out.println(date);
         System.out.println(time);
+        String arrival;
+        // Check if time is for arrival or departure
+        if(tripQuery.isTimeDeparture())
+            arrival = "0";
+        else
+            arrival = "1";
         vasttrafikService
-                .getTrips(originId, destinationId, date, time, "json", "Bearer " + token)
+                .getTrips(originId, destinationId, date, time, arrival, "json", "Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -329,7 +336,7 @@ public class VasttrafikServiceImpl {
                                 addressMatches.setValue(matches);
                                 System.out.println(getAddressMatches().getValue().get(1).getName());
                             }
-                        } catch (IOException e) {
+                        } catch (IOException ignored) {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -340,6 +347,7 @@ public class VasttrafikServiceImpl {
                 });
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     private void addFrederikshavn(List<TripLocation> locations) {
         String name = "Fredrikshamn, Danmark";
         Location location = new Location("");
@@ -353,6 +361,7 @@ public class VasttrafikServiceImpl {
     public void addJourneyDetails(final String ref, final Route route, final MutableLiveData<Trip> tripLiveData) {
         if(ref == null || ref.isEmpty())
             return;
+        //noinspection SpellCheckingInspection
         vasttrafikService
                 .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
                         "application/x-www-form-urlencoded", "client_credentials")
