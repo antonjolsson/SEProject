@@ -107,9 +107,6 @@ public abstract class MapFragment extends Fragment implements OnMapReadyCallback
             model.setFocusedLocationField(ORIGIN);
             model.setLocation(model.getOrigin().getValue().getLocation(),
                     model.getOrigin().getValue().getName());
-            /*LatLng latLng = new LatLng(model.getOrigin().getValue().getLocation().getLatitude(),
-                    model.getOrigin().getValue().getLocation().getLongitude());
-            updateMarker(latLng);*/
         }
         if (model.getDestination().getValue() != null) {
             model.setFocusedLocationField(DESTINATION);

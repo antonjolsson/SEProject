@@ -1,6 +1,9 @@
 package com.example.tripplannr.application_layer.trip;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,10 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.tripplannr.R;
 import com.example.tripplannr.application_layer.util.InjectorUtils;
@@ -23,8 +22,6 @@ import java.util.List;
 
 
 public class TripResultFragment extends Fragment {
-
-    private RecyclerView resultRecyclerView;
 
     private TripResultViewModel tripResultViewModel;
 
@@ -74,7 +71,7 @@ public class TripResultFragment extends Fragment {
                 new TripResultAdapter(tripResultViewModel.getTripsLiveData().getValue()
                         , R.id.action_navigation_trip_results_to_navigation_trip_fragment
                         , tripResultViewModel);
-        resultRecyclerView = view.findViewById(R.id.tripResultRecyclerView);
+        RecyclerView resultRecyclerView = view.findViewById(R.id.tripResultRecyclerView);
         resultRecyclerView.setAdapter(tripResultAdapter);
         resultRecyclerView.setNestedScrollingEnabled(false);
         resultRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

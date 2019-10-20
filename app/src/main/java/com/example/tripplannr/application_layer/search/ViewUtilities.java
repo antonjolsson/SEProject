@@ -12,10 +12,10 @@ class ViewUtilities {
 
 
     // Set different levels of alpha (opacity) when view pressed and when not
-    static void setAlphaLevels(View v, MotionEvent event, float pressedAlpha, float nonPressedAlpha) {
+    static void setAlphaLevels(View v, MotionEvent event, float nonPressedAlpha) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                v.setAlpha(pressedAlpha);
+                v.setAlpha(ViewUtilities.SEMI_TRANSPARENT_ALPHA);
                 break;
             case MotionEvent.ACTION_UP:
                 v.setAlpha(nonPressedAlpha);
@@ -25,7 +25,7 @@ class ViewUtilities {
     }
 
     static void setAlphaLevels(View v, MotionEvent event) {
-        setAlphaLevels(v, event, SEMI_TRANSPARENT_ALPHA, OPAQUE_ALPHA);
+        setAlphaLevels(v, event, OPAQUE_ALPHA);
     }
 
 }
