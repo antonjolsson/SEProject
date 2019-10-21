@@ -28,6 +28,12 @@ public class TripLocation {
         this.track = track;
     }
 
+    private TripLocation(Builder builder) {
+        name = builder.name;
+        location = builder.location;
+        track = builder.track;
+    }
+
     public String getName() {
         return name;
     }
@@ -38,5 +44,33 @@ public class TripLocation {
 
     public String getTrack() {
         return track;
+    }
+
+    public static final class Builder {
+        private String name;
+        private Location location;
+        private String track;
+
+        public Builder() {
+        }
+
+        public Builder name(String val) {
+            name = val;
+            return this;
+        }
+
+        public Builder location(Location val) {
+            location = val;
+            return this;
+        }
+
+        public  Builder track(String val) {
+            track = val;
+            return this;
+        }
+
+        public TripLocation build() {
+            return new TripLocation(this);
+        }
     }
 }
