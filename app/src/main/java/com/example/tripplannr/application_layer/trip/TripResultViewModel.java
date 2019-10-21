@@ -36,15 +36,15 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         return mTripLiveData;
     }
 
-    public LiveData<List<Trip>> getTripsLiveData() {
+    LiveData<List<Trip>> getTripsLiveData() {
         return mTripsLiveData;
     }
 
-    public LiveData<Boolean> isLoading() {
+    LiveData<Boolean> isLoading() {
         return isLoading;
     }
 
-    public LiveData<Integer> getStatusCode() {
+    LiveData<Integer> getStatusCode() {
         return statusCode;
     }
 
@@ -53,7 +53,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         mTripLiveData.setValue(trip);
     }
 
-    public void saveTrip(Trip trip) {
+    void saveTrip(Trip trip) {
         System.out.println(trip.getRoutes().get(0).getTimes().getArrival());
         tripRepository.save(trip);
     }
@@ -70,7 +70,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         return mRouteLiveData;
     }
 
-    public void updateRoute(Route route) {
+    void updateRoute(Route route) {
         mRouteLiveData.setValue(route);
     }
 

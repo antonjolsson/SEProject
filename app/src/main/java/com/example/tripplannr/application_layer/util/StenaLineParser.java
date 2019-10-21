@@ -55,11 +55,11 @@ public class StenaLineParser {
     public Route getRoute(TripQuery tQ) {
         System.out.println(tQ.getOrigin());
         System.out.println(tQ.getDestination());
-        if (tQ.getOrigin().equals("Fredrikshamn"))
+        if (tQ.getOrigin().equals("Fredrikshamn") || tQ.getOrigin().equals("Fredrikshamn, Danmark"))
             tQ.setOrigin("StenaTerminalen, Fredrikshamn");
         else if (!tQ.getOrigin().equals("StenaTerminalen, Fredrikshamn"))
             tQ.setOrigin("StenaTerminalen, Göteborg");
-        if (tQ.getDestination().equals("Fredrikshamn"))
+        if (tQ.getDestination().equals("Fredrikshamn") || tQ.getDestination().equals("Fredrikshamn, Danmark"))
             tQ.setDestination("StenaTerminalen, Fredrikshamn");
         else if (!tQ.getDestination().equals("StenaTerminalen, Fredrikshamn"))
             tQ.setDestination("StenaTerminalen, Göteborg");
