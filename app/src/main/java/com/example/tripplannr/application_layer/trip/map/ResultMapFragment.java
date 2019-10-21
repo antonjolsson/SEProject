@@ -102,8 +102,8 @@ public class ResultMapFragment extends MapFragment {
 
     private void centerItinerary(Trip trip) {
         List<LatLng> points = new ArrayList<>();
-        points.add(locationToLatLng(trip.getOrigin().getLocation()));
-        points.add(locationToLatLng(trip.getDestination().getLocation()));
+        points.add(locationToLatlng(trip.getOrigin().getLocation()));
+        points.add(locationToLatlng(trip.getDestination().getLocation()));
         for (Route route : trip.getRoutes()) {
             getCoordinatesFromRoute(points, route);
         }
@@ -175,7 +175,7 @@ public class ResultMapFragment extends MapFragment {
             latLngs.add(locationToLatlng(route.getDestination().getLocation()));
         }
         else for (TripLocation location : route.getLocations()) {
-            latLngs.add(locationToLatLng((location.getLocation())));
+            latLngs.add(locationToLatlng((location.getLocation())));
         }
         addLatLng(polylineOptions, latLngs);
     }
