@@ -47,6 +47,7 @@ public class SearchFragment extends Fragment {
     private Button timeButton, searchButton;
     private String name;
     private SearchViewModel searchViewModel;
+    private Calendar desiredTime;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +91,7 @@ public class SearchFragment extends Fragment {
                     nowTextView.setVisibility(View.INVISIBLE);
                     nowTextView.setEnabled(false);
                 } else {
+                    desiredTime = calendar;
                     nowTextView.setVisibility(View.VISIBLE);
                     nowTextView.setEnabled(true);
                 }
@@ -195,7 +197,7 @@ public class SearchFragment extends Fragment {
                 if (validateForm()) {
                     ((InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE)))
                             .hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-                    searchViewModel.setTime(Calendar.getInstance(),
+                    searchViewModel.setTime(desiredTime,
                             Objects.requireNonNull(searchViewModel.getTimeIsDeparture().getValue()));
                     searchViewModel.obtainTrips(fromTextField.getText().toString(), toTextField.getText().toString());
                     Navigation.findNavController(v).navigate(R.id.action_navigation_search_to_navigation_trip_results);
@@ -205,7 +207,7 @@ public class SearchFragment extends Fragment {
         nowTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchViewModel.setTime(Calendar.getInstance(),
+                searchViewModel.setTime(desiredTime,
                         Objects.requireNonNull(searchViewModel.getTimeIsDeparture().getValue()));
             }
         });
