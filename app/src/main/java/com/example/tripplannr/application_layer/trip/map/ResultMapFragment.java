@@ -32,6 +32,7 @@ import java.util.Objects;
 
 import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.DESTINATION;
 import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.ORIGIN;
+import static com.example.tripplannr.application_layer.util.Utilities.locationToLatlng;
 import static com.example.tripplannr.domain_layer.ModeOfTransport.WALK;
 
 public class ResultMapFragment extends MapFragment {
@@ -101,8 +102,8 @@ public class ResultMapFragment extends MapFragment {
 
     private void centerItinerary(Trip trip) {
         List<LatLng> points = new ArrayList<>();
-        points.add(Utilities.locationToLatlng(trip.getOrigin().getLocation()));
-        points.add(Utilities.locationToLatlng(trip.getDestination().getLocation()));
+        points.add(locationToLatlng(trip.getOrigin().getLocation()));
+        points.add(locationToLatlng(trip.getDestination().getLocation()));
         for (Route route : trip.getRoutes()) {
             getCoordinatesFromRoute(points, route);
         }
@@ -121,8 +122,8 @@ public class ResultMapFragment extends MapFragment {
     }
 
     private void getCoordinatesFromRoute(List<LatLng> points, Route route) {
-        points.add(locationToLatLng(route.getOrigin().getLocation()));
-        points.add(locationToLatLng(route.getDestination().getLocation()));
+        points.add(locationToLatlng(route.getOrigin().getLocation()));
+        points.add(locationToLatlng(route.getDestination().getLocation()));
     }
 
     private LatLng[] getLongestDistance(List<LatLng> points) {
@@ -166,12 +167,12 @@ public class ResultMapFragment extends MapFragment {
         List<LatLng> latLngs = new ArrayList<>();
         if (route.getLegs() != null) {
             for (Location leg : route.getLegs()) {
-                latLngs.add(Utilities.locationToLatlng(leg));
+                latLngs.add(locationToLatlng(leg));
             }
         }
         else if (route.getLocations() == null) {
-            latLngs.add(Utilities.locationToLatlng(route.getOrigin().getLocation()));
-            latLngs.add(Utilities.locationToLatlng(route.getDestination().getLocation()));
+            latLngs.add(locationToLatlng(route.getOrigin().getLocation()));
+            latLngs.add(locationToLatlng(route.getDestination().getLocation()));
         }
         else for (TripLocation location : route.getLocations()) {
             latLngs.add(locationToLatlng(location.getLocation()));
