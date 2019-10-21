@@ -1,5 +1,9 @@
 package com.example.tripplannr.application_layer.util;
 
+import android.location.Location;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -41,4 +45,16 @@ public class Utilities {
     }
 
 
+    public static LatLng locationToLatlng(Location location) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        return new LatLng(latitude, longitude);
+    }
+
+    public static Location latlngToLocation(LatLng latLng) {
+        Location location = new Location("");
+        location.setLatitude(latLng.latitude);
+        location.setLongitude(latLng.longitude);
+        return location;
+    }
 }

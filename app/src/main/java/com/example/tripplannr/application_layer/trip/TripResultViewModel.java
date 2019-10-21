@@ -77,10 +77,6 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         mRouteLiveData.setValue(route);
     }
 
-    public void sendPointsRequest() {
-        vasttrafikRepository.sendPointsRequest(mTripLiveData.getValue());
-    }
-
 
     /*private List<Trip> buildFakeTrips() {
         Route route1 = new Route.Builder()

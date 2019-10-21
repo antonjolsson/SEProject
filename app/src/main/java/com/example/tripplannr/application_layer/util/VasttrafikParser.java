@@ -217,4 +217,23 @@ public class VasttrafikParser implements TripParser {
         // No Match
         return new LatLng(0, 0);
     }
+
+    public String getGeometryRef(String body) throws JSONException {
+        JSONObject jsonObject = new JSONObject(body);
+        String ref = jsonObject.getJSONObject("JourneyDetail").getJSONObject("GeometryRef").
+                getString("ref");
+        return ref;
+    }
+
+    public void addGeometryDetails(String data, Route route) throws JSONException {
+        List<Location> legs = new ArrayList<>();
+
+        JSONArray points = new JSONObject(data).getJSONObject("Points").getJSONArray("Point");
+        for (int i = 0; i < points.length(); i++) {
+            double lon = Double.valueOf(points.getJSONObject(i).getString("lon"));
+            double lat = Double.valueOf(points.getJSONObject(i).getString("lat"));
+            legs.add(Utilities.latlngToLocation(new LatLng(lat, lon)));
+        }
+        route.setLegs(legs);
+    }
 }

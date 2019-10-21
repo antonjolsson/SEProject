@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.tripplannr.R;
 import com.example.tripplannr.application_layer.addressservice.LocationService;
 import com.example.tripplannr.application_layer.trip.TripResultViewModel;
+import com.example.tripplannr.application_layer.util.Utilities;
 import com.example.tripplannr.domain_layer.Locatable;
 import com.example.tripplannr.domain_layer.Route;
 import com.example.tripplannr.domain_layer.Trip;
@@ -100,8 +101,8 @@ public class ResultMapFragment extends MapFragment {
 
     private void centerItinerary(Trip trip) {
         List<LatLng> points = new ArrayList<>();
-        points.add(locationToLatlng(trip.getOrigin().getLocation()));
-        points.add(locationToLatlng(trip.getDestination().getLocation()));
+        points.add(Utilities.locationToLatlng(trip.getOrigin().getLocation()));
+        points.add(Utilities.locationToLatlng(trip.getDestination().getLocation()));
         for (Route route : trip.getRoutes()) {
             getLatLngsFromRoute(points, route);
         }
@@ -120,8 +121,8 @@ public class ResultMapFragment extends MapFragment {
     }
 
     private void getLatLngsFromRoute(List<LatLng> points, Route route) {
-        points.add(locationToLatlng(route.getOrigin().getLocation()));
-        points.add(locationToLatlng(route.getDestination().getLocation()));
+        points.add(Utilities.locationToLatlng(route.getOrigin().getLocation()));
+        points.add(Utilities.locationToLatlng(route.getDestination().getLocation()));
     }
 
     private LatLng[] getLongestDistance(List<LatLng> points) {
@@ -163,11 +164,11 @@ public class ResultMapFragment extends MapFragment {
     private void addPoints(PolylineOptions polylineOptions, Route route) {
         List<LatLng> latLngs = new ArrayList<>();
         if (route.getLocations() == null) {
-            latLngs.add(locationToLatlng(route.getOrigin().getLocation()));
-            latLngs.add(locationToLatlng(route.getDestination().getLocation()));
+            latLngs.add(Utilities.locationToLatlng(route.getOrigin().getLocation()));
+            latLngs.add(Utilities.locationToLatlng(route.getDestination().getLocation()));
         }
         else for (TripLocation location : route.getLocations()) {
-            latLngs.add(locationToLatlng(location.getLocation()));
+            latLngs.add(Utilities.locationToLatlng(location.getLocation()));
         }
         addLatLng(polylineOptions, latLngs);
     }
@@ -262,12 +263,6 @@ public class ResultMapFragment extends MapFragment {
         originLoc.setLatitude(lat);
         originLoc.setLongitude(lng);
         return originLoc;
-    }
-
-    private static LatLng locationToLatlng(Location location) {
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
-        return new LatLng(latitude, longitude);
     }
 
 }

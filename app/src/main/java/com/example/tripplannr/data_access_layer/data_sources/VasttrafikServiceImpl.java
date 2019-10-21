@@ -57,6 +57,8 @@ public class VasttrafikServiceImpl {
 
     private Context context;
 
+    VasttrafikParser parser;
+
     private VasttrafikServiceImpl(Context context) {
         this.context = context;
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -376,7 +378,7 @@ public class VasttrafikServiceImpl {
                 });
     }
 
-    private void sendJourneyDetailRequest(String ref, String token, final Route route,
+    private void sendJourneyDetailRequest(String ref, final String token, final Route route,
                                           final MutableLiveData<Trip> tripLiveData) {
         vasttrafikService
                 .getJourneyDetail(ref, "json","Bearer " + token)
@@ -387,8 +389,11 @@ public class VasttrafikServiceImpl {
                             if(response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
                                 // TODO do something with response
-                                new VasttrafikParser().addJourneyDetails(body, route);
+                                parser = new VasttrafikParser();
+                                parser.addJourneyDetails(body, route);
                                 tripLiveData.setValue(tripLiveData.getValue());
+                                /*sendGeometryRequest(parser.getGeometryRef(body), route,
+                                        tripLiveData);*/
                             }
                         } catch (IOException ignored) {} catch (JSONException e) {
                             e.printStackTrace();
@@ -402,7 +407,51 @@ public class VasttrafikServiceImpl {
                 });
     }
 
-    public void sendPointsRequest(Trip trip) {
+    public void sendGeometryRequest(final String geometryRef, final Route route, final MutableLiveData<Trip> tripLiveData) {
+        vasttrafikService
+                .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
+                        "application/x-www-form-urlencoded", "client_credentials")
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        System.out.println(response.code());
+                        System.out.println(response.body());
+                        try {
+                            getGeometryResponse(geometryRef, new JSONObject(response.body().string()).
+                                    getString("access_token"), route, tripLiveData);
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    }
+                });
+    }
+
+    private void getGeometryResponse(String geometryRef, String token, final Route route,
+                                     final MutableLiveData<Trip> tripLiveData) {
+        vasttrafikService.getGeometry(geometryRef, "json", "Bearer " + token).
+                enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.code() >= 200 && response.code() <= 299) {
+                    try {
+                        String body = response.body().string();
+                        parser.addGeometryDetails(body, route);
+                        tripLiveData.setValue(tripLiveData.getValue());
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                System.out.println(t.getMessage());
+            }
+        });
 
     }
 }

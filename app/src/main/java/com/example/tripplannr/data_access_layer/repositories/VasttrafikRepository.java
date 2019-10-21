@@ -55,7 +55,7 @@ public class VasttrafikRepository {
         vasttrafikService.addJourneyDetails(ref, route, tripLiveData);
     }
 
-    public void sendPointsRequest(Trip trip) {
-        vasttrafikService.sendPointsRequest(trip);
+    public void addGeometryDetails(String journeyRef, Route route, MutableLiveData<Trip> tripLiveData) {
+        vasttrafikService.sendGeometryRequest(journeyRef, route, tripLiveData);
     }
 }
