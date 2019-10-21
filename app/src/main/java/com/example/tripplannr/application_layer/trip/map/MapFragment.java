@@ -47,7 +47,7 @@ abstract class MapFragment extends Fragment implements OnMapReadyCallback,
 
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     // Chalmers Dome of Visions location :)
-    private static final LatLng DEF_LAT_LNG = new LatLng(57.706972, 11.937987);
+    private static final LatLng DEF_LAT_LNG = new LatLng(57.7069, 11.9379);
     private static final float DEF_ZOOM_LEVEL = 13;
 
     GoogleMap mMap;

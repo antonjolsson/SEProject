@@ -22,11 +22,13 @@
             android:id="@+id/routesRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="277dp"
+            android:background="@drawable/background"
+            android:elevation="@dimen/modal_fragment_elevation"
+            android:outlineProvider="bounds"
+            android:scrollbars="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:elevation="@dimen/modal_fragment_elevation"
-            android:outlineProvider="bounds"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
