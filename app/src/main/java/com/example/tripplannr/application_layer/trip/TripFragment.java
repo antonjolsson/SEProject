@@ -20,6 +20,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -141,6 +142,8 @@ public class TripFragment extends Fragment {
         routesRecyclerView.setAdapter(new RoutesAdapter(Objects.requireNonNull(tripResultViewModel)));
         routesRecyclerView.setAdapter(new RoutesAdapter(tripResultViewModel));
         routesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        routesRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()),
+                DividerItemDecoration.VERTICAL));
     }
 
     public void createDialog(String vasttrafik, String stenaLine, View view) {

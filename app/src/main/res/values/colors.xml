@@ -9,4 +9,5 @@
     <color name="magenta">#FFFF00FF</color>
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FFFF00</color>
+    <color name="offWhite">#EEEEEE</color>
 </resources>
