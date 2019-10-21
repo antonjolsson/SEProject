@@ -174,7 +174,7 @@ public class ResultMapFragment extends MapFragment {
             latLngs.add(Utilities.locationToLatlng(route.getDestination().getLocation()));
         }
         else for (TripLocation location : route.getLocations()) {
-            latLngs.add(Utilities.locationToLatlng(location.getLocation()));
+            latLngs.add(locationToLatlng(location.getLocation()));
         }
         addLatLng(polylineOptions, latLngs);
     }
