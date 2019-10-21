@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="311dp"
+    android:layout_height="match_parent"
     android:background="@drawable/background"
     tools:showIn="@layout/main_activity">
 
@@ -14,6 +14,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="55dp"
         android:background="@drawable/input_field"
+        android:completionThreshold="3"
         android:ems="10"
         android:fontFamily="sans-serif"
         android:hint="To"
@@ -24,17 +25,17 @@
         android:selectAllOnFocus="true"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fromText"
-        android:completionThreshold="3"/>
+        app:layout_constraintTop_toBottomOf="@+id/fromText" />
 
     <AutoCompleteTextView
         android:id="@+id/fromText"
         android:layout_width="302dp"
         android:layout_height="38dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="55dp"
         android:autofillHints=""
         android:background="@drawable/input_field"
+        android:completionThreshold="3"
         android:ems="10"
         android:focusedByDefault="true"
         android:fontFamily="sans-serif"
@@ -46,15 +47,13 @@
         android:singleLine="true"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:completionThreshold="3"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/timeButton"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="302dp"
         android:layout_height="38dp"
-        android:layout_marginStart="14dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="55dp"
         android:background="@drawable/input_field"
@@ -66,7 +65,6 @@
         android:textAllCaps="false"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/timeIconView"
         app:layout_constraintTop_toBottomOf="@+id/toText" />
 
     <Button
@@ -74,7 +72,7 @@
         android:layout_width="161dp"
         android:layout_height="60dp"
         android:layout_marginStart="126dp"
-        android:layout_marginTop="232dp"
+        android:layout_marginTop="200dp"
         android:layout_marginEnd="124dp"
         android:fontFamily="@font/rajdhani_bold"
         android:text="SEARCH TRIP"
@@ -87,47 +85,39 @@
         android:id="@+id/timeIconView"
         android:layout_width="23dp"
         android:layout_height="23dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="180dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="41dp"
+        android:layout_marginEnd="15dp"
         android:contentDescription="TODO"
+        android:src="@drawable/clock_24px_white"
         android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/timeButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/clock_24px_white"
+        app:layout_constraintTop_toBottomOf="@+id/destBIconView"
         tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/destAIconView"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="58dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="16dp"
         android:contentDescription="TODO"
+        android:src="@drawable/dest_a_w"
         android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/timeButton"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/dest_a_w"
         tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/destBIconView"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="120dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
         android:contentDescription="TODO"
+        android:src="@drawable/dest_b_w"
         android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/timeButton"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/dest_b_w"
+        app:layout_constraintTop_toBottomOf="@+id/divider"
         tools:visibility="visible" />
 
     <ImageView
@@ -135,20 +125,20 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="39dp"
         android:layout_marginEnd="14dp"
         android:clickable="true"
         android:src="@drawable/swap_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/toText"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/locationIconView" />
 
     <ImageView
         android:id="@+id/locationIconView"
         android:layout_width="23dp"
         android:layout_height="23dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="14dp"
         android:clickable="true"
         android:src="@drawable/location_button"
@@ -159,27 +149,27 @@
     <View
         android:id="@+id/divider"
         android:layout_width="1dp"
-        android:layout_height="36dp"
+        android:layout_height="30dp"
         android:layout_marginStart="27dp"
+        android:layout_marginTop="5dp"
         android:background="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.295" />
+        app:layout_constraintTop_toBottomOf="@+id/destAIconView" />
 
     <TextView
         android:id="@+id/nowTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="9dp"
         android:layout_marginTop="35dp"
+        android:layout_marginEnd="16dp"
         android:enabled="false"
         android:fontFamily="@font/rajdhani_medium"
         android:text="NOW"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/timeButton"
-        app:layout_constraintTop_toBottomOf="@+id/swapIconView" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swapIconView"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
