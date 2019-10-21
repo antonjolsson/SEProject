@@ -163,11 +163,11 @@ public class ResultMapFragment extends MapFragment {
     private void addPoints(PolylineOptions polylineOptions, Route route) {
         List<LatLng> latLngs = new ArrayList<>();
         if (route.getLocations() == null) {
-            latLngs.add(locationToLatlng(route.getOrigin().getLocation()));
-            latLngs.add(locationToLatlng(route.getDestination().getLocation()));
+            latLngs.add(locationToLatLng((route.getOrigin().getLocation())));
+            latLngs.add(locationToLatLng((route.getDestination().getLocation())));
         }
         else for (TripLocation location : route.getLocations()) {
-            latLngs.add(locationToLatlng(location.getLocation()));
+            latLngs.add(locationToLatLng((location.getLocation())));
         }
         addLatLng(polylineOptions, latLngs);
     }
