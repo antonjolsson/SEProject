@@ -161,9 +161,15 @@ public class ResultMapFragment extends MapFragment {
         setPolylineListener(polylines);
     }
 
+    // Tries first to add leg points, else stop points, else origin/dest points
     private void addPoints(PolylineOptions polylineOptions, Route route) {
         List<LatLng> latLngs = new ArrayList<>();
-        if (route.getLocations() == null) {
+        if (route.getLegs() != null) {
+            for (Location leg : route.getLegs()) {
+                latLngs.add(Utilities.locationToLatlng(leg));
+            }
+        }
+        else if (route.getLocations() == null) {
             latLngs.add(Utilities.locationToLatlng(route.getOrigin().getLocation()));
             latLngs.add(Utilities.locationToLatlng(route.getDestination().getLocation()));
         }

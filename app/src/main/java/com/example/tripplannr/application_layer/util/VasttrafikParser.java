@@ -225,7 +225,7 @@ public class VasttrafikParser implements TripParser {
         return ref;
     }
 
-    public void addGeometryDetails(String data, Route route) throws JSONException {
+    public void addLegDetails(String data, Route route) throws JSONException {
         List<Location> legs = new ArrayList<>();
 
         JSONArray points = new JSONObject(data).getJSONObject("Points").getJSONArray("Point");

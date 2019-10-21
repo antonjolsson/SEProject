@@ -61,7 +61,7 @@ public class TripFragment extends Fragment {
         initRecyclerView(view);
         vasttrafikRepository = new VasttrafikRepository(getContext());
         addJourneyDetails();
-        addGeometryDetails();
+        addLegDetails();
         for(Route route : tripData.getRoutes()) {
             if(route.getLocations() != null) {
                 for (TripLocation trip : route.getLocations()) {
@@ -74,9 +74,9 @@ public class TripFragment extends Fragment {
         return view;
     }
 
-    private void addGeometryDetails() {
+    private void addLegDetails() {
         for(Route route : tripData.getRoutes())
-            vasttrafikRepository.addGeometryDetails(route.getJourneyRef(), route,
+            vasttrafikRepository.addLegDetails(route.getJourneyRef(), route,
                     tripResultViewModel.getTripLiveData());
     }
 
