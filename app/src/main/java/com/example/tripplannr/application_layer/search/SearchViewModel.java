@@ -88,8 +88,8 @@ public class SearchViewModel extends ViewModel {
     }
 
     public void setTime(Calendar desiredTime, boolean timeIsDeparture) {
-        this.desiredTime.setValue(desiredTime);
         this.timeIsDeparture.setValue(timeIsDeparture);
+        this.desiredTime.setValue(desiredTime);
     }
 
     public void showTimeControls() {
