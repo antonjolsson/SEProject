@@ -46,8 +46,8 @@ abstract class MapFragment extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMapClickListener {
 
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    // Chalmers Lindholmen location :)
-    private static final LatLng DEF_LAT_LNG = new LatLng(57.707202, 11.940108);
+    // Chalmers Dome of Visions location :)
+    private static final LatLng DEF_LAT_LNG = new LatLng(57.706972, 11.937987);
     private static final float DEF_ZOOM_LEVEL = 13;
 
     GoogleMap mMap;
