@@ -197,6 +197,8 @@ public class SearchFragment extends Fragment {
                 if (validateForm()) {
                     ((InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE)))
                             .hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                    if(desiredTime == null)
+                        desiredTime = Calendar.getInstance();
                     searchViewModel.setTime(desiredTime,
                             Objects.requireNonNull(searchViewModel.getTimeIsDeparture().getValue()));
                     searchViewModel.obtainTrips(fromTextField.getText().toString(), toTextField.getText().toString());
