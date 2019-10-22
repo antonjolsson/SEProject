@@ -11,6 +11,7 @@ import com.example.tripplannr.application_layer.util.StenaLineParser;
 import com.example.tripplannr.application_layer.util.TripDictionary;
 import com.example.tripplannr.application_layer.util.VasttrafikParser;
 import com.example.tripplannr.domain_layer.Route;
+import com.example.tripplannr.domain_layer.TravelTimes;
 import com.example.tripplannr.domain_layer.Trip;
 import com.example.tripplannr.domain_layer.TripLocation;
 import com.example.tripplannr.domain_layer.TripQuery;
@@ -19,7 +20,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -30,6 +38,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.tripplannr.domain_layer.ModeOfTransport.WALK;
 
 /**
  * Not sure if this should be a repo or implementation as retrofit might create an implementation under the hood
@@ -254,6 +264,10 @@ public class VasttrafikServiceImpl {
     }
 
     private void loadTripsHelper(final TripQuery tripQuery, final long originId, final long destinationId, final String token) {
+        if(original.getOrigin().equals("Fredrikshamn") || original.getOrigin().equals("StenaTerminalen, Fredrikshamn"))
+        {
+          tripQuery.setTime(new StenaLineParser(context).getRoute(original).getTimes().getArrival().plusMinutes(35));
+        }
         final String date = tripQuery.getTime().getYear() + "-" + tripQuery.getTime().getMonthValue()
                 + "-" + tripQuery.getTime().getDayOfMonth();
         String time = tripQuery.getTime().getHour() + ":" + tripQuery.getTime().getMinute();
@@ -274,15 +288,18 @@ public class VasttrafikServiceImpl {
                             Thread.sleep(2000);
                             if (response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
-                                System.out.println(body);
+                               // System.out.println(body); 30min att checka ut
                                 List<Trip> trips = new VasttrafikParser().getTrips(body);
                                 if (original.getOrigin().equals("Fredrikshamn") || original.getOrigin().equals("StenaTerminalen, Fredrikshamn") || original.getOrigin().equals("Fredrikshamn, Danmark")) {
                                     for (Trip trip : trips) {
+                                        trip.addRouteStart(stenaToMasthugget(trip.getRoutes().get(0)));
                                         trip.addRouteStart(new StenaLineParser(context).getRoute(original));
                                     }
                                 }
                                 if (original.getDestination().equals("Fredrikshamn") || original.getDestination().equals("StenaTerminalen, Fredrikshamn") || original.getDestination().equals("Fredrikshamn, Danmark")) {
                                     for (Trip trip : trips) {
+                                        original.getTime().plusMinutes(30);
+                                        trip.addRouteEnd(masthuggetToStena(trip.getRoutes().get(trip.getRoutes().size()-1)));
                                         trip.addRouteEnd(new StenaLineParser(context).getRoute(original));
                                     }
                                 }
@@ -309,8 +326,8 @@ public class VasttrafikServiceImpl {
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        System.out.println(response.code());
-                        System.out.println(response.body());
+                      //  System.out.println(response.code());
+                       // System.out.println(response.body());
                         try {
                             sendPatternRequest(new JSONObject(response.body().string()).getString("access_token"), pattern);
                         } catch (JSONException | IOException e) {
@@ -460,5 +477,58 @@ public class VasttrafikServiceImpl {
             }
         });
 
+    }
+    private Route stenaToMasthugget(Route route)
+    {
+
+        Location location = new Location("");
+        location.setLongitude(11.946647);
+        location.setLatitude(57.701843);
+        TripLocation origin = new TripLocation("StenaTerminalen, Göteborg", location,"A");
+        TravelTimes travelTimes = new TravelTimes(route.getTimes().getDeparture().minusMinutes(5),route.getTimes().getDeparture());
+        Route returnRoute = new Route.Builder()
+                .origin(origin)
+                .destination(route.getOrigin())
+                .mode(WALK)
+                .times(travelTimes)
+                .build();
+        returnRoute.setLegs(addLegs(false));
+        return returnRoute;
+    }
+    private Route masthuggetToStena(Route route)
+    {
+
+        Location location = new Location("");
+        location.setLongitude(11.946647);
+        location.setLatitude(57.701843);
+        TripLocation destination = new TripLocation("StenaTerminalen, Göteborg", location,"A");
+        TravelTimes travelTimes = new TravelTimes(route.getTimes().getArrival(),route.getTimes().getArrival().plusMinutes(5));
+        Route returnRoute = new Route.Builder()
+                .origin(route.getDestination())
+                .destination(destination)
+                .mode(WALK)
+                .times(travelTimes)
+                .build();
+        returnRoute.setLegs(addLegs(true));
+        return returnRoute;
+
+    }
+    private List<Location> addLegs(Boolean tillStena){
+      List<Location> legs = new ArrayList<>();
+      List<Double> coords = new ArrayList<>(Arrays.asList(57.699595, 11.944577,
+              57.699845, 11.946201,57.700668, 11.945770,
+              57.701122, 11.945705,57.701219, 11.946372,
+              57.701564, 11.946369,57.701843, 11.946769));
+    for(int i=0; i< coords.size(); i=i+2)
+        {
+            Location location = new Location("");
+            location.setLatitude(i);
+            location.setLongitude(i+1);
+            legs.add(location);
+    }
+    if(!tillStena){
+        Collections.reverse(legs);
+    }
+    return legs;
     }
 }
