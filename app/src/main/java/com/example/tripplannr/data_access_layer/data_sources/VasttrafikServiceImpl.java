@@ -498,6 +498,7 @@ public class VasttrafikServiceImpl {
                 .mode(WALK)
                 .name("GÅ")
                 .times(travelTimes)
+                .name("WALK")
                 .build();
         returnRoute.setLegs(addLegs(false));
         return returnRoute;
@@ -520,8 +521,10 @@ public class VasttrafikServiceImpl {
                 .destination(destination)
                 .mode(WALK)
                 .times(travelTimes)
+                .name("WALK")
                 .build();
         returnRoute.setLegs(addLegs(true));
+
         return returnRoute;
 
     }
