@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,12 +53,13 @@ public class SavedTripDetailsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private void deleteSavedTrip() {
+    public void deleteSavedTrip() {
         NotificationManagerCompat.from(Objects.requireNonNull(getActivity())).notify(0, getNotification());
         viewModel.removeTrip(tripData);
+        Navigation.findNavController(getView()).navigate(R.id.action_navigation_saved_trips_detailed_to_navigation_saved_trips);
     }
 
-    public Notification getNotification() {
+    private Notification getNotification() {
         return new NotificationCompat.Builder(Objects.requireNonNull(getActivity()), "TRIP_CHANNEL")
                 .setSmallIcon(R.drawable.ic_notifications_black_24dp)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), ModeOfTransportIconDictionary.getTransportIcon(tripData.getRoutes().get(0).getMode())))
