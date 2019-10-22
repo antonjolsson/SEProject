@@ -66,6 +66,7 @@ public class VasttrafikParser implements TripParser {
         List<TripLocation> journeyDetails = new ArrayList<>();
         JSONObject jsonObject = new JSONObject(data);
         JSONArray stopLocations = jsonObject.getJSONObject("JourneyDetail").getJSONArray("Stop");
+        route.setGeometryRef(jsonObject.getJSONObject("JourneyDetail").getString("GeometryRef"));
 
         // Get all relevant stop coordinates and names
         for (int i = 0; i < stopLocations.length(); i++) {

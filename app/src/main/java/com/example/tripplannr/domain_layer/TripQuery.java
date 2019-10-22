@@ -11,7 +11,7 @@ public class TripQuery {
     private String destination;
     private Location originLocation;
     private Location destinationLocation;
-    private final LocalDateTime time;
+    private LocalDateTime time;
     private final boolean timeIsDeparture;
     private final List<ModeOfTransport> travelModes;
 
@@ -86,6 +86,10 @@ public class TripQuery {
 
     public void setDestinationLocation(Location destinationLocation) {
         this.destinationLocation = destinationLocation;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
     }
 
     public static final class Builder {
