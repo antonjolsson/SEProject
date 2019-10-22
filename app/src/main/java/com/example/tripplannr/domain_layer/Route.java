@@ -28,9 +28,12 @@ public class Route implements Locatable {
     @Ignore
     private List<Location> legs;
     @Ignore
-    private List<TripLocation> locations;
+    private List<TripLocation> stops;
     // Västtrafik journey reference
     private String journeyRef;
+    @Ignore
+    // Västtrafik geometry reference
+    private String geometryRef;
 
     public Route(String name, TripLocation origin, TripLocation destination, TravelTimes times,
                  ModeOfTransport mode) {
@@ -42,10 +45,12 @@ public class Route implements Locatable {
     }
 
     private Route(Builder builder) {
-        origin = builder.origin;
-        destination = builder.destination;
+        setOrigin(builder.origin);
+        setDestination(builder.destination);
         times = builder.times;
         mode = builder.mode;
+        name = builder.name;
+        setFerryinfo(builder.ferryinfo);
     }
 
     public String getName() {
@@ -64,8 +69,12 @@ public class Route implements Locatable {
         this.tripId = tripId;
     }
 
-    public void setLocations(List<TripLocation> locations) {
-        this.locations = locations;
+    public void setStops(List<TripLocation> stops) {
+        this.stops = stops;
+    }
+
+    public void setGeometryRef(String geometryRef) {
+        this.geometryRef = geometryRef;
     }
 
     public void setOrigin(TripLocation origin) {
@@ -100,8 +109,36 @@ public class Route implements Locatable {
         return legs;
     }
 
-    public List<TripLocation> getLocations() {
-        return locations;
+    public List<TripLocation> getStops() {
+        return stops;
+    }
+
+    public String getGeometryRef() {
+        return geometryRef;
+    }
+
+    public FerryInfo getFerryinfo() {
+        return ferryinfo;
+    }
+
+    public void setFerryInfo(FerryInfo ferryinfo) {
+        this.ferryinfo = ferryinfo;
+    }
+
+    public void setLegs(List<Location> legs) {
+        this.legs = legs;
+    }
+
+    public void setJourneyRef(String journeyRef) {
+        this.journeyRef = journeyRef;
+    }
+
+    public String getJourneyRef() {
+        return journeyRef;
+    }
+
+    public void setFerryinfo(FerryInfo ferryinfo) {
+        this.ferryinfo = ferryinfo;
     }
 
     public static final class Builder {
@@ -109,6 +146,8 @@ public class Route implements Locatable {
         private TripLocation destination;
         private TravelTimes times;
         private ModeOfTransport mode;
+        private String name;
+        private FerryInfo ferryinfo;
 
         public Builder() {
         }
@@ -133,24 +172,18 @@ public class Route implements Locatable {
             return this;
         }
 
+        public Builder name(String val) {
+            name = val;
+            return this;
+        }
+
+        public Builder ferryinfo(FerryInfo val) {
+            ferryinfo = val;
+            return this;
+        }
+
         public Route build() {
             return new Route(this);
         }
-    }
-
-    public void setFerryInfo(FerryInfo ferryinfo) {
-        this.ferryinfo = ferryinfo;
-    }
-
-    public void setLegs(List<Location> legs) {
-        this.legs = legs;
-    }
-
-    public void setJourneyRef(String journeyRef) {
-        this.journeyRef = journeyRef;
-    }
-
-    public String getJourneyRef() {
-        return journeyRef;
     }
 }

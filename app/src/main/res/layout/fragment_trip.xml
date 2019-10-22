@@ -13,35 +13,55 @@
             name="trip"
             type="com.example.tripplannr.domain_layer.Trip" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:scrollbarSize="20dp"
+        android:scrollbarStyle="insideOverlay"
         tools:context=".controller.trip.TripFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/routesRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="277dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/grey_background"
+            android:elevation="@dimen/modal_fragment_elevation"
+            android:fadeScrollbars="false"
+            android:fadingEdgeLength="25dp"
+            android:outlineProvider="bounds"
+            android:requiresFadingEdge="vertical"
+            android:scrollIndicators="right"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarSize="20dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:verticalScrollbarPosition="right"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:elevation="@dimen/modal_fragment_elevation"
-            android:outlineProvider="bounds"/>
+            tools:itemCount="4"
+            tools:listitem="@layout/route_view_holder" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="277dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/routesRecyclerView">
+            app:layout_constraintStart_toStartOf="parent">
 
             <fragment
                 android:id="@+id/trip_map_fragment"
                 android:name="com.example.tripplannr.application_layer.trip.map.ResultMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

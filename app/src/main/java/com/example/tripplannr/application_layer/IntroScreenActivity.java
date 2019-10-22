@@ -13,7 +13,7 @@ public class IntroScreenActivity extends Activity {
 
      // vvv Set this to false to bypass intro screen
 
-    private final boolean introScreen = true;
+    private final boolean introScreen = false;
 
     private static final int DISPLAY_TIME = 3000;
 

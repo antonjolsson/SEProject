@@ -4,7 +4,7 @@
     {
 
       "name": "Göteborg -> Fredrikshamn",
-      "type": "BOAT",
+      "type": "FERRY",
       "direction": "Fredrikshamn",
       "Origin": {
         "name": "StenaTerminalen, Göteborg",
@@ -23,7 +23,7 @@
 
     {
       "name": "Göteborg -> Fredrikshamn",
-      "type": "BOAT",
+      "type": "FERRY",
       "direction": "Fredrikshamn",
       "Origin": {
         "name": "StenaTerminalen, Göteborg",
@@ -41,7 +41,7 @@
   ,
     {
       "name": "Göteborg -> Fredrikshamn",
-      "type": "BOAT",
+      "type": "FERRY",
       "direction": "Fredrikshamn",
       "Origin": {
         "name": "StenaTerminalen, Göteborg",
@@ -59,7 +59,7 @@
   ,
     {
       "name": "Göteborg -> Fredrikshamn",
-      "type": "BOAT",
+      "type": "FERRY",
       "direction": "Fredrikshamn",
       "Origin": {
         "name": "StenaTerminalen, Göteborg",
@@ -77,7 +77,7 @@
   ,
     {
       "name": "Göteborg -> Fredrikshamn",
-      "type": "BOAT",
+      "type": "FERRY",
       "direction": "Fredrikshamn",
       "Origin": {
         "name": "StenaTerminalen, Göteborg",
@@ -95,7 +95,7 @@
   ,
     {
       "name": "Göteborg -> Fredrikshamn",
-      "type": "BOAT",
+      "type": "FERRY",
       "direction": "Fredrikshamn",
       "Origin": {
         "name": "StenaTerminalen, Göteborg",
@@ -113,7 +113,7 @@
   ,
     {
       "name": "Fredrikshamn -> Göteborg",
-      "type": "BOAT",
+      "type": "FERRY",
       "direction": "Göteborg",
       "Origin": {
         "name": "StenaTerminalen, Fredrikshamn",
@@ -131,7 +131,7 @@
     {
 
       "name": "Fredrikshamn -> Göteborg",
-      "type": "BOAT",
+      "type": "FERRY",
       "direction": "Göteborg",
       "Origin": {
         "name": "StenaTerminalen, Fredrikshamn",
@@ -149,7 +149,7 @@
     {
 
       "name": "Fredrikshamn -> Göteborg",
-      "type": "BOAT",
+      "type": "FERRY",
       "direction": "Göteborg",
       "Origin": {
         "name": "StenaTerminalen, Fredrikshamn",
@@ -167,7 +167,7 @@
     {
 
       "name": "Fredrikshamn -> Göteborg",
-      "type": "BOAT",
+      "type": "FERRY",
       "direction": "Göteborg",
       "Origin": {
         "name": "StenaTerminalen, Fredrikshamn",
@@ -185,7 +185,7 @@
     {
 
       "name": "Fredrikshamn -> Göteborg",
-      "type": "BOAT",
+      "type": "FERRY",
       "direction": "Göteborg",
       "Origin": {
         "name": "StenaTerminalen, Fredrikshamn",
@@ -203,7 +203,7 @@
     {
 
       "name": "Fredrikshamn -> Göteborg",
-      "type": "BOAT",
+      "type": "FERRY",
       "direction": "Göteborg",
       "Origin": {
         "name": "StenaTerminalen, Fredrikshamn",

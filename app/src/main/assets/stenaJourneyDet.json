@@ -20,7 +20,7 @@
             "Ship": "Stena Jutlandica"
             ,
             "JourneyType":
-              "BOAT"
+              "FERRY"
 
         },
         "GOTFRE2": {
@@ -42,7 +42,7 @@
             ,
             "Ship": "Stena Danica"
             ,
-            "JourneyType": "BOAT"
+            "JourneyType": "FERRY"
 
         },
         "GOTFRE3": {
@@ -64,7 +64,7 @@
             ,
             "Ship":  "Stena Vinga"
             ,
-            "JourneyType":  "BOAT"
+            "JourneyType":  "FERRY"
 
         },
         "FREGOT1": {
@@ -86,7 +86,7 @@
             ,
             "Ship": "Stena Vinga"
             ,
-            "JourneyType":  "BOAT"
+            "JourneyType":  "FERRY"
 
         },
         "FREGOT2": {
@@ -108,7 +108,7 @@
             ,
             "Ship":  "Stena Jutlandica"
             ,
-            "JourneyType":  "BOAT"
+            "JourneyType":  "FERRY"
 
         },
         "FREGOT3": {
@@ -130,7 +130,7 @@
             ,
             "Ship": "Stena Danica"
             ,
-            "JourneyType":  "BOAT"
+            "JourneyType":  "FERRY"
 
         }
     }

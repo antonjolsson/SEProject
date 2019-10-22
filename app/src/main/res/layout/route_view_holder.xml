@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
         <import type="java.time.format.DateTimeFormatter" />
         <variable
@@ -7,87 +10,158 @@
             type="com.example.tripplannr.domain_layer.Route" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/trip_result_border"
+        android:backgroundTint="@color/offWhite"
+        android:clickable="true"
         android:orientation="vertical">
+
 
         <TextView
             android:id="@+id/startTimeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="6dp"
             android:text='@{route.times.departure.format(DateTimeFormatter.ofPattern("HH:mm"))}'
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/originTextView"
-            android:textColor="@color/white"/>
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="07:32"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/timeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginBottom="6dp"
             android:text='@{route.times.arrival.format(DateTimeFormatter.ofPattern("HH:mm"))}'
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/startTimeTextView"
-            android:textColor="@color/white"/>
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            tools:text="07:48" />
 
         <TextView
             android:id="@+id/originTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:text='@{route.origin.name + " - Track " + route.origin.track}'
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="4dp"
+            android:text='@{route.origin.name}'
+            android:textColor="@color/darkgreyText"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/trackTextView2"
+            app:layout_constraintStart_toEndOf="@+id/startTimeTextView"
             app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@color/white"/>
+            tools:text="Lindholmsplatsen, Göteborg" />
 
         <TextView
             android:id="@+id/destinationTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="6dp"
+            android:text='@{route.destination.name}'
+            android:textColor="@color/darkgreyText"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/trackTextView"
+            app:layout_constraintStart_toEndOf="@+id/timeTextView"
+            tools:text="Lilla Bommen, Göteborg" />
+
+        <ImageView
+            android:id="@+id/iconImageView"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/timeTextView"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/startTimeTextView"
+            app:layout_constraintVertical_bias="0.0"
+            tools:srcCompat="@drawable/bus" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="30dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/trip_line" />
+
+        <TextView
+            android:id="@+id/moreInfoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:text='@{route.destination.name + " - Track " + route.destination.track}'
+            android:layout_marginBottom="25dp"
+            android:clickable="true"
+            android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/timeTextView"
-            app:layout_constraintVertical_bias="1.0"
-            android:textColor="@color/white"/>
+            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-        <ImageView
-            android:id="@+id/iconImageView"
-            android:layout_width="67dp"
-            android:layout_height="73dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="20dp"
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="19dp"
+            android:layout_marginBottom="19dp"
+            android:fontFamily="@font/rajdhani_medium"
+            android:text='@{route.name.toUpperCase()}'
+            android:textColor="#575757"
+            android:textSize="17sp"
             app:layout_constraintBottom_toTopOf="@+id/destinationTextView"
-            app:layout_constraintEnd_toStartOf="@+id/startTimeTextView"
+            app:layout_constraintStart_toEndOf="@+id/iconImageView"
             app:layout_constraintTop_toBottomOf="@+id/originTextView"
-            android:tint="@color/white"/>
+            tools:text="BUSS 55" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="45dp"
-            android:layout_height="161dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+        <TextView
+            android:id="@+id/trackTextView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/rajdhani_bold"
+            android:text='@{"TRACK " + route.origin.track.toUpperCase()}'
+            android:textColor="@color/darkgreyText"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/trip_line"
-            android:tint="@color/white"/>
+            tools:text="TRACK A" />
+
+        <TextView
+            android:id="@+id/trackTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/rajdhani_bold"
+            android:text='@{"TRACK " + route.origin.track.toUpperCase()}'
+            android:textColor="@color/darkgreyText"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="TRACK A" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

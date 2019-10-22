@@ -8,7 +8,11 @@
     <fragment
         android:id="@+id/navigation_trip_fragment"
         android:name="com.example.tripplannr.application_layer.trip.TripFragment"
-        android:label="@string/trip"/>
+        android:label="@string/trip">
+        <action
+            android:id="@+id/action_navigation_trip_fragment_to_navigation_ferry_info"
+            app:destination="@id/navigation_ferry_info" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_trip_results"
@@ -57,7 +61,16 @@
         android:id="@+id/navigation_saved_trips_detailed"
         android:name="com.example.tripplannr.application_layer.profile.SavedTripDetailsFragment"
         android:label="@string/title_saved_trips"
-        tools:layout="@layout/fragment_saved_trip_details" />
+        tools:layout="@layout/fragment_saved_trip_details" >
+        <action
+            android:id="@+id/action_navigation_saved_trips_detailed_to_navigation_saved_trips"
+            app:destination="@id/navigation_saved_trips" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/navigation_ferry_info"
+        android:name="com.example.tripplannr.application_layer.trip.FerryInfoFragment"
+        android:label="@string/title_ferry_info"
+        tools:layout="@layout/fragment_ferry_info" />
 
 </navigation>

@@ -46,11 +46,9 @@ abstract class MapFragment extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMapClickListener {
 
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    // Chalmers Lindholmen location :)
-    private static final LatLng DEF_LAT_LNG = new LatLng(57.707202, 11.940108);
+    // Chalmers Dome of Visions location :)
+    private static final LatLng DEF_LAT_LNG = new LatLng(57.7069, 11.9379);
     private static final float DEF_ZOOM_LEVEL = 13;
-
-    private static final int BOTTOM_PADDING = 130; // TODO: Remove this when map frag gets more space
 
     GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
@@ -100,7 +98,6 @@ abstract class MapFragment extends Fragment implements OnMapReadyCallback,
                 zoomLevel = cameraPosition.zoom;
             }
         });
-        mMap.setPadding(0, 0, 0, BOTTOM_PADDING);
         initLocationRequest();
         setListeners();
         if (model.getOrigin().getValue() != null) {
