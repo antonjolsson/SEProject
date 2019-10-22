@@ -1,7 +1,5 @@
 package com.example.tripplannr.application_layer.trip;
 
-import android.content.res.Resources;
-import android.graphics.drawable.Icon;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +7,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -103,7 +100,7 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
         return Collections.unmodifiableList(routes);
     }
 
-    public class RouteViewHolder extends RecyclerView.ViewHolder {
+    class RouteViewHolder extends RecyclerView.ViewHolder {
 
         private final RouteViewHolderBinding routeViewHolderBinding;
 

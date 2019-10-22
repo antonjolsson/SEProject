@@ -112,10 +112,34 @@ public class ResultMapFragment extends MapFragment {
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, MAP_LOC_PADDING));
     }
 
-    private LatLngBounds getLatLngBounds(List<LatLng> points) {
+    /*private LatLngBounds getLatLngBounds(List<LatLng> points) {
         LatLng[] mostRemotePoints = getLongestDistance(points);
         return LatLngBounds.builder().include(mostRemotePoints[0]).
                 include(mostRemotePoints[1]).build();
+    }*/
+
+    private LatLngBounds getLatLngBounds(List<LatLng> points) {
+        double westernmost = 0, northernmost = 0, easternmost = 0, southernmost = 0;
+        double lat, lng;
+        for (int i = 0; i < points.size(); i++) {
+            lat = points.get(i).latitude;
+            lng = points.get(i).longitude;
+            if (i == 0) {
+                westernmost = lng;
+                easternmost = lng;
+                northernmost = lat;
+                southernmost = lat;
+            }
+            else {
+                if (lng < westernmost) westernmost = lng;
+                if (lng > easternmost) easternmost = lng;
+                if (lat > northernmost) northernmost = lat;
+                if (lat < southernmost) southernmost = lat;
+            }
+        }
+        LatLng sw = new LatLng(southernmost, westernmost);
+        LatLng ne = new LatLng(northernmost, easternmost);
+        return LatLngBounds.builder().include(sw).include(ne).build();
     }
 
     private void getCoordinatesFromRoute(List<LatLng> points, Route route) {
@@ -146,7 +170,8 @@ public class ResultMapFragment extends MapFragment {
         PolylineOptions polylineOptions;
         List<PatternItem> dotLine = Arrays.asList(new Dot(), new Gap(14));
 
-        for (Route route : routes) {
+        for (int i = 0; i < routes.size(); i++) {
+            Route route = routes.get(i);
             polylineOptions = new PolylineOptions();
             if (route.getMode() == WALK) replaceLocations(route);
             addPoints(polylineOptions, route);
@@ -157,6 +182,17 @@ public class ResultMapFragment extends MapFragment {
             polyLines.add(polyline);
         }
         setPolylineListener(polyLines);
+    }
+
+    // todo: implement
+    private void replaceWalkLocations(Trip trip, Route route, int index) {
+        if (route.getOrigin().getLocation().getLatitude() < 0.01) {
+            if (index > 0 && trip.getRoutes().get(index - 1).
+                    getOrigin().getLocation().getLatitude() > 0.01) {
+                route.setOrigin(trip.getRoutes().get(index - 1).
+                        getOrigin());
+            }
+        }
     }
 
     // Tries first to add leg points, else stop points, else origin/dest points
