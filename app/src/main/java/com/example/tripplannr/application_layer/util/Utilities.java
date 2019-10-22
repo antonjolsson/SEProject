@@ -57,4 +57,18 @@ public class Utilities {
         location.setLongitude(latLng.longitude);
         return location;
     }
+
+    public static String englishTransportName(String name) {
+        String transportName = name.replaceAll("\\s(.)+", "");
+        String tempName;
+        switch (transportName) {
+            case "Gå" : tempName = "Walk"; break;
+            case "Spårvagn" : tempName = "Tram"; break;
+            case "Färja" : tempName = "Ferry"; break;
+            case "Tåg" : tempName = "Train"; break;
+            case "Car" : tempName = "Bil"; break;
+            default: tempName = "Bus";
+        }
+        return tempName + name.replaceFirst("(\\S)+", "");
+    }
 }

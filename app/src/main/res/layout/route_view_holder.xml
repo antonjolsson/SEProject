@@ -53,7 +53,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="6dp"
             android:text='@{route.origin.name + " - Track " + route.origin.track}'
-            android:textColor="@color/black"
+            android:textColor="@color/darkgreyText"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/startTimeTextView"
             app:layout_constraintTop_toTopOf="parent"
@@ -66,7 +66,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginBottom="6dp"
             android:text='@{route.destination.name + " - Track " + route.destination.track}'
-            android:textColor="@color/black"
+            android:textColor="@color/darkgreyText"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/timeTextView"
@@ -100,14 +100,15 @@
             app:srcCompat="@drawable/trip_line" />
 
         <TextView
-            android:id="@+id/lineTextView"
+            android:id="@+id/nameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="13dp"
             android:layout_marginTop="19dp"
             android:layout_marginBottom="19dp"
             android:fontFamily="@font/rajdhani_medium"
-            android:textColor="@color/black"
+            android:text='@{route.name.toUpperCase()}'
+            android:textColor="#575757"
             android:textSize="17sp"
             app:layout_constraintBottom_toTopOf="@+id/destinationTextView"
             app:layout_constraintStart_toEndOf="@+id/iconImageView"

@@ -143,7 +143,7 @@ public class VasttrafikParser implements TripParser {
     private Route getRoute(JSONObject routeJSON) throws JSONException {
 
         // Get name from JSON
-        String name = routeJSON.getString("name");
+        String name = Utilities.englishTransportName(routeJSON.getString("name"));
 
         // Get origin stop info from JSON
         String origin_name = routeJSON.getJSONObject("Origin").getString("name");

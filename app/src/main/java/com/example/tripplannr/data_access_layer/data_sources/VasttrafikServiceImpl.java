@@ -57,7 +57,7 @@ public class VasttrafikServiceImpl {
 
     private final Context context;
 
-    VasttrafikParser parser;
+    private VasttrafikParser parser;
 
     private VasttrafikServiceImpl(Context context) {
         this.context = context;
@@ -72,6 +72,7 @@ public class VasttrafikServiceImpl {
                 .build();
 
         vasttrafikService = retrofit.create(VasttrafikService.class);
+        parser = new VasttrafikParser();
     }
 
     public LiveData<List<Trip>> getData() {
@@ -399,7 +400,6 @@ public class VasttrafikServiceImpl {
                             if(response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
                                 // TODO do something with response
-                                parser = new VasttrafikParser();
                                 parser.addJourneyDetails(body, route);
                                 tripLiveData.setValue(tripLiveData.getValue());
                             }
@@ -446,9 +446,11 @@ public class VasttrafikServiceImpl {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.code() >= 200 && response.code() <= 299) {
                     try {
-                        String body = response.body().string();
-                        parser.addLegDetails(body, route);
-                        tripLiveData.setValue(tripLiveData.getValue());
+                        if (response.body() != null) {
+                            String body = response.body().string();
+                            parser.addLegDetails(body, route);
+                            tripLiveData.setValue(tripLiveData.getValue());
+                        }
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
                     }

@@ -10,4 +10,5 @@
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FFFF00</color>
     <color name="offWhite">#EEEEEE</color>
+    <color name="darkgreyText">#575757</color>
 </resources>
