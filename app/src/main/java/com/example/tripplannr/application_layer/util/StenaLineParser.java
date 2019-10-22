@@ -124,7 +124,7 @@ public class StenaLineParser {
         List<Location> locationList;
         try {
             // TODO Add name in JSON?
-            String name = "Stena";
+
 
             JSONObject obj = new JSONObject(loadJSONFromAsset("stenaJourneyDet.json"));
             JSONObject objRoute = obj.getJSONObject("JourneyDetail").getJSONObject(jRef);
@@ -149,7 +149,7 @@ public class StenaLineParser {
             ModeOfTransport mode = ModeOfTransport.valueOf(type);
 
             String ferryName = objRoute.getString("Ship");
-
+            String name = ferryName;
 
             route = new Route(name, origin, destination, times, mode);
 
