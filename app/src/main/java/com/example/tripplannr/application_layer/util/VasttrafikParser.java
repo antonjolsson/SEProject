@@ -88,7 +88,7 @@ public class VasttrafikParser implements TripParser {
                 break;
             }
         }
-        route.setLocations(journeyDetails);
+        route.setStops(journeyDetails);
     }
 
     public List<LatLng> getPoints(String data) throws JSONException {

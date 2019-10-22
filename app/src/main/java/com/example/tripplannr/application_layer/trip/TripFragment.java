@@ -63,8 +63,8 @@ public class TripFragment extends Fragment {
         addJourneyDetails();
         addLegDetails();
         for(Route route : tripData.getRoutes()) {
-            if(route.getLocations() != null) {
-                for (TripLocation trip : route.getLocations()) {
+            if(route.getStops() != null) {
+                for (TripLocation trip : route.getStops()) {
                     System.out.println(trip.getName());
                     System.out.println(trip.getLocation().getLongitude());
                     System.out.println(trip.getLocation().getLatitude());

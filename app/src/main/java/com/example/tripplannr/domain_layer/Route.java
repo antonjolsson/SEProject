@@ -28,7 +28,7 @@ public class Route implements Locatable {
     @Ignore
     private List<Location> legs;
     @Ignore
-    private List<TripLocation> locations;
+    private List<TripLocation> stops;
     // Västtrafik journey reference
     private String journeyRef;
 
@@ -64,8 +64,8 @@ public class Route implements Locatable {
         this.tripId = tripId;
     }
 
-    public void setLocations(List<TripLocation> locations) {
-        this.locations = locations;
+    public void setStops(List<TripLocation> stops) {
+        this.stops = stops;
     }
 
     public void setOrigin(TripLocation origin) {
@@ -100,8 +100,8 @@ public class Route implements Locatable {
         return legs;
     }
 
-    public List<TripLocation> getLocations() {
-        return locations;
+    public List<TripLocation> getStops() {
+        return stops;
     }
 
     public static final class Builder {

@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.tripplannr.R;
 import com.example.tripplannr.application_layer.addressservice.LocationService;
 import com.example.tripplannr.application_layer.trip.TripResultViewModel;
-import com.example.tripplannr.application_layer.util.Utilities;
 import com.example.tripplannr.domain_layer.Locatable;
 import com.example.tripplannr.domain_layer.Route;
 import com.example.tripplannr.domain_layer.Trip;
@@ -80,7 +79,7 @@ public class ResultMapFragment extends MapFragment {
                         break;
                     }
                 }
-                focusPolyline(polyLines.get(routeIndex));
+                if (routeIndex < polyLines.size()) focusPolyline(polyLines.get(routeIndex));
             }
         });
     }
@@ -88,7 +87,7 @@ public class ResultMapFragment extends MapFragment {
     private boolean allRoutesHaveLocations(Trip trip) {
         for (Route route : trip.getRoutes()) {
             if (route.getMode() == WALK) continue;
-            if (route.getLocations() == null) return false;
+            if (route.getStops() == null && route.getLegs() == null) return false;
         }
         return true;
     }
@@ -170,11 +169,11 @@ public class ResultMapFragment extends MapFragment {
                 latLngs.add(locationToLatlng(leg));
             }
         }
-        else if (route.getLocations() == null) {
+        else if (route.getStops() == null) {
             latLngs.add(locationToLatlng(route.getOrigin().getLocation()));
             latLngs.add(locationToLatlng(route.getDestination().getLocation()));
         }
-        else for (TripLocation location : route.getLocations()) {
+        else for (TripLocation location : route.getStops()) {
             latLngs.add(locationToLatlng((location.getLocation())));
         }
         addLatLng(polylineOptions, latLngs);
