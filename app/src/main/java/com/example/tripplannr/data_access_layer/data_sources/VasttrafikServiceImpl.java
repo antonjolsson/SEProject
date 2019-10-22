@@ -30,6 +30,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -482,15 +483,20 @@ public class VasttrafikServiceImpl {
     private Route stenaToMasthugget(Route route)
     {
 
-        Location location = new Location("");
-        location.setLongitude(11.946647);
-        location.setLatitude(57.701843);
-        TripLocation origin = new TripLocation("StenaTerminalen, Göteborg", location,"A");
+        Location origin_location = new Location("");
+        origin_location.setLongitude(11.946647);
+        origin_location.setLatitude(57.701843);
+        TripLocation origin = new TripLocation("StenaTerminalen, Göteborg", origin_location,"A");
+        Location destination_location = new Location("");
+        destination_location.setLongitude(11.944577);
+        destination_location.setLatitude(57.699595);
+        TripLocation destination = new TripLocation("Masthuggstorget", destination_location, "D");
         TravelTimes travelTimes = new TravelTimes(route.getTimes().getDeparture().minusMinutes(5),route.getTimes().getDeparture());
         Route returnRoute = new Route.Builder()
                 .origin(origin)
-                .destination(route.getOrigin())
+                .destination(destination)
                 .mode(WALK)
+                .name("GÅ")
                 .times(travelTimes)
                 .build();
         returnRoute.setLegs(addLegs(false));
@@ -499,13 +505,18 @@ public class VasttrafikServiceImpl {
     private Route masthuggetToStena(Route route)
     {
 
-        Location location = new Location("");
-        location.setLongitude(11.946647);
-        location.setLatitude(57.701843);
-        TripLocation destination = new TripLocation("StenaTerminalen, Göteborg", location,"A");
+        Location destination_location = new Location("");
+        destination_location.setLongitude(11.946647);
+        destination_location.setLatitude(57.701843);
+        TripLocation destination = new TripLocation("StenaTerminalen, Göteborg", destination_location,"A");
+        Location origin_location = new Location("");
+        origin_location.setLongitude(11.944577);
+        origin_location.setLatitude(57.699595);
+        TripLocation origin = new TripLocation("Masthuggstorget", destination_location, "D");
         TravelTimes travelTimes = new TravelTimes(route.getTimes().getArrival(),route.getTimes().getArrival().plusMinutes(5));
         Route returnRoute = new Route.Builder()
-                .origin(route.getDestination())
+                .origin(origin)
+                .name("GÅ")
                 .destination(destination)
                 .mode(WALK)
                 .times(travelTimes)
@@ -520,16 +531,16 @@ public class VasttrafikServiceImpl {
               57.699845, 11.946201,57.700668, 11.945770,
               57.701122, 11.945705,57.701219, 11.946372,
               57.701564, 11.946369,57.701843, 11.946769));
-    for(int i=0; i< coords.size(); i=i+2)
-        {
+    for(int i=0; i< coords.size(); i=i+2) {
             Location location = new Location("");
-            location.setLatitude(i);
-            location.setLongitude(i+1);
+            location.setLatitude(coords.get(i));
+            location.setLongitude(coords.get(i+1));
             legs.add(location);
     }
-    if(!tillStena){
+    if(!tillStena)
         Collections.reverse(legs);
-    }
+    System.out.println("test");
+    System.out.println(legs);
     return legs;
     }
 }
