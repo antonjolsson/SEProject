@@ -5,6 +5,7 @@
 
     <data>
         <import type="java.time.format.DateTimeFormatter" />
+        <import type="com.example.tripplannr.application_layer.util.Utilities"/>
         <variable
             name="route"
             type="com.example.tripplannr.domain_layer.Route" />
@@ -54,7 +55,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="4dp"
-            android:text='@{route.origin.name}'
+            android:text='@{Utilities.typoFixer(route.origin.name)}'
             android:textColor="@color/darkgreyText"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/originTrackView"
@@ -69,7 +70,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="6dp"
-            android:text='@{route.destination.name}'
+            android:text='@{Utilities.typoFixer(route.destination.name)}'
             android:textColor="@color/darkgreyText"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"

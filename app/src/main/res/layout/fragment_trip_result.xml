@@ -3,6 +3,7 @@
     <data>
         <import type="android.view.View" />
         <import type="java.time.format.DateTimeFormatter" />
+        <import type="com.example.tripplannr.application_layer.util.Utilities"/>
         <variable
             name="trip"
             type="com.example.tripplannr.domain_layer.Trip" />
@@ -87,7 +88,7 @@
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text='@{"From: " + trip.origin.name}'/>
+                    android:text='@{"From: " + Utilities.typoFixer(trip.origin.name)}'/>
 
                 <TextView
                     android:id="@+id/whenTextView"
@@ -109,7 +110,7 @@
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/originTextView"
-                    android:text='@{"To: " + trip.destination.name}'/>
+                    android:text='@{"To: " + Utilities.typoFixer(trip.destination.name)}'/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

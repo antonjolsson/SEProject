@@ -71,4 +71,10 @@ public class Utilities {
         }
         return tempName + name.replaceFirst("(\\S)+", "");
     }
+
+    public static String typoFixer (String name) {
+        if (name != null && name.contains("StenaTerminalen"))
+            return "Stenaterminalen," + name.replaceFirst("(.)+,", "");
+        return name;
+    }
 }
