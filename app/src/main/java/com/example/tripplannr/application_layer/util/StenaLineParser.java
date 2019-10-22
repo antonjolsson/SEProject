@@ -56,13 +56,13 @@ public class StenaLineParser {
         System.out.println(tQ.getOrigin());
         System.out.println(tQ.getDestination());
         if (tQ.getOrigin().equals("Fredrikshamn") || tQ.getOrigin().equals("Fredrikshamn, Danmark"))
-            tQ.setOrigin("StenaTerminalen, Fredrikshamn");
+            tQ.setOrigin("Stenaterminalen, Fredrikshamn");
         else if (!tQ.getOrigin().equals("StenaTerminalen, Fredrikshamn"))
-            tQ.setOrigin("StenaTerminalen, Göteborg");
+            tQ.setOrigin("Stenaterminalen, Göteborg");
         if (tQ.getDestination().equals("Fredrikshamn") || tQ.getDestination().equals("Fredrikshamn, Danmark"))
-            tQ.setDestination("StenaTerminalen, Fredrikshamn");
+            tQ.setDestination("Stenaterminalen, Fredrikshamn");
         else if (!tQ.getDestination().equals("StenaTerminalen, Fredrikshamn"))
-            tQ.setDestination("StenaTerminalen, Göteborg");
+            tQ.setDestination("Stenaterminalen, Göteborg");
         System.out.println(tQ.getOrigin());
         System.out.println(tQ.getDestination());
         List<Trip> trips = new ArrayList<>();

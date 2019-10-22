@@ -62,7 +62,6 @@ public class ResultMapFragment extends MapFragment {
         viewModel.getTripLiveData().observe(this, new Observer<Trip>() {
             @Override
             public void onChanged(Trip trip) {
-                //routes = getRoutes(trip.getRoutes()); // Todo: remove when routes contain locations
                 if (allRoutesHaveLocations(trip))
                     drawTrip(trip);
             }
@@ -93,7 +92,6 @@ public class ResultMapFragment extends MapFragment {
     }
 
     private void drawTrip(Trip trip) {
-        //trip = getFakeTrip(trip);
         drawMarkers(trip);
         drawPolyLines(trip);
         centerItinerary(trip);
@@ -228,47 +226,6 @@ public class ResultMapFragment extends MapFragment {
         model.setLocation(trip.getOrigin().getLocation(), null);
         model.setFocusedLocationField(DESTINATION);
         model.setLocation(trip.getDestination().getLocation(), null);
-    }
-
-    // TODO: remove this when trips contain Location data
-    // *******************************************************************************************
-    private Trip getFakeTrip(Trip trip) {
-        Location originLoc = makeLocation(57.706998, 11.938496);
-        TripLocation originTripLocation = new TripLocation(trip.getOrigin().getName(), originLoc,
-                trip.getOrigin().getTrack());
-        Location destLoc = makeLocation(57.687775, 11.979341);
-        TripLocation destTripLocation = new TripLocation(trip.getDestination().getName(), destLoc,
-                trip.getDestination().getTrack());
-        //List<Route> routes = getRoutes(trip.getRoutes());
-        return new Trip(trip.getName(), routes);
-    }
-
-    private List<Route> getRoutes(List<Route> routes) {
-        List<Route> routes2 = new ArrayList<>();
-        Location originLoc = makeLocation(57.706998, 11.938496);
-        Location destLoc = makeLocation(57.689986, 11.972968);
-        TripLocation t1 = new TripLocation(routes.get(0).getOrigin().getName(),
-                originLoc, "30");
-        TripLocation t2 = new TripLocation(routes.get(0).getDestination().getName(),
-                destLoc, "D");
-        routes2.add(new Route(routes.get(0).getName(), t1, t2, routes.get(0).getTimes(), routes.get(1).getMode()));
-
-        t1 = new TripLocation(routes.get(0).getDestination().getName(),
-                destLoc, "D");
-        destLoc = makeLocation(57.687775, 11.979341);
-        t2 = new TripLocation("Chalmers, Göteborg", destLoc, null);
-        routes2.add(new Route(routes.get(0).getName(), t1, t2, routes.get(0).getTimes(), WALK));
-
-        return routes2;
-    }
-
-    // *******************************************************************************************
-
-    private Location makeLocation(double lat, double lng) {
-        Location originLoc = new Location("");
-        originLoc.setLatitude(lat);
-        originLoc.setLongitude(lng);
-        return originLoc;
     }
 
 }
