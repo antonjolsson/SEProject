@@ -110,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="47dp"
             android:background="@color/colorPrimary"
             android:clickable="true"
             android:fontFamily="@font/rajdhani_bold"
@@ -128,15 +128,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="13dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginBottom="19dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginBottom="45dp"
             android:fontFamily="@font/rajdhani_medium"
             android:text='@{route.name.toUpperCase()}'
             android:textColor="#575757"
             android:textSize="17sp"
-            app:layout_constraintBottom_toTopOf="@+id/destinationTextView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iconImageView"
-            app:layout_constraintTop_toBottomOf="@+id/originTextView"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="BUSS 55" />
 
         <TextView

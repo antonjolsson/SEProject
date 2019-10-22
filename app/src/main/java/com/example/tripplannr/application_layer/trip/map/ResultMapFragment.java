@@ -112,12 +112,6 @@ public class ResultMapFragment extends MapFragment {
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, MAP_LOC_PADDING));
     }
 
-    /*private LatLngBounds getLatLngBounds(List<LatLng> points) {
-        LatLng[] mostRemotePoints = getLongestDistance(points);
-        return LatLngBounds.builder().include(mostRemotePoints[0]).
-                include(mostRemotePoints[1]).build();
-    }*/
-
     private LatLngBounds getLatLngBounds(List<LatLng> points) {
         double westernmost = 0, northernmost = 0, easternmost = 0, southernmost = 0;
         double lat, lng;
@@ -145,24 +139,6 @@ public class ResultMapFragment extends MapFragment {
     private void getCoordinatesFromRoute(List<LatLng> points, Route route) {
         points.add(locationToLatlng(route.getOrigin().getLocation()));
         points.add(locationToLatlng(route.getDestination().getLocation()));
-    }
-
-    private LatLng[] getLongestDistance(List<LatLng> points) {
-        float[] results = new float[3];
-        LatLng[] mostRemotePoints = new LatLng[2];
-        double longestDist = 0;
-        for (int i = 0; i < points.size(); i++) {
-            for (int j = i + 1; j < points.size(); j++) {
-                Location.distanceBetween(points.get(i).latitude, points.get(i).longitude,
-                        points.get(j).latitude, points.get(j).longitude, results);
-                if (results[0] >= longestDist) {
-                    longestDist = results[0];
-                    mostRemotePoints[0] = points.get(i);
-                    mostRemotePoints[1] = points.get(j);
-                }
-            }
-        }
-        return mostRemotePoints;
     }
 
     private void drawPolyLines(Trip trip) {

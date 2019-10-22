@@ -71,7 +71,7 @@
                 android:layout_height="40dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="215dp"
+                android:layout_marginTop="223dp"
                 android:enabled="@{saved ? false : true}"
                 android:fontFamily="@font/rajdhani_medium"
                 android:onClick="@{(v) -> fragment.activateNotifications(v)}"
@@ -85,9 +85,11 @@
                 android:layout_width="160dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="215dp"
+                android:layout_marginTop="223dp"
+                android:fontFamily="@font/rajdhani_medium"
                 android:onClick="@{(v) -> trip.hasFerry() ? fragment.createDialog(@string/vasttrafik, v) : fragment.createDialog(@string/vasttrafik, @string/stenaline, v)}"
                 android:text="Book"
+                android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/getNotificationButton"
                 app:layout_constraintTop_toTopOf="@+id/trip_map_fragment" />
         </androidx.constraintlayout.widget.ConstraintLayout>
