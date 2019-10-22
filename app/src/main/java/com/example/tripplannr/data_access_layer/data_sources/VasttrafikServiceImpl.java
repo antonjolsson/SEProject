@@ -496,7 +496,6 @@ public class VasttrafikServiceImpl {
                 .origin(origin)
                 .destination(destination)
                 .mode(WALK)
-                .name("GÅ")
                 .times(travelTimes)
                 .name("WALK")
                 .build();
@@ -517,7 +516,6 @@ public class VasttrafikServiceImpl {
         TravelTimes travelTimes = new TravelTimes(route.getTimes().getArrival(),route.getTimes().getArrival().plusMinutes(5));
         Route returnRoute = new Route.Builder()
                 .origin(origin)
-                .name("GÅ")
                 .destination(destination)
                 .mode(WALK)
                 .times(travelTimes)
