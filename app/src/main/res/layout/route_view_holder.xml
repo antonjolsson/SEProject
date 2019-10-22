@@ -57,7 +57,7 @@
             android:text='@{route.origin.name}'
             android:textColor="@color/darkgreyText"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/trackTextView2"
+            app:layout_constraintEnd_toStartOf="@+id/originTrackView"
             app:layout_constraintStart_toEndOf="@+id/startTimeTextView"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Lindholmsplatsen, Göteborg" />
@@ -73,7 +73,7 @@
             android:textColor="@color/darkgreyText"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/trackTextView"
+            app:layout_constraintEnd_toStartOf="@+id/destTrackView"
             app:layout_constraintStart_toEndOf="@+id/timeTextView"
             tools:text="Lilla Bommen, Göteborg" />
 
@@ -135,7 +135,7 @@
             tools:text="BUSS 55" />
 
         <TextView
-            android:id="@+id/trackTextView2"
+            android:id="@+id/originTrackView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -149,18 +149,18 @@
             tools:text="TRACK A" />
 
         <TextView
-            android:id="@+id/trackTextView"
+            android:id="@+id/destTrackView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="6dp"
             android:fontFamily="@font/rajdhani_bold"
-            android:text='@{"TRACK " + route.origin.track.toUpperCase()}'
+            android:text='@{"TRACK " + route.destination.track.toUpperCase()}'
             android:textColor="@color/darkgreyText"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="TRACK A" />
+            tools:text="TRACK D" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
