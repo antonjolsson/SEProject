@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.tripplannr.R;
 import com.example.tripplannr.application_layer.addressservice.LocationService;
 import com.example.tripplannr.application_layer.trip.TripResultViewModel;
-import com.example.tripplannr.application_layer.util.Utilities;
 import com.example.tripplannr.domain_layer.Locatable;
 import com.example.tripplannr.domain_layer.Route;
 import com.example.tripplannr.domain_layer.Trip;
@@ -73,14 +72,16 @@ public class ResultMapFragment extends MapFragment {
             public void onChanged(Route route) {
                 List<Route> rs = Objects.requireNonNull(viewModel.getTripLiveData().getValue()).
                         getRoutes();
-                int routeIndex = 0;
-                for (int i = 0; i < rs.size(); i++) {
-                    if (route.equals(rs.get(i))) {
-                        routeIndex = i;
-                        break;
+                if(rs.size() > 0) {
+                    int routeIndex = 0;
+                    for (int i = 0; i < rs.size(); i++) {
+                        if (route.equals(rs.get(i))) {
+                            routeIndex = i;
+                            break;
+                        }
                     }
+                    focusPolyline(polyLines.get(routeIndex));
                 }
-                focusPolyline(polyLines.get(routeIndex));
             }
         });
     }

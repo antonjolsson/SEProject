@@ -398,7 +398,6 @@ public class VasttrafikServiceImpl {
                         try {
                             if(response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
-                                // TODO do something with response
                                 parser = new VasttrafikParser();
                                 parser.addJourneyDetails(body, route);
                                 tripLiveData.setValue(tripLiveData.getValue());
@@ -415,7 +414,7 @@ public class VasttrafikServiceImpl {
                 });
     }
 
-    public void sendLegRequest(final String geometryRef, final Route route, final MutableLiveData<Trip> tripLiveData) {
+    public void sendLegRequest(final Route route, final MutableLiveData<Trip> tripLiveData) {
         vasttrafikService
                 .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
                         "application/x-www-form-urlencoded", "client_credentials")
@@ -425,7 +424,7 @@ public class VasttrafikServiceImpl {
                         System.out.println(response.code());
                         System.out.println(response.body());
                         try {
-                            getLegResponse(geometryRef, new JSONObject(response.body().string()).
+                            getLegResponse(route.getGeometryRef(), new JSONObject(response.body().string()).
                                     getString("access_token"), route, tripLiveData);
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();

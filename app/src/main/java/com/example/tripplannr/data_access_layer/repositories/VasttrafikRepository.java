@@ -55,7 +55,7 @@ public class VasttrafikRepository {
         vasttrafikService.addJourneyDetails(ref, route, tripLiveData);
     }
 
-    public void addLegDetails(String journeyRef, Route route, MutableLiveData<Trip> tripLiveData) {
-        vasttrafikService.sendLegRequest(journeyRef, route, tripLiveData);
+    public void addLegDetails(Route route, MutableLiveData<Trip> tripLiveData) {
+        vasttrafikService.sendLegRequest(route, tripLiveData);
     }
 }

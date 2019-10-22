@@ -74,9 +74,11 @@ public class TripFragment extends Fragment {
     }
 
     private void addLegDetails() {
-        for(Route route : tripData.getRoutes())
-            vasttrafikRepository.addLegDetails(route.getJourneyRef(), route,
+        for(Route route : tripData.getRoutes()) {
+            if (route.getGeometryRef() != null)
+                vasttrafikRepository.addLegDetails(route,
                     tripResultViewModel.getTripLiveData());
+        }
     }
 
     private void addJourneyDetails(){

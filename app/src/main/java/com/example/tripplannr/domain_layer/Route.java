@@ -29,8 +29,12 @@ public class Route implements Locatable {
     private List<Location> legs;
     @Ignore
     private List<TripLocation> locations;
+    @Ignore
     // Västtrafik journey reference
     private String journeyRef;
+    @Ignore
+    // Västtrafik geometry reference
+    private String geometryRef;
 
     public Route(String name, TripLocation origin, TripLocation destination, TravelTimes times,
                  ModeOfTransport mode) {
@@ -62,6 +66,10 @@ public class Route implements Locatable {
 
     public void setTripId(int tripId) {
         this.tripId = tripId;
+    }
+
+    public void setGeometryRef(String geometryRef) {
+        this.geometryRef = geometryRef;
     }
 
     public void setLocations(List<TripLocation> locations) {
@@ -102,6 +110,10 @@ public class Route implements Locatable {
 
     public List<TripLocation> getLocations() {
         return locations;
+    }
+
+    public String getGeometryRef() {
+        return geometryRef;
     }
 
     public static final class Builder {
