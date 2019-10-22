@@ -138,6 +138,10 @@ public class Route implements Locatable {
         return journeyRef;
     }
 
+    public void setFerryinfo(FerryInfo ferryinfo) {
+        this.ferryinfo = ferryinfo;
+    }
+
     public static final class Builder {
         private TripLocation origin;
         private TripLocation destination;

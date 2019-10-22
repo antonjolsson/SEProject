@@ -36,8 +36,6 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
     private final MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
     private final MutableLiveData<Route> mRouteLiveData = new MutableLiveData<>();
 
-    private MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
-    private MutableLiveData<Route> mRouteLiveData = new MutableLiveData<>();
     private MutableLiveData<FerryInfo> ferryInfoMutableLiveData = new MutableLiveData<>();
 
     private final TripRepository tripRepository;
