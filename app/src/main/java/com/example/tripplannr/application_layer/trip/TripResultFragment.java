@@ -47,7 +47,7 @@ public class TripResultFragment extends Fragment {
                 if (trips.size() > 0) {
                     tripResultBinding.setTrip(trips.get(0));
                     tripResultAdapter.updateTrips(trips);
-                } else {
+                } else if(!tripResultViewModel.isLoading().getValue()) {
                     tripResultBinding.setErrorText("Found no trips with that route");
                 }
             }

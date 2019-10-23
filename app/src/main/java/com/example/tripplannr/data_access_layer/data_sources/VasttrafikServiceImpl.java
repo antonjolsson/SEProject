@@ -285,7 +285,6 @@ public class VasttrafikServiceImpl {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                         try {
-                            Thread.sleep(2000);
                             if (response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
                                // System.out.println(body); 30min att checka ut
@@ -306,7 +305,7 @@ public class VasttrafikServiceImpl {
                                 data.postValue(trips);
                                 isLoading.postValue(false);
                             } else onFetchFail(response.code());
-                        } catch (IOException | InterruptedException | JSONException e) {
+                        } catch (IOException | JSONException e) {
                             e.printStackTrace();
                             onFetchFail(response.code());
                         }
