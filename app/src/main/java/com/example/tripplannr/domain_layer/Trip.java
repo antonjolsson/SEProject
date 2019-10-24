@@ -31,12 +31,14 @@ public class Trip implements Locatable{
         this.name = name;
     }
 
+    @Ignore
     public Trip(String name, List<Route> routes) {
         this.name = name;
         setRoutes(routes);
 
     }
 
+    @Ignore
     private Trip(Builder builder) {
         name = builder.name;
         setRoutes(builder.routes);

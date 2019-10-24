@@ -43,5 +43,4 @@ public class DatabaseTest {
                 tripList.get(0).getRoutes().get(0).getTimes().getArrival().toString());
     }
 
-
 }
