@@ -62,17 +62,28 @@ public class Utilities {
         String transportName = name.replaceAll("\\s(.)+", "");
         String tempName;
         switch (transportName) {
-            case "Gå" : tempName = "Walk"; break;
-            case "Spårvagn" : tempName = "Tram"; break;
-            case "Färja" : tempName = "Ferry"; break;
-            case "Tåg" : tempName = "Train"; break;
-            case "Car" : tempName = "Bil"; break;
-            default: tempName = "Bus";
+            case "Gå":
+                tempName = "Walk";
+                break;
+            case "Spårvagn":
+                tempName = "Tram";
+                break;
+            case "Färja":
+                tempName = "Ferry";
+                break;
+            case "Tåg":
+                tempName = "Train";
+                break;
+            case "Car":
+                tempName = "Bil";
+                break;
+            default:
+                tempName = "Bus";
         }
         return tempName + name.replaceFirst("(\\S)+", "");
     }
 
-    public static String typoFixer (String name) {
+    public static String typoFixer(String name) {
         if (name != null && name.contains("StenaTerminalen"))
             return "Stenaterminalen," + name.replaceFirst("(.)+,", "");
         return name;

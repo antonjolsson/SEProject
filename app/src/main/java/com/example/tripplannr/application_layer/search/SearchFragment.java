@@ -123,8 +123,7 @@ public class SearchFragment extends Fragment {
                     setLocationOnEnter(fromTextField, view);
                 }
             });
-        }
-        else{
+        } else {
             toTextField.setAdapter(adapter);
             toTextField.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -198,7 +197,7 @@ public class SearchFragment extends Fragment {
                 if (validateForm()) {
                     ((InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE)))
                             .hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-                    if(desiredTime == null)
+                    if (desiredTime == null)
                         desiredTime = Calendar.getInstance();
                     searchViewModel.setTime(desiredTime,
                             Objects.requireNonNull(searchViewModel.getTimeIsDeparture().getValue()));

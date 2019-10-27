@@ -64,7 +64,9 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         return statusCode;
     }
 
-    public LiveData<FerryInfo> getFerryInfo() { return ferryInfoMutableLiveData; }
+    public LiveData<FerryInfo> getFerryInfo() {
+        return ferryInfoMutableLiveData;
+    }
 
     @Override
     public void onClick(Trip trip) {
@@ -92,7 +94,9 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
         mRouteLiveData.setValue(route);
     }
 
-    public void updateFerryInfo(FerryInfo ferryInfo) { ferryInfoMutableLiveData.setValue(ferryInfo); }
+    public void updateFerryInfo(FerryInfo ferryInfo) {
+        ferryInfoMutableLiveData.setValue(ferryInfo);
+    }
 
 
     public List<Trip> buildFakeTrips() {

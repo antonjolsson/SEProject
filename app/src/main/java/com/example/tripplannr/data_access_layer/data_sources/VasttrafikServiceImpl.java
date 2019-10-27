@@ -106,12 +106,12 @@ public class VasttrafikServiceImpl {
         data.setValue(new ArrayList<Trip>());
         isLoading.setValue(true);
         original = new TripQuery.Builder()
-                        .destination(tripQuery.getDestination())
-                        .origin(tripQuery.getOrigin())
-                        .originLocation(tripQuery.getOriginLocation())
-                        .destinationLocation(tripQuery.getDestinationLocation())
-                        .time(tripQuery.getTime())
-                        .build();
+                .destination(tripQuery.getDestination())
+                .origin(tripQuery.getOrigin())
+                .originLocation(tripQuery.getOriginLocation())
+                .destinationLocation(tripQuery.getDestinationLocation())
+                .time(tripQuery.getTime())
+                .build();
         // If target is Stena we want to get a Västtrafik route to the ferry so we need to get that route first
         TripDictionary.translateTrip(tripQuery);
         TripDictionary.translateTrip(tripQuery);
@@ -144,7 +144,7 @@ public class VasttrafikServiceImpl {
     private void searchAndLoadTrips(final TripQuery tripQuery, final String token) {
         isLoading.setValue(true);
         // If we got coordinates find closest stop otherwise try to pattern match using string
-        if(tripQuery.getOriginLocation() == null) {
+        if (tripQuery.getOriginLocation() == null) {
             vasttrafikService
                     .getName(tripQuery.getOrigin(), "json", token)
                     .enqueue(new Callback<ResponseBody>() {
@@ -170,8 +170,7 @@ public class VasttrafikServiceImpl {
                             onFetchFail(500);
                         }
                     });
-        }
-        else {
+        } else {
             vasttrafikService
                     .getNearbyStops(tripQuery.getOriginLocation().getLatitude(), tripQuery.getOriginLocation().getLongitude(), "json", token)
                     .enqueue(new Callback<ResponseBody>() {
@@ -202,7 +201,7 @@ public class VasttrafikServiceImpl {
 
     private void searchAndLoadTripsHelper(final TripQuery tripQuery, final long originId, final String token) {
         // If we got coordinates find closest stop otherwise try to pattern match using string
-        if(tripQuery.getDestinationLocation() == null) {
+        if (tripQuery.getDestinationLocation() == null) {
             vasttrafikService
                     .getName(tripQuery.getDestination(), "json", token)
                     .enqueue(new Callback<ResponseBody>() {
@@ -229,8 +228,7 @@ public class VasttrafikServiceImpl {
                             onFetchFail(500);
                         }
                     });
-        }
-        else {
+        } else {
             vasttrafikService
                     .getNearbyStops(tripQuery.getDestinationLocation().getLatitude(), tripQuery.getDestinationLocation().getLongitude(), "json", token)
                     .enqueue(new Callback<ResponseBody>() {
@@ -262,7 +260,7 @@ public class VasttrafikServiceImpl {
 
     private void loadTripsHelper(final TripQuery tripQuery, final long originId, final long destinationId, final String token) {
         // If Stena trip change times for Västtrafik query
-        if(original.getOrigin().equals("Fredrikshamn") || original.getOrigin().equals("StenaTerminalen, Fredrikshamn") || original.getOrigin().equals("Fredrikshamn, Danmark"))
+        if (original.getOrigin().equals("Fredrikshamn") || original.getOrigin().equals("StenaTerminalen, Fredrikshamn") || original.getOrigin().equals("Fredrikshamn, Danmark"))
             tripQuery.setTime(new StenaLineParser(context).getRoute(original).getTimes().getArrival().plusMinutes(35));
         // Convert given time to Västtrafik format
         final String date = tripQuery.getTime().getYear() + "-" + tripQuery.getTime().getMonthValue()
@@ -272,7 +270,7 @@ public class VasttrafikServiceImpl {
         System.out.println(time);
         String arrival;
         // Check if time is for arrival or departure
-        if(tripQuery.isTimeDeparture())
+        if (tripQuery.isTimeDeparture())
             arrival = "0";
         else
             arrival = "1";
@@ -295,7 +293,7 @@ public class VasttrafikServiceImpl {
                                 if (original.getDestination().equals("Fredrikshamn") || original.getDestination().equals("StenaTerminalen, Fredrikshamn") || original.getDestination().equals("Fredrikshamn, Danmark")) {
                                     for (Trip trip : trips) {
                                         original.getTime().plusMinutes(30);
-                                        trip.addRouteEnd(masthuggetToStena(trip.getRoutes().get(trip.getRoutes().size()-1)));
+                                        trip.addRouteEnd(masthuggetToStena(trip.getRoutes().get(trip.getRoutes().size() - 1)));
                                         trip.addRouteEnd(new StenaLineParser(context).getRoute(original));
                                     }
                                 }
@@ -358,6 +356,7 @@ public class VasttrafikServiceImpl {
                             e.printStackTrace();
                         }
                     }
+
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                     }
@@ -376,7 +375,7 @@ public class VasttrafikServiceImpl {
     }
 
     public void addJourneyDetails(final String ref, final Route route, final MutableLiveData<Trip> tripLiveData) {
-        if(ref == null || ref.isEmpty())
+        if (ref == null || ref.isEmpty())
             return;
         //noinspection SpellCheckingInspection
         // Get Västtrafik Oauth token
@@ -407,18 +406,19 @@ public class VasttrafikServiceImpl {
                                           final MutableLiveData<Trip> tripLiveData) {
         // Get journey details for referenced trip
         vasttrafikService
-                .getJourneyDetail(ref, "json","Bearer " + token)
+                .getJourneyDetail(ref, "json", "Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         try {
-                            if(response.code() >= 200 && response.code() <= 299) {
+                            if (response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
                                 parser = new VasttrafikParser();
                                 parser.addJourneyDetails(body, route);
                                 tripLiveData.setValue(tripLiveData.getValue());
                             }
-                        } catch (IOException ignored) {} catch (JSONException e) {
+                        } catch (IOException ignored) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
@@ -459,26 +459,26 @@ public class VasttrafikServiceImpl {
         // Get geometry data for referenced journey detail
         vasttrafikService.getGeometry(geometryRef, "json", "Bearer " + token).
                 enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.code() >= 200 && response.code() <= 299) {
-                    try {
-                        if (response.body() != null) {
-                            String body = response.body().string();
-                            parser.addLegDetails(body, route);
-                            tripLiveData.setValue(tripLiveData.getValue());
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.code() >= 200 && response.code() <= 299) {
+                            try {
+                                if (response.body() != null) {
+                                    String body = response.body().string();
+                                    parser.addLegDetails(body, route);
+                                    tripLiveData.setValue(tripLiveData.getValue());
+                                }
+                            } catch (IOException | JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    } catch (IOException | JSONException e) {
-                        e.printStackTrace();
                     }
-                }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                System.out.println(t.getMessage());
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        System.out.println(t.getMessage());
+                    }
+                });
 
     }
 
@@ -486,12 +486,12 @@ public class VasttrafikServiceImpl {
         Location origin_location = new Location("");
         origin_location.setLongitude(11.946647);
         origin_location.setLatitude(57.701843);
-        TripLocation origin = new TripLocation("StenaTerminalen, Göteborg", origin_location,"A");
+        TripLocation origin = new TripLocation("StenaTerminalen, Göteborg", origin_location, "A");
         Location destination_location = new Location("");
         destination_location.setLongitude(11.944577);
         destination_location.setLatitude(57.699595);
         TripLocation destination = new TripLocation("Masthuggstorget", destination_location, "D");
-        TravelTimes travelTimes = new TravelTimes(route.getTimes().getDeparture().minusMinutes(5),route.getTimes().getDeparture());
+        TravelTimes travelTimes = new TravelTimes(route.getTimes().getDeparture().minusMinutes(5), route.getTimes().getDeparture());
         Route returnRoute = new Route.Builder()
                 .origin(origin)
                 .destination(destination)
@@ -508,12 +508,12 @@ public class VasttrafikServiceImpl {
         Location destination_location = new Location("");
         destination_location.setLongitude(11.946647);
         destination_location.setLatitude(57.701843);
-        TripLocation destination = new TripLocation("StenaTerminalen, Göteborg", destination_location,"A");
+        TripLocation destination = new TripLocation("StenaTerminalen, Göteborg", destination_location, "A");
         Location origin_location = new Location("");
         origin_location.setLongitude(11.944577);
         origin_location.setLatitude(57.699595);
         TripLocation origin = new TripLocation("Masthuggstorget", destination_location, "D");
-        TravelTimes travelTimes = new TravelTimes(route.getTimes().getArrival(),route.getTimes().getArrival().plusMinutes(5));
+        TravelTimes travelTimes = new TravelTimes(route.getTimes().getArrival(), route.getTimes().getArrival().plusMinutes(5));
         Route returnRoute = new Route.Builder()
                 .origin(origin)
                 .destination(destination)
@@ -526,22 +526,22 @@ public class VasttrafikServiceImpl {
         return returnRoute;
     }
 
-    private List<Location> addLegs(Boolean tillStena){
-      List<Location> legs = new ArrayList<>();
-      List<Double> coords = new ArrayList<>(Arrays.asList(57.699595, 11.944577,
-              57.699845, 11.946201,57.700668, 11.945770,
-              57.701122, 11.945705,57.701219, 11.946372,
-              57.701564, 11.946369,57.701843, 11.946769));
-    for(int i=0; i< coords.size(); i=i+2) {
-        Location location = new Location("");
-        location.setLatitude(coords.get(i));
-        location.setLongitude(coords.get(i+1));
-        legs.add(location);
-    }
-    if(!tillStena)
-        Collections.reverse(legs);
-    System.out.println("test");
-    System.out.println(legs);
-    return legs;
+    private List<Location> addLegs(Boolean tillStena) {
+        List<Location> legs = new ArrayList<>();
+        List<Double> coords = new ArrayList<>(Arrays.asList(57.699595, 11.944577,
+                57.699845, 11.946201, 57.700668, 11.945770,
+                57.701122, 11.945705, 57.701219, 11.946372,
+                57.701564, 11.946369, 57.701843, 11.946769));
+        for (int i = 0; i < coords.size(); i = i + 2) {
+            Location location = new Location("");
+            location.setLatitude(coords.get(i));
+            location.setLongitude(coords.get(i + 1));
+            legs.add(location);
+        }
+        if (!tillStena)
+            Collections.reverse(legs);
+        System.out.println("test");
+        System.out.println(legs);
+        return legs;
     }
 }

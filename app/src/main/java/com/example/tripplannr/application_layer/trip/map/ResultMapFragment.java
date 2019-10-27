@@ -123,8 +123,7 @@ public class ResultMapFragment extends MapFragment {
                 easternmost = lng;
                 northernmost = lat;
                 southernmost = lat;
-            }
-            else {
+            } else {
                 if (lng < westernmost) westernmost = lng;
                 if (lng > easternmost) easternmost = lng;
                 if (lat > northernmost) northernmost = lat;
@@ -178,12 +177,10 @@ public class ResultMapFragment extends MapFragment {
             for (Location leg : route.getLegs()) {
                 latLngs.add(locationToLatlng(leg));
             }
-        }
-        else if (route.getStops() == null) {
+        } else if (route.getStops() == null) {
             latLngs.add(locationToLatlng(route.getOrigin().getLocation()));
             latLngs.add(locationToLatlng(route.getDestination().getLocation()));
-        }
-        else for (TripLocation location : route.getStops()) {
+        } else for (TripLocation location : route.getStops()) {
             latLngs.add(locationToLatlng((location.getLocation())));
         }
         addLatLng(polylineOptions, latLngs);
@@ -206,7 +203,7 @@ public class ResultMapFragment extends MapFragment {
         if (location.getLatitude() < 0.001)
             location = LocationService.getLocation(locatable.getDestination().getName(), getContext());
         locatable.setDestination(new TripLocation(locatable.getDestination().getName(), location,
-                    locatable.getDestination().getTrack()));
+                locatable.getDestination().getTrack()));
     }
 
     private void setPolylineListener(final List<Polyline> polyLines) {

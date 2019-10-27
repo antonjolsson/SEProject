@@ -43,7 +43,7 @@ public class VasttrafikParser implements TripParser {
             stops.put(json.getJSONObject("LocationList").getJSONObject("StopLocation"));
         }
         // Get locations
-        if(json.getJSONObject("LocationList").has("CoordLocation")) {
+        if (json.getJSONObject("LocationList").has("CoordLocation")) {
             try {
                 JSONArray others = json.getJSONObject("LocationList").getJSONArray("CoordLocation");
                 for (int i = 0; i < others.length(); i++) {
@@ -81,15 +81,15 @@ public class VasttrafikParser implements TripParser {
             location.setLongitude(stop.getDouble("lon"));
             TripLocation tripLocation = new TripLocation(stop.getString("name"), location, stop.getString("track"));
             // Only get the stops from the current route
-            if(route.getOrigin().getLocation().getLatitude() != 0)
+            if (route.getOrigin().getLocation().getLatitude() != 0)
                 journeyDetails.add(tripLocation);
-            // This is the first stop we want
-            else if(route.getOrigin().getName().equals(tripLocation.getName())){
+                // This is the first stop we want
+            else if (route.getOrigin().getName().equals(tripLocation.getName())) {
                 journeyDetails.add(tripLocation);
                 route.setOrigin(tripLocation);
             }
             // This is the last stop we want
-            if(route.getDestination().getName().equals(tripLocation.getName())) {
+            if (route.getDestination().getName().equals(tripLocation.getName())) {
                 route.setDestination(tripLocation);
                 break;
             }
@@ -188,7 +188,7 @@ public class VasttrafikParser implements TripParser {
         Route route = new Route(name, origin, destination, times, mode);
 
         //Get Västtrafik journey reference that can be used to get more info
-        if(routeJSON.has("JourneyDetailRef")) {
+        if (routeJSON.has("JourneyDetailRef")) {
             try {
                 route.setJourneyRef(refParser(routeJSON.getJSONObject("JourneyDetailRef").getString("ref")));
             } catch (UnsupportedEncodingException e) {

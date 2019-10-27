@@ -11,7 +11,7 @@ import com.example.tripplannr.application_layer.trip.TripActivity;
 @SuppressWarnings({"FieldCanBeLocal"})
 public class IntroScreenActivity extends Activity {
 
-     // vvv Set this to false to bypass intro screen
+    // vvv Set this to false to bypass intro screen
 
     private final boolean introScreen = true;
 

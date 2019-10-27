@@ -114,12 +114,12 @@ public class TripQuery {
             return this;
         }
 
-        public  Builder originLocation(Location val) {
+        public Builder originLocation(Location val) {
             originLocation = val;
             return this;
         }
 
-        public  Builder destinationLocation(Location val) {
+        public Builder destinationLocation(Location val) {
             destinationLocation = val;
             return this;
         }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Entity
-public class Trip implements Locatable{
+public class Trip implements Locatable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;

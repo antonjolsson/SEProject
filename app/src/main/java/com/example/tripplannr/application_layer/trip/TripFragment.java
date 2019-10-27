@@ -62,8 +62,8 @@ public class TripFragment extends Fragment {
         vasttrafikRepository = new VasttrafikRepository(getContext());
         addJourneyDetails();
         addLegDetails();
-        for(Route route : tripData.getRoutes()) {
-            if(route.getStops() != null) {
+        for (Route route : tripData.getRoutes()) {
+            if (route.getStops() != null) {
                 for (TripLocation trip : route.getStops()) {
                     System.out.println(trip.getName());
                     System.out.println(trip.getLocation().getLongitude());
@@ -75,15 +75,15 @@ public class TripFragment extends Fragment {
     }
 
     private void addLegDetails() {
-        for(Route route : tripData.getRoutes()) {
+        for (Route route : tripData.getRoutes()) {
             if (route.getGeometryRef() != null)
                 vasttrafikRepository.addLegDetails(route,
-                    tripResultViewModel.getTripLiveData());
+                        tripResultViewModel.getTripLiveData());
         }
     }
 
-    private void addJourneyDetails(){
-        for(Route route : tripData.getRoutes())
+    private void addJourneyDetails() {
+        for (Route route : tripData.getRoutes())
             vasttrafikRepository.addJourneyDetails(route.getJourneyRef(), route,
                     tripResultViewModel.getTripLiveData());
     }
@@ -179,13 +179,13 @@ public class TripFragment extends Fragment {
 
     private AlertDialog.Builder getDialogBuilder(final View view) {
         return new AlertDialog.Builder(getActivity())
-                    .setTitle("Book trip?")
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
+                .setTitle("Book trip?")
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
     }
 
 

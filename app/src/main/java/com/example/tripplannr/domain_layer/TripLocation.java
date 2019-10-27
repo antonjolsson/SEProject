@@ -64,7 +64,7 @@ public class TripLocation {
             return this;
         }
 
-        public  Builder track(String val) {
+        public Builder track(String val) {
             track = val;
             return this;
         }
