@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel;
 import com.example.tripplannr.data_access_layer.repositories.TripRepository;
 import com.example.tripplannr.data_access_layer.repositories.VasttrafikRepository;
 import com.example.tripplannr.domain_layer.FerryInfo;
-import com.example.tripplannr.domain_layer.ModeOfTransport;
 import com.example.tripplannr.domain_layer.Route;
 import com.example.tripplannr.domain_layer.TravelTimes;
 import com.example.tripplannr.domain_layer.Trip;
@@ -18,6 +17,7 @@ import com.example.tripplannr.domain_layer.TripLocation;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.tripplannr.domain_layer.ModeOfTransport.BUS;
@@ -36,7 +36,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
     private final MutableLiveData<Trip> mTripLiveData = new MutableLiveData<>();
     private final MutableLiveData<Route> mRouteLiveData = new MutableLiveData<>();
 
-    private MutableLiveData<FerryInfo> ferryInfoMutableLiveData = new MutableLiveData<>();
+    private final MutableLiveData<FerryInfo> ferryInfoMutableLiveData = new MutableLiveData<>();
 
     private final TripRepository tripRepository;
 
@@ -138,7 +138,7 @@ public class TripResultViewModel extends ViewModel implements IClickHandler<Trip
                 .build();
         Trip trip2 = new Trip.Builder()
                 .name("Lillhagens Station, Brunnsparken")
-                .routes(Arrays.asList(route1))
+                .routes(Collections.singletonList(route1))
                 .build();
         return new ArrayList<>(Arrays.asList(trip, trip2));
     }

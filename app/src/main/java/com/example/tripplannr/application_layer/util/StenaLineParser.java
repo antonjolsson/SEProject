@@ -149,9 +149,8 @@ public class StenaLineParser {
             ModeOfTransport mode = ModeOfTransport.valueOf(type);
 
             String ferryName = objRoute.getString("Ship");
-            String name = ferryName;
 
-            route = new Route(name, origin, destination, times, mode);
+            route = new Route(ferryName, origin, destination, times, mode);
 
             //ska ferryINfo ligga i trip isf ha en add så slipper allt annat bry sig om det, TODO?
             route.setFerryInfo(ferryInfo(ferryName));

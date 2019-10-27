@@ -22,7 +22,7 @@ public class Route implements Locatable {
     @Embedded
     private final TravelTimes times;
     private final ModeOfTransport mode;
-    private String name;
+    private final String name;
     @Ignore
     private FerryInfo ferryinfo;
     @Ignore
@@ -137,7 +137,7 @@ public class Route implements Locatable {
         return journeyRef;
     }
 
-    public void setFerryinfo(FerryInfo ferryinfo) {
+    private void setFerryinfo(FerryInfo ferryinfo) {
         this.ferryinfo = ferryinfo;
     }
 

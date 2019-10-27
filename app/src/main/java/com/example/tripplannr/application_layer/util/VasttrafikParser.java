@@ -221,9 +221,8 @@ public class VasttrafikParser implements TripParser {
 
     public String getGeometryRef(String body) throws JSONException {
         JSONObject jsonObject = new JSONObject(body);
-        String ref = jsonObject.getJSONObject("JourneyDetail").getJSONObject("GeometryRef").
+        return jsonObject.getJSONObject("JourneyDetail").getJSONObject("GeometryRef").
                 getString("ref");
-        return ref;
     }
 
     public void addLegDetails(String data, Route route) throws JSONException {

@@ -39,6 +39,7 @@ import java.util.Objects;
 import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.DESTINATION;
 import static com.example.tripplannr.application_layer.search.SearchViewModel.LocationField.ORIGIN;
 
+@SuppressWarnings("SameReturnValue")
 public class SearchFragment extends Fragment {
 
     private AutoCompleteTextView toTextField, fromTextField;
