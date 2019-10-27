@@ -116,6 +116,7 @@ public class VasttrafikServiceImpl {
         TripDictionary.translateTrip(tripQuery);
         TripDictionary.translateTrip(tripQuery);
         //noinspection SpellCheckingInspection
+        // Get Västtrafik OAuth token for authentication
         vasttrafikService
                 .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
                         "application/x-www-form-urlencoded", "client_credentials")
@@ -260,8 +261,10 @@ public class VasttrafikServiceImpl {
     }
 
     private void loadTripsHelper(final TripQuery tripQuery, final long originId, final long destinationId, final String token) {
+        // If Stena trip change times for Västtrafik query
         if(original.getOrigin().equals("Fredrikshamn") || original.getOrigin().equals("StenaTerminalen, Fredrikshamn") || original.getOrigin().equals("Fredrikshamn, Danmark"))
-          tripQuery.setTime(new StenaLineParser(context).getRoute(original).getTimes().getArrival().plusMinutes(35));
+            tripQuery.setTime(new StenaLineParser(context).getRoute(original).getTimes().getArrival().plusMinutes(35));
+        // Convert given time to Västtrafik format
         final String date = tripQuery.getTime().getYear() + "-" + tripQuery.getTime().getMonthValue()
                 + "-" + tripQuery.getTime().getDayOfMonth();
         String time = tripQuery.getTime().getHour() + ":" + tripQuery.getTime().getMinute();
@@ -281,7 +284,7 @@ public class VasttrafikServiceImpl {
                         try {
                             if (response.code() >= 200 && response.code() <= 299) {
                                 String body = response.body().string();
-                               // System.out.println(body); 30min att checka ut
+                                //Add Stena data to trips if needed
                                 List<Trip> trips = new VasttrafikParser().getTrips(body);
                                 if (original.getOrigin().equals("Fredrikshamn") || original.getOrigin().equals("StenaTerminalen, Fredrikshamn") || original.getOrigin().equals("Fredrikshamn, Danmark")) {
                                     for (Trip trip : trips) {
@@ -296,6 +299,7 @@ public class VasttrafikServiceImpl {
                                         trip.addRouteEnd(new StenaLineParser(context).getRoute(original));
                                     }
                                 }
+                                // Set values and notify that loading is done
                                 data.postValue(trips);
                                 isLoading.postValue(false);
                             } else onFetchFail(response.code());
@@ -313,14 +317,13 @@ public class VasttrafikServiceImpl {
     }
 
     public void getMatching(final String pattern) {
+        // Get Västtrafik Oauth token
         vasttrafikService
                 .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
                         "application/x-www-form-urlencoded", "client_credentials")
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                      //  System.out.println(response.code());
-                       // System.out.println(response.body());
                         try {
                             sendPatternRequest(new JSONObject(response.body().string()).getString("access_token"), pattern);
                         } catch (JSONException | IOException e) {
@@ -335,6 +338,7 @@ public class VasttrafikServiceImpl {
     }
 
     private void sendPatternRequest(String token, final String pattern) {
+        // Get matching stop for given string
         vasttrafikService
                 .getName(pattern, "json", "Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
@@ -375,6 +379,7 @@ public class VasttrafikServiceImpl {
         if(ref == null || ref.isEmpty())
             return;
         //noinspection SpellCheckingInspection
+        // Get Västtrafik Oauth token
         vasttrafikService
                 .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
                         "application/x-www-form-urlencoded", "client_credentials")
@@ -400,6 +405,7 @@ public class VasttrafikServiceImpl {
 
     private void sendJourneyDetailRequest(String ref, final String token, final Route route,
                                           final MutableLiveData<Trip> tripLiveData) {
+        // Get journey details for referenced trip
         vasttrafikService
                 .getJourneyDetail(ref, "json","Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
@@ -425,6 +431,7 @@ public class VasttrafikServiceImpl {
     }
 
     public void sendLegRequest(final Route route, final MutableLiveData<Trip> tripLiveData) {
+        // Get Västtrafik Oauth token
         vasttrafikService
                 .getToken("Basic ajUyMVJTb3BVVXFIVlR5X0VqOGl1TWRsWXBnYTpzNV9ncUZZR0p2b2pydjhRb2NfNDRVcGpWYm9h",
                         "application/x-www-form-urlencoded", "client_credentials")
@@ -449,6 +456,7 @@ public class VasttrafikServiceImpl {
 
     private void getLegResponse(String geometryRef, String token, final Route route,
                                 final MutableLiveData<Trip> tripLiveData) {
+        // Get geometry data for referenced journey detail
         vasttrafikService.getGeometry(geometryRef, "json", "Bearer " + token).
                 enqueue(new Callback<ResponseBody>() {
             @Override
@@ -473,9 +481,8 @@ public class VasttrafikServiceImpl {
         });
 
     }
-    private Route stenaToMasthugget(Route route)
-    {
 
+    private Route stenaToMasthugget(Route route) {
         Location origin_location = new Location("");
         origin_location.setLongitude(11.946647);
         origin_location.setLatitude(57.701843);
@@ -495,8 +502,8 @@ public class VasttrafikServiceImpl {
         returnRoute.setLegs(addLegs(false));
         return returnRoute;
     }
-    private Route masthuggetToStena(Route route)
-    {
+
+    private Route masthuggetToStena(Route route) {
 
         Location destination_location = new Location("");
         destination_location.setLongitude(11.946647);
@@ -517,8 +524,8 @@ public class VasttrafikServiceImpl {
         returnRoute.setLegs(addLegs(true));
 
         return returnRoute;
-
     }
+
     private List<Location> addLegs(Boolean tillStena){
       List<Location> legs = new ArrayList<>();
       List<Double> coords = new ArrayList<>(Arrays.asList(57.699595, 11.944577,
@@ -526,10 +533,10 @@ public class VasttrafikServiceImpl {
               57.701122, 11.945705,57.701219, 11.946372,
               57.701564, 11.946369,57.701843, 11.946769));
     for(int i=0; i< coords.size(); i=i+2) {
-            Location location = new Location("");
-            location.setLatitude(coords.get(i));
-            location.setLongitude(coords.get(i+1));
-            legs.add(location);
+        Location location = new Location("");
+        location.setLatitude(coords.get(i));
+        location.setLongitude(coords.get(i+1));
+        legs.add(location);
     }
     if(!tillStena)
         Collections.reverse(legs);

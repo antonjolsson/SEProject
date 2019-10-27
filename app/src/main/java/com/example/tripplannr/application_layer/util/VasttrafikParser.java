@@ -28,11 +28,13 @@ public class VasttrafikParser implements TripParser {
     public VasttrafikParser() {
     }
 
+    // Return stops and locations from json object
     public List<TripLocation> getMatching(String data) throws JSONException {
         List<TripLocation> locations = new ArrayList<>();
 
         JSONObject json = new JSONObject(data);
         JSONArray stops = new JSONArray();
+        // Get Stops
         try {
             stops = json.getJSONObject("LocationList").getJSONArray("StopLocation");
         }
@@ -40,6 +42,7 @@ public class VasttrafikParser implements TripParser {
         catch (JSONException e) {
             stops.put(json.getJSONObject("LocationList").getJSONObject("StopLocation"));
         }
+        // Get locations
         if(json.getJSONObject("LocationList").has("CoordLocation")) {
             try {
                 JSONArray others = json.getJSONObject("LocationList").getJSONArray("CoordLocation");
@@ -53,6 +56,7 @@ public class VasttrafikParser implements TripParser {
             }
         }
 
+        // Add coordinates
         for (int i = 0; i < stops.length(); i++) {
             Location location = new Location("");
             location.setLongitude(stops.getJSONObject(i).getDouble("lon"));
@@ -62,6 +66,7 @@ public class VasttrafikParser implements TripParser {
         return locations;
     }
 
+    // Parse journey details from JSON
     public void addJourneyDetails(String data, Route route) throws JSONException {
         List<TripLocation> journeyDetails = new ArrayList<>();
         JSONObject jsonObject = new JSONObject(data);
@@ -106,6 +111,7 @@ public class VasttrafikParser implements TripParser {
         return points;
     }
 
+    // Get trips from JSON
     @Override
     public List<Trip> getTrips(String data) throws JSONException {
         List<Trip> trips = new ArrayList<>();
@@ -141,6 +147,7 @@ public class VasttrafikParser implements TripParser {
         return trips;
     }
 
+    // Get routes from JSON
     private Route getRoute(JSONObject routeJSON) throws JSONException {
 
         // Get name from JSON
