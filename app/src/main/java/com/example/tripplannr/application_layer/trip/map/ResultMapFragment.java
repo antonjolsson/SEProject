@@ -62,7 +62,6 @@ public class ResultMapFragment extends MapFragment {
         viewModel.getTripLiveData().observe(this, new Observer<Trip>() {
             @Override
             public void onChanged(Trip trip) {
-                //routes = getRoutes(trip.getRoutes()); // Todo: remove when routes contain locations
                 if (allRoutesHaveLocations(trip))
                     drawTrip(trip);
             }
@@ -93,7 +92,6 @@ public class ResultMapFragment extends MapFragment {
     }
 
     private void drawTrip(Trip trip) {
-        //trip = getFakeTrip(trip);
         drawMarkers(trip);
         drawPolyLines(trip);
         centerItinerary(trip);
@@ -115,9 +113,27 @@ public class ResultMapFragment extends MapFragment {
     }
 
     private LatLngBounds getLatLngBounds(List<LatLng> points) {
-        LatLng[] mostRemotePoints = getLongestDistance(points);
-        return LatLngBounds.builder().include(mostRemotePoints[0]).
-                include(mostRemotePoints[1]).build();
+        double westernmost = 0, northernmost = 0, easternmost = 0, southernmost = 0;
+        double lat, lng;
+        for (int i = 0; i < points.size(); i++) {
+            lat = points.get(i).latitude;
+            lng = points.get(i).longitude;
+            if (i == 0) {
+                westernmost = lng;
+                easternmost = lng;
+                northernmost = lat;
+                southernmost = lat;
+            }
+            else {
+                if (lng < westernmost) westernmost = lng;
+                if (lng > easternmost) easternmost = lng;
+                if (lat > northernmost) northernmost = lat;
+                if (lat < southernmost) southernmost = lat;
+            }
+        }
+        LatLng sw = new LatLng(southernmost, westernmost);
+        LatLng ne = new LatLng(northernmost, easternmost);
+        return LatLngBounds.builder().include(sw).include(ne).build();
     }
 
     private void getCoordinatesFromRoute(List<LatLng> points, Route route) {
@@ -125,30 +141,13 @@ public class ResultMapFragment extends MapFragment {
         points.add(locationToLatlng(route.getDestination().getLocation()));
     }
 
-    private LatLng[] getLongestDistance(List<LatLng> points) {
-        float[] results = new float[3];
-        LatLng[] mostRemotePoints = new LatLng[2];
-        double longestDist = 0;
-        for (int i = 0; i < points.size(); i++) {
-            for (int j = i + 1; j < points.size(); j++) {
-                Location.distanceBetween(points.get(i).latitude, points.get(i).longitude,
-                        points.get(j).latitude, points.get(j).longitude, results);
-                if (results[0] >= longestDist) {
-                    longestDist = results[0];
-                    mostRemotePoints[0] = points.get(i);
-                    mostRemotePoints[1] = points.get(j);
-                }
-            }
-        }
-        return mostRemotePoints;
-    }
-
     private void drawPolyLines(Trip trip) {
         List<Route> routes = trip.getRoutes();
         PolylineOptions polylineOptions;
         List<PatternItem> dotLine = Arrays.asList(new Dot(), new Gap(14));
 
-        for (Route route : routes) {
+        for (int i = 0; i < routes.size(); i++) {
+            Route route = routes.get(i);
             polylineOptions = new PolylineOptions();
             if (route.getMode() == WALK) replaceLocations(route);
             addPoints(polylineOptions, route);
@@ -159,6 +158,17 @@ public class ResultMapFragment extends MapFragment {
             polyLines.add(polyline);
         }
         setPolylineListener(polyLines);
+    }
+
+    // todo: implement
+    private void replaceWalkLocations(Trip trip, Route route, int index) {
+        if (route.getOrigin().getLocation().getLatitude() < 0.01) {
+            if (index > 0 && trip.getRoutes().get(index - 1).
+                    getOrigin().getLocation().getLatitude() > 0.01) {
+                route.setOrigin(trip.getRoutes().get(index - 1).
+                        getOrigin());
+            }
+        }
     }
 
     // Tries first to add leg points, else stop points, else origin/dest points
@@ -228,47 +238,6 @@ public class ResultMapFragment extends MapFragment {
         model.setLocation(trip.getOrigin().getLocation(), null);
         model.setFocusedLocationField(DESTINATION);
         model.setLocation(trip.getDestination().getLocation(), null);
-    }
-
-    // TODO: remove this when trips contain Location data
-    // *******************************************************************************************
-    private Trip getFakeTrip(Trip trip) {
-        Location originLoc = makeLocation(57.706998, 11.938496);
-        TripLocation originTripLocation = new TripLocation(trip.getOrigin().getName(), originLoc,
-                trip.getOrigin().getTrack());
-        Location destLoc = makeLocation(57.687775, 11.979341);
-        TripLocation destTripLocation = new TripLocation(trip.getDestination().getName(), destLoc,
-                trip.getDestination().getTrack());
-        //List<Route> routes = getRoutes(trip.getRoutes());
-        return new Trip(trip.getName(), routes);
-    }
-
-    private List<Route> getRoutes(List<Route> routes) {
-        List<Route> routes2 = new ArrayList<>();
-        Location originLoc = makeLocation(57.706998, 11.938496);
-        Location destLoc = makeLocation(57.689986, 11.972968);
-        TripLocation t1 = new TripLocation(routes.get(0).getOrigin().getName(),
-                originLoc, "30");
-        TripLocation t2 = new TripLocation(routes.get(0).getDestination().getName(),
-                destLoc, "D");
-        routes2.add(new Route(routes.get(0).getName(), t1, t2, routes.get(0).getTimes(), routes.get(1).getMode()));
-
-        t1 = new TripLocation(routes.get(0).getDestination().getName(),
-                destLoc, "D");
-        destLoc = makeLocation(57.687775, 11.979341);
-        t2 = new TripLocation("Chalmers, Göteborg", destLoc, null);
-        routes2.add(new Route(routes.get(0).getName(), t1, t2, routes.get(0).getTimes(), WALK));
-
-        return routes2;
-    }
-
-    // *******************************************************************************************
-
-    private Location makeLocation(double lat, double lng) {
-        Location originLoc = new Location("");
-        originLoc.setLatitude(lat);
-        originLoc.setLongitude(lng);
-        return originLoc;
     }
 
 }

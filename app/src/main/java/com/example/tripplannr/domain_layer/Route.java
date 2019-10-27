@@ -30,6 +30,7 @@ public class Route implements Locatable {
     @Ignore
     private List<TripLocation> stops;
     // Västtrafik journey reference
+    @Ignore
     private String journeyRef;
     @Ignore
     // Västtrafik geometry reference

@@ -2,6 +2,7 @@
 <layout>
     <data>
         <import type="java.time.format.DateTimeFormatter"/>
+        <import type="com.example.tripplannr.application_layer.util.Utilities"/>
         <variable
             name="trip"
             type="com.example.tripplannr.domain_layer.Trip" />
@@ -59,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:text="@{trip.origin.name}"
+            android:text="@{Utilities.typoFixer(trip.origin.name)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:textSize="18sp"

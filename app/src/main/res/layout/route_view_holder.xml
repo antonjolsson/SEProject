@@ -5,6 +5,7 @@
 
     <data>
         <import type="java.time.format.DateTimeFormatter" />
+        <import type="com.example.tripplannr.application_layer.util.Utilities"/>
         <variable
             name="route"
             type="com.example.tripplannr.domain_layer.Route" />
@@ -54,10 +55,10 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="4dp"
-            android:text='@{route.origin.name}'
+            android:text='@{Utilities.typoFixer(route.origin.name)}'
             android:textColor="@color/darkgreyText"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/trackTextView2"
+            app:layout_constraintEnd_toStartOf="@+id/originTrackView"
             app:layout_constraintStart_toEndOf="@+id/startTimeTextView"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Lindholmsplatsen, Göteborg" />
@@ -69,11 +70,11 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="6dp"
-            android:text='@{route.destination.name}'
+            android:text='@{Utilities.typoFixer(route.destination.name)}'
             android:textColor="@color/darkgreyText"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/trackTextView"
+            app:layout_constraintEnd_toStartOf="@+id/destTrackView"
             app:layout_constraintStart_toEndOf="@+id/timeTextView"
             tools:text="Lilla Bommen, Göteborg" />
 
@@ -108,34 +109,38 @@
             android:id="@+id/moreInfoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="25dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="47dp"
+            android:background="@color/colorPrimary"
             android:clickable="true"
+            android:fontFamily="@font/rajdhani_bold"
+            android:paddingHorizontal="1dp"
+            android:text="MORE INFO"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+            android:textSize="15sp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toEndOf="@+id/nameTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/nameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="13dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginBottom="19dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginBottom="45dp"
             android:fontFamily="@font/rajdhani_medium"
             android:text='@{route.name.toUpperCase()}'
             android:textColor="#575757"
             android:textSize="17sp"
-            app:layout_constraintBottom_toTopOf="@+id/destinationTextView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iconImageView"
-            app:layout_constraintTop_toBottomOf="@+id/originTextView"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="BUSS 55" />
 
         <TextView
-            android:id="@+id/trackTextView2"
+            android:id="@+id/originTrackView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -149,18 +154,18 @@
             tools:text="TRACK A" />
 
         <TextView
-            android:id="@+id/trackTextView"
+            android:id="@+id/destTrackView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="6dp"
             android:fontFamily="@font/rajdhani_bold"
-            android:text='@{"TRACK " + route.origin.track.toUpperCase()}'
+            android:text='@{"TRACK " + route.destination.track.toUpperCase()}'
             android:textColor="@color/darkgreyText"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="TRACK A" />
+            tools:text="TRACK D" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

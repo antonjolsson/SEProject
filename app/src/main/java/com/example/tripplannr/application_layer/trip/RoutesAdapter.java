@@ -44,7 +44,8 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
         holder.setIconType(ModeOfTransportIconDictionary.getTransportIcon(routes.get(position).getMode()));
         if(routes.get(position).getMode().equals(ModeOfTransport.FERRY)) {
             holder.routeViewHolderBinding.moreInfoTextView
-                    .setText(Html.fromHtml("<u>View more info</b>", Html.FROM_HTML_MODE_COMPACT));
+                    .setText(Html.fromHtml("MORE INFO", Html.FROM_HTML_MODE_COMPACT));
+            holder.routeViewHolderBinding.moreInfoTextView.setVisibility(View.VISIBLE);
             holder.routeViewHolderBinding.moreInfoTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,7 +100,7 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RouteViewH
         return Collections.unmodifiableList(routes);
     }
 
-    public class RouteViewHolder extends RecyclerView.ViewHolder {
+    class RouteViewHolder extends RecyclerView.ViewHolder {
 
         private final RouteViewHolderBinding routeViewHolderBinding;
 
