@@ -1,12 +1,6 @@
 # DAT257/DIT543: Agile Software Project Management/Software Engineering Project
-GROUP M/S STENA DANICA
-
-### Scrumboard
-https://trello.com/b/g12fIbv3/stena-danica-scrum-board
-
-### Reflections
-Documents/Reflections
-
+#### Group
+M/S STENA DANICA
 #### Team members
 cnilsson85 - Christian Nilsson\
 elma97 - Elma Esati\
@@ -14,3 +8,29 @@ hedrino - Hedda Ringgren\
 initGoomba - Anton Olsson\
 Orgardj - Jonathan Örgård\
 PUGzera - Alexander Neldefors
+
+### Scrumboard
+https://trello.com/b/g12fIbv3/stena-danica-scrum-board
+
+### Reflections
+Documents/Reflections
+
+### Git-inspector
+[1mAuthor                     Commits    Insertions      Deletions    % of changes[0;0m
+Christian                        5           418            240            4.02
+Jonathan Trg┼rd                  1             0              1            0.01
+PUGzera                          9          2652            327           18.22
+cnilsson85                       2            17             14            0.19
+hedrino                          2           254              0            1.55
+initGoomba                      88          3436           1634           31.01
+orgardj                         56          1892           1865           22.98
+pugzera                         28          2371           1227           22.01
+
+Below are the number of rows from each author that have survived and are still intact in the current revision:
+
+[1mAuthor                     Rows      Stability          Age       % in comments[0;0m
+Christian                    58           13.9          0.4                0.00
+hedrino                     107           42.1          0.8                0.00
+initGoomba                 1821           53.0          0.6                3.57
+orgardj                    1086           57.4          0.4                6.17
+pugzera                    3272          138.0          0.8                0.28
