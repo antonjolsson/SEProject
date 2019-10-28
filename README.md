@@ -21,7 +21,7 @@ Documents/Reflections
 Author            |Commits    |Insertions      |Deletions    |% of changes
 ------------------|-----------|----------------|-------------|-------------
 Christian         |5          |418             |240          |4.02        
-Jonathan Trg┼rd   |1          |0               |1            |0.01        
+Jonathan Örgård   |1          |0               |1            |0.01        
 PUGzera           |9          |2652            |327          |18.22       
 cnilsson85        |2          |17              |14           |0.19        
 hedrino           |2          |254             |0            |1.55        
