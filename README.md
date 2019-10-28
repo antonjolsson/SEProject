@@ -27,7 +27,7 @@ cnilsson85        |2          |17              |14           |0.19
 hedrino           |2          |254             |0            |1.55        
 initGoomba        |88         |3436            |1634         |31.01       
 orgardj           |56         |1892            |1865         |22.98       
-pugzera           |28         |2371            v1227         |22.01       
+pugzera           |28         |2371            |1227         |22.01       
 
 Below are the number of rows from each author that have survived and are still intact in the current revision:
 
