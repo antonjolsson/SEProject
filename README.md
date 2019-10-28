@@ -16,21 +16,22 @@ https://trello.com/b/g12fIbv3/stena-danica-scrum-board
 Documents/Reflections
 
 ### Git-inspector
-Author            Commits    Insertions      Deletions    % of changes\
-Christian         5          418             240          4.02\
-Jonathan Trg┼rd   1          0               1            0.01\
-PUGzera           9          2652            327          18.22\
-cnilsson85        2          17              14           0.19\
-hedrino           2          254             0            1.55\
-initGoomba        88         3436            1634         31.01\
-orgardj           56         1892            1865         22.98\
-pugzera           28         2371            1227         22.01\
+|Author            |Commits    |Insertions      |Deletions    |% of changes|
+|------------------|-----------|----------------|-------------|------------|
+|Christian         |5          |418             |240          |4.02        |
+|Jonathan Trg┼rd   |1          |0               |1            |0.01        |
+|PUGzera           |9          |2652            |327          |18.22       |
+|cnilsson85        |2          |17              |14           |0.19        |
+|hedrino           |2          |254             |0            |1.55        |
+|initGoomba        |88         |3436            |1634         |31.01       |
+|orgardj           |56         |1892            |1865         |22.98       |
+|pugzera           |28         |2371            v1227         |22.01       |
 
 Below are the number of rows from each author that have survived and are still intact in the current revision:
-
-Author                     Rows      Stability          Age       % in comments\
-Christian                  58        13.9               0.4       0.00\
-hedrino                    107       42.1               0.8       0.00\
-initGoomba                 1821      53.0               0.6       3.57\
-orgardj                    1086      57.4               0.4       6.17\
-pugzera                    3272      138.0              0.8       0.28\
+|Author            |Rows       |Stability       |Age          |% in comments|
+|------------------|-----------|----------------|-------------|-------------|
+|Christian         |58         |13.9            |0.4          |0.00         |
+|hedrino           |107        |42.1            |0.8          |0.00         |
+|initGoomba        |1821       |53.0            |0.6          |3.57         |
+|orgardj           |1086       |57.4            |0.4          |6.17         |
+|pugzera           |3272       |138.0           |0.8          |0.28         |
