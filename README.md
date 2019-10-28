@@ -12,6 +12,9 @@ PUGzera - Alexander Neldefors
 ### Scrumboard
 https://trello.com/b/g12fIbv3/stena-danica-scrum-board
 
+### Google Drive (dont check reflections here, see below for path on git)
+https://drive.google.com/open?id=1Du-kMBUgdV-1mmTpf8_HNhzun4QjkGIF
+
 ### Reflections
 Documents/Reflections
 
