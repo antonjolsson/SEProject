@@ -17,6 +17,7 @@ Documents/Reflections
 
 ### Git-inspector
 *Disclaimer: Git inspector sadly completly ignores co-authors (i.e. pair programming) and we sometimes merged other peoples branches which lead to code being credited to the wrong person by mistake, so these numbers are not really accurate for our project*
+
 Author            |Commits    |Insertions      |Deletions    |% of changes
 ------------------|-----------|----------------|-------------|-------------
 Christian         |5          |418             |240          |4.02        
